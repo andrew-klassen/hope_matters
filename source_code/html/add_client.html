@@ -1,0 +1,82 @@
+<!-- 
+This file is part of a web application designed to help Hope Matters interact with their database.
+The web application is licensed under the Affero General Public License v3.
+View the web application's readme.txt for more details.
+
+Copyright © 2017 Andrew Klassen
+ -->
+
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Hope Matters</title>
+	<link rel="icon" href="/images/hope_matters_logo.png">
+	<link rel="stylesheet" type="text/css" href="/css/navbar.css">
+	<link rel="stylesheet" type="text/css" href="/css/add_client.css">
+	<script src="/js/client_validation.js" type="text/javascript"> </script>
+</head>
+
+<body style="padding-top: 70px;">
+
+<!-- nav bar-->
+  <div id="container">
+	   
+	  <div id="sign-out">
+        <form method="post" action="/php/dashboard.php">
+            <input type="submit" value="Dashboard">
+        </form>
+      </div>
+	  
+	  <div id="sign-out">
+        <form method="post" action="/php/sign_out.php">
+            <input type="submit" value="Sign Out">
+        </form>
+      </div>
+	  
+  </div>
+  <br></br>
+
+ <!-- start of the Client card-->
+  <div class="accountCard" style="width: 450px;">
+	<p class='p'style='color: black;font-weight:100;'>Please Fill out the Form</p>
+	<form  name="client_form" action="/php/clients/insert_client.php" onsubmit="return validate_form()" method="post">
+			<input type="text" name="first_name" placeholder="First Name" maxlength="25"  autofocus onfocus='this.value = this.value;'><br>
+			<input type="text" name="last_name" placeholder="Last Name" maxlength="25"><br>
+			
+			Date of Birth: <input type="date" name="date_of_birth"><br>
+			
+			<input type="text" name="guardian_name" placeholder="If Child, Guardian Name" maxlength="45"><br>
+			<input type="number" name="national_id" placeholder="National ID" min="0" max="999999999999999999999999999999" ><br>
+			<input type="text" name="phone_number" placeholder="Phone Number" maxlength="20"><br>
+			<input type="text" name="occupation" placeholder="Occupation" maxlength="45"><br>
+			<input type="text" name="education" placeholder="Education" maxlength="45" ><br>
+			<input type="text" name="location" placeholder="Village/Location" maxlength="45"><br>
+			<input type="text" name="contact" placeholder="Emergency Contact" maxlength="50"><br>
+			<input type="text" name="allergies" placeholder="Allergies" maxlength="45"><br>
+			
+			HIV status: <input type="radio" name="hiv_status" value="positive"> +
+			<input type="radio" name="hiv_status" value="negitive"> -
+			<input type="radio" name="hiv_status" value="unknown" checked> unknown <br>
+			
+			Alcohol Use: <input type="radio" name="alcohol_use" value="never"> never
+			<input type="radio" name="alcohol_use" value="sometimes"> sometimes
+			<input type="radio" name="alcohol_use" value="often"> often
+			<input type="radio" name="alcohol_use" value="unknown" checked> unknown <br>
+			
+			Gender: <input type="radio" name="gender" value="male"> Male
+			<input type="radio" name="gender" value="female"> Female <br><br>
+			
+			Significant Medical History: <br> <textarea rows="4" cols="50" name="medical_history" class="comment_area"  maxlength="255"></textarea><br><br>
+			
+			Regular Medications or Herbs: <br> <textarea rows="4" cols="50" name="regular_medications" class="comment_area"  maxlength="255"></textarea><br>
+			<br><br>
+			
+			<input type="submit" name="submit_button" class="submitbtn" value="Add">
+			<input type="submit" name="submit_button" class="submitbtn" value="Add and Check In">
+		</form>
+		<br><br>
+  </div>
+  
+</body>
+</html>

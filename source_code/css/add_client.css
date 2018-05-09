@@ -1,0 +1,131 @@
+/*
+This file is part of a web application designed to help Hope Matters interact with their database.
+The web application is licensed under the Affero General Public License v3.
+View the web application's readme.txt for more details.
+
+Copyright © 2017 Andrew Klassen
+ */
+ 
+body {
+  background: linear-gradient(to left, #00FFFF, #0000FF);
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  font-family: 'Roboto', sans-serif;
+}
+
+@media only screen and (max-width: 4096px) {
+    body {
+		zoom: 175%;
+    }
+}
+@media only screen and (max-width: 2560px) {
+    body {
+		zoom: 100%;
+    }
+}
+@media only screen and (max-width: 1920px) {
+    body {
+		zoom: 80%;
+    }
+}
+
+
+
+.accountCard {
+  padding: 40px;
+  width: 400px;
+  background-color: #F7F7F7;
+  margin: 0 auto 10px;
+  border-radius: 10px;
+  box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+  overflow: hidden;
+}
+.accountCard input[type=submit] {
+  width: 100%;
+  display: block;
+  margin-bottom: 5px;
+  position: relative;
+}
+.accountCard input[type=text], input[type=password], input[type=number], input[type=email] {
+  height: 45px;
+  font-size: 15px;
+  width: 100%;
+  margin-bottom: 5px;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -o-appearance: none;
+  /*background: #fff;*/
+  border: 1px solid #d9d9d9;
+  border-top: 1px solid #c0c0c0;
+  padding: 0 10px;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+}
+.accountCard input[type=text]:hover, input[type=password]:hover, input[type=number], input[type=email] {
+  border: 1px solid #b9b9b9;
+  border-top: 1px solid #a0a0a0;
+  -moz-box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
+  -webkit-box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+.submitbtn {
+  width: 195px;
+  display: block;
+  margin: auto;
+  margin-right: 5px;
+  position: relative;
+  float: left;
+  text-align: center;
+  font-size: 14px;
+  font-family: 'Arial', sans-serif;
+  font-weight: 700;
+  height: 36px;
+  border: 0px;
+  color: #fff;
+  background-color: #4d90fe;
+}
+.submitbtn:hover {
+  border: 0px;
+  text-shadow: 0 1px rgba(0, 0, 0, 0.3);
+  background-color: #357ae8;
+  cursor: pointer;
+}
+.accountCard h1{
+	margin:0px;
+	padding-bottom: 5px;
+	font-weight: 100;
+  	font-size: 1.2em;
+}
+.accountCard h2{
+	padding-left: 30px;
+	margin: 0px;
+	font-weight: 100;
+  	font-size: 1em;
+}
+p{
+  	margin:0px;
+	padding-bottom: 30px;
+	font-weight: 100;
+  	font-size: 1.5em;
+}
+i{
+	font-weight: 100;
+	font-size: .9em;
+}
+.accountCard a {
+  color: #666;
+  font-weight: 400;
+  text-align: center;
+  display: inline-block;
+  opacity: 0.6;
+  transition: opacity ease 0.5s;
+}
+.accountCard a:hover {
+  opacity: 1;
+}
+
+input:focus { 
+    background-color: LightYellow;
+}

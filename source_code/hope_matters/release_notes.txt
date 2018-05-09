@@ -1,0 +1,55 @@
+************** Version 1.02 **************
+-added expence total
+-diagnosis for return treatment forms
+
+************** Version 1.00 **************
+-fixed CWC Forms
+-on the view/chang all of a client's forms, only non-completed lab orders are shown
+
+************** Version 0.11 **************
+
+Below is a list of fixed bugs.
+
+-CWC forms were missing Javascript validation,
+ bug was found through the error managment system,
+ the errors where triggered by Andrew Klassen, 03/06/2017
+
+-CWC forms were missing upper left hand redirect (on navbar),
+ the error was found by Andrew Klassen, 03/06/2017
+ 
+-Javascript validations for dates on discharge and wormens health reports were outputing square characters,
+ the error was found by Andrew Klassen, 03/06/2017
+
+
+Below is a list of new features.
+
+-"view/change any of a client's forms" button is now unlocked and available
+
+-program can now check the status of the server's raid controller and notify 
+ the user if a hard drive has gone bad
+ 
+-CWC forms have been optimized
+
+-created a better implementation of form filtering for "view/change any of a client's forms"
+
+
+
+************** Version 0.10 **************
+
+Below is a list of fixed bugs.
+
+-Javascript in Ultrasound form did not require the necessary field "days pregnant",
+ bug was found through the error managment system,
+ the errors where triggered by Fred Goehring, 02/26/2017 01:22pm
+ 
+-Javascript in Child Welfare Form did not throw an accurate error message when user fails to provide a necessary date,
+ bug was reported by Fred Goehring, 02/27/2017 11:24am
+ 
+-Javascript when adding a client did not throw an accurate error message when user fails to provide the client's birth date,
+ bug was reported by Fred Goehring, 02/28/2017 10:03am
+
+ 
+Below is a list of new features.
+ 
+-the background color of the input field currently in focus will now turn yellow,
+ feature was suggested by Paul Dooley 02/28/2017 9:33am

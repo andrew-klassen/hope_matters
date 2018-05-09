@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Hope Matters</title>
+<link rel=icon href=/images/hope_matters_logo.png>
+<link rel=stylesheet type=text/css href=/css/index.css>
+</head>
+<body>
+<div class=login-card>
+<h1><img src=/images/hope_matters_logo.png style=width:75%;height:75%></h1><br>
+<h2>Please sign in</h2>
+<form action=/php/login.php name=login_form onsubmit="return validateForm()" method=post>
+<input type=text name=username placeholder=Username maxlength=20 autofocus onfocus="this.value=this.value">
+<input type=password name=password placeholder=Password maxlength=20>
+<input type=submit name=login class="login login-submit" value=Login>
+</form>
+</div>
+<div class=terms>
+<center>Version 1.04</center>
+<center>see release <a href=/release_notes.txt download>notes</a></center>
+<br>
+<center>Copyright &copy 2017 Andrew Klassen</center>
+<center>Affero General Public License v3</center>
+<center>For licensing concerns: aklassen@andrew-klassen.net</center>
+<center>A copy of the source code can be downloaded <a href=/hope_matters.zip download>here</a>.</center>
+</div>
+</body>
+</html>
