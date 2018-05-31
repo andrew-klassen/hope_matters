@@ -1,3 +1,6 @@
+************** Version 1.06 **************
+-bug where referral history would be deleted was patched
+
 ************** Version 1.05 **************
 -new labs were added
 

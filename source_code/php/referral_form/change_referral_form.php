@@ -1,4 +1,4 @@
-<!--
+﻿<!--
 This file is part of a web application designed to help Hope Matters interact with their database.
 The web application is licensed under the Affero General Public License v3.
 View the web application's readme.txt for more details.
@@ -400,7 +400,7 @@ Copyright © 2017 Andrew Klassen
 				<div style=' float: left; margin-left: 15px; position: relative;'>
 					
 					<div style='position: absolute; top: 60px; '>
-						History: <br> <textarea style='height: 90px; width: 400px;' class='comment_area' maxlength='255'>$history</textarea><br><br>
+						History: <br> <textarea name='history' style='height: 90px; width: 400px;' class='comment_area' maxlength='255'>$history</textarea><br><br>
 					</div>
 					
 					<div style='position: absolute; top: 190px; '>
