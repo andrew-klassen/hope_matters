@@ -206,9 +206,6 @@ Copyright © 2017 Andrew Klassen
 			<input type="radio" id="mps2" name="mps" value="mps+2" disabled />MPS+2
 			<input type="radio" id="mps3" name="mps" value="mps+3" disabled />MPS+3 <br><br>
 			
-			<input type="checkbox" name="pbf" onchange="toggle_disabled_pbf(this.checked)"/> <b>PBF:</b>
-			<input type="text" id="pbf_text" name="pbf_text" style="width: 100px; height: 30px;" maxlength="45" disabled /> <br><br>
-			
 			<div style="float: left; width: 350px;">
 				<input type="checkbox" name="widal" onchange="toggle_disabled_widal(this.checked)"/> <b>Widal</b> (greater than 80 indicative for Tx) <br>
 				TH 1:<input type="number" id="th1" name="th1" style="width: 100px; height: 30px;" maxlength="10" disabled /><br>
@@ -222,64 +219,6 @@ Copyright © 2017 Andrew Klassen
 			</div>
 			<br><br><br><br><br><br>
 			
-			<input type="checkbox" name="vdrl_rpr" onchange="toggle_disabled_vdrl_rpr(this.checked)" /> <b>VDRL/RPR:</b>
-			<input type="radio" id="reactive" name="reactive" value="reactive" disabled />Reactive
-			<input type="radio" id="non_reactive" name="reactive" value="non_reactive" disabled />Non-Reactive
-			
-			<br><br>
-			
-			<input type="checkbox" name="p24_hiv" onchange="toggle_disabled_p24_hiv(this.checked)"/> <b>P24/HIV:</b>
-			<input type="radio" id="reactive_p24_hiv" name="reactive_p24_hiv" value="reactive" disabled />Reactive
-			<input type="radio" id="non_reactive_p24_hiv" name="reactive_p24_hiv" value="non_reactive" disabled />Non-Reactive
-			
-			<br><br>
-			
-			<input type="checkbox" name="blood_sugar" onchange="toggle_disabled_blood_sugar(this.checked)"/> <b>Blood Sugar (RBS & FBS):</b>
-			<input type="text" id="blood_sugar_text" name="blood_sugar_text" style="width: 200px; height: 30px;" maxlength="30" disabled /> (Norm: 3.9 – 7.2mm/L) 
-			
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-			<br>
-
-			<input type="checkbox" name="hba1c" onchange="toggle_disabled_hba1c(this.checked)"/> <b>HbA1C:</b>
-                        <input type="text" id="hba1c_text" name="hba1c_text" style="width: 200px; height: 30px;" maxlength="45" disabled /> < 6.0 Normal, 6.0 – 7.0 Pre-diabetes, >7.0 Diabetes
-
-                        <br>
-
-			<input type="checkbox" name="bun" onchange="toggle_disabled_bun(this.checked)"/> <b>BUN (Blood Urea Nitrogen): </b>
-                        <input type="text" id="bun_text" name="bun_text" style="width: 200px; height: 30px;" maxlength="45" disabled /> Male 8-24 mg/dL Female 6-21 mg/dL
-
-                        <br>
-
-
-			<input type="checkbox" name="hematocrit" onchange="toggle_disabled_hematocrit(this.checked)"/> <b>Hematocrit: </b>
-                        <input type="text" id="hematocrit_text" name="hematocrit_text" style="width: 200px; height: 30px;" maxlength="45" disabled /> Norms- Male 40.7% -50.3% Female 36.1% - 44.3%
-
-                        <br>
-
-			<input type="checkbox" name="creatinine" onchange="toggle_disabled_creatinine(this.checked)"/> <b>Creatinine: </b>
-                        <input type="text" id="creatinine_text" name="creatinine_text" style="width: 200px; height: 30px;" maxlength="45" disabled /> Male 0.8-1.3 mg/dL Female 0.6-1.1 mg/dL
-
-                        <br>
-
-			<input type="checkbox" name="electrolytes" onchange="toggle_disabled_electrolytes(this.checked)"/> <b>Electrolytes: </b>
-                        <input type="text" id="electrolytes_text" name="electrolytes_text" style="width: 200px; height: 30px;" maxlength="45" disabled /> Na (Sodium) 135-145 mEq/LK  (Potassium) 3.5-5 mEq/L  Cl (Chloride) 100-108 mmol/L
-
-                        <br><br>
-
 			<input type="checkbox" name="pylori_stool" onchange="toggle_disabled_pylori_stool(this.checked)" /> <b>H. Pylori Stool: </b>
 			<input type="radio" id="positive_pylori_stool" name="pylori_stool_radio" value="positive" disabled />positive
 			<input type="radio" id="negative_pylori_stool" name="pylori_stool_radio" value="negative" disabled />negative
@@ -291,63 +230,28 @@ Copyright © 2017 Andrew Klassen
 			<input type="radio" id="negative_pylori_blood" name="pylori_blood_radio" value="negative" disabled />negative
 			
 			<br><br>
-
+			
 			<input type="checkbox" name="rheumatoid" onchange="toggle_disabled_rheumatoid(this.checked)" /> <b>Rheumatoid Factor:</b>
 			<input type="radio" id="reactive_rheumatoid" name="reactive_rheumatoid_radio" value="reactive" disabled />Reactive
 			<input type="radio" id="non_reactive_rheumatoid" name="reactive_rheumatoid_radio" value="non_reactive" disabled />Non-Reactive
 			
-			<br><br>			
-
-
-			
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+			<br><br>
 			
 			<input type="checkbox" name="stool" onchange="toggle_disabled_stool(this.checked)"/> <b>Stool O/C</b><br>
 			APP:<input type="text" id="app" name="app" style="width: 100px; height: 30px;" maxlength="45" disabled /><br>
 			MIC:<input type="text" id="mic" name="mic" style="width: 100px; height: 30px;" maxlength="45" disabled />
 				
-			<br><br>
-				
-			<input type="checkbox" name="blood_group" onchange="toggle_disabled_blood_group(this.checked)"/><b>Blood Group</b><br>
-			<input style="margin-left: 50px;" type="radio" id="rhve_neg" name="rhve" value="rh-ve" disabled />Rh-ve
-			<input type="radio" id="rhve_plus" name="rhve" value="rh+ve" disabled />Rh+ve
-			<input type="radio" id="a" name="aboab" value="a" disabled />A
-			<input type="radio" id="b" name="aboab" value="b" disabled />B
-			<input type="radio" id="o" name="aboab" value="o" disabled />O
+			<br><br> 
 			
-			<input type="radio" id="ab" name="aboab" value="ab" disabled />AB <br>
-			<label style="margin-left: 50px;">DU Test:</label><input  type="text" id="du_test" name="du_test" style="width: 200px; height: 30px;" maxlength="45" disabled /><br><br>
-		
-			<input type="checkbox" name="pregnancy" onchange="toggle_disabled_pregnancy(this.checked)"/> <b>Pregnancy Test:</b>
-			<input type="radio" id="hcg_detected" name="hcg_detected" value="hcg_detected" disabled />hcG detected
-			<input type="radio" id="no_hcg_detected" name="hcg_detected" value="no_hcg_detected" disabled />no hcG detected
+			<input type="checkbox" name="p24_hiv" onchange="toggle_disabled_p24_hiv(this.checked)"/> <b>P24/HIV:</b>
+			<input type="radio" id="reactive_p24_hiv" name="reactive_p24_hiv" value="reactive" disabled />Reactive
+			<input type="radio" id="non_reactive_p24_hiv" name="reactive_p24_hiv" value="non_reactive" disabled />Non-Reactive
 			
 			<br><br>
 			
-			<input type="checkbox" name="hb" onchange="toggle_disabled_hb(this.checked)"/> <b>Hb:</b>
-			<input type="text" id="hb_text" name="hb_text" style="width: 200px; height: 30px;" maxlength="30" disabled /> (Norm Men: 13.5 – 18g/dL, Norm Women: 11.5 – 16g/dL)
+			<input type="checkbox" name="vdrl_rpr" onchange="toggle_disabled_vdrl_rpr(this.checked)" /> <b>VDRL/RPR:</b>
+			<input type="radio" id="reactive" name="reactive" value="reactive" disabled />Reactive
+			<input type="radio" id="non_reactive" name="reactive" value="non_reactive" disabled />Non-Reactive
 			
 			<br><br>
 			
@@ -443,15 +347,112 @@ Copyright © 2017 Andrew Klassen
 			
 			<br>
 			
-			<label style="margin-left: 50px; margin-right: 31px;">Microscopy: </label><input type="text" id="microscopy" name="microscopy" style="width: 200px; height: 30px;" disabled /> 
+			<input type="checkbox" name="pregnancy" onchange="toggle_disabled_pregnancy(this.checked)"/> <b>Pregnancy Test:</b>
+			<input type="radio" id="hcg_detected" name="hcg_detected" value="hcg_detected" disabled />hcG detected
+			<input type="radio" id="no_hcg_detected" name="hcg_detected" value="no_hcg_detected" disabled />no hcG detected
 			
 			<br><br>
 			
-			
 			<input type="checkbox" name="hvs" onchange="toggle_disabled_hvs(this.checked)"/> <b>HVS</b><br>
 			Macroscopy:<input type="text" id="macroscopy" name="macroscopy" style="width: 500px; height: 30px;" maxlength="45" disabled /><br>
-			Microscopy:<input type="text" id="microscopy_hvs" name="microscopy_hvs" style="width: 500px; height: 30px;" maxlength="45" disabled /> <br>
-			Gram Stain: <br> <textarea rows="6" cols="55" id="gram_stain" name="gram_stain" class="comment_area" maxlength="255" disabled ></textarea> <br> <br>
+			Microscopy:<input type="text" id="microscopy_hvs" name="microscopy_hvs" style="width: 500px; height: 30px;" maxlength="45" disabled /> 
+			<br>
+			Gram Stain: <br> <textarea rows="6" cols="55" id="gram_stain" name="gram_stain" class="comment_area" maxlength="255" disabled ></textarea> 
+			<br> <br>
+			Cultures: <br> <textarea rows="6" cols="55" id="culture" name="culture" class="comment_area" maxlength="255" disabled ></textarea> <br> <br>
+			
+			
+			<input type="checkbox" name="blood_group" onchange="toggle_disabled_blood_group(this.checked)"/><b>Blood Group</b><br>
+			<input style="margin-left: 50px;" type="radio" id="rhve_neg" name="rhve" value="rh-ve" disabled />Rh-ve
+			<input type="radio" id="rhve_plus" name="rhve" value="rh+ve" disabled />Rh+ve
+			<input type="radio" id="a" name="aboab" value="a" disabled />A
+			<input type="radio" id="b" name="aboab" value="b" disabled />B
+			<input type="radio" id="o" name="aboab" value="o" disabled />O
+			
+			<input type="radio" id="ab" name="aboab" value="ab" disabled />AB <br>
+			<label style="margin-left: 50px;">DU Test:</label><input  type="text" id="du_test" name="du_test" style="width: 200px; height: 30px;" maxlength="45" disabled /><br><br>
+			
+				
+			
+			<input type="checkbox" name="blood_count" onchange="toggle_disabled_blood_count(this.checked)"/><b>Blood Count</b><br>
+			
+			<label style="margin-left: 50px; margin-right: 22px;">RBC:</label>
+			<input type="text" id="rbc" name="rbc" style="width: 200px; height: 30px;" maxlength="30" disabled /> (Norm Men:4.3-5.7 trillion Cells, Norm Women:3.9-5.0 trillion Cells)
+			
+			<br>
+			
+			<input type="checkbox" name="hb" onchange="toggle_disabled_hb(this.checked)"/> <b>Hb:</b>
+			<input type="text" id="hb_text" name="hb_text" style="width: 200px; height: 30px;" maxlength="30" disabled /> (Norm Men: 13.5 – 18g/dL, Norm Women: 11.5 – 16g/dL)
+			
+			<br>
+			
+			<input type="checkbox" name="hct" onchange="toggle_disabled_htc(this.checked)"/> <b>Hct:</b>
+			<input type="text" id="hct_text" name="hct_text" style="width: 200px; height: 30px;" maxlength="30" disabled />
+			
+			<br>
+			
+			<input type="checkbox" name="mcv" onchange="toggle_disabled_mcv(this.checked)"/> <b>MCV:</b>
+			<input type="text" id="mcv_text" name="hb_text" style="width: 200px; height: 30px;" maxlength="30" disabled /> (Norm: 81.2-98.3 fL)
+			
+			<br>
+			
+			<input type="checkbox" name="rdw" onchange="toggle_disabled_rdw(this.checked)"/> <b>RDW:</b>
+			<input type="text" id="rdw_text" name="hb_text" style="width: 200px; height: 30px;" maxlength="30" disabled /> (Norm: 11.8%-15.5%)
+			
+			<br>
+			
+			<input type="checkbox" name="wbc" onchange="toggle_disabled_wbc(this.checked)"/> <b>WBC:</b>
+			<input type="text" id="wbc_text" name="hb_text" style="width: 200px; height: 30px;" maxlength="30" disabled /> (Norm: 3.5-10.5 billion cells/L)
+			
+			<br>
+			
+			<input type="checkbox" name="platelet" onchange="toggle_disabled_platelet(this.checked)"/> <b>Platelet:</b>
+			<input type="text" id="platelet_text" name="platelet_text" style="width: 200px; height: 30px;" maxlength="30" disabled /> (Norm: 150-450 billion/L)
+			
+			
+			<br>
+			
+			input type="checkbox" name="neutrophils" onchange="toggle_disabled_neutrophils(this.checked)"/> <b>Neutrophils:</b>
+			<input type="text" id="neutrophils_text" name="neutrophils_text" style="width: 200px; height: 30px;" maxlength="30" disabled /> ( Norm: 1.7-7.0x10(9)/L )
+			<br>
+			
+			input type="checkbox" name="lymphocytes" onchange="toggle_disabled_lymphocytes(this.checked)"/> <b>Lymphocytes:</b>
+			<input type="text" id="lymphocytes_text" name="lymphocytes_text" style="width: 200px; height: 30px;" maxlength="30" disabled /> ( Norm: 0.9-2.9x10(9)/L )
+			
+			<br>
+			
+			input type="checkbox" name="monocytes" onchange="toggle_disabled_monocytes(this.checked)"/> <b>Monocytes:</b>
+			<input type="text" id="monocytes_text" name="monocytes_text" style="width: 200px; height: 30px;" maxlength="30" disabled /> ( Norm: 0.3-0.9x10(9)/L )
+			
+			<br>
+			
+			input type="checkbox" name="eosinophils" onchange="toggle_disabled_eosinophils(this.checked)"/> <b>Eosinophils:</b>
+			<input type="text" id="eosinophils_text" name="eosinophils_text" style="width: 200px; height: 30px;" maxlength="30" disabled /> ( Norm: 0.05-0.50x10(9)/L )
+			
+			<br>
+			
+			input type="checkbox" name="basophils" onchange="toggle_disabled_basophils(this.checked)"/> <b>Basophils:</b>
+			<input type="text" id="basophils_text" name="basophils_text" style="width: 200px; height: 30px;" maxlength="30" disabled /> ( Norm: 0-0.30x10(9)/L )
+			
+			<br>
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+		
+			
 			
 			<?php
 				echo "Clinician:<input list='clinician_list' name='clinician' value='$username' style='padding-left: 10px; margin-left: 10px;width: 140px; height: 20px;' maxlength='20'> <br>
