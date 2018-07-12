@@ -180,6 +180,7 @@ $conn = null;
 			<div style="height: 35px; width: 200px;"><label>Labs:</label></div>
 			<div style="height: 35px; width: 200px;"><label>Optometry Forms:</label></div>
 			<div style="height: 35px; width: 200px;"><label>Referral Forms:</label></div>
+			<div style="height: 35px; width: 200px;"><label>Vital Signs:</label></div>
 		</div>
 		
 		<div style="float: left; width: 225px;">
@@ -244,6 +245,13 @@ $conn = null;
 				</form>
 				<form action="/php/referral_form/select_referral_form.php" name="login_form" onsubmit="return validateForm()" method="post">
 					<input style="float: left;" type="submit" name="not_login" class="login login-submit" value="view/change">
+				</form>
+			</div>
+
+			<!-- Vital Signs -->
+			<div style="height: 35px; width: 200px;">
+				<form action="/php/vital_signs/select_client_vital_signs.php" name="login_form" onsubmit="return validateForm()" method="post">
+					<input style="float: left; margin-right: 10px;" type="submit" name="not_login" class="login login-submit" value="add">
 				</form>
 			</div>
 			
