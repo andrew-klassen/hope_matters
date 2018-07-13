@@ -3,7 +3,7 @@ This file is part of a web application designed to help Hope Matters interact wi
 The web application is licensed under the Affero General Public License v3.
 View the web application's readme.txt for more details.
 
-Copyright © 2017 Andrew Klassen
+Copyright Â© 2017 Andrew Klassen
 -->
 
 <!DOCTYPE html>
@@ -195,7 +195,7 @@ Copyright © 2017 Andrew Klassen
   
   
 	<!-- begining of lab tests card -->
-    <div class="accountCard" style="float: left; width: 885px; height: 1680px; position: relative;">
+    <div class="accountCard" style="float: left; width: 885px; height: 2850px; position: relative;">
 		
 		<p class='p'style='color: black;font-weight:100; text-align: center;'>Check the tests that were preformed before providing the results.</p>
 		
@@ -299,7 +299,7 @@ Copyright © 2017 Andrew Klassen
 			<input type="radio" id="specific_gravity_1.015" name="specific_gravity" value="1.015" disabled />1.015
 			<input type="radio" id="specific_gravity_1.020" name="specific_gravity" value="1.020" disabled />1.020
 			<input type="radio" id="specific_gravity_1.025" name="specific_gravity" value="1.025" disabled />1.025
-			<input type="radio" id="specific_gravity_1.030" name="specific_gravity" value="1.030" disabled />1.030 (Norm 1.006 – 1.016mg/dL)
+			<input type="radio" id="specific_gravity_1.030" name="specific_gravity" value="1.030" disabled />1.030 (Norm 1.006 â€“ 1.016mg/dL)
 			
 			<br>
 			
@@ -381,57 +381,57 @@ Copyright © 2017 Andrew Klassen
 			
 			<br>
 			
-			<input type="checkbox" name="hb" onchange="toggle_disabled_hb(this.checked)"/> <b>Hb:</b>
-			<input type="text" id="hb_text" name="hb_text" style="width: 200px; height: 30px;" maxlength="30" disabled /> (Norm Men: 13.5 – 18g/dL, Norm Women: 11.5 – 16g/dL)
+			 <b>Hb:</b>
+			<input type="text" id="hb_text" name="hb_text" style="width: 200px; height: 30px;" maxlength="30" disabled /> (Norm Men: 13.5 â€“ 18g/dL, Norm Women: 11.5 â€“ 16g/dL)
 			
 			<br>
 			
-			<input type="checkbox" name="hct" onchange="toggle_disabled_htc(this.checked)"/> <b>Hct:</b>
+			 <b>Hct:</b>
 			<input type="text" id="hct_text" name="hct_text" style="width: 200px; height: 30px;" maxlength="30" disabled />
 			
 			<br>
 			
-			<input type="checkbox" name="mcv" onchange="toggle_disabled_mcv(this.checked)"/> <b>MCV:</b>
+			<b>MCV:</b>
 			<input type="text" id="mcv_text" name="hb_text" style="width: 200px; height: 30px;" maxlength="30" disabled /> (Norm: 81.2-98.3 fL)
 			
 			<br>
 			
-			<input type="checkbox" name="rdw" onchange="toggle_disabled_rdw(this.checked)"/> <b>RDW:</b>
+			 <b>RDW:</b>
 			<input type="text" id="rdw_text" name="hb_text" style="width: 200px; height: 30px;" maxlength="30" disabled /> (Norm: 11.8%-15.5%)
 			
 			<br>
 			
-			<input type="checkbox" name="wbc" onchange="toggle_disabled_wbc(this.checked)"/> <b>WBC:</b>
+			 <b>WBC:</b>
 			<input type="text" id="wbc_text" name="hb_text" style="width: 200px; height: 30px;" maxlength="30" disabled /> (Norm: 3.5-10.5 billion cells/L)
 			
 			<br>
 			
-			<input type="checkbox" name="platelet" onchange="toggle_disabled_platelet(this.checked)"/> <b>Platelet:</b>
+			 <b>Platelet:</b>
 			<input type="text" id="platelet_text" name="platelet_text" style="width: 200px; height: 30px;" maxlength="30" disabled /> (Norm: 150-450 billion/L)
 			
 			
 			<br>
 			
-			input type="checkbox" name="neutrophils" onchange="toggle_disabled_neutrophils(this.checked)"/> <b>Neutrophils:</b>
+			 <b>Neutrophils:</b>
 			<input type="text" id="neutrophils_text" name="neutrophils_text" style="width: 200px; height: 30px;" maxlength="30" disabled /> ( Norm: 1.7-7.0x10(9)/L )
 			<br>
 			
-			input type="checkbox" name="lymphocytes" onchange="toggle_disabled_lymphocytes(this.checked)"/> <b>Lymphocytes:</b>
+			<b>Lymphocytes:</b>
 			<input type="text" id="lymphocytes_text" name="lymphocytes_text" style="width: 200px; height: 30px;" maxlength="30" disabled /> ( Norm: 0.9-2.9x10(9)/L )
 			
 			<br>
 			
-			input type="checkbox" name="monocytes" onchange="toggle_disabled_monocytes(this.checked)"/> <b>Monocytes:</b>
+			 <b>Monocytes:</b>
 			<input type="text" id="monocytes_text" name="monocytes_text" style="width: 200px; height: 30px;" maxlength="30" disabled /> ( Norm: 0.3-0.9x10(9)/L )
 			
 			<br>
 			
-			input type="checkbox" name="eosinophils" onchange="toggle_disabled_eosinophils(this.checked)"/> <b>Eosinophils:</b>
+			<b>Eosinophils:</b>
 			<input type="text" id="eosinophils_text" name="eosinophils_text" style="width: 200px; height: 30px;" maxlength="30" disabled /> ( Norm: 0.05-0.50x10(9)/L )
 			
 			<br>
 			
-			input type="checkbox" name="basophils" onchange="toggle_disabled_basophils(this.checked)"/> <b>Basophils:</b>
+			 <b>Basophils:</b>
 			<input type="text" id="basophils_text" name="basophils_text" style="width: 200px; height: 30px;" maxlength="30" disabled /> ( Norm: 0-0.30x10(9)/L )
 			
 			<br>
@@ -442,22 +442,177 @@ Copyright © 2017 Andrew Klassen
 			
 			
 			
+			<input type="checkbox" name="blood_chemistry" onchange="toggle_disabled_blood_chemistry(this.checked)"/><b>Blood Chemistry</b><br>
+			
+			<label style="margin-left: 50px; margin-right: 22px;">Sodium:</label>
+			<input type="text" id="sodium" name="sodium" style="width: 200px; height: 30px;" maxlength="30" disabled /> (Norm: 135-145 mmol/L)
+			
+			<br>
+			
+			 <b>Chloride:</b>
+			<input type="text" id="chloride" name="chloride_text" style="width: 200px; height: 30px;" maxlength="30" disabled /> (Norm: 98-107 mmol/L)
+			
+			<br>
+			
+			 <b>Potassium:</b>
+			<input type="text" id="potassium_text" name="potassium_text" style="width: 200px; height: 30px;" maxlength="30" disabled /> (Norm: 3.6-5.2 mmol/L)
+			
+			<br>
+			
+			 <b>Calcium:</b>
+			<input type="text" id="calcium_text" name="calcium_text" style="width: 200px; height: 30px;" maxlength="30" disabled /> (Norm: 8.9-10.1 mg/dL)
+			
+			<br>
+			
+			 <b>Bicarbonate:</b>
+			<input type="text" id="bicarbonate_text" name="bicarbonate_text" style="width: 200px; height: 30px;" maxlength="30" disabled /> (Norm: 22-29 mmol/L)
+			
+			<br>
+			
+			< <b>Glucose Fasting:</b>
+			<input type="text" id="glucose_fasting_text" name="glucose_fasting_text" style="width: 200px; height: 30px;" maxlength="30" disabled /> 
+			
+			<br>
+			
+			 <b>Glucose Random:</b>
+			<input type="text" id="random_text" name="random_text" style="width: 200px; height: 30px;" maxlength="30" disabled />
+			
+			
+			<br>
+			
+			 <b>BUN (Blood Urea Nitrogen): </b>
+                        <input type="text" id="bun_text" name="bun_text" style="width: 200px; height: 30px;" maxlength="45" disabled /> Male 8-24 mg/dL Female 6-21 mg/dL
+			
+			<br>
+			
+			 <b>Creatinine: </b>
+                        <input type="text" id="creatinine_text" name="creatinine_text" style="width: 200px; height: 30px;" maxlength="45" disabled /> Male 0.8-1.3 mg/dL Female 0.6-1.1 mg/dL
+			
+			<br>
+			
+             <b>HbA1C:</b>
+                        <input type="text" id="hba1c_text" name="hba1c_text" style="width: 200px; height: 30px;" maxlength="45" disabled /> < 6.0 Normal, 6.0 â€“ 7.0 Pre-diabetes, >7.0 Diabetes
+
+                        <br>
+						
+						
+						
+						
+		    <input type="checkbox" name="arterial_blood" onchange="toggle_disabled_blood_gas(this.checked)"/><b>Arterial Blood Gas</b><br>
+			
+			<label style="margin-left: 50px; margin-right: 22px;">PaO2:</label>
+			<input type="text" id="pao2" name="pao2" style="width: 200px; height: 30px;" maxlength="30" disabled /> (Norm: 75-100 mm Hg)
+			
+			<br>
+			
+			 <label style="margin-left: 50px; margin-right: 22px;">PaCO2:</label>
+			<input type="text" id="chloride" name="chloride_text" style="width: 200px; height: 30px;" maxlength="30" disabled /> (Norm: 98-107 mmol/L)
+			
+			<br>
+			
+			<label style="margin-left: 50px; margin-right: 22px;">Arterial Blood pH:</label>
+			<input type="text" id="arterial_text" name="arterial_text" style="width: 200px; height: 30px;" maxlength="30" disabled /> (Norm: 7.38-7.42)
+			
+			<br>
+			
+			<label style="margin-left: 50px; margin-right: 22px;">SaO2:</label>
+			<input type="text" id="sao2_text" name="sao2_text" style="width: 200px; height: 30px;" maxlength="30" disabled /> (Norm: 94-100%)
+			
+			<br>
+			
+			 <label style="margin-left: 50px; margin-right: 22px;">HCO3:</label>
+			<input type="text" id="hco3_text" name="hco3_text" style="width: 200px; height: 30px;" maxlength="30" disabled /> (Norm: 22-28 mEq/L)
+			
+			<br>	
+		   
+			
+			 <input type="checkbox" name="arterial_blood" onchange="toggle_disabled_blood_gas(this.checked)"/><b>Liver Function Test</b><br>
+			
+			<label style="margin-left: 50px; margin-right: 22px;">ALT:</label>
+			<input type="text" id="alt" name="alt" style="width: 200px; height: 30px;" maxlength="30" disabled /> (Norm: 7-55 U/L)
+			
+			<br>
+			
+			 <label style="margin-left: 50px; margin-right: 22px;">AST:</label>
+			<input type="text" id="ast" name="ast_text" style="width: 200px; height: 30px;" maxlength="30" disabled /> (Norm: 8-48 U/L)
+			
+			<br>
+			
+			<label style="margin-left: 50px; margin-right: 22px;">Albumin:</</label>
+			<input type="text" id="albumin_text" name="albumin_text" style="width: 200px; height: 30px;" maxlength="30" disabled /> (Norm: 3.5-5.0 g/dL)
+			
+			<br>
+			
+			<input type="checkbox" name="prothrombin" onchange="toggle_disabled_prothrombin(this.checked)"/> <b>Prothrombin Time: </b>
+            <input type="text" id="prothrombin_text" name="prothrombin_text" style="width: 200px; height: 30px;" maxlength="45" disabled /> (Norm: 9.4-12.5 sec)
+
+            <br>
+			
+			<input type="checkbox" name="inr" onchange="toggle_disabled_inr(this.checked)"/> <b>INR: </b>
+            <input type="text" id="inr_text" name="inr_text" style="width: 200px; height: 30px;" maxlength="45" disabled /> (Norm: 0.9-1.1, Warfarin 2.0-3.0, High Intensity Warfarin 2.5-3.5)
+
+            <br>
+			
+			
+			
+			 <input type="checkbox" name="tft" onchange="toggle_disabled_tft(this.checked)"/><b>Thyroid Function Test</b><br>
+			
+			<label style="margin-left: 50px; margin-right: 22px;">TSH:</label>
+			<input type="text" id="tsh" name="tsh" style="width: 200px; height: 30px;" maxlength="30" disabled /> (Norm: 0.3-4.2)
+			
+			<br>
+			
+			 <label style="margin-left: 50px; margin-right: 22px;">Free T3:</label>
+			<input type="text" id="freet3" name="freet3_text" style="width: 200px; height: 30px;" maxlength="30" disabled /> (Norm: 2.8-4.4 pg/mL)
+			
+			<br>
+			
+		<label style="margin-left: 50px; margin-right: 22px;">Free T4:</label>
+
+			<input type="text" id="freet4_text" name="freet4_text" style="width: 200px; height: 30px;" maxlength="30" disabled /> (Norm: 0.9-1.7 ng/dL)
+			
+			<br>
 			
 			
 			
 			
+			<input type="checkbox" name="tft" onchange="toggle_disabled_cholesterol(this.checked)"/><b>Cholesterol</b><br>
+			
+			<label style="margin-left: 50px; margin-right: 22px;">Total:</label>
+			<input type="text" id="total" name="total" style="width: 200px; height: 30px;" maxlength="30" disabled /> (Norm<200mg/dL, Brorderline 200-239 mg/dL, High>240 mg/dL )
+			
+			<br>
+			
+		        <label style="margin-left: 50px; margin-right: 22px;">HDL:</label>
+
+			<input type="text" id="hdl" name="hdl_text" style="width: 200px; height: 30px;" maxlength="30" disabled /> (Norm Male>40mg/dL, Female>50mg/dL)
+			
+			<br>
+			
+			<label style="margin-left: 50px; margin-right: 22px;">LDL:</label>
+
+			<input type="text" id="ldl_text" name="ldl_text" style="width: 200px; height: 30px;" maxlength="30" disabled /> (Norm <100mg/dL, Brorderline 130-159 mg/dL, High 160-189 mg/dL, Very High> 190)
+			
+			<br>
 			
 			
+			<input type="checkbox" name="cardiac" onchange="toggle_disabled_cardiac(this.checked)"/><b>Cardiac Enzymes</b><br>
 			
+			<label style="margin-left: 50px; margin-right: 22px;">Troponin:</label>
+			<input type="text" id="troponin" name="troponin" style="width: 200px; height: 30px;" maxlength="30" disabled /> (Norm <0.04 ng/mL )
 			
+			<br>
 			
-		
+			<label style="margin-left: 50px; margin-right: 22px;">CK:</label>
+
+			<input type="text" id="ck" name="ck_text" style="width: 200px; height: 30px;" maxlength="30" disabled /> (Norm Male 39-308 U/L, Female 26-192 U/L)
 			
+			<br>
 			
 			<?php
-				echo "Clinician:<input list='clinician_list' name='clinician' value='$username' style='padding-left: 10px; margin-left: 10px;width: 140px; height: 20px;' maxlength='20'> <br>
+				                 echo "Clinician:<input list='clinician_list' name='clinician' value='$username' style='padding-left: 10px; margin-center: 10px;width: 140px; height: 20px;' maxlength='20'> <br>
 			 
-					 <datalist id='clinician_list'>";
+					         <datalist id='clinician_list'>";
 							
 								
 									$stmt = $conn->prepare("SELECT username FROM accounts;");
@@ -472,7 +627,7 @@ Copyright © 2017 Andrew Klassen
 				echo "</datalist>";
 			?>
 			
-			<div style="position: absolute; top: 1700px; left: 398px;">		
+			<div style="position: absolute; top: 2870px; left: 398px;">		
 				<input type="submit" name="submit_button" class="submitbtn" value="Submit Lab Form">
 			</div>
 			
