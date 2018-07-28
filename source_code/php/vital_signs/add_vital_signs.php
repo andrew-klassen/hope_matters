@@ -112,7 +112,7 @@ Copyright © 2017 Andrew Klassen
 				$_SESSION['choosen_client_id'] = parent::current();
 				
 				// since there are 6 fields being displayed in the table, $_SESSION['counter'] == 0 or $_SESSION['counter'] % 6 == 0
-				if (($_SESSION['counter'] == 0) or ($_SESSION['counter'] % 6 == 0)) {
+				if (($_SESSION['counter'] == 0) or ($_SESSION['counter'] % 7 == 0)) {
 				
 					$_SESSION['temp'] = $_SESSION['choosen_client_id'];
 					
@@ -270,7 +270,9 @@ Copyright © 2017 Andrew Klassen
 				<input type="radio" name="pain" value="moderate"> moderate <br>
 				<input type="radio" name="pain" value="severe"> severe
 			</div>
+			
 	</div>
+			Notes: </br> <textarea name="notes" style="width: 400px; height: 60px;"></textarea>
 	
   </div>
   
@@ -329,9 +331,9 @@ else {
 
 echo "<div id='tableCard' style='margin-top: 50px;'>";
 echo "<table style='border: none;'>";
-echo "<tr><th>T</th><th>BP</th><th>HR</th><th>SaO2</th><th>Pain</th><th>Time Edited</th></tr>";		
+echo "<tr><th>T</th><th>BP</th><th>HR</th><th>SaO2</th><th>Pain</th><th>Notes</th><th>Time Edited</th></tr>";		
 		
-		$stmt = $conn->prepare("SELECT t, bp, hr, sao2, pain, date_format(timestamp, '%b %d %Y %h:%i %p') FROM vital_signs WHERE client_id='$choosen_client_id' AND timestamp between $from and $to;");
+		$stmt = $conn->prepare("SELECT t, bp, hr, sao2, pain, notes, date_format(timestamp, '%b %d %Y %h:%i %p') FROM vital_signs WHERE client_id='$choosen_client_id' AND timestamp between $from and $to ORDER BY timestamp DESC");
 		$stmt->execute();
 		$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
 		

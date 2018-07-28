@@ -54,8 +54,8 @@ try {
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
 	// make sure account with username and password exists
-    $stmt = $conn->prepare("SELECT account_id FROM accounts WHERE username='$username' and password='$password';");
-    $stmt->execute();
+    $stmt = $conn->prepare("SELECT account_id FROM accounts WHERE username=:username and password=:password;");
+    $stmt->execute(array('username' => $username, 'password' => $password));
     $result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
     foreach(new login(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
         echo $v;

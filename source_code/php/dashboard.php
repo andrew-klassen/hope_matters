@@ -264,6 +264,7 @@ $conn = null;
 			<div style="height: 35px; width: 200px;"><label>Lab Orders:</label></div>
 			<div style="height: 35px; width: 200px;"><label>Women's Health Reports:</label></div>
 			<div style="height: 35px; width: 200px;"><label>Child Welfare Care:</label></div>
+			<div style="height: 35px; width: 200px;"><label>Medication Order:</label></div>
 			
 		</div>
 		
@@ -331,6 +332,20 @@ $conn = null;
 					<input style="float: left;" type="submit" name="not_login" class="login login-submit" value="view/change">
 				</form>
 			</div>
+
+			<!-- Medication Orders -->
+			<div style="height: 35px; width: 400px;">
+				<form action="/php/medication_order/select_client_medication_order.php" name="login_form" onsubmit="return validateForm()" method="post">
+					<input style="float: left; margin-right: 10px;" type="submit" name="not_login" class="login login-submit" value="add">	
+				</form>
+				<form action="/php/medication_order/select_client_medication_order_change.php" name="login_form" onsubmit="return validateForm()" method="post">
+					<input style="float: left; margin-right: 10px;" type="submit" name="not_login" class="login login-submit" value="view/change">
+				</form>
+				<form action="/php/medication_order/select_client_medication_order_complete.php" name="login_form" onsubmit="return validateForm()" method="post">
+					<input style="float: left; " type="submit" name="not_login" class="login login-submit" value="Complete an Order">
+				</form>
+			</div>
+
 			
 		</div>
 			

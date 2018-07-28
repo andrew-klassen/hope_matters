@@ -330,8 +330,10 @@ Copyright © 2017 Andrew Klassen
 				<input type='radio' name='pain' value='severe' $severe_check> severe
 			</div>";
 			
-		?>
-	</div>
+		
+		echo "</div>
+		Notes: </br> <textarea name='notes' style='width: 400px; height: 60px;'></textarea>";
+?>
 	
   </div>
   

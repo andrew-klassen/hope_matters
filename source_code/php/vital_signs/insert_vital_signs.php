@@ -129,25 +129,40 @@ $_SESSION['to'] = $to;
 	$hr = $_POST['hr'];
 	$sao2 = $_POST['sao2'];
 	$pain = $_POST['pain'];
+	$notes = $_POST['notes'];
 
 	// single quotes need to be replaced with the correct excape keys for the following values
 	$t = str_replace('\'', '\\\'', $t);
 	$bp = str_replace('\'', '\\\'', $bp);
 	$hr = str_replace('\'', '\\\'', $hr);
+	$notes = str_replace('\'', '\\\'', $notes);
 
 	
 	
 	
 	try {
+		if ($t != "" and $bp != "" and $hr != "" and $sao2 != "") {
+			
+			// below is the insert query
+			$query = "INSERT INTO vital_signs (client_id, first_name, last_name, sex, location, date_of_birth, t, bp, sao2, hr, pain, notes, created_by) 
+			VALUES ('$choosen_client_id', '$first_name', '$last_name', '$sex', '$location', '$date_of_birth', '$t', '$bp', '$sao2', '$hr', '$pain', '$notes', '$username');"; 
+			$conn->exec($query);
+			
+			// redirect user back to discharge form selection
+			header( 'Location: add_vital_signs.php');
+			exit();
+
+		}
+		else {
+			
+			echo "<script type='text/javascript'>
+				alert('You are missing a vital sign.'); 
+				document.location.href = 'add_vital_signs.php'; 
+		  	</script>";
+
+		}
 		
-		// below is the insert query
-		$query = "INSERT INTO vital_signs (client_id, first_name, last_name, sex, location, date_of_birth, t, bp, sao2, hr, pain, created_by) 
-		VALUES ('$choosen_client_id', '$first_name', '$last_name', '$sex', '$location', '$date_of_birth', '$t', '$bp', '$sao2', '$hr', '$pain', '$username');"; 
-		$conn->exec($query);
 		
-		// redirect user back to discharge form selection
-		header( 'Location: add_vital_signs.php');
-		exit();
 		
 	}
 
