@@ -304,10 +304,29 @@ try {
 		$query = "UPDATE master_log SET first_name='$first_name', last_name='$last_name', sex='$sex', location='$location', date_of_birth='$date_of_birth', timestamp=timestamp WHERE client_id='$choosen_client_id'";
 		$stmt = $conn->prepare($query);
 		$stmt->execute();
+
+
+		$query = "UPDATE medication_order SET first_name='$first_name', last_name='$last_name', sex='$sex', location='$location', date_of_birth='$date_of_birth', timestamp=timestamp WHERE client_id='$choosen_client_id'";
+		$stmt = $conn->prepare($query);
+		$stmt->execute();
+
+		$query = "UPDATE medication_order_dose SET first_name='$first_name', last_name='$last_name', sex='$sex', location='$location', date_of_birth='$date_of_birth', timestamp=timestamp WHERE client_id='$choosen_client_id'";
+		$stmt = $conn->prepare($query);
+		$stmt->execute();
+
+
+		
+
+
 		
 		
 		
 		// update all historical information
+
+		$query = "UPDATE medication_order_history SET first_name='$first_name', last_name='$last_name', sex='$sex', location='$location', date_of_birth='$date_of_birth', timestamp=timestamp WHERE client_id='$choosen_client_id'";
+		$stmt = $conn->prepare($query);
+		$stmt->execute();
+
 		$query = "UPDATE baby_history SET first_name='$first_name', last_name='$last_name', sex='$sex', location='$location', date_of_birth='$date_of_birth', timestamp=timestamp WHERE client_id='$choosen_client_id'";
 		$stmt = $conn->prepare($query);
 		$stmt->execute();

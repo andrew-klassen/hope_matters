@@ -132,9 +132,9 @@ try {
 	
 	
 		echo "<table style='border: none;'>";
-		echo "<tr><th>Form ID</th><th>First Name</th><th>Last Name</th><th>Sex</th><th>Age</th><th>Time Edited</th></tr>";
+		echo "<tr><th>Form ID</th><th style='font-size: 26px;'>Medication</th><th >Dosage</th><th style='font-size: 28px;'>Frequency</th><th>Method</th><th>Clinician</th></tr>";
 		
-		$stmt = $conn->prepare("SELECT medication_order_id, first_name, last_name, sex, DATE_FORMAT(NOW(), '%Y') - DATE_FORMAT(date_of_birth, '%Y') - (DATE_FORMAT(NOW(), '00-%m-%d') < DATE_FORMAT(date_of_birth, '00-%m-%d')), date_format(timestamp, '%b %d %Y %h:%i %p') FROM medication_order WHERE open = '$order_type' and client_id = '$choosen_client_id' ORDER BY medication_order_id DESC");
+		$stmt = $conn->prepare("SELECT medication_order_id, medication, dosage, frequency, administration_method, created_by FROM medication_order WHERE open = '$order_type' and client_id = '$choosen_client_id' ORDER BY medication_order_id DESC");
 		$stmt->execute();
 		$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
 		
