@@ -463,7 +463,7 @@ Copyright © 2017 Andrew Klassen
 					
 					<br><br>
 					
-					Significant History: <br> <textarea style='height: 90px; width: 400px;' name='significant_history' class='comment_area' maxlength='255'>$significant_history</textarea>
+					Significant History: <br> <textarea style='height: 90px; width: 400px;' name='significant_history' class='comment_area' maxlength='360'>$significant_history</textarea>
 					
 					<br><br>
 					
