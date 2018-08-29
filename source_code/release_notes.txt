@@ -1,3 +1,7 @@
+************** Version 1.07 **************
+-medication order
+-vital signs
+
 ************** Version 1.06 **************
 -bug where referral history would be deleted was patched
 

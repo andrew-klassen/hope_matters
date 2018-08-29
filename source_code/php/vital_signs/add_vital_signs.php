@@ -298,11 +298,6 @@ echo "<div id='searchDiv' >
 	
 		From: <input type='date' value='$from' name='from' >
 		To: <input type='date' value='$to' name='to'>
-		
-		
-			
-		
-		
 	
 </div>";
 
@@ -324,11 +319,6 @@ else {
 }
 
 
-
-
-
-
-
 echo "<div id='tableCard' style='margin-top: 50px;'>";
 echo "<table style='border: none;'>";
 echo "<tr><th>T</th><th>BP</th><th>HR</th><th>SaO2</th><th>Pain</th><th>Notes</th><th>Time Edited</th></tr>";		
@@ -348,10 +338,6 @@ echo "<tr><th>T</th><th>BP</th><th>HR</th><th>SaO2</th><th>Pain</th><th>Notes</t
 	$_SESSION['choosen_client_id'] = $choosen_client_id;
 
 ?>
-
-
-
-
 		
 		<div style="position: absolute; top: 500px; left: 420px;">		
 			<input type="submit" name="submit_button" class="submitbtn" value="Submit Vital Signs">
