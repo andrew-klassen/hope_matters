@@ -56,6 +56,9 @@ if [ "$response" = "y" ]; then
 	# edit php.ini to allow larger file uploads
 	sed -i '660s/.*/post_max_size = 20000M/' /etc/php5/apache2/php.ini
 	sed -i '820s/.*/upload_max_filesize = 20000M/' /etc/php5/apache2/php.ini
+
+	# remove directory indexing
+	sed -i "s/Options Indexes FollowSymLinks/Options FollowSymLinks/g" /etc/apache2/apache2.conf
 	
 	# restart apache
 	systemctl restart apache2

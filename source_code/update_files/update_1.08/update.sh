@@ -47,6 +47,9 @@ if [ "$response" = "y" ]; then
 
 	done
 
+	# remove indexes
+	sed -i "s/Options Indexes FollowSymLinks/Options FollowSymLinks/g" /etc/apache2/apache2.conf
+	systemctl restart apache2
 
 	echo "*** Update Successful ***"
 	
