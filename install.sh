@@ -42,9 +42,11 @@ if [ "$response" = "y" ]; then
 
 	# apply the new privileges
 	mysql --user=root --password=$password -e "FLUSH PRIVILEGES;"
+	
+	password_hash="$2y$10$Wut8oIRaU32gsOJFDvu84OqPtXshyk2RAcaFkQzprllMf5zln4it6"	
 
 	# insert the program admin account into the accounts table
-	mysql --user=root --password=$password -e "INSERT INTO hope_matters.accounts (username, master_log_access, server_admin, password, created_by) VALUES ('admin', 'yes', 'yes', '$2y$10$Wut8oIRaU32gsOJFDvu84OqPtXshyk2RAcaFkQzprllMf5zln4it6', 'system');"
+	mysql --user=root --password=$password -e "INSERT INTO hope_matters.accounts (username, master_log_access, server_admin, password, created_by) VALUES ('admin', 'yes', 'yes', '${password_hash}', 'system');"
 	
 	# move source files to the correct directory and set the permissions
 	rm -f /var/www/html/index.html
