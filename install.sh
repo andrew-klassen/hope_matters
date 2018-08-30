@@ -23,19 +23,19 @@ if ! command -v ansible > /dev/null 2>&1; then
 		apt-get install software-properties-common -y
 		add-apt-repository ppa:ansible/ansible -y
 		apt-get update
-		apt-get install ansible -y
+		apt-get install ansible openssh-server -y
 
 	elif [[ ${platform} == "Debian GNU/Linux" ]]; then
 
 		echo "deb http://ppa.launchpad.net/ansible/ansible/ubuntu trusty main" >> /etc/apt/sources.list
 		apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 93C4A3FD7BB9C367
 		apt-get update
-		apt-get install ansible sudo -y
+		apt-get install ansible sudo openssh-server -y
 		echo "Defaults lecture=\"never\"" >> /etc/sudoers
 
 	elif [[ ${platform} == "CentOS Linux" ]]; then
 
-		yum install ansible -y
+		yum install ansible openssh-server -y
 
 	else
 
@@ -43,6 +43,10 @@ if ! command -v ansible > /dev/null 2>&1; then
 		exit 2
 
 	fi
+
+
+usermod -G sudo ${ssh_username}
+
 else
 	echo "Ansible is installed. Skipping ansible Installation."
 
