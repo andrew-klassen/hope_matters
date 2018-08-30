@@ -44,7 +44,7 @@ if [ "$response" = "y" ]; then
 	mysql --user=root --password=$password -e "FLUSH PRIVILEGES;"
 
 	# insert the program admin account into the accounts table
-	mysql --user=root --password=$password -e "INSERT INTO hope_matters.accounts (username, master_log_access, server_admin, password, created_by) VALUES ('admin', 'yes', 'yes', 'P@ssword123', 'system');"
+	mysql --user=root --password=$password -e "INSERT INTO hope_matters.accounts (username, master_log_access, server_admin, password, created_by) VALUES ('admin', 'yes', 'yes', '$2y$10$Wut8oIRaU32gsOJFDvu84OqPtXshyk2RAcaFkQzprllMf5zln4it6', 'system');"
 	
 	# move source files to the correct directory and set the permissions
 	rm -f /var/www/html/index.html
@@ -57,6 +57,10 @@ if [ "$response" = "y" ]; then
 	
 	# restart apache
 	systemctl restart apache2
+
+	echo ''
+	echo ''
+	echo "Default user is \"admin\" and password is \"P@ssword123\". Its recommeded that you change it."
 
 # if user response is no, then exit
 else

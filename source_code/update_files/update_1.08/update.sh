@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # notify user
-echo "This update script assumes that you have version 1.06 of the program installed."
+echo "This update script assumes that you have version 1.07 of the program installed."
 read -p "Do you wish to continue (y/n)?: " response
 
 # if response is yes
@@ -33,10 +33,21 @@ if [ "$response" = "y" ]; then
 	rm -rf .temp/
 
 	# import new database changes
-	mysql --user=root --password=$password < /var/www/html/update_files/update_1.07/database_change_1.07.sql
+	mysql --user=root --password=$password < /var/www/html/update_files/update_1.08/database_change_1.08.sql
 	
 	# set permissions
 	chmod 2777 -R /var/www/html/
+
+	# hash all existing user passwords
+	mysql --user="root" --password="$password" -h 127.0.0.1 -N -e "SELECT account_id, password FROM hope_matters.accounts;" | while read account_id user_password; 
+	do
+
+		user_password=$(htpasswd -bnBC 10 "" $user_password | tr -d ':\n')
+		mysql --user="root" --password="$password" -h 127.0.0.1 -N -e "UPDATE hope_matters.accounts SET password='${user_password}' WHERE account_id='${account_id}';"
+
+	done
+
+
 	echo "*** Update Successful ***"
 	
 # if user response is no, then exit
