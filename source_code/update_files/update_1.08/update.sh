@@ -51,6 +51,11 @@ if [ "$response" = "y" ]; then
 	sed -i "s/Options Indexes FollowSymLinks/Options FollowSymLinks/g" /etc/apache2/apache2.conf
 	systemctl restart apache2
 
+	# add password hashing paramater
+	echo '' >> /var/www/html/php/database_credentials.php
+	echo "***** update 1.08 *****" >> /var/www/html/php/database_credentials.php
+	echo "$password_hashing_algorithim = PASSWORD_BCRYPT;" >> /var/www/html/php/database_credentials.php
+
 	echo "*** Update Successful ***"
 	
 # if user response is no, then exit
