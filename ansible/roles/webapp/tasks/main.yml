@@ -1,0 +1,42 @@
+---
+
+
+- name: install mysql repo deb
+  apt:
+    deb: https://repo.mysql.com//mysql-apt-config_0.8.6-1_all.deb
+
+- name: ensure mysql upstream repository package is configured
+  debconf:
+    name: mysql-apt-config
+    question: mysql-apt-config/select-product
+    value: Ok
+    vtype: select
+
+
+- name: update repositories cache
+  apt:
+    update_cache: yes
+
+- name: install dependencies
+  apt:
+    name: "{{ packages }}"
+  vars:
+    packages:
+    - apache2
+    - mysql-community-server
+    - php5
+    - php5-mysql
+    - python-mysqldb
+
+- copy:
+    src: files/database_schema.sql
+    dest: /tmp/database_schema.sql
+
+
+- name: import schema
+  mysql_db:
+    name: my_db
+    state: import
+    target: /tmp/database_schema.sql
+
+
