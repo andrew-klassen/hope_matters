@@ -1,3 +1,7 @@
+************** Version 1.08 **************
+-apache indexes removed
+-user passwords are now hashed using bcrypt
+
 ************** Version 1.07 **************
 -medication order
 -vital signs
