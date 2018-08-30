@@ -54,7 +54,7 @@ if [ "$response" = "y" ]; then
 	# add password hashing paramater
 	echo '' >> /var/www/html/php/database_credentials.php
 	echo "***** update 1.08 *****" >> /var/www/html/php/database_credentials.php
-	echo "$password_hashing_algorithim = PASSWORD_BCRYPT;" >> /var/www/html/php/database_credentials.php
+	echo "\$password_hashing_algorithim = PASSWORD_BCRYPT;" >> /var/www/html/php/database_credentials.php
 
 	echo "*** Update Successful ***"
 	
