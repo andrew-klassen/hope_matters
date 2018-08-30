@@ -41,7 +41,7 @@ below.
 	
 $servername = '127.0.0.1';
 $dbusername = 'php';
-$dbpassword = 'P@ssword123';
+$dbpassword = '{{ php_password }}';
 $dbname = 'hope_matters';
 $dbconnection = "mysql:host=$servername;dbname=$dbname";
 $password_hashing_algorithim = PASSWORD_BCRYPT;
@@ -84,7 +84,7 @@ function create_database_error($query, $error_location, $pdo_error) {
 	// database connection information
 	$servername = '127.0.0.1';
 	$dbusername = 'php';
-	$dbpassword = 'php123$';
+	$dbpassword = '{{ php_password }}';
 	$dbname = 'hope_matters';
 	$dbconnection = "mysql:host=$servername;dbname=$dbname";
 

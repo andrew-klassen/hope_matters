@@ -1,0 +1,6 @@
+mysql_config_link: https://repo.mysql.com//mysql-apt-config_0.8.6-1_all.deb 
+php_package: php5
+php_password: P@ssword123
+initial_user: admin
+initial_password: P@ssword123
+ansible_base: /root/hope_matters/ansible

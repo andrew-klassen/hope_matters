@@ -3,7 +3,7 @@
 
 - name: install mysql repo deb
   apt:
-    deb: https://repo.mysql.com//mysql-apt-config_0.8.6-1_all.deb
+    deb: "{{ mysql_config_link }}"
 
 - name: ensure mysql upstream repository package is configured
   debconf:
@@ -13,9 +13,9 @@
     vtype: select
 
 
-#- name: update repositories cache
-#  apt:
-#    update_cache: yes
+- name: update repositories cache
+  apt:
+    update_cache: yes
 
 - name: install dependencies
   apt:
@@ -24,52 +24,44 @@
     packages:
     - apache2
     - mysql-community-server
-    - php5
-    - php5-mysql
+    - "{{ php_package }}"
+    - "{{ php_package }}-mysql"
     - python-mysqldb
 
-- copy:
-    src: files/database_schema.sql
-    dest: /tmp/database_schema.sql
 
 
 - name: import schema
   mysql_db:
-    name: my_db
+    name: hope_matters
     state: import
-    target: /tmp/database_schema.sql
+    target: "{{ ansible_base }}/source_code/database_schema.sql"
 
 - mysql_user:
-    name: admin
-    password: 12345
+    name: "{{ initial_user }}"
+    password: "{{ initial_password }}"
+    host: '%'
     priv: '*.*:ALL,GRANT'
     state: present
 
-- name: create php user
-  mysql_user:
-    user=php
-    password=P@ssword123
-    state=present
-    priv={{ item }}
-  with_items:
-    - 'hope_matters.*:SELECT,UPDATE,INSERT'
-    - 'hope_matters.diagnoses:DELETE'
-    - 'hope_matters.diagnoses_temp:DELETE'
-    - 'hope_matters.treatment_temp:DELETE'
-    - 'hope_matters.return_treatment_temp:DELETE'
+- mysql_user:
+    name: php
+    password: "{{ php_password }}"
+    priv: 'hope_matters.*:SELECT,UPDATE,INSERT/hope_matters.diagnoses:DELETE/hope_matters.diagnoses_temp:DELETE/hope_matters.treatment_temp:DELETE/hope_matters.return_treatment_temp:DELETE'
+    state: present
+
 
 - name: add the first user
   shell: | 
     #!/bin/bash
-    password="Plasma00"
+    
     result=$(mysql --user=root --password=$password -N -e "SELECT count(*) from hope_matters.accounts;")
 
     if [ $result -eq 0 ]; then
 
-        password_hash="\$2y\$10\$Wut8oIRaU32gsOJFDvu84OqPtXshyk2RAcaFkQzprllMf5zln4it6"
+        password_hash=$(htpasswd -bnBC 10 "" {{ initial_password }} | tr -d ':\n')
 
         # insert the program admin account into the accounts table
-        mysql --user=root --password=$password -e "INSERT INTO hope_matters.accounts (username, master_log_access, server_admin, password, created_by) VALUES ('admin', 'yes', 'yes', '${password_hash}', 'system');"
+        mysql --user=root --password=$password -e "INSERT INTO hope_matters.accounts (username, master_log_access, server_admin, password, created_by) VALUES ('{{ initial_user }}', 'yes', 'yes', '${password_hash}', 'system');"
 
     fi
 
@@ -78,23 +70,22 @@
   shell: |
     cp -r /root/hope_matters/ansible/source_code/* /var/www/html/
 
+- template:
+    src: "{{ ansible_base }}/source_code/php/database_credentials.php"
+    dest: /var/www/html/php/database_credentials.php
 
 
-- file:
-    path: /var/www/html
-    owner: root
-    group: root
-    mode: 2777
-    recurse: yes
-
+- name: set permissions
+  shell: |
+    chmod -R 2777 /var/www/html
 
 - lineinfile:
-    path: /etc/php5/apache2/php.ini
+    path: /etc/{{ php_package }}/apache2/php.ini
     regexp: '^post_max_size ='
     line: 'post_max_size = 20000M'
 
 - lineinfile:
-    path: /etc/php5/apache2/php.ini
+    path: /etc/{{ php_package }}/apache2/php.ini
     regexp: '^upload_max_filesize ='
     line: 'upload_max_filesize = 20000M'
 

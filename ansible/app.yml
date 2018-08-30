@@ -2,5 +2,7 @@
 
 - hosts: webservers
   become: true
+  vars_files:
+   - vars 
   roles:
-  - webapp
+   - webapp
