@@ -55,6 +55,7 @@ if [ "$response" = "y" ]; then
 	echo '' >> /var/www/html/php/database_credentials.php
 	echo "***** update 1.08 *****" >> /var/www/html/php/database_credentials.php
 	echo "\$password_hashing_algorithim = PASSWORD_BCRYPT;" >> /var/www/html/php/database_credentials.php
+	sed -i 's/^M//g' /var/www/html/php/database_credentials.php
 
 	echo "*** Update Successful ***"
 	
