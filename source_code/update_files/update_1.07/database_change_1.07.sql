@@ -93,7 +93,7 @@ CREATE TABLE `medication_order_history` (
 
 DROP TABLE IF EXISTS `vital_signs`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;vital
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `vital_signs` (
   `vital_signs_id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `client_id` int(11) unsigned NOT NULL,
