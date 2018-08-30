@@ -16,22 +16,6 @@ $username = $_POST['username'];
 $password = $_POST['password'];
 
 
-class login extends RecursiveIteratorIterator {
-    function __construct($it) {
-        parent::__construct($it, self::LEAVES_ONLY);
-    }
-    function current() {
-		// grab the account id, if a matching account is found
-		$_SESSION['account_id'] = parent::current();
-    }
-    function beginChildren() {
-        echo "<tr>";
-    }
-    function endChildren() {
-        echo "</tr>" . "\n";
-    }
-}
-
 class grab_value extends RecursiveIteratorIterator {
 		function __construct($it) {
 			parent::__construct($it, self::LEAVES_ONLY);
@@ -49,21 +33,24 @@ class grab_value extends RecursiveIteratorIterator {
 
 
 try {
+	
 	// create new connection 
-    $conn = new PDO($dbconnection, $dbusername, $dbpassword);
-    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    	$conn = new PDO($dbconnection, $dbusername, $dbpassword);
+    	$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
 	// make sure account with username and password exists
-    $stmt = $conn->prepare("SELECT account_id FROM accounts WHERE username=:username and password=:password;");
-    $stmt->execute(array('username' => $username, 'password' => $password));
-    $result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
-    foreach(new login(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
-        echo $v;
-		++$count;
-    }
+	$stmt = $conn->prepare("SELECT password FROM accounts WHERE username=:username;");
+	$stmt->execute(array('username' => $username));
+	$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
+					
+	foreach(new grab_value(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
+					
+	}
+	$database_password = $_SESSION['temp'];
+
 	
 	// count is used to determine whether or not if the email and password are valid 
-	if ($count) {
+	if (password_verify($password, $database_password)) {
 		
 		// make sure the config file has STORAGE_CHECK turned on
 		if (STORAGE_CHECK) {
@@ -93,10 +80,22 @@ try {
 			}
 			
 		}
+
+
+		$stmt = $conn->prepare("SELECT account_id FROM accounts WHERE username=:username;");
+		$stmt->execute(array('username' => $username));
+		$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
+					
+		foreach(new grab_value(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
+					
+		}
+		$_SESSION['account_id'] = $_SESSION['temp'];
 		
+
 		// redirect to dashboard
 		header('Location: /php/dashboard.php');
 		exit();
+
 	}
 	else {
 	

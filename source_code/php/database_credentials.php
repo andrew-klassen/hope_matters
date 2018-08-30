@@ -44,6 +44,7 @@ $dbusername = 'php';
 $dbpassword = 'P@ssword123';
 $dbname = 'hope_matters';
 $dbconnection = "mysql:host=$servername;dbname=$dbname";
+$password_hashing_algorithim = PASSWORD_BCRYPT;
 
 
 // database query limits
