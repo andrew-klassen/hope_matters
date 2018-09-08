@@ -24,6 +24,7 @@ if ! command -v ansible > /dev/null 2>&1; then
 		add-apt-repository ppa:ansible/ansible -y
 		apt-get update
 		apt-get install ansible openssh-server -y
+		chmod -R 777 /home/${ssh_username}/.ansible/
 
 	elif [[ ${platform} == "Debian GNU/Linux" ]]; then
 
@@ -58,4 +59,4 @@ php_password=$(openssl rand -base64 30)
 cd ansible
 
 
-ansible-playbook app.yml -e "ansible_user=${ssh_username} ansible_ssh_pass=${ssh_password} ansible_sudo_pass=${ssh_password} php_password=${php_password} initial_user=${username} initial_password=${password}"
+ansible-playbook app.yml -e "ansible_user=${ssh_username} ansible_ssh_pass=${ssh_password} ansible_sudo_pass=${ssh_password} php_password=${php_password} initial_user=${username} initial_password=${password} ansible_base=$(pwd) php_ini=$(find /etc -name php.ini | grep 'apache')"

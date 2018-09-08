@@ -24,8 +24,8 @@
     packages:
     - apache2
     - mysql-community-server
-    - "{{ php_package }}"
-    - "{{ php_package }}-mysql"
+    - php
+    - php-mysql
     - python-mysqldb
 
 
@@ -68,7 +68,7 @@
 
 - name: copy source_code files
   shell: |
-    cp -r /root/hope_matters/ansible/source_code/* /var/www/html/
+    cp -r {{ ansible_base }}/source_code/* /var/www/html/
 
 - template:
     src: "{{ ansible_base }}/source_code/php/database_credentials.php"
@@ -80,12 +80,12 @@
     chmod -R 2777 /var/www/html
 
 - lineinfile:
-    path: /etc/{{ php_package }}/apache2/php.ini
+    path: "{{ php_ini }}"
     regexp: '^post_max_size ='
     line: 'post_max_size = 20000M'
 
 - lineinfile:
-    path: /etc/{{ php_package }}/apache2/php.ini
+    path: "{{ php_ini }}"
     regexp: '^upload_max_filesize ='
     line: 'upload_max_filesize = 20000M'
 
