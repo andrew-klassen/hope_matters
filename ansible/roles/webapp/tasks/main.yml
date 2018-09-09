@@ -52,7 +52,10 @@
     - MySQL-python
 
 
-
+- name: start mysql
+  service:
+    name: mysqld
+    state: started
 
 
 
@@ -141,10 +144,16 @@
     state: reloaded
   when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
 
+
+- firewalld:
+    service: https
+    permanent: true
+    state: enabled
+
 - name: reload apache2 cent
   service:
     name: httpd
-    state: reloaded
+    state: started
 
 
 
