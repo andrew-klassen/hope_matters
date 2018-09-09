@@ -27,11 +27,10 @@ if ! command -v ansible > /dev/null 2>&1; then
 
 	elif [[ ${platform} == "Debian GNU/Linux" ]]; then
 
-		echo "deb http://ppa.launchpad.net/ansible/ansible/ubuntu trusty main" >> /etc/apt/sources.list
-		apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 93C4A3FD7BB9C367
 		apt-get update
-		apt-get install ansible sudo openssh-server -y
+		apt-get install ansible sudo openssh-server sshpass -y
 		echo "Defaults lecture=\"never\"" >> /etc/sudoers
+		dpkg -i ansible_2.6.4-1ppa-bionic_all.deb
 
 	elif [[ ${platform} == "CentOS Linux" ]]; then
 
