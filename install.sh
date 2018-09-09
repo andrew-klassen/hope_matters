@@ -30,7 +30,7 @@ if ! command -v ansible > /dev/null 2>&1; then
 		apt-get update
 		apt-get install ansible sudo openssh-server sshpass -y
 		echo "Defaults lecture=\"never\"" >> /etc/sudoers
-		dpkg -i ansible_2.6.4-1ppa-bionic_all.deb
+		dpkg -i ansible_2.6.4~1ppa-bionic_all.deb
 
 	elif [[ ${platform} == "CentOS Linux" ]]; then
 
