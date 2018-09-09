@@ -1,4 +1,5 @@
 mysql_config_link: https://repo.mysql.com//mysql-apt-config_0.8.6-1_all.deb 
+mysql_config_link_rpm: https://repo.mysql.com//mysql80-community-release-el7-1.noarch.rpm
 php_package: php5
 php_password: P@ssword123
 initial_user: admin

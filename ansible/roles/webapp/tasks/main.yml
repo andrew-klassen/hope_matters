@@ -1,21 +1,24 @@
 ---
 
+block:
+   - name: install mysql repo deb
+     apt:
+       deb: "{{ mysql_config_link }}"
 
-- name: install mysql repo deb
-  apt:
-    deb: "{{ mysql_config_link }}"
-
-- name: ensure mysql upstream repository package is configured
-  debconf:
-    name: mysql-apt-config
-    question: mysql-apt-config/select-product
-    value: Ok
-    vtype: select
+   - name: ensure mysql upstream repository package is configured
+     debconf:
+       name: mysql-apt-config
+       question: mysql-apt-config/select-product
+       value: Ok
+       vtype: select
 
 
-- name: update repositories cache
-  apt:
-    update_cache: yes
+   - name: update repositories cache
+     apt:
+       update_cache: yes
+
+when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
+
 
 - name: install dependencies
   apt:
