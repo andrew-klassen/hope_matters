@@ -1,35 +1,59 @@
 ---
+- name: test
+  block:
+     - name: install mysql repo deb
+       apt:
+         deb: "{{ mysql_config_link }}"
 
-block:
-   - name: install mysql repo deb
-     apt:
-       deb: "{{ mysql_config_link }}"
-
-   - name: ensure mysql upstream repository package is configured
-     debconf:
-       name: mysql-apt-config
-       question: mysql-apt-config/select-product
-       value: Ok
-       vtype: select
-
-
-   - name: update repositories cache
-     apt:
-       update_cache: yes
-
-when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
+     - name: ensure mysql upstream repository package is configured
+       debconf:
+         name: mysql-apt-config
+         question: mysql-apt-config/select-product
+         value: Ok
+         vtype: select
 
 
-- name: install dependencies
-  apt:
+     - name: update repositories cache
+       apt:
+         update_cache: yes
+
+     - name: install dependencies
+       apt:
+         name: "{{ packages }}"
+       vars:
+         packages:
+         - apache2
+         - mysql-community-server
+         - php
+         - php-mysql
+         - python-mysqldb
+
+  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
+
+
+- name: install mysql 
+  yum:
+    name: "{{ mysql_config_link_rpm }}"
+    state: present
+
+
+
+
+- name: ensure a list of packages installed
+  yum:
     name: "{{ packages }}"
   vars:
     packages:
-    - apache2
-    - mysql-community-server
+    - httpd
+    - mysql-server
     - php
     - php-mysql
-    - python-mysqldb
+    - php-pdo
+    - MySQL-python
+
+
+
+
 
 
 
@@ -115,7 +139,12 @@ when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
   service:
     name: apache2
     state: reloaded
+  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
 
+- name: reload apache2 cent
+  service:
+    name: httpd
+    state: reloaded
 
 
 
