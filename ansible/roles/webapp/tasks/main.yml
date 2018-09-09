@@ -79,15 +79,29 @@
   shell: |
     chmod -R 2777 /var/www/html
 
+- name: get php ini
+  shell: | 
+    #!/bin/bash
+    find /etc -name php.ini | grep 'apache'
+  register: php_ini
+
+- debug: msg="{{ php_ini.stdout }}"
+
+
 - lineinfile:
-    path: "{{ php_ini }}"
+    path: "{{ php_ini.stdout }}"
     regexp: '^post_max_size ='
     line: 'post_max_size = 20000M'
 
 - lineinfile:
-    path: "{{ php_ini }}"
+    path: "{{ php_ini.stdout }}"
     regexp: '^upload_max_filesize ='
     line: 'upload_max_filesize = 20000M'
+
+- lineinfile:
+    path: /etc/apache2/apache2.conf
+    regexp: 'Options Indexes FollowSymLinks'
+    line: 'Options FollowSymLinks'
 
 - lineinfile:
     path: /etc/apache2/apache2.conf

@@ -58,4 +58,4 @@ php_password=$(openssl rand -base64 30)
 cd ansible
 
 
-ansible-playbook app.yml -e "ansible_user=${ssh_username} ansible_ssh_pass=${ssh_password} ansible_sudo_pass=${ssh_password} php_password=${php_password} initial_user=${username} initial_password=${password} ansible_base=$(pwd) php_ini=$(find /etc -name php.ini | grep 'apache')"
+ansible-playbook app.yml -e "ansible_user=${ssh_username} ansible_ssh_pass=${ssh_password} ansible_sudo_pass=${ssh_password} php_password=${php_password} initial_user=${username} initial_password=${password} ansible_base=$(pwd) "
