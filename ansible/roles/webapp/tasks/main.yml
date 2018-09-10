@@ -52,11 +52,46 @@
     - MySQL-python
 
 
+
+- name: ensure a list of packages installed
+  yum:
+    name: "{{ packages }}"
+    state: removed
+  vars:
+    packages:
+    - php-cli
+    - mod_php
+    - php-common
+
+- name: install php7
+  shell: |
+    #!/bin/bash
+    curl 'https://setup.ius.io/' -o setup-ius.sh
+    chmod +x setup-ius.sh
+    ./setup-ius.sh
+
+- lineinfile:
+    path: /etc/my.cnf
+    line: 'default-authentication-plugin=mysql_native_password'
+
+
 - name: start mysql
   service:
     name: mysqld
-    state: started
+    state: restarted
 
+- name: remove root password
+  shell: |
+     #!/bin/bash
+
+     if [[ $(grep "default-authentication-plugin=mysql_native_password" /etc/my.cnf | wc -l) == 0 ]]; then
+
+        temp_password=$(grep 'temporary password' /var/log/mysqld.log | awk 'NF>1{print $NF}')
+        mysql -u root -p"${temp_password}" -N -e "ALTER USER 'root'@'localhost' IDENTIFIED BY '';"
+        mysql -u root -N -e "UNINSTALL COMPONENT 'file://component_validate_password';"
+        mysql -u root -N -e "ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY '';"
+
+     fi
 
 
 
@@ -109,13 +144,57 @@
   shell: |
     chmod -R 2777 /var/www/html
 
-- name: get php ini
-  shell: | 
-    #!/bin/bash
-    find /etc -name php.ini | grep 'apache'
-  register: php_ini
+- name: debian apache
+  block:
 
+
+    - name: get php ini
+      shell: | 
+        #!/bin/bash
+        find /etc -name php.ini | grep 'apache'
+      register: php_ini
+
+    - debug: msg="{{ php_ini.stdout }}"
+
+
+    - lineinfile:
+       path: "{{ php_ini.stdout }}"
+       regexp: '^post_max_size ='
+       line: 'post_max_size = 20000M'
+
+    - lineinfile:
+       path: "{{ php_ini.stdout }}"
+       regexp: '^upload_max_filesize ='
+       line: 'upload_max_filesize = 20000M'
+
+    - lineinfile:
+       path: /etc/apache2/apache2.conf
+       regexp: 'Options Indexes FollowSymLinks'
+       line: 'Options FollowSymLinks'
+
+    - lineinfile:
+        path: /etc/apache2/apache2.conf
+        regexp: 'Options Indexes FollowSymLinks'
+        line: 'Options FollowSymLinks'
+
+    - name: reload apache2
+      service:
+        name: apache2
+        state: reloaded
+  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
+
+
+
+- name: get php ini
+  shell: |
+        #!/bin/bash
+        find /etc -name php.ini 
+  register: php_ini
+  
 - debug: msg="{{ php_ini.stdout }}"
+
+
+
 
 
 - lineinfile:
@@ -129,20 +208,20 @@
     line: 'upload_max_filesize = 20000M'
 
 - lineinfile:
-    path: /etc/apache2/apache2.conf
+    path: /etc/httpd/conf/httpd.conf
     regexp: 'Options Indexes FollowSymLinks'
     line: 'Options FollowSymLinks'
 
 - lineinfile:
-    path: /etc/apache2/apache2.conf
+    path: /etc/httpd/conf/httpd.conf
     regexp: 'Options Indexes FollowSymLinks'
     line: 'Options FollowSymLinks'
 
-- name: reload apache2
-  service:
-    name: apache2
-    state: reloaded
-  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
+
+
+
+
+
 
 
 - firewalld:
