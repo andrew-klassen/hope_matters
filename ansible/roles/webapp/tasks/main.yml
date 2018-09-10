@@ -38,6 +38,19 @@
 
 
 
+- name: ensure a list of packages installed
+  yum:
+    name: "{{ packages }}"
+    state: removed
+  vars:
+    packages:
+    - mod_php70u 
+    - php70u-cli 
+    - php70u-mysqlnd 
+    - php70u-pdo
+    - php70u-common
+
+
 
 - name: ensure a list of packages installed
   yum:
@@ -63,12 +76,51 @@
     - mod_php
     - php-common
 
+
+
+
 - name: install php7
   shell: |
     #!/bin/bash
     curl 'https://setup.ius.io/' -o setup-ius.sh
     chmod +x setup-ius.sh
     ./setup-ius.sh
+  ignore_errors: yes
+
+
+
+
+- name: ensure a list of packages installed
+  yum:
+    name: "{{ packages }}"
+    state: present
+  vars:
+    packages:
+    - mod_php70u
+    - php70u-cli
+    - php70u-mysqlnd
+
+
+
+
+
+
+- name: remove root password
+  shell: |
+     #!/bin/bash
+
+     if [[ $(grep "^default-authentication-plugin=mysql_native_password" /etc/my.cnf | wc -l) == 0 ]]; then
+
+        temp_password=$(grep 'temporary password' /var/log/mysqld.log | awk 'NF>1{print $NF}')
+        mysql -u root --connect-expired-password -p"${temp_password}" -N -e "ALTER USER 'root'@'localhost' IDENTIFIED BY 'RKTwC2gfWU2e58mrz8px*';"
+        mysql -u root -p'RKTwC2gfWU2e58mrz8px*' -N -e "UNINSTALL COMPONENT 'file://component_validate_password';"
+        mysql -u root -p'RKTwC2gfWU2e58mrz8px*' -N -e "ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY '';"
+
+     fi
+
+
+
+
 
 - lineinfile:
     path: /etc/my.cnf
@@ -80,18 +132,7 @@
     name: mysqld
     state: restarted
 
-- name: remove root password
-  shell: |
-     #!/bin/bash
 
-     if [[ $(grep "default-authentication-plugin=mysql_native_password" /etc/my.cnf | wc -l) == 0 ]]; then
-
-        temp_password=$(grep 'temporary password' /var/log/mysqld.log | awk 'NF>1{print $NF}')
-        mysql -u root -p"${temp_password}" -N -e "ALTER USER 'root'@'localhost' IDENTIFIED BY '';"
-        mysql -u root -N -e "UNINSTALL COMPONENT 'file://component_validate_password';"
-        mysql -u root -N -e "ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY '';"
-
-     fi
 
 
 
