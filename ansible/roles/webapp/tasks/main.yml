@@ -1,23 +1,25 @@
 ---
-- name: test
+
+
+- name: (deb) package setup
   block:
-     - name: install mysql repo deb
+
+     - name: (deb) install mysql repo deb
        apt:
          deb: "{{ mysql_config_link }}"
 
-     - name: ensure mysql upstream repository package is configured
+     - name: (deb) ensure mysql upstream repository package is configured
        debconf:
          name: mysql-apt-config
          question: mysql-apt-config/select-product
          value: Ok
          vtype: select
 
-
-     - name: update repositories cache
+     - name: (deb) update repositories cache
        apt:
          update_cache: yes
 
-     - name: install dependencies
+     - name: (deb) install dependencies
        apt:
          name: "{{ packages }}"
        vars:
@@ -31,130 +33,120 @@
   when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
 
 
-- name: install mysql 
-  yum:
-    name: "{{ mysql_config_link_rpm }}"
-    state: present
+- name: (rpm) mysql setup
+  block:
 
+   - name: (rpm) install mysql 
+     yum:
+       name: "{{ mysql_config_link_rpm }}"
+       state: present
 
+   - name: (rpm) remove possible conflicting packages for mysql
+     yum:
+       name: "{{ packages }}"
+       state: removed
+     vars:
+       packages:
+       - mod_php70u 
+       - php70u-cli 
+       - php70u-mysqlnd 
+       - php70u-pdo
+       - php70u-common
 
-- name: ensure a list of packages installed
-  yum:
-    name: "{{ packages }}"
-    state: removed
-  vars:
-    packages:
-    - mod_php70u 
-    - php70u-cli 
-    - php70u-mysqlnd 
-    - php70u-pdo
-    - php70u-common
+   - name: (rpm) install mysql and dependencies
+     yum:
+       name: "{{ packages }}"
+     vars:
+       packages:
+       - httpd
+       - mysql-server
+       - php
+       - php-mysql
+       - php-pdo
+       - MySQL-python
+       - policycoreutils-python
 
+   - name: (rpm) remove possible conflicting packages for php
+     yum:
+       name: "{{ packages }}"
+       state: removed
+     vars:
+       packages:
+       - php-cli
+       - mod_php
+       - php-common
 
+   - name: (rpm) install php7 repo
+     shell: |
+       #!/bin/bash
+       curl 'https://setup.ius.io/' -o setup-ius.sh
+       chmod +x setup-ius.sh
+       ./setup-ius.sh
+     ignore_errors: yes
 
-- name: ensure a list of packages installed
-  yum:
-    name: "{{ packages }}"
-  vars:
-    packages:
-    - httpd
-    - mysql-server
-    - php
-    - php-mysql
-    - php-pdo
-    - MySQL-python
+   - name: (rpm) install php7 packages
+     yum:
+       name: "{{ packages }}"
+       state: present
+     vars:
+       packages:
+       - mod_php70u
+       - php70u-cli
+       - php70u-mysqlnd
 
+   - name: (rpm) start mysql
+     service:
+       name: mysqld
+       state: started
 
+   # needed for mysql moduals to work
+   - name: (rpm) remove root password
+     shell: |
+        #!/bin/bash
 
-- name: ensure a list of packages installed
-  yum:
-    name: "{{ packages }}"
-    state: removed
-  vars:
-    packages:
-    - php-cli
-    - mod_php
-    - php-common
-
-
-
-
-- name: install php7
-  shell: |
-    #!/bin/bash
-    curl 'https://setup.ius.io/' -o setup-ius.sh
-    chmod +x setup-ius.sh
-    ./setup-ius.sh
-  ignore_errors: yes
-
-
-
-
-- name: ensure a list of packages installed
-  yum:
-    name: "{{ packages }}"
-    state: present
-  vars:
-    packages:
-    - mod_php70u
-    - php70u-cli
-    - php70u-mysqlnd
-
-
-
-
-
-- name: start mysql
-  service:
-    name: mysqld
-    state: started
-
-
-
-- name: remove root password
-  shell: |
-     #!/bin/bash
-
-     if [[ $(grep "^default-authentication-plugin=mysql_native_password" /etc/my.cnf | wc -l) == 0 ]]; then
+        if [[ $(grep "^default-authentication-plugin=mysql_native_password" /etc/my.cnf | wc -l) == 0 ]]; then
        
-        echo "default-authentication-plugin=mysql_native_password" >> /etc/my.cnf
-        temp_password=$(grep 'temporary password' /var/log/mysqld.log | awk 'NF>1{print $NF}')
-        mysql -u root --connect-expired-password -p"${temp_password}" -N -e "ALTER USER 'root'@'localhost' IDENTIFIED BY 'RKTwC2gfWU2e58mrz8px*';"
-        mysql -u root -p'RKTwC2gfWU2e58mrz8px*' -N -e "UNINSTALL COMPONENT 'file://component_validate_password';"
-        mysql -u root -p'RKTwC2gfWU2e58mrz8px*' -N -e "ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY '';"
+           echo "default-authentication-plugin=mysql_native_password" >> /etc/my.cnf
+           temp_password=$(grep 'temporary password' /var/log/mysqld.log | awk 'NF>1{print $NF}')
+           mysql -u root --connect-expired-password -p"${temp_password}" -N -e "ALTER USER 'root'@'localhost' IDENTIFIED BY 'RKTwC2gfWU2e58mrz8px*';"
+           mysql -u root -p'RKTwC2gfWU2e58mrz8px*' -N -e "UNINSTALL COMPONENT 'file://component_validate_password';"
+           mysql -u root -p'RKTwC2gfWU2e58mrz8px*' -N -e "ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY '';"
 
-     fi
+        fi
+
+   - name: (rpm) restart mysql
+     service:
+       name: mysqld
+       state: restarted
+
+  when: ansible_distribution == 'CentOS' or ansible_distribution == 'Red Hat Enterprise Linux'
 
 
-
-- name: start mysql
-  service:
-    name: mysqld
-    state: restarted
-
-
-
-- name: import schema
+- name: import database schema
   mysql_db:
     name: hope_matters
     state: import
     target: "{{ ansible_base }}/source_code/database_schema.sql"
 
+# initial admin user for the database
+# (note) this only creates the user for you, you still need to allow mysql through the firewall and uncomment bind-address 127.0.0.1 in the config
+# this is not done automatically for security reasons
 - mysql_user:
     name: "{{ initial_user }}"
     password: "{{ initial_password }}"
     host: '%'
     priv: '*.*:ALL,GRANT'
     state: present
+  ignore_errors: yes
 
 - mysql_user:
     name: php
     password: "{{ php_password }}"
     priv: 'hope_matters.*:SELECT,UPDATE,INSERT/hope_matters.diagnoses:DELETE/hope_matters.diagnoses_temp:DELETE/hope_matters.treatment_temp:DELETE/hope_matters.return_treatment_temp:DELETE'
     state: present
+  ignore_errors: yes
 
-
-- name: add the first user
+- name: add the initial program user, this user will be an admin
   shell: | 
     #!/bin/bash
     
@@ -169,33 +161,31 @@
 
     fi
 
-
 - name: copy source_code files
   shell: |
-    cp -r {{ ansible_base }}/source_code/* /var/www/html/
+     #!/bin/bash
+     cp -r {{ ansible_base }}/source_code/* /var/www/html/
 
 - template:
     src: "{{ ansible_base }}/source_code/php/database_credentials.php"
     dest: /var/www/html/php/database_credentials.php
 
-
 - name: set permissions
   shell: |
+    #!/bin/bash
     chmod -R 2777 /var/www/html
 
-- name: debian apache
+
+- name: (deb) apache and php configuration
   block:
 
-
-    - name: get php ini
+    - name: (deb) find the php.ini
       shell: | 
         #!/bin/bash
         find /etc -name php.ini | grep 'apache'
       register: php_ini
 
-    - debug: msg="{{ php_ini.stdout }}"
-
-
+    # increase the max size allowed for file uploads
     - lineinfile:
        path: "{{ php_ini.stdout }}"
        regexp: '^post_max_size ='
@@ -206,6 +196,7 @@
        regexp: '^upload_max_filesize ='
        line: 'upload_max_filesize = 20000M'
 
+    # prevent apache from allowing unauthorized users from browsing uploaded files and update scripts
     - lineinfile:
        path: /etc/apache2/apache2.conf
        regexp: 'Options Indexes FollowSymLinks'
@@ -216,87 +207,85 @@
         regexp: 'Options Indexes FollowSymLinks'
         line: 'Options FollowSymLinks'
 
-    - name: reload apache2
+    - name: (deb) reload apache2
       service:
         name: apache2
         state: reloaded
+    
+    - name: (deb) enable apache2
+      service:
+        name: apache2
+        enabled: yes
+
+    - name: (deb) enable mysql
+      service:
+        name: mysql
+        enabled: yes
+
   when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
 
 
+- name: (rpm) apache and php config, service enables, and selinux
+  block:
 
-- name: get php ini
-  shell: |
-        #!/bin/bash
-        find /etc -name php.ini 
-  register: php_ini
+   - name: (rpm) find php.ini
+     shell: |
+           #!/bin/bash
+           find /etc -name php.ini 
+     register: php_ini
   
-- debug: msg="{{ php_ini.stdout }}"
+   # increase the max size allowed for file uploads
+   - lineinfile:
+       path: "{{ php_ini.stdout }}"
+       regexp: '^post_max_size ='
+       line: 'post_max_size = 20000M'
 
+   - lineinfile:
+       path: "{{ php_ini.stdout }}"
+       regexp: '^upload_max_filesize ='
+       line: 'upload_max_filesize = 20000M'
 
+   # prevent apache from allowing unauthorized users from browsing uploaded files and update scripts
+   - lineinfile:
+       path: /etc/httpd/conf/httpd.conf
+       regexp: 'Options Indexes FollowSymLinks'
+       line: 'Options FollowSymLinks'
 
+   - lineinfile:
+       path: /etc/httpd/conf/httpd.conf
+       regexp: 'Options Indexes FollowSymLinks'
+       line: 'Options FollowSymLinks'
 
+   - firewalld:
+       service: http 
+       zone: public
+       immediate: yes 
+       permanent: true
+       state: enabled
 
-- lineinfile:
-    path: "{{ php_ini.stdout }}"
-    regexp: '^post_max_size ='
-    line: 'post_max_size = 20000M'
+   - name: (rpm) start apache
+     service:
+       name: httpd
+       state: started
 
-- lineinfile:
-    path: "{{ php_ini.stdout }}"
-    regexp: '^upload_max_filesize ='
-    line: 'upload_max_filesize = 20000M'
+   - name: (rpm) enable mysqld
+     service:
+       name: mysqld
+       enabled: yes
 
-- lineinfile:
-    path: /etc/httpd/conf/httpd.conf
-    regexp: 'Options Indexes FollowSymLinks'
-    line: 'Options FollowSymLinks'
+   - name: (rpm) enable apache
+     service:
+       name: httpd
+       enabled: yes
 
-- lineinfile:
-    path: /etc/httpd/conf/httpd.conf
-    regexp: 'Options Indexes FollowSymLinks'
-    line: 'Options FollowSymLinks'
+   - sefcontext:
+       target: '/var/www/html/uploaded_images(/.*)?'
+       setype: httpd_sys_rw_content_t
+       state: present
 
+   - name: (rpm) reload selinux context lables
+     shell: | 
+       #!/bin/bash
+       restorecon -R -v /var/www/html/uploaded_images
 
-
-
-
-
-
-
-- firewalld:
-    service: http 
-    zone: public
-    immediate: yes 
-    permanent: true
-    state: enabled
-
-
-- name: reload apache2 cent
-  service:
-    name: httpd
-    state: started
-
-- name: reload apache2 cent
-  service:
-    name: mysqld
-    enabled: yes
-
-- name: reload apache2 cent
-  service:
-    name: httpd
-    enabled: yes
-
-
-- sefcontext:
-    target: '/var/www/html/upload_files(/.*)?'
-    setype: httpd_sys_rw_content_t
-    state: present
-
-
-- name: Run restore context to reload selinux
-  shell: | 
-    #!/bin/bash
-    restorecon -R -v /var/www/html/upload_files
-
-
-
+when: ansible_distribution == 'CentOS' or ansible_distribution == 'Red Hat Enterprise Linux'
