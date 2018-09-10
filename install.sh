@@ -7,6 +7,9 @@ if [[ $EUID -ne 0 ]]; then
 	exit 1
 fi
 
+echo ''
+echo "Please see ansible/source_code/php/database_credentials.php for advanced configuration."
+echo ''
 
 read -p "Ssh username (needs sudo powers): " ssh_username
 read -s -p "Ssh password: " ssh_password
