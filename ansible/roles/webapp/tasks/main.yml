@@ -264,15 +264,39 @@
 
 
 - firewalld:
-    service: http
+    service: http 
+    zone: public
+    immediate: yes 
     permanent: true
     state: enabled
+
 
 - name: reload apache2 cent
   service:
     name: httpd
     state: started
 
+- name: reload apache2 cent
+  service:
+    name: mysqld
+    enabled: yes
+
+- name: reload apache2 cent
+  service:
+    name: httpd
+    enabled: yes
+
+
+- sefcontext:
+    target: '/var/www/html/upload_files(/.*)?'
+    setype: httpd_sys_rw_content_t
+    state: present
+
+
+- name: Run restore context to reload selinux
+  shell: | 
+    #!/bin/bash
+    restorecon -R -v /var/www/html/upload_files
 
 
 

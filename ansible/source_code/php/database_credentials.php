@@ -39,7 +39,7 @@ into the create_database_error function, which is defined
 below.
 *********************************/
 	
-$servername = '127.0.0.1';
+$servername = '{{ php_host }}';
 $dbusername = 'php';
 $dbpassword = '{{ php_password }}';
 $dbname = 'hope_matters';
@@ -82,7 +82,7 @@ function create_database_error($query, $error_location, $pdo_error) {
 	require_once('browser_info.php');
 	
 	// database connection information
-	$servername = '127.0.0.1';
+	$servername = '{{ php_host }}';
 	$dbusername = 'php';
 	$dbpassword = '{{ php_password }}';
 	$dbname = 'hope_matters';
