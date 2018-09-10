@@ -288,4 +288,4 @@
        #!/bin/bash
        restorecon -R -v /var/www/html/uploaded_images
 
-when: ansible_distribution == 'CentOS' or ansible_distribution == 'Red Hat Enterprise Linux'
+  when: ansible_distribution == 'CentOS' or ansible_distribution == 'Red Hat Enterprise Linux'
