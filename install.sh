@@ -45,6 +45,7 @@ if ! command -v ansible > /dev/null 2>&1; then
 
 		yum install ansible openssh-server -y
 		usermod -G wheel ${ssh_username}
+		php_host="localhost"
 
 	else
 
