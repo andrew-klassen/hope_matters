@@ -104,13 +104,20 @@
 
 
 
+- name: start mysql
+  service:
+    name: mysqld
+    state: started
+
+
 
 - name: remove root password
   shell: |
      #!/bin/bash
 
      if [[ $(grep "^default-authentication-plugin=mysql_native_password" /etc/my.cnf | wc -l) == 0 ]]; then
-
+       
+        echo "default-authentication-plugin=mysql_native_password" >> /etc/my.cnf
         temp_password=$(grep 'temporary password' /var/log/mysqld.log | awk 'NF>1{print $NF}')
         mysql -u root --connect-expired-password -p"${temp_password}" -N -e "ALTER USER 'root'@'localhost' IDENTIFIED BY 'RKTwC2gfWU2e58mrz8px*';"
         mysql -u root -p'RKTwC2gfWU2e58mrz8px*' -N -e "UNINSTALL COMPONENT 'file://component_validate_password';"
@@ -120,19 +127,10 @@
 
 
 
-
-
-- lineinfile:
-    path: /etc/my.cnf
-    line: 'default-authentication-plugin=mysql_native_password'
-
-
 - name: start mysql
   service:
     name: mysqld
     state: restarted
-
-
 
 
 
@@ -266,7 +264,7 @@
 
 
 - firewalld:
-    service: https
+    service: http
     permanent: true
     state: enabled
 
