@@ -14,7 +14,7 @@ Copyright © 2017 Andrew Klassen
 	<link rel="icon" href="/images/hope_matters_logo.png">
 	<link rel="stylesheet" type="text/css" href="/css/navbar.css">
 	<link rel="stylesheet" type="text/css" href="/css/add_client.css">
-	<script src="/js/vital_signs_validation.js" type="text/javascript"> </script>
+	<script src="/js/medication_order_validation.js" type="text/javascript"> </script>
 </head>
 
 <body style="padding-top: 70px;">
@@ -269,7 +269,7 @@ $stmt = $conn->prepare("SELECT notes FROM medication_order WHERE medication_orde
  <!-- start of bottom card -->
     <div class="accountCard" style="margin-left: 225px;float: left; margin-right: 5px;height: 425px;" >
 	<p class='p'style='color: black;font-weight:100; text-align: center;'>Medication Order</p>
-	<form  name="vital_signs_form" action="update_medication_order.php" onsubmit="return validate_form()" method="post">	
+	<form  name="medication_order_form" action="update_medication_order.php" onsubmit="return validate_form()" method="post">	
 
 <?php
 	echo "Medication: <input style='height: 35px; width: 200px;' type='text' name='medication' value='$medication'></br></br>
@@ -350,12 +350,6 @@ echo "Administration Method: <select name='administration_method' style='width: 
 	</select></br></br>
 	Notes:	
 	<textarea name='notes' style='height: 70px; width: 400px;'>$notes</textarea></br></br>";
-
-
-	
-
-		
-
 
 
 ?>
