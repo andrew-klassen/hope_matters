@@ -97,9 +97,21 @@ class view_clients extends RecursiveIteratorIterator {
 
 echo "<p style='color: black;text-align: center;'>Seach for item by name or ID. Use * to see all items. Click on an item to view/change it.</p>";
 
-echo "<div style='margin-left: 460px;'><form action='/html/add_item.html' method='post' >
+echo "<div style='margin-left: 370px; height: 40px;'>
+
+<div style='float: left;'><form action='/html/create_item.html' method='post' >
+		<input type='submit' value='Create Item'>
+	  </form></div>
+
+<div style='float: left; margin-left: 5px;'><form action='/html/add_item.html' method='post' >
 		<input type='submit' value='Add Item'>
-	  </form></div>";
+	  </form></div>
+
+<div style='float: left; margin-left: 5px;'><form action='/html/remove_item.html' method='post' >
+		<input type='submit' value='Remove Item'>
+	  </form></div>
+
+</div>";
 
 $search = $_POST['search'];
 $item_type = $_POST['item_type'];

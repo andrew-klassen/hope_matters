@@ -35,6 +35,7 @@ $username = $_SESSION['username'];
 $name = $_POST['name'];
 $type = $_POST['type'];
 $count = $_POST['count'];
+$barcode = $_POST['barcode'];
 
 // for when item is not given a value
 if ($value == "''"){
@@ -59,25 +60,46 @@ $result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
 foreach(new grab_value(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
 
 }
-$duplicate_item_id = $_SESSION['temp'];
+$duplicate_item_name = $_SESSION['temp'];
+
+
+
+$stmt = $conn->prepare("SELECT inventory_id FROM inventory WHERE barcode='$barcode';");
+$stmt->execute();
+$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
+			
+foreach(new grab_value(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
+
+}
+$duplicate_item_barcode = $_SESSION['temp'];
 
 
 // if id is not found
-if ($duplicate_item_id != '') {
+if ($duplicate_item_name != '') {
 	echo "<script type='text/javascript'>
-			alert('The item already exists.'); 
-			document.location.href = '/html/add_item.html'; 
+			alert('The item already exists. (duplicate name)'); 
+			document.location.href = '/html/create_item.html'; 
 		  </script>";
-}else {
+}
+
+else if ($duplicate_item_barcode != '') {
+	echo "<script type='text/javascript'>
+			alert('The item already exists. (duplicate barcode)'); 
+			document.location.href = '/html/create_item.html'; 
+		  </script>";
+}
+
+
+else {
 
 
 	try {
 			
-		$query = "INSERT INTO inventory (name, type, count, value, notes, created_by) VALUES ('$name', '$type', '$count', $value, '$notes', '$username');"; 
+		$query = "INSERT INTO inventory (barcode, name, type, count, value, notes, created_by) VALUES ('$barcode', '$name', '$type', '$count', $value, '$notes', '$username');"; 
 		$conn->exec($query);
 				
 		// redirect user back to where they can add more items
-		header( 'Location: /html/add_item.html');
+		header( 'Location: /html/create_item.html');
 		exit();
 
 	}

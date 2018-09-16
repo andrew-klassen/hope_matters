@@ -36,6 +36,7 @@ $username = $_SESSION['username'];
 $name = $_POST['name'];
 $type = $_POST['type'];
 $count = $_POST['count'];
+$barcode = $_POST['barcode'];
 
 
 // for when item is not given a value
@@ -58,11 +59,14 @@ $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 try {
 	
 	// insert old inventory record into the history table
-	$query = "INSERT INTO inventory_history (inventory_id, name, type, count, value, notes, timestamp, created_by) SELECT inventory_id, name, type, count, value, notes, timestamp, created_by FROM inventory WHERE inventory_id='$inventory_id';"; 
+	$query = "INSERT INTO inventory_history (inventory_id, barcode, name, type, count, value, notes, timestamp, created_by) SELECT inventory_id, barcode, name, type, count, value, notes, timestamp, created_by FROM inventory WHERE inventory_id='$inventory_id';"; 
+	$conn->exec($query);
+
+	$query = "INSERT INTO inventory_change (inventory_id, barcode, name, type, value, notes, amount, timestamp, created_by) SELECT inventory_id, barcode, name, type, value, notes, $count - count, timestamp, created_by FROM inventory WHERE inventory_id='$inventory_id';"; 
 	$conn->exec($query);
 	
 	// update the record
-	$query = "UPDATE inventory SET  name='$name', type='$type', count='$count', value=$value, notes='$notes', created_by='$username' WHERE inventory_id='$inventory_id';"; 
+	$query = "UPDATE inventory SET  barcode='$barcode', name='$name', type='$type', count='$count', value=$value, notes='$notes', created_by='$username' WHERE inventory_id='$inventory_id';"; 
 	$conn->exec($query);
 				
 	// redirect user back to where they can add more items
