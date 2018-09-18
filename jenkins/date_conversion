@@ -1,0 +1,8 @@
+#!/bin/bash
+
+while read p;
+do
+
+echo "$(echo $p | cut -f3 -d'/')-$(echo $p | cut -f1 -d'/')-$(echo $p | cut -f2 -d'/')" >> new_dates
+
+done < dates

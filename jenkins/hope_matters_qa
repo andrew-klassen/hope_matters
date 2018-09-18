@@ -1,0 +1,78 @@
+#!/bin/bash
+
+function create_client() {
+
+
+hiv_status_choices=("positive" "negitive" "unknown")
+alcolol_use_choices=("often" "sometimes" "never" "unknown")
+gender_choices=("male" "female")
+
+
+first_name=$(sed "$(echo $((1 + RANDOM % $(cat wordlists/names | wc -l))))q;d" wordlists/names)
+last_name=$(sed "$(echo $((1 + RANDOM % $(cat wordlists/names | wc -l))))q;d" wordlists/names)
+date_of_birth=$(sed "$(echo $((1 + RANDOM % $(cat wordlists/dates | wc -l))))q;d" wordlists/dates)
+guardian_name=$(echo "$first_name $last_name" | cut -c1-45)
+phone_number=$(sed "$(echo $((1 + RANDOM % $(cat wordlists/phone_numbers | wc -l))))q;d" wordlists/phone_numbers)
+occupation=$(sed "$(echo $((1 + RANDOM % $(cat wordlists/occupations | wc -l))))q;d" wordlists/occupations)
+education=$(sed "$(echo $((1 + RANDOM % $(cat wordlists/educations | wc -l))))q;d" wordlists/educations)
+location=$(sed "$(echo $((1 + RANDOM % $(cat wordlists/locations | wc -l))))q;d" wordlists/locations)
+contact=$(sed "$(echo $((1 + RANDOM % $(cat wordlists/names | wc -l))))q;d" wordlists/names)
+contact="$contact $(sed "$(echo $((1 + RANDOM % $(cat wordlists/names | wc -l))))q;d" wordlists/names)"
+allergies=$(sed "$(echo $((1 + RANDOM % $(cat wordlists/allergies | wc -l))))q;d" wordlists/allergies)
+medical_history=$(./lorem_ipsum -b $(echo $((1 + RANDOM % 255))))
+regular_medications=$(./lorem_ipsum -b $(echo $((1 + RANDOM % 255))))
+
+hiv_status=${hiv_status_choices[$RANDOM % ${#hiv_status_choices[@]} ]}
+alcolol_use=${alcolol_use_choices[$RANDOM % ${#alcolol_use_choices[@]} ]}
+gender=${gender_choices[$RANDOM % ${#gender_choices[@]} ]}
+national_id=$(echo $((1 + RANDOM % 9999999999)))
+
+curl -d "first_name=${first_name}" \
+-d "last_name=${last_name}" \
+-d "date_of_birth=${date_of_birth}" \
+-d "guardian_name=${guardian_name}" \
+-d "national_id=${national_id}" \
+-d "phone_number=${phone_number}" \
+-d "occupation=${occupation}" \
+-d "education=${education}" \
+-d "location=${location}" \
+-d "contact=${contact}" \
+-d "medical_history=${medical_history}" \
+-d "regular_medications=${regular_medications}" \
+-d "allergies=${allergies}" \
+-d "hiv_status=${hiv_status}" \
+-d "alcohol_use=${alcolol_use}" \
+-d "gender=${gender}" \
+-d "submit_button=submit" \
+-L http://10.0.0.148/php/clients/insert_client.php > /dev/null 2>&1
+
+
+}
+
+for i in {1..20}; 
+do 
+
+create_client &
+create_client &
+create_client &
+create_client &
+create_client &
+
+wait
+ 
+done
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
