@@ -1,6 +1,11 @@
 #!/bin/bash
 
+
+server=$1
+
+
 function create_client() {
+
 
 
 hiv_status_choices=("positive" "negitive" "unknown")
@@ -19,8 +24,8 @@ location=$(sed "$(echo $((1 + RANDOM % $(cat wordlists/locations | wc -l))))q;d"
 contact=$(sed "$(echo $((1 + RANDOM % $(cat wordlists/names | wc -l))))q;d" wordlists/names)
 contact="$contact $(sed "$(echo $((1 + RANDOM % $(cat wordlists/names | wc -l))))q;d" wordlists/names)"
 allergies=$(sed "$(echo $((1 + RANDOM % $(cat wordlists/allergies | wc -l))))q;d" wordlists/allergies)
-medical_history=$(./lorem_ipsum -b $(echo $((1 + RANDOM % 255))))
-regular_medications=$(./lorem_ipsum -b $(echo $((1 + RANDOM % 255))))
+medical_history=$(./lorem_ipsum -b $(echo $((1 + RANDOM % 255))) -n no)
+regular_medications=$(./lorem_ipsum -b $(echo $((1 + RANDOM % 255))) -n no)
 
 hiv_status=${hiv_status_choices[$RANDOM % ${#hiv_status_choices[@]} ]}
 alcolol_use=${alcolol_use_choices[$RANDOM % ${#alcolol_use_choices[@]} ]}
@@ -44,12 +49,12 @@ curl -d "first_name=${first_name}" \
 -d "alcohol_use=${alcolol_use}" \
 -d "gender=${gender}" \
 -d "submit_button=submit" \
--L http://10.0.0.148/php/clients/insert_client.php > /dev/null 2>&1
+-L http://${server}/php/clients/insert_client.php > /dev/null 2>&1
 
 
 }
 
-for i in {1..20}; 
+for i in {1..3}; 
 do 
 
 create_client &
@@ -61,18 +66,3 @@ create_client &
 wait
  
 done
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

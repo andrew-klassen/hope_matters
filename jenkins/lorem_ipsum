@@ -1,6 +1,6 @@
 #!/bin/bash
 
-if [ $# -eq 2 ] || [ $# -eq 3 ]; then
+if [ $# -eq 2 ] || [ $# -eq 3 ] || [ $# -eq 4 ]; then
     OK=0
     if [ "$1" = "-w" ]; then
         LOREM_TYPE="words"
@@ -16,7 +16,7 @@ if [ $# -eq 2 ] || [ $# -eq 3 ]; then
     fi
     AMOUNT=$2
     START="yes"
-    if [ $# -eq 3 ] && [ "$3"="-n" ]; then
+    if [ $# -eq 3 ] || [ $# -eq 4 ] && [ "$3"="-n" ]; then
         START="no"
     fi
     if [ $OK -eq 1 ]; then
