@@ -60,14 +60,49 @@ fi
 
 }
 
-for i in {1..20}; 
+
+function create_item() {
+
+item_type_decision=$(echo $((1 + RANDOM % 3)))
+
+if [ ${item_type_decision} -eq 1 ];then 
+
+	item_name=$(sed "$(echo $((1 + RANDOM % $(cat wordlists/medications | wc -l))))q;d" wordlists/medications)
+	item_type="medicine"
+else
+
+	item_name=$(sed "$(echo $((1 + RANDOM % $(cat wordlists/products | wc -l))))q;d" wordlists/products)
+	item_type_choices=("supplies" "equipment")
+	item_type=${item_type_choices[$RANDOM % ${#item_type_choices[@]} ]}
+fi
+
+count=$(echo $((1 + RANDOM % 9999)))
+value=$(echo $((1 + RANDOM % 9999)))
+notes=$(./lorem_ipsum -b $(echo $((1 + RANDOM % 255))) -n no)
+barcode=$(echo $((1 + RANDOM % 999999999)))
+
+curl -d "name=${item_name}" \
+-d "type=${item_type}" \
+-d "count=${count}" \
+-d "barcode=${barcode}" \
+-d "value=${value}" \
+-d "notes=${notes}" \
+-d "submit_button=Create Item" -L http://${server}/php/inventory/insert_item.php
+
+
+}
+
+
+
+
+
+
+
+
+for i in {1..10}; 
 do 
 
-create_client &
-create_client &
-create_client &
-create_client &
-create_client &
+create_item &
 
 wait
  

@@ -289,3 +289,22 @@
        restorecon -R -v /var/www/html/uploaded_images
 
   when: ansible_distribution == 'CentOS' or ansible_distribution == 'Red Hat Enterprise Linux'
+
+- name: (testing) only for test builds
+  block:
+
+   - name: (testing) disable login_check(), allows for unauthorized logins
+     shell: |
+       #!/bin/bash
+       
+       if [[ $(grep "header( 'Location: ../../index.html' );" /var/www/html/php/database_credentials.php | wc -l) != 0 ]]; then
+          
+          start=$(grep -Fn 'function login_check() {' /var/www/html/php/database_credentials.php | cut -f1 -d':')
+          start=$((${start} + 1))
+          end=$((${start} + 3))
+          sed -i /var/www/html/php/database_credentials.php -re '${start},${end}d'    
+       
+       fi
+
+  when: testing|default(false)|bool
+
