@@ -302,9 +302,8 @@
           start=$(grep -Fn 'function login_check() {' /var/www/html/php/database_credentials.php | cut -f1 -d':')
           start=$((${start} + 1))
           end=$((${start} + 3))
-          sed -i /var/www/html/php/database_credentials.php -re '${start},${end}d'    
+          sed -i /var/www/html/php/database_credentials.php -re "${start},${end}d"    
        
        fi
 
   when: testing|default(false)|bool
-

@@ -14,14 +14,7 @@ sleep 15
 ip_address=$(lxc info ${server} | grep "eth0:" | grep inet | grep -v "inet6" | cut -f3)
 
 
-sshpass -p 123 ssh -o StrictHostKeyChecking=no root@${ip_address} "ansible-playbook /root/hope/ansible/app.yml -i 127.0.0.1, -e 'ansible_user=root ansible_ssh_pass=123 php_password=${php_password} initial_user=andrew initial_password=123 ansible_base=/root/hope/ansible php_host=127.0.0.1'"
-
-
-start=$(sshpass -p 123 ssh -o StrictHostKeyChecking=no root@${ip_address} "grep -Fn 'function login_check() {' /var/www/html/php/database_credentials.php | cut -f1 -d':'")
-start=$((${start} + 1))
-end=$((${start} + 3))
-
-sshpass -p 123 ssh -o StrictHostKeyChecking=no root@${ip_address} "sed -i /var/www/html/php/database_credentials.php -re '${start},${end}d'"
+sshpass -p 123 ssh -o StrictHostKeyChecking=no root@${ip_address} "ansible-playbook /root/hope/ansible/app.yml -i 127.0.0.1, -e 'ansible_user=root ansible_ssh_pass=123 php_password=${php_password} initial_user=andrew initial_password=123 ansible_base=/root/hope/ansible php_host=127.0.0.1 testing=true'"
 
 
 /root/hope/jenkins/hope_matters_qa ${ip_address}
