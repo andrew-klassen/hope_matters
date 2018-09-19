@@ -305,5 +305,7 @@
           sed -i /var/www/html/php/database_credentials.php -re "${start},${end}d"    
        
        fi
+     args:
+       executable: /bin/bash
 
   when: testing|default(false)|bool
