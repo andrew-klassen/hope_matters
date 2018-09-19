@@ -25,3 +25,8 @@ sshpass -p 123 ssh -o StrictHostKeyChecking=no root@${ip_address} "sed -i /var/w
 
 
 /root/hope/jenkins/hope_matters_qa ${ip_address}
+
+echo ''
+echo ''
+echo "*********************************"
+cat /root/hope/jenkins/error.log

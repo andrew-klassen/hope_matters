@@ -39,9 +39,9 @@ into the create_database_error function, which is defined
 below.
 *********************************/
 	
-$servername = '127.0.0.1';
+$servername = '{{ php_host }}';
 $dbusername = 'php';
-$dbpassword = 'x6pFXH6SMPoeRhYvmYb781Bmj9mGzTT7VpJu6krd';
+$dbpassword = '{{ php_password }}';
 $dbname = 'hope_matters';
 $dbconnection = "mysql:host=$servername;dbname=$dbname";
 $password_hashing_algorithim = PASSWORD_BCRYPT;
@@ -82,9 +82,9 @@ function create_database_error($query, $error_location, $pdo_error) {
 	require_once('browser_info.php');
 	
 	// database connection information
-	$servername = '127.0.0.1';
+	$servername = '{{ php_host }}';
 	$dbusername = 'php';
-	$dbpassword = 'x6pFXH6SMPoeRhYvmYb781Bmj9mGzTT7VpJu6krd';
+	$dbpassword = '{{ php_password }}';
 	$dbname = 'hope_matters';
 	$dbconnection = "mysql:host=$servername;dbname=$dbname";
 

@@ -32,7 +32,7 @@ alcolol_use=${alcolol_use_choices[$RANDOM % ${#alcolol_use_choices[@]} ]}
 gender=${gender_choices[$RANDOM % ${#gender_choices[@]} ]}
 national_id=$(echo $((1 + RANDOM % 9999999999)))
 
-curl -d "first_name=${first_name}" \
+error_count=$(curl -s -d "first_name=${first_name}" \
 -d "last_name=${last_name}" \
 -d "date_of_birth=${date_of_birth}" \
 -d "guardian_name=${guardian_name}" \
@@ -49,12 +49,18 @@ curl -d "first_name=${first_name}" \
 -d "alcohol_use=${alcolol_use}" \
 -d "gender=${gender}" \
 -d "submit_button=submit" \
--L http://${server}/php/clients/insert_client.php > /dev/null 2>&1
+-L http://${server}/php/clients/insert_client.php | grep "Error" | wc -l)
+
+if [ $error_count -gt 0 ]; then
+	echo "Error---client creation---${first_name} ${last_name}" >> error.log
+fi
+
+
 
 
 }
 
-for i in {1..3}; 
+for i in {1..20}; 
 do 
 
 create_client &
