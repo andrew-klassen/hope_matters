@@ -3,6 +3,15 @@
 
 server=$1
 
+function log_error() {
+
+echo "Error---${1}---****************************" >> error.log
+echo '' >> error.log
+echo ${2} | tidy -q 2> /dev/null >> error.log
+echo '' >> error.log
+
+}
+
 
 function create_client() {
 
@@ -32,7 +41,7 @@ alcolol_use=${alcolol_use_choices[$RANDOM % ${#alcolol_use_choices[@]} ]}
 gender=${gender_choices[$RANDOM % ${#gender_choices[@]} ]}
 national_id=$(echo $((1 + RANDOM % 9999999999)))
 
-error_count=$(curl -s -d "first_name=${first_name}" \
+error=$(curl -s -d "first_name=${first_name}" \
 -d "last_name=${last_name}" \
 -d "date_of_birth=${date_of_birth}" \
 -d "guardian_name=${guardian_name}" \
@@ -49,10 +58,12 @@ error_count=$(curl -s -d "first_name=${first_name}" \
 -d "alcohol_use=${alcolol_use}" \
 -d "gender=${gender}" \
 -d "submit_button=submit" \
--L http://${server}/php/clients/insert_client.php | grep "Error" | wc -l)
+-L http://${server}/php/clients/insert_client.php)
+
+error_count=$(echo ${error} | grep "Error" | wc -l)
 
 if [ $error_count -gt 0 ]; then
-	echo "Error---client creation---${first_name} ${last_name}" >> error.log
+	log_error "client_creation" "${error}"
 fi
 
 
@@ -81,13 +92,19 @@ value=$(echo $((1 + RANDOM % 9999)))
 notes=$(./lorem_ipsum -b $(echo $((1 + RANDOM % 255))) -n no)
 barcode=$(echo $((1 + RANDOM % 999999999)))
 
-curl -d "name=${item_name}" \
+error=$(curl -s -d "name=${item_name}" \
 -d "type=${item_type}" \
 -d "count=${count}" \
 -d "barcode=${barcode}" \
 -d "value=${value}" \
 -d "notes=${notes}" \
--d "submit_button=Create Item" -L http://${server}/php/inventory/insert_item.php
+-d "submit_button=Create Item" -L http://${server}/php/inventory/insert_item.php)
+
+error_count=$(echo ${error} | grep "Error" | wc -l)
+
+if [ $error_count -gt 0 ]; then
+        log_error "item_creation" "${error}"
+fi
 
 
 }
@@ -96,14 +113,173 @@ curl -d "name=${item_name}" \
 
 
 
+function create_lab() {
+
+mps_choices=("no mps seen" "mps%2B1" "mps%2B2" "mps%2B3")
+mps=${mps_choices[$RANDOM % ${#mps_choices[@]} ]}
+pbf_text=$(sed "$(echo $((1 + RANDOM % $(cat wordlists/products | wc -l))))q;d" wordlists/products)
+th1=$(echo $((1 + RANDOM % 9999999999)))
+th2=$(echo $((1 + RANDOM % 9999999999)))
+bm1=$(echo $((1 + RANDOM % 9999999999)))
+ba1=$(echo $((1 + RANDOM % 9999999999)))
+reactive_choises=("reactive" "non_reactive")
+reactive=${reactive_choises[$RANDOM % ${#reactive_choises[@]} ]}
+reactive_p24_hiv_choises=("reactive" "non_reactive")
+reactive_p24_hiv=${reactive_p24_hiv_choises[$RANDOM % ${#reactive_p24_hiv_choises[@]} ]}
+blood_sugar_text=$(sed "$(echo $((1 + RANDOM % $(cat wordlists/products | wc -l))))q;d" wordlists/products)
+hba1c_text=$(sed "$(echo $((1 + RANDOM % $(cat wordlists/products | wc -l))))q;d" wordlists/products)
+bun_text=$(sed "$(echo $((1 + RANDOM % $(cat wordlists/products | wc -l))))q;d" wordlists/products)
+hematocrit_text=$(sed "$(echo $((1 + RANDOM % $(cat wordlists/products | wc -l))))q;d" wordlists/products)
+creatinine_text=$(sed "$(echo $((1 + RANDOM % $(cat wordlists/products | wc -l))))q;d" wordlists/products)
+electrolytes_text=$(sed "$(echo $((1 + RANDOM % $(cat wordlists/products | wc -l))))q;d" wordlists/products)
+pylori_stool_radio_choises=("positive" "negative")
+pylori_stool_radio=${pylori_stool_radio_choises[$RANDOM % ${#pylori_stool_radio_choises[@]} ]}
+pylori_blood_radio_choises=("positive" "negative")
+pylori_blood_radio=${pylori_blood_radio_choises[$RANDOM % ${#pylori_blood_radio_choises[@]} ]}
+rheumatoid=("reactive" "non_reactive")
+reactive_rheumatoid_radio=${rheumatoid[$RANDOM % ${#rheumatoid[@]} ]}
+app=$(sed "$(echo $((1 + RANDOM % $(cat wordlists/products | wc -l))))q;d" wordlists/products)
+mic=$(sed "$(echo $((1 + RANDOM % $(cat wordlists/products | wc -l))))q;d" wordlists/products)
+rhve_choises=("rh%2Dve" "rh%2Bve")
+rhve=${rhve_choises[$RANDOM % ${#rhve_choises[@]} ]}
+aboab_choises=("a" "b" "o" "ab")
+aboab=${aboab_choises[$RANDOM % ${#aboab_choises[@]} ]}
+du_test=$(sed "$(echo $((1 + RANDOM % $(cat wordlists/products | wc -l))))q;d" wordlists/products)
+hcg_detected_choises=("hcg_detected" "no_hcg_detected")
+hcg_detected=${hcg_detected_choises[$RANDOM % ${#hcg_detected_choises[@]} ]}
+hb_text=$(sed "$(echo $((1 + RANDOM % $(cat wordlists/products | wc -l))))q;d" wordlists/products)
+urobilinogen_choises=("neg" "%2B%2D" "%2B" "%2B%2B" "%2B%2B%2B")
+urobilinogen=${urobilinogen_choises[$RANDOM % ${#urobilinogen_choises[@]} ]}
+glucose_choises=("neg" "%2B%2D" "%2B" "%2B%2B" "%2B%2B%2B")
+glucose=${glucose_choises[$RANDOM % ${#glucose_choises[@]} ]}
+bilirubin_choises=("neg" "%2B%2D" "%2B" "%2B%2B" "%2B%2B%2B")
+bilirubin=${bilirubin_choises[$RANDOM % ${#bilirubin_choises[@]} ]}
+ketones_choises=("neg" "%2B%2D" "%2B" "%2B%2B" "%2B%2B%2B")
+ketones=${ketones_choises[$RANDOM % ${#ketones_choises[@]} ]}
+specific_gravity_choises=("1.005" "1.010" "1.015" "1.020" "1.025" "1.030")
+specific_gravity=${specific_gravity_choises[$RANDOM % ${#specific_gravity_choises[@]} ]}
+blood_choises=("neg" "%2B" "%2B%2B" "%2B%2B%2B" "non_hemolysis")
+blood=${blood_choises[$RANDOM % ${#blood_choises[@]} ]}
+ph_choises=("5" "6" "6.5" "7" "8" "9")
+ph=${ph_choises[$RANDOM % ${#ph_choises[@]} ]}
+protein_choises=("neg" "trace" "%2B" "%2B%2B" "%2B%2B%2B" "%2B%2B%2B%2B" )
+protein=${protein_choises[$RANDOM % ${#protein_choises[@]} ]}
+nitrite_choises=("neg" "trace" "pos")
+nitrite=${nitrite_choises[$RANDOM % ${#nitrite_choises[@]} ]}
+leukocytes_choises=("neg" "%2B" "%2B%2B" "%2B%2B%2B")
+leukocytes=${leukocytes_choises[$RANDOM % ${#leukocytes_choises[@]} ]}
+microscopy=$(sed "$(echo $((1 + RANDOM % $(cat wordlists/products | wc -l))))q;d" wordlists/products)
+macroscopy=$(sed "$(echo $((1 + RANDOM % $(cat wordlists/products | wc -l))))q;d" wordlists/products)
+microscopy_hvs=$(sed "$(echo $((1 + RANDOM % $(cat wordlists/products | wc -l))))q;d" wordlists/products)
+gram_stain=$(./lorem_ipsum -b $(echo $((1 + RANDOM % 255))) -n no)
+
+
+error=$(curl -s -d "choosen_client_id=${1}" \
+-d "clinician=andrew" \
+-d "bs_for_mps=yes" \
+-d "mps=${mps}" \
+-d "pbf=yes" \
+-d "pbf_text=${pbf_text}" \
+-d "widal=yes" \
+-d "th1=${th1}" \
+-d "th2=${th2}" \
+-d "brucella=yes" \
+-d "bm1=${bm1}" \
+-d "ba1=${ba1}" \
+-d "vdrl_rpr=yes" \
+-d "reactive=${reactive}" \
+-d "p24_hiv=yes" \
+-d "reactive_p24_hiv=${reactive_p24_hiv}" \
+-d "blood_sugar=yes" \
+-d "blood_sugar_text=${blood_sugar_text}" \
+-d "hba1c=yes" \
+-d "hba1c_text=${hba1c_text}" \
+-d "bun=yes" \
+-d "bun_text=${bun_text}" \
+-d "hematocrit=yes" \
+-d "hematocrit_text=${hematocrit_text}" \
+-d "creatinine=yes" \
+-d "creatinine_text=${creatinine_text}" \
+-d "electrolytes=yes" \
+-d "electrolytes_text=${electrolytes_text}" \
+-d "pylori_stool=yes" \
+-d "pylori_stool_radio=${pylori_stool_radio}" \
+-d "pylori_blood=yes" \
+-d "pylori_blood_radio=${pylori_blood_radio}" \
+-d "rheumatoid=yes" \
+-d "reactive_rheumatoid_radio=${reactive_rheumatoid_radio}" \
+-d "stool=yes" \
+-d "app=${app}" \
+-d "mic=${mic}" \
+-d "blood_group=yes" \
+-d "rhve=${rhve}" \
+-d "aboab=${aboab}" \
+-d "du_test=${du_test}" \
+-d "pregnancy=yes" \
+-d "hcg_detected=${hcg_detected}" \
+-d "hb=yes" \
+-d "hb_text=${hb_text}" \
+-d "urinalysis=yes" \
+-d "urobilinogen=${urobilinogen}" \
+-d "glucose=${glucose}" \
+-d "bilirubin=${bilirubin}" \
+-d "ketones=${ketones}" \
+-d "specific_gravity=${specific_gravity}" \
+-d "blood=${blood}" \
+-d "ph=${ph}" \
+-d "protein=${protein}" \
+-d "nitrite=${nitrite}" \
+-d "leukocytes=${leukocytes}" \
+-d "microscopy=${microscopy}" \
+-d "hvs=yes" \
+-d "macroscopy=${macroscopy}" \
+-d "microscopy_hvs=${microscopy_hvs}" \
+-d "gram_stain=${gram_stain}" \
+-d "submit_button=Submit Lab Form" -L http://${server}/php/labs/insert_lab_form.php)
+
+error_count=$(echo ${error} | grep "Error" | wc -l)
+
+if [ $error_count -gt 0 ]; then
+        log_error "lab_creation" "${error}"
+fi
 
 
 
-for i in {1..10}; 
-do 
+}
 
+
+
+for i in {1..20};
+do
+
+create_client &
+create_client &
+create_client &
+create_client &
+create_client &
+
+wait
+
+create_item &
+create_item &
+create_item &
+create_item &
 create_item &
 
 wait
- 
+
+
 done
+
+
+
+id_list_lab=($(curl -s -d "search=*" -d "search_submit=Search"-L http://${server}/php/labs/select_client_lab.php | grep "choosen_client_id=" | tidy -q 2> /dev/null | grep "<a href='grab_choosen_client_id_lab.php?%20choosen_client_id=" | cut -f3 -d"=" | tr -d "'" | uniq))
+
+
+
+
+for i in "${id_list_lab[@]}"
+do
+   create_lab $i 
+done
+
