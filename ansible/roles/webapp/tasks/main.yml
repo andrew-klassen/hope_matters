@@ -307,5 +307,22 @@
        fi
      args:
        executable: /bin/bash
+   
+   - lineinfile:
+       path: /var/www/html/php/labs/insert_lab_form.php
+       line: "$client_id = $_SESSION['choosen_client_id']; if (isset($_POST['choosen_client_id'])) {$client_id = $_POST['choosen_client_id'];}"
+       regexp: "'choosen_client_id'"
+  
+   - name: (testing) install dos2unix
+     apt:
+       name: "{{ packages }}"
+     vars:
+       packages:
+       - dos2unix
+
+   - name: (testing) convert insert_lab_form.php into unix format
+     shell: |
+       #!/bin/bash
+       dos2unix /var/www/html/php/labs/insert_lab_form.php
 
   when: testing|default(false)|bool
