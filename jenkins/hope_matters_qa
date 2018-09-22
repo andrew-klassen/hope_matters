@@ -33,7 +33,7 @@ notes=$(curl -s -d "choosen_payment_id=${1}" -L http://${server}/php/master_log/
 
 
 
-curl  -d "choosen_payment_id=${1}" \
+error=$(curl -s -d "choosen_payment_id=${1}" \
 -d "choosen_client_id=${1}" \
 -d "transaction_type=${department}" \
 -d "payment_method=${method}" \
@@ -42,14 +42,25 @@ curl  -d "choosen_payment_id=${1}" \
 -d "paid=${paid}" \
 -d "notes=${notes}" \
 -d "submit_button=Submit" \
--L http://${server}/php/master_log/update_payment.php
+-L http://${server}/php/master_log/update_payment.php)
+
+
+if [ $error_count -gt 0 ]; then
+        log_error "Pay Bill Part 1" "${error}"
+fi
+
+
+
+
+
+
 
 full_pay=$((1 + RANDOM % 2))
 
 if [ ${full_pay} -eq 1 ]; then
 
 
-curl  -d "choosen_payment_id=${1}" \
+error=$(curl  -s -d "choosen_payment_id=${1}" \
 -d "choosen_client_id=${1}" \
 -d "transaction_type=${department}" \
 -d "payment_method=${method}" \
@@ -58,7 +69,15 @@ curl  -d "choosen_payment_id=${1}" \
 -d "paid=${billed}" \
 -d "notes=${notes}" \
 -d "submit_button=Submit" \
--L http://${server}/php/master_log/update_payment.php
+-L http://${server}/php/master_log/update_payment.php)
+
+
+
+if [ $error_count -gt 0 ]; then
+        log_error "Pay Bill Part 2" "${error}"
+fi
+
+
 
 
 fi
@@ -78,7 +97,7 @@ notes=$(./lorem_ipsum -b $(echo $((1 + RANDOM % 150))) -n no)
 revisit_choises=("yes" "no")
 revisit=${revisit_choises[$RANDOM % ${#revisit_choises[@]} ]}
 
-curl  -s -d "transaction_type_add=${department}" \
+error=$(curl  -s -d "transaction_type_add=${department}" \
 -d "choosen_client_id=${1}" \
 -d "method=${method}" \
 -d "revisit=${revisit}" \
@@ -87,9 +106,11 @@ curl  -s -d "transaction_type_add=${department}" \
 -d "paid=${paid}" \
 -d "notes=${notes}" \
 -d "submit_button=Submit" \
--L http://${server}/php/master_log/insert_payment.php >> /dev/null 2>&1
+-L http://${server}/php/master_log/insert_payment.php >> /dev/null 2>&1)
 
-
+if [ $error_count -gt 0 ]; then
+        log_error "Create Payment" "${error}"
+fi
 
 
 
@@ -337,7 +358,7 @@ fi
 
 
 
-for i in {1..1};
+for i in {1..10};
 do
 
 create_client &
