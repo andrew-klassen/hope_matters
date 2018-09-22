@@ -32,7 +32,7 @@ plan=$(./lorem_ipsum -b $(echo $((1 + RANDOM % 5000))) -n no)
 health_education=$(./lorem_ipsum -b $(echo $((1 + RANDOM % 5000))) -n no)
 
 
-curl -d "t=${t}" \
+error=$(curl -s -d "t=${t}" \
 -d "bp=${bp}" \
 -d "pr=${pr}" \
 -d "rr=${rr}" \
@@ -46,23 +46,47 @@ curl -d "t=${t}" \
 -d "plan=${plan}" \
 -d "health_education=${health_education}" \
 -d "username=andrew" \
--d "created_by=andrew" -L http://${server}/php/treatment_form/insert_treatment_form_temp.php
+-d "created_by=andrew" -L http://${server}/php/treatment_form/insert_treatment_form_temp.php >> /dev/null 2>&1)
+
+error_count=$(echo ${error} | grep "Error" | wc -l)
+
+if [ $error_count -gt 0 ]; then
+        log_error "treatment form first half" "${error}"
+fi
 
 
 
-curl -d "choosen_client_id=${1}" -d "username=andrew" -d "diagnosis=diagnosis" -d "add=yes" -L http://${server}/php/treatment_form/add_treatment_form_diagnoses.php
+diagnoses_count=$(echo $((1 + RANDOM % 10)))
+
+for ((run=1; run <= diagnoses_count; run++));
+do 
+
+	diagnosis=$(sed "$(echo $((1 + RANDOM % $(cat wordlists/diagnoses | wc -l))))q;d" wordlists/diagnoses)
+	error=$(curl -s -d "choosen_client_id=${1}" -d "username=andrew" -d "diagnosis=${diagnosis}" -d "add=yes" -L http://${server}/php/treatment_form/add_treatment_form_diagnoses.php >> /dev/null 2>&1)
+	error_count=$(echo ${error} | grep "Error" | wc -l)
+
+	if [ $error_count -gt 0 ]; then
+        	log_error "add diagnosis" "${error}"
+	fi
 
 
-curl -d "username=andrew" -d "choosen_client_id=${1}" -d "submit_button=Submit Treatment Form" -L http://${server}/php/treatment_form/insert_treatment_form.php
+done
 
 
+error=$(curl -s -d "username=andrew" -d "choosen_client_id=${1}" -d "submit_button=Submit Treatment Form" -L http://${server}/php/treatment_form/insert_treatment_form.php >> /dev/null 2>&1)
+
+error_count=$(echo ${error} | grep "Error" | wc -l)
+
+if [ $error_count -gt 0 ]; then
+        log_error "add treatment form" "${error}"
+fi
 
 
 
 
 }
 
-create_treatment
+create_treatment 345
 
 exit
 

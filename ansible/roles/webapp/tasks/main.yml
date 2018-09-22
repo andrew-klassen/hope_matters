@@ -342,7 +342,27 @@
        path: /var/www/html/php/master_log/change_payment.php
        line: "$choosen_payment_id = $_SESSION['choosen_payment_id']; if (isset($_POST['choosen_payment_id'])) {echo $choosen_payment_id = $_POST['choosen_payment_id'];}"
        regexp: "'choosen_payment_id'"
-  
+ 
+   - lineinfile:
+       path: /var/www/html/php/treatment_form/insert_treatment_form_temp.php
+       line: "$username = $_SESSION['username']; if (isset($_POST['username'])) {$username = $_POST['username'];}"
+       regexp: "'username'"
+
+   - lineinfile:
+       path: /var/www/html/php/treatment_form/add_treatment_form_diagnoses.php
+       line: "$username = $_SESSION['username']; if (isset($_POST['username'])) {$username = $_POST['username'];}"
+       regexp: "'username'"
+
+   - lineinfile:
+       path: /var/www/html/php/treatment_form/add_treatment_form_diagnoses.php
+       line: "$client_id = $_SESSION['choosen_client_id']; if (isset($_POST['choosen_client_id'])) {$client_id = $_POST['choosen_client_id'];}"
+       regexp: "'choosen_client_id'"
+
+   - lineinfile:
+       path: /var/www/html/php/treatment_form/insert_treatment_form.php
+       line: "$client_id = $_SESSION['choosen_client_id']; if (isset($_POST['choosen_client_id'])) {$client_id = $_POST['choosen_client_id'];}"
+       regexp: "'choosen_client_id'"
+
    - name: (testing) install dos2unix
      apt:
        name: "{{ packages }}"
@@ -350,12 +370,14 @@
        packages:
        - dos2unix
 
-   - name: (testing) convert insert_lab_form.php into unix format
+   - name: (testing) convert changed files into unix format
      shell: |
        #!/bin/bash
        dos2unix /var/www/html/php/labs/insert_lab_form.php
        dos2unix /var/www/html/php/master_log/update_payment.php
        dos2unix /var/www/html/php/master_log/insert_payment.php
        dos2unix /var/www/html/php/master_log/change_payment.php
+       dos2unix /var/www/html/php/treatment_form/insert_treatment_form_temp.php
+       dos2unix /var/www/html/php/treatment_form/add_treatment_form_diagnoses.php
 
   when: testing|default(false)|bool

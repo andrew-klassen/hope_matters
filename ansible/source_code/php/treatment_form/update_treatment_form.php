@@ -105,7 +105,7 @@ else {
 	foreach(new grab_value(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
 
 	}
-	echo $t_check = $_SESSION['temp'];
+	$t_check = $_SESSION['temp'];
 	
 	
 	
@@ -116,7 +116,7 @@ else {
 	foreach(new grab_value(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
 
 	}
-	echo $bp_check = $_SESSION['temp'];
+	$bp_check = $_SESSION['temp'];
 	
 	
 	$stmt = $conn->prepare("SELECT pr FROM treatment WHERE treatment_id='$choosen_treatment_form_id'");
@@ -126,7 +126,7 @@ else {
 	foreach(new grab_value(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
 
 	}
-	echo $pr_check = $_SESSION['temp'];
+	$pr_check = $_SESSION['temp'];
 	
 	
 	$stmt = $conn->prepare("SELECT rr FROM treatment WHERE treatment_id='$choosen_treatment_form_id'");
@@ -136,7 +136,7 @@ else {
 	foreach(new grab_value(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
 
 	}
-	echo $rr_check = $_SESSION['temp'];
+	$rr_check = $_SESSION['temp'];
 	
 	
 	
@@ -147,7 +147,7 @@ else {
 	foreach(new grab_value(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
 
 	}
-	echo $sao2_check = $_SESSION['temp'];
+	$sao2_check = $_SESSION['temp'];
 	
 	$stmt = $conn->prepare("SELECT pain FROM treatment WHERE treatment_id='$choosen_treatment_form_id'");
 	$stmt->execute();
@@ -156,7 +156,7 @@ else {
 	foreach(new grab_value(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
 
 	}
-	echo $pain_check = $_SESSION['temp'];
+	$pain_check = $_SESSION['temp'];
 	
 	
 	
@@ -167,7 +167,7 @@ else {
 	foreach(new grab_value(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
 
 	}
-	echo $history_check = $_SESSION['temp'];
+	$history_check = $_SESSION['temp'];
 	
 	
 	$stmt = $conn->prepare("SELECT physical_examination FROM treatment WHERE treatment_id='$choosen_treatment_form_id'");
@@ -177,7 +177,7 @@ else {
 	foreach(new grab_value(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
 
 	}
-	echo $physical_examination_check = $_SESSION['temp'];
+	$physical_examination_check = $_SESSION['temp'];
 	
 	
 	$stmt = $conn->prepare("SELECT impression FROM treatment WHERE treatment_id='$choosen_treatment_form_id'");
@@ -187,7 +187,7 @@ else {
 	foreach(new grab_value(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
 
 	}
-	echo $impression_check = $_SESSION['temp'];
+	$impression_check = $_SESSION['temp'];
 	
 	$stmt = $conn->prepare("SELECT plan FROM treatment WHERE treatment_id='$choosen_treatment_form_id'");
 	$stmt->execute();
@@ -196,7 +196,7 @@ else {
 	foreach(new grab_value(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
 
 	}
-	echo $plan_check = $_SESSION['temp'];
+	$plan_check = $_SESSION['temp'];
 	
 	
 	$stmt = $conn->prepare("SELECT health_education FROM treatment WHERE treatment_id='$choosen_treatment_form_id'");
@@ -206,7 +206,7 @@ else {
 	foreach(new grab_value(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
 
 	}
-	echo $health_education_check = $_SESSION['temp'];
+	$health_education_check = $_SESSION['temp'];
 	
 	
 	$stmt = $conn->prepare("SELECT clinician FROM treatment WHERE treatment_id='$choosen_treatment_form_id'");
@@ -216,7 +216,7 @@ else {
 	foreach(new grab_value(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
 
 	}
-	echo $clinician_check = $_SESSION['temp'];
+	$clinician_check = $_SESSION['temp'];
 	
 
 
