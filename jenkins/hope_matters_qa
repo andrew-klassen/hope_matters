@@ -15,6 +15,59 @@ echo '' >> error.log
 
 }
 
+function create_treatment() {
+
+t=$(head /dev/urandom | tr -dc A-Za-z0-9 | head -c 10)
+bp=$(head /dev/urandom | tr -dc A-Za-z0-9 | head -c 10)
+pr=$(echo $((1 + RANDOM % 99999)))
+rr=$(echo $((1 + RANDOM % 99999)))
+sao2=$(echo $((1 + RANDOM % 99999)))
+pain_choises=("none" "mild" "moderate" "severe")
+pain=${pain_choises[$RANDOM % ${#pain_choises[@]} ]}
+
+history_text=$(./lorem_ipsum -b $(echo $((1 + RANDOM % 5000))) -n no)
+physical_examination=$(./lorem_ipsum -b $(echo $((1 + RANDOM % 5000))) -n no)
+impression=$(./lorem_ipsum -b $(echo $((1 + RANDOM % 5000))) -n no)
+plan=$(./lorem_ipsum -b $(echo $((1 + RANDOM % 5000))) -n no)
+health_education=$(./lorem_ipsum -b $(echo $((1 + RANDOM % 5000))) -n no)
+
+
+curl -d "t=${t}" \
+-d "bp=${bp}" \
+-d "pr=${pr}" \
+-d "rr=${rr}" \
+-d "sao2=${sao2}" \
+-d "pain=${pain}" \
+-d "clinician=andrew" \
+-d "submit_button=Add Diagnoses" \
+-d "history=${history_text}" \
+-d "physical_examination=${physical_examination}" \
+-d "impression=${impression}" \
+-d "plan=${plan}" \
+-d "health_education=${health_education}" \
+-d "username=andrew" \
+-d "created_by=andrew" -L http://${server}/php/treatment_form/insert_treatment_form_temp.php
+
+
+
+curl -d "choosen_client_id=${1}" -d "username=andrew" -d "diagnosis=diagnosis" -d "add=yes" -L http://${server}/php/treatment_form/add_treatment_form_diagnoses.php
+
+
+curl -d "username=andrew" -d "choosen_client_id=${1}" -d "submit_button=Submit Treatment Form" -L http://${server}/php/treatment_form/insert_treatment_form.php
+
+
+
+
+
+
+}
+
+create_treatment
+
+exit
+
+
+
 
 function pay_bill() {
 
@@ -32,7 +85,6 @@ paid=$(( ${billed} / 2))
 notes=$(curl -s -d "choosen_payment_id=${1}" -L http://${server}/php/master_log/change_payment.php | grep "notes" | tidy -q 2> /dev/null | grep "maxlength='150'" -A 1 | tail -n1)
 
 
-
 error=$(curl -s -d "choosen_payment_id=${1}" \
 -d "choosen_client_id=${1}" \
 -d "transaction_type=${department}" \
@@ -44,6 +96,8 @@ error=$(curl -s -d "choosen_payment_id=${1}" \
 -d "submit_button=Submit" \
 -L http://${server}/php/master_log/update_payment.php)
 
+
+error_count=$(echo ${error} | grep "Error" | wc -l)
 
 if [ $error_count -gt 0 ]; then
         log_error "Pay Bill Part 1" "${error}"
@@ -71,6 +125,7 @@ error=$(curl  -s -d "choosen_payment_id=${1}" \
 -d "submit_button=Submit" \
 -L http://${server}/php/master_log/update_payment.php)
 
+error_count=$(echo ${error} | grep "Error" | wc -l)
 
 
 if [ $error_count -gt 0 ]; then
@@ -83,6 +138,7 @@ fi
 fi
 
 }
+
 
 
 function create_payment() {
