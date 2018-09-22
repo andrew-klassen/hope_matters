@@ -86,9 +86,7 @@ fi
 
 }
 
-create_treatment 345
 
-exit
 
 
 
@@ -468,6 +466,7 @@ for i in "${id_list_lab[@]}"
 do
    create_lab $i
    create_payment $i
+   create_treatment $i
 done
 
 
