@@ -355,13 +355,24 @@
 
    - lineinfile:
        path: /var/www/html/php/treatment_form/add_treatment_form_diagnoses.php
-       line: "$client_id = $_SESSION['choosen_client_id']; if (isset($_POST['choosen_client_id'])) {$client_id = $_POST['choosen_client_id'];}"
+       line: "$choosen_client_id = $_SESSION['choosen_client_id']; if (isset($_POST['choosen_client_id'])) {$client_id = $_POST['choosen_client_id'];}"
        regexp: "'choosen_client_id'"
 
    - lineinfile:
        path: /var/www/html/php/treatment_form/insert_treatment_form.php
-       line: "$client_id = $_SESSION['choosen_client_id']; if (isset($_POST['choosen_client_id'])) {$client_id = $_POST['choosen_client_id'];}"
+       line: "$choosen_client_id = $_SESSION['choosen_client_id']; if (isset($_POST['choosen_client_id'])) {$client_id = $_POST['choosen_client_id'];}"
        regexp: "'choosen_client_id'"
+
+   - lineinfile:
+       path: /var/www/html/php/treatment_form/insert_treatment_form.php
+       line: "$username = $_SESSION['username']; if (isset($_POST['username'])) {$username = $_POST['username'];}"
+       regexp: "'username'"
+
+   - name: (testing) import diagnoses
+     mysql_db:
+       name: hope_matters
+       state: import
+       target: "/root/hope/jenkins/diagnosis_types.sql"
 
    - name: (testing) install dos2unix
      apt:
@@ -379,5 +390,6 @@
        dos2unix /var/www/html/php/master_log/change_payment.php
        dos2unix /var/www/html/php/treatment_form/insert_treatment_form_temp.php
        dos2unix /var/www/html/php/treatment_form/add_treatment_form_diagnoses.php
+       dos2unix /var/www/html/php/treatment_form/insert_treatment_form.php
 
   when: testing|default(false)|bool
