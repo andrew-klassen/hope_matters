@@ -86,10 +86,6 @@ fi
 
 }
 
-create_treatment 352
-exit
-
-
 
 function pay_bill() {
 
