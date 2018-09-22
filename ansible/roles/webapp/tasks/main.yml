@@ -355,12 +355,12 @@
 
    - lineinfile:
        path: /var/www/html/php/treatment_form/add_treatment_form_diagnoses.php
-       line: "$choosen_client_id = $_SESSION['choosen_client_id']; if (isset($_POST['choosen_client_id'])) {$client_id = $_POST['choosen_client_id'];}"
+       line: "$choosen_client_id = $_SESSION['choosen_client_id']; if (isset($_POST['choosen_client_id'])) {$choosen_client_id = $_POST['choosen_client_id'];}"
        regexp: "'choosen_client_id'"
 
    - lineinfile:
        path: /var/www/html/php/treatment_form/insert_treatment_form.php
-       line: "$choosen_client_id = $_SESSION['choosen_client_id']; if (isset($_POST['choosen_client_id'])) {$client_id = $_POST['choosen_client_id'];}"
+       line: "$choosen_client_id = $_SESSION['choosen_client_id']; if (isset($_POST['choosen_client_id'])) {$choosen_client_id = $_POST['choosen_client_id'];}"
        regexp: "'choosen_client_id'"
 
    - lineinfile:
