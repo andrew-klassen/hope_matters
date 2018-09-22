@@ -474,7 +474,7 @@ Copyright © 2017 Andrew Klassen
 				echo "<div id='searchDiv' style='margin-left: 370px; margin-bottom: 15px;'>
 				<form action='/php/master_log/master_log.php' method='post' id='searchForm'>
 					<input type='text' id='request_search' name='search' value='$search' autofocus onfocus='this.value = this.value;'>
-					<input type='submit' id='search_submit' value='Search'>
+					<input type='submit' name='search_submit' id='search_submit' value='Search'>
 				
 					<select name='transaction_type' method='post'>
 						<option value='all' selected='selected'>All Transactions</option>

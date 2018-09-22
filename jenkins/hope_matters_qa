@@ -3,6 +3,9 @@
 
 server=$1
 
+
+
+
 function log_error() {
 
 echo "Error---${1}---****************************" >> error.log
@@ -11,6 +14,89 @@ echo ${2} | tidy -q 2> /dev/null >> error.log
 echo '' >> error.log
 
 }
+
+
+function pay_bill() {
+
+department=$( curl -s -d "choosen_payment_id=${1}" -L http://${server}/php/master_log/change_payment.php | tidy -q 2> /dev/null | grep "selected" | grep -v "cash" | grep -v "unknown" | grep -v "m-pesa" | cut -f2 -d"'")
+
+method=$(curl -s -d "choosen_payment_id=${1}" -L http://${server}/php/master_log/change_payment.php | tidy -q 2> /dev/null | grep "selected" | grep "m-pesa\|unknown\|cash" | cut -f2 -d"'")
+
+
+revisit=$(curl -s -d "choosen_payment_id=${1}" -L http://${server}/php/master_log/change_payment.php | grep "revisit" | grep "checked" | cut -f6 -d"'")
+
+billed=$(curl -s -d "choosen_payment_id=${1}" -L http://${server}/php/master_log/change_payment.php | grep "name='billed'" | tidy -q 2> /dev/null | grep "name='billed'" | cut -f4 -d"'")
+
+paid=$(( ${billed} / 2))
+
+notes=$(curl -s -d "choosen_payment_id=${1}" -L http://${server}/php/master_log/change_payment.php | grep "notes" | tidy -q 2> /dev/null | grep "maxlength='150'" -A 1 | tail -n1)
+
+
+
+curl  -d "choosen_payment_id=${1}" \
+-d "choosen_client_id=${1}" \
+-d "transaction_type=${department}" \
+-d "payment_method=${method}" \
+-d "revisit=${revisit}" \
+-d "billed=${billed}" \
+-d "paid=${paid}" \
+-d "notes=${notes}" \
+-d "submit_button=Submit" \
+-L http://${server}/php/master_log/update_payment.php
+
+full_pay=$((1 + RANDOM % 2))
+
+if [ ${full_pay} -eq 1 ]; then
+
+
+curl  -d "choosen_payment_id=${1}" \
+-d "choosen_client_id=${1}" \
+-d "transaction_type=${department}" \
+-d "payment_method=${method}" \
+-d "revisit=${revisit}" \
+-d "billed=${billed}" \
+-d "paid=${billed}" \
+-d "notes=${notes}" \
+-d "submit_button=Submit" \
+-L http://${server}/php/master_log/update_payment.php
+
+
+fi
+
+}
+
+
+function create_payment() {
+
+department_choises=("dental" "inquiry" "laboratory" "mch_anc" "mch_cwc" "mch_delivery" "mch_fp" "optometry" "payment_rec" "pharmacy" "referral" "screening_dm" "screening_gyn" "screening_htn" "screening_other" "tb_injection" "treatment" "vct" "ultrasound" "general")
+department=${department_choises[$RANDOM % ${#department_choises[@]} ]}
+method_choises=("unknown" "cash" "m-pesa")
+method=${method_choises[$RANDOM % ${#method_choises[@]} ]}
+billed=$(echo $((1 + RANDOM % 9999)))
+paid=0
+notes=$(./lorem_ipsum -b $(echo $((1 + RANDOM % 150))) -n no)
+revisit_choises=("yes" "no")
+revisit=${revisit_choises[$RANDOM % ${#revisit_choises[@]} ]}
+
+curl  -s -d "transaction_type_add=${department}" \
+-d "choosen_client_id=${1}" \
+-d "method=${method}" \
+-d "revisit=${revisit}" \
+-d "payment_method=${method}" \
+-d "billed=${billed}" \
+-d "paid=${paid}" \
+-d "notes=${notes}" \
+-d "submit_button=Submit" \
+-L http://${server}/php/master_log/insert_payment.php >> /dev/null 2>&1
+
+
+
+
+
+}
+
+
+
 
 
 function create_client() {
@@ -251,7 +337,7 @@ fi
 
 
 
-for i in {1..20};
+for i in {1..1};
 do
 
 create_client &
@@ -272,16 +358,29 @@ wait
 
 
 done
-
-
 
 id_list_lab=($(curl -s -d "search=*" -d "search_submit=Search"-L http://${server}/php/labs/select_client_lab.php | grep "choosen_client_id=" | tidy -q 2> /dev/null | grep "<a href='grab_choosen_client_id_lab.php?%20choosen_client_id=" | cut -f3 -d"=" | tr -d "'" | uniq))
 
 
 
-
 for i in "${id_list_lab[@]}"
 do
-   create_lab $i 
+   create_lab $i
+   create_payment $i
 done
+
+
+payment_ids=($(curl -s -d "search=*" -d "search_button=Search" -d "transaction_type=all" -L http://${server}/php/master_log/master_log.php  | grep "<a href='grab_choosen_payment_id.php?" | tidy -q 2> /dev/null | grep "choosen_payment_id=" | uniq | cut -f3 -d"=" | tr -d "'"))
+
+
+
+for i in "${payment_ids[@]}"
+do
+   pay_bill $i
+done
+
+
+
+
+
 

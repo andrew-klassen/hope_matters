@@ -307,11 +307,41 @@
        fi
      args:
        executable: /bin/bash
-   
+
+   - name: (testing) disable master_log_check(), allows for unauthorized logins
+     shell: |
+       #!/bin/bash
+
+       if [[ $(grep "header( 'Location: ../dashboard.php' );" /var/www/html/php/database_credentials.php | wc -l) != 0 ]]; then
+
+          start=$(grep -Fn 'function master_log_check() {' /var/www/html/php/database_credentials.php | cut -f1 -d':')
+          start=$((${start} + 1))
+          end=$((${start} + 3))
+          sed -i /var/www/html/php/database_credentials.php -re "${start},${end}d"
+
+       fi
+     args:
+       executable: /bin/bash
+ 
    - lineinfile:
        path: /var/www/html/php/labs/insert_lab_form.php
        line: "$client_id = $_SESSION['choosen_client_id']; if (isset($_POST['choosen_client_id'])) {$client_id = $_POST['choosen_client_id'];}"
        regexp: "'choosen_client_id'"
+
+   - lineinfile:
+       path: /var/www/html/php/master_log/update_payment.php
+       line: "$choosen_payment_id = $_SESSION['choosen_payment_id']; if (isset($_POST['choosen_payment_id'])) {echo $choosen_payment_id = $_POST['choosen_payment_id'];}"
+       regexp: "'choosen_payment_id'"
+   
+   - lineinfile:
+       path: /var/www/html/php/master_log/insert_payment.php
+       line: "$client_id = $_SESSION['choosen_client_id']; if (isset($_POST['choosen_client_id'])) {$client_id = $_POST['choosen_client_id'];}"
+       regexp: "'choosen_client_id'"
+   
+   - lineinfile:
+       path: /var/www/html/php/master_log/change_payment.php
+       line: "$choosen_payment_id = $_SESSION['choosen_payment_id']; if (isset($_POST['choosen_payment_id'])) {echo $choosen_payment_id = $_POST['choosen_payment_id'];}"
+       regexp: "'choosen_payment_id'"
   
    - name: (testing) install dos2unix
      apt:
@@ -324,5 +354,8 @@
      shell: |
        #!/bin/bash
        dos2unix /var/www/html/php/labs/insert_lab_form.php
+       dos2unix /var/www/html/php/master_log/update_payment.php
+       dos2unix /var/www/html/php/master_log/insert_payment.php
+       dos2unix /var/www/html/php/master_log/change_payment.php
 
   when: testing|default(false)|bool
