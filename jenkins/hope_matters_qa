@@ -15,6 +15,87 @@ echo '' >> error.log
 
 }
 
+
+function login_check() {
+
+
+error=$(curl -s -d "username=andrew" -d "password=123" -d "login=Login" -L http://${server}/php/login.php)
+
+
+dash_count=$(echo ${error} | grep "dashboard" | wc -l)
+
+if [ $dash_count -eq 0 ]; then
+        log_error "login" "${error}"
+fi
+
+
+}
+
+
+function create_return_treatment() {
+
+t=$(head /dev/urandom | tr -dc A-Za-z0-9 | head -c 10)
+bp=$(head /dev/urandom | tr -dc A-Za-z0-9 | head -c 10)
+pr=$(echo $((1 + RANDOM % 99999)))
+rr=$(echo $((1 + RANDOM % 99999)))
+sao2=$(echo $((1 + RANDOM % 99999)))
+pain_choises=("none" "mild" "moderate" "severe")
+pain=${pain_choises[$RANDOM % ${#pain_choises[@]} ]}
+
+notes=$(./lorem_ipsum -b $(echo $((1 + RANDOM % 5000))) -n no)
+plan=$(./lorem_ipsum -b $(echo $((1 + RANDOM % 5000))) -n no)
+
+
+error=$(curl -d "t=${t}" \
+-d "bp=${bp}" \
+-d "pr=${pr}" \
+-d "rr=${rr}" \
+-d "sao2=${sao2}" \
+-d "pain=${pain}" \
+-d "clinician=andrew" \
+-d "submit_button=Add Diagnoses" \
+-d "notes=${notes}" \
+-d "plan=${plan}" \
+-d "username=andrew" \
+-d "created_by=andrew" -L http://${server}/php/return_treatment_form/insert_return_treatment_form_temp.php >> /dev/null 2>&1)
+
+error_count=$(echo ${error} | grep "Error" | wc -l)
+
+if [ $error_count -gt 0 ]; then
+	log_error "return treatment part 1" "${error}"
+fi
+
+
+diagnoses_count=$(echo $((1 + RANDOM % 10)))
+
+for ((run=1; run <= diagnoses_count; run++));
+do
+
+        diagnosis=$(sed "$(echo $((1 + RANDOM % $(cat wordlists/diagnoses | wc -l))))q;d" wordlists/diagnoses)
+        error=$(curl -s -d "choosen_client_id=${1}" -d "username=andrew" -d "diagnosis=${diagnosis}" -d "add=yes" -L http://${server}/php/return_treatment_form/add_return_treatment_form_diagnoses.php >> /dev/null 2>&1)
+        error_count=$(echo ${error} | grep "Error" | wc -l)
+
+        if [ $error_count -gt 0 ]; then
+                log_error "return treatment diagnosis" "${error}"
+        fi
+
+
+done
+
+error=$(curl -s -d "username=andrew" -d "choosen_client_id=${1}" -d "submit_button=Submit Treatment Form" -L http://${server}/php/return_treatment_form/insert_return_treatment_form.php >> /dev/null 2>&1)
+
+error_count=$(echo ${error} | grep "Error" | wc -l)
+
+if [ $error_count -gt 0 ]; then
+     log_error "add return treatment" "${error}"
+fi
+
+}
+
+
+
+
+
 function create_treatment() {
 
 t=$(head /dev/urandom | tr -dc A-Za-z0-9 | head -c 10)
@@ -429,7 +510,7 @@ fi
 }
 
 
-
+login_check
 
 
 for i in {1..10};
@@ -463,6 +544,7 @@ do
    create_lab $i
    create_payment $i
    create_treatment $i
+   create_return_treatment $i
 done
 
 

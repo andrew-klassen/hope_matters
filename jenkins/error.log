@@ -1558,3 +1558,917 @@ Account ID:</b><b>Time:</b>2018-09-22
 </body>
 </html>
 
+Error---Pay Bill Part 1---****************************
+
+<!-- This file is part of a web application designed to help Hope Matters interact with their database. The web application is licensed under the Affero General Public License v3. View the web application's readme.txt for more details. Copyright © 2017 Andrew Klassen --><!-- This file is part of a web application designed to help Hope Matters interact with their database. The web application is licensed under the Affero General Public License v3. View the web application's readme.txt for more details. Copyright © 2017 Andrew Klassen -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<html>
+<head>
+<meta name="generator" content=
+"HTML Tidy for Linux (vers 25 March 2009), see www.w3.org">
+<title></title>
+</head>
+<body>
+46**************************************************************************<b>Error</b>Please
+create a bug report that contains the information
+below.**************************************************************************<b>Error
+Location:</b>update_payment.php<b>SQL Query:</b>INSERT INTO
+master_log_history (payment_id, client_id, first_name, last_name,
+sex, location, date_of_birth, department, payment_method, revisit,
+notes, billed, paid, timestamp, created_by) SELECT payment_id,
+client_id, first_name, last_name, sex, location, date_of_birth,
+department, payment_method, revisit, notes, billed, paid,
+timestamp, created_by FROM master_log WHERE
+payment_id='46';<b>Database Error:</b>SQLSTATE[01000]: Warning:
+1265 Data truncated for column 'department' at row 1<b>Client's Web
+Browser:</b>Unknown<b>Version:</b>7.47.0<b>Platform:</b>Unknown<b>User
+Account ID:</b><b>Time:</b>2018-09-22
+23:09:14**************************************************************************
+<form action='../dashboard.php'><input type='submit' value=
+'Back to dashboard'></form>
+**************************************************************************
+<table>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+</table>
+</body>
+</html>
+
+Error---Pay Bill Part 1---****************************
+
+<!-- This file is part of a web application designed to help Hope Matters interact with their database. The web application is licensed under the Affero General Public License v3. View the web application's readme.txt for more details. Copyright © 2017 Andrew Klassen --><!-- This file is part of a web application designed to help Hope Matters interact with their database. The web application is licensed under the Affero General Public License v3. View the web application's readme.txt for more details. Copyright © 2017 Andrew Klassen -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<html>
+<head>
+<meta name="generator" content=
+"HTML Tidy for Linux (vers 25 March 2009), see www.w3.org">
+<title></title>
+</head>
+<body>
+44**************************************************************************<b>Error</b>Please
+create a bug report that contains the information
+below.**************************************************************************<b>Error
+Location:</b>update_payment.php<b>SQL Query:</b>INSERT INTO
+master_log_history (payment_id, client_id, first_name, last_name,
+sex, location, date_of_birth, department, payment_method, revisit,
+notes, billed, paid, timestamp, created_by) SELECT payment_id,
+client_id, first_name, last_name, sex, location, date_of_birth,
+department, payment_method, revisit, notes, billed, paid,
+timestamp, created_by FROM master_log WHERE
+payment_id='44';<b>Database Error:</b>SQLSTATE[01000]: Warning:
+1265 Data truncated for column 'department' at row 1<b>Client's Web
+Browser:</b>Unknown<b>Version:</b>7.47.0<b>Platform:</b>Unknown<b>User
+Account ID:</b><b>Time:</b>2018-09-22
+23:09:14**************************************************************************
+<form action='../dashboard.php'><input type='submit' value=
+'Back to dashboard'></form>
+**************************************************************************
+<table>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+</table>
+</body>
+</html>
+
+Error---Pay Bill Part 1---****************************
+
+<!-- This file is part of a web application designed to help Hope Matters interact with their database. The web application is licensed under the Affero General Public License v3. View the web application's readme.txt for more details. Copyright © 2017 Andrew Klassen --><!-- This file is part of a web application designed to help Hope Matters interact with their database. The web application is licensed under the Affero General Public License v3. View the web application's readme.txt for more details. Copyright © 2017 Andrew Klassen -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<html>
+<head>
+<meta name="generator" content=
+"HTML Tidy for Linux (vers 25 March 2009), see www.w3.org">
+<title></title>
+</head>
+<body>
+36**************************************************************************<b>Error</b>Please
+create a bug report that contains the information
+below.**************************************************************************<b>Error
+Location:</b>update_payment.php<b>SQL Query:</b>INSERT INTO
+master_log_history (payment_id, client_id, first_name, last_name,
+sex, location, date_of_birth, department, payment_method, revisit,
+notes, billed, paid, timestamp, created_by) SELECT payment_id,
+client_id, first_name, last_name, sex, location, date_of_birth,
+department, payment_method, revisit, notes, billed, paid,
+timestamp, created_by FROM master_log WHERE
+payment_id='36';<b>Database Error:</b>SQLSTATE[01000]: Warning:
+1265 Data truncated for column 'department' at row 1<b>Client's Web
+Browser:</b>Unknown<b>Version:</b>7.47.0<b>Platform:</b>Unknown<b>User
+Account ID:</b><b>Time:</b>2018-09-22
+23:09:16**************************************************************************
+<form action='../dashboard.php'><input type='submit' value=
+'Back to dashboard'></form>
+**************************************************************************
+<table>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+</table>
+</body>
+</html>
+
+Error---Pay Bill Part 2---****************************
+
+<!-- This file is part of a web application designed to help Hope Matters interact with their database. The web application is licensed under the Affero General Public License v3. View the web application's readme.txt for more details. Copyright © 2017 Andrew Klassen --><!-- This file is part of a web application designed to help Hope Matters interact with their database. The web application is licensed under the Affero General Public License v3. View the web application's readme.txt for more details. Copyright © 2017 Andrew Klassen -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<html>
+<head>
+<meta name="generator" content=
+"HTML Tidy for Linux (vers 25 March 2009), see www.w3.org">
+<title></title>
+</head>
+<body>
+36**************************************************************************<b>Error</b>Please
+create a bug report that contains the information
+below.**************************************************************************<b>Error
+Location:</b>update_payment.php<b>SQL Query:</b>INSERT INTO
+master_log_history (payment_id, client_id, first_name, last_name,
+sex, location, date_of_birth, department, payment_method, revisit,
+notes, billed, paid, timestamp, created_by) SELECT payment_id,
+client_id, first_name, last_name, sex, location, date_of_birth,
+department, payment_method, revisit, notes, billed, paid,
+timestamp, created_by FROM master_log WHERE
+payment_id='36';<b>Database Error:</b>SQLSTATE[01000]: Warning:
+1265 Data truncated for column 'department' at row 1<b>Client's Web
+Browser:</b>Unknown<b>Version:</b>7.47.0<b>Platform:</b>Unknown<b>User
+Account ID:</b><b>Time:</b>2018-09-22
+23:09:16**************************************************************************
+<form action='../dashboard.php'><input type='submit' value=
+'Back to dashboard'></form>
+**************************************************************************
+<table>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+</table>
+</body>
+</html>
+
+Error---Pay Bill Part 1---****************************
+
+<!-- This file is part of a web application designed to help Hope Matters interact with their database. The web application is licensed under the Affero General Public License v3. View the web application's readme.txt for more details. Copyright © 2017 Andrew Klassen --><!-- This file is part of a web application designed to help Hope Matters interact with their database. The web application is licensed under the Affero General Public License v3. View the web application's readme.txt for more details. Copyright © 2017 Andrew Klassen -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<html>
+<head>
+<meta name="generator" content=
+"HTML Tidy for Linux (vers 25 March 2009), see www.w3.org">
+<title></title>
+</head>
+<body>
+30**************************************************************************<b>Error</b>Please
+create a bug report that contains the information
+below.**************************************************************************<b>Error
+Location:</b>update_payment.php<b>SQL Query:</b>INSERT INTO
+master_log_history (payment_id, client_id, first_name, last_name,
+sex, location, date_of_birth, department, payment_method, revisit,
+notes, billed, paid, timestamp, created_by) SELECT payment_id,
+client_id, first_name, last_name, sex, location, date_of_birth,
+department, payment_method, revisit, notes, billed, paid,
+timestamp, created_by FROM master_log WHERE
+payment_id='30';<b>Database Error:</b>SQLSTATE[01000]: Warning:
+1265 Data truncated for column 'department' at row 1<b>Client's Web
+Browser:</b>Unknown<b>Version:</b>7.47.0<b>Platform:</b>Unknown<b>User
+Account ID:</b><b>Time:</b>2018-09-22
+23:09:17**************************************************************************
+<form action='../dashboard.php'><input type='submit' value=
+'Back to dashboard'></form>
+**************************************************************************
+<table>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+</table>
+</body>
+</html>
+
+Error---Pay Bill Part 2---****************************
+
+<!-- This file is part of a web application designed to help Hope Matters interact with their database. The web application is licensed under the Affero General Public License v3. View the web application's readme.txt for more details. Copyright © 2017 Andrew Klassen --><!-- This file is part of a web application designed to help Hope Matters interact with their database. The web application is licensed under the Affero General Public License v3. View the web application's readme.txt for more details. Copyright © 2017 Andrew Klassen -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<html>
+<head>
+<meta name="generator" content=
+"HTML Tidy for Linux (vers 25 March 2009), see www.w3.org">
+<title></title>
+</head>
+<body>
+30**************************************************************************<b>Error</b>Please
+create a bug report that contains the information
+below.**************************************************************************<b>Error
+Location:</b>update_payment.php<b>SQL Query:</b>INSERT INTO
+master_log_history (payment_id, client_id, first_name, last_name,
+sex, location, date_of_birth, department, payment_method, revisit,
+notes, billed, paid, timestamp, created_by) SELECT payment_id,
+client_id, first_name, last_name, sex, location, date_of_birth,
+department, payment_method, revisit, notes, billed, paid,
+timestamp, created_by FROM master_log WHERE
+payment_id='30';<b>Database Error:</b>SQLSTATE[01000]: Warning:
+1265 Data truncated for column 'department' at row 1<b>Client's Web
+Browser:</b>Unknown<b>Version:</b>7.47.0<b>Platform:</b>Unknown<b>User
+Account ID:</b><b>Time:</b>2018-09-22
+23:09:17**************************************************************************
+<form action='../dashboard.php'><input type='submit' value=
+'Back to dashboard'></form>
+**************************************************************************
+<table>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+</table>
+</body>
+</html>
+
+Error---Pay Bill Part 1---****************************
+
+<!-- This file is part of a web application designed to help Hope Matters interact with their database. The web application is licensed under the Affero General Public License v3. View the web application's readme.txt for more details. Copyright © 2017 Andrew Klassen --><!-- This file is part of a web application designed to help Hope Matters interact with their database. The web application is licensed under the Affero General Public License v3. View the web application's readme.txt for more details. Copyright © 2017 Andrew Klassen -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<html>
+<head>
+<meta name="generator" content=
+"HTML Tidy for Linux (vers 25 March 2009), see www.w3.org">
+<title></title>
+</head>
+<body>
+23**************************************************************************<b>Error</b>Please
+create a bug report that contains the information
+below.**************************************************************************<b>Error
+Location:</b>update_payment.php<b>SQL Query:</b>INSERT INTO
+master_log_history (payment_id, client_id, first_name, last_name,
+sex, location, date_of_birth, department, payment_method, revisit,
+notes, billed, paid, timestamp, created_by) SELECT payment_id,
+client_id, first_name, last_name, sex, location, date_of_birth,
+department, payment_method, revisit, notes, billed, paid,
+timestamp, created_by FROM master_log WHERE
+payment_id='23';<b>Database Error:</b>SQLSTATE[01000]: Warning:
+1265 Data truncated for column 'department' at row 1<b>Client's Web
+Browser:</b>Unknown<b>Version:</b>7.47.0<b>Platform:</b>Unknown<b>User
+Account ID:</b><b>Time:</b>2018-09-22
+23:09:18**************************************************************************
+<form action='../dashboard.php'><input type='submit' value=
+'Back to dashboard'></form>
+**************************************************************************
+<table>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+</table>
+</body>
+</html>
+
+Error---Pay Bill Part 1---****************************
+
+<!-- This file is part of a web application designed to help Hope Matters interact with their database. The web application is licensed under the Affero General Public License v3. View the web application's readme.txt for more details. Copyright © 2017 Andrew Klassen --><!-- This file is part of a web application designed to help Hope Matters interact with their database. The web application is licensed under the Affero General Public License v3. View the web application's readme.txt for more details. Copyright © 2017 Andrew Klassen -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<html>
+<head>
+<meta name="generator" content=
+"HTML Tidy for Linux (vers 25 March 2009), see www.w3.org">
+<title></title>
+</head>
+<body>
+19**************************************************************************<b>Error</b>Please
+create a bug report that contains the information
+below.**************************************************************************<b>Error
+Location:</b>update_payment.php<b>SQL Query:</b>INSERT INTO
+master_log_history (payment_id, client_id, first_name, last_name,
+sex, location, date_of_birth, department, payment_method, revisit,
+notes, billed, paid, timestamp, created_by) SELECT payment_id,
+client_id, first_name, last_name, sex, location, date_of_birth,
+department, payment_method, revisit, notes, billed, paid,
+timestamp, created_by FROM master_log WHERE
+payment_id='19';<b>Database Error:</b>SQLSTATE[01000]: Warning:
+1265 Data truncated for column 'department' at row 1<b>Client's Web
+Browser:</b>Unknown<b>Version:</b>7.47.0<b>Platform:</b>Unknown<b>User
+Account ID:</b><b>Time:</b>2018-09-22
+23:09:19**************************************************************************
+<form action='../dashboard.php'><input type='submit' value=
+'Back to dashboard'></form>
+**************************************************************************
+<table>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+</table>
+</body>
+</html>
+
+Error---Pay Bill Part 2---****************************
+
+<!-- This file is part of a web application designed to help Hope Matters interact with their database. The web application is licensed under the Affero General Public License v3. View the web application's readme.txt for more details. Copyright © 2017 Andrew Klassen --><!-- This file is part of a web application designed to help Hope Matters interact with their database. The web application is licensed under the Affero General Public License v3. View the web application's readme.txt for more details. Copyright © 2017 Andrew Klassen -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<html>
+<head>
+<meta name="generator" content=
+"HTML Tidy for Linux (vers 25 March 2009), see www.w3.org">
+<title></title>
+</head>
+<body>
+19**************************************************************************<b>Error</b>Please
+create a bug report that contains the information
+below.**************************************************************************<b>Error
+Location:</b>update_payment.php<b>SQL Query:</b>INSERT INTO
+master_log_history (payment_id, client_id, first_name, last_name,
+sex, location, date_of_birth, department, payment_method, revisit,
+notes, billed, paid, timestamp, created_by) SELECT payment_id,
+client_id, first_name, last_name, sex, location, date_of_birth,
+department, payment_method, revisit, notes, billed, paid,
+timestamp, created_by FROM master_log WHERE
+payment_id='19';<b>Database Error:</b>SQLSTATE[01000]: Warning:
+1265 Data truncated for column 'department' at row 1<b>Client's Web
+Browser:</b>Unknown<b>Version:</b>7.47.0<b>Platform:</b>Unknown<b>User
+Account ID:</b><b>Time:</b>2018-09-22
+23:09:19**************************************************************************
+<form action='../dashboard.php'><input type='submit' value=
+'Back to dashboard'></form>
+**************************************************************************
+<table>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+</table>
+</body>
+</html>
+
+Error---Pay Bill Part 1---****************************
+
+<!-- This file is part of a web application designed to help Hope Matters interact with their database. The web application is licensed under the Affero General Public License v3. View the web application's readme.txt for more details. Copyright © 2017 Andrew Klassen --><!-- This file is part of a web application designed to help Hope Matters interact with their database. The web application is licensed under the Affero General Public License v3. View the web application's readme.txt for more details. Copyright © 2017 Andrew Klassen -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<html>
+<head>
+<meta name="generator" content=
+"HTML Tidy for Linux (vers 25 March 2009), see www.w3.org">
+<title></title>
+</head>
+<body>
+18**************************************************************************<b>Error</b>Please
+create a bug report that contains the information
+below.**************************************************************************<b>Error
+Location:</b>update_payment.php<b>SQL Query:</b>INSERT INTO
+master_log_history (payment_id, client_id, first_name, last_name,
+sex, location, date_of_birth, department, payment_method, revisit,
+notes, billed, paid, timestamp, created_by) SELECT payment_id,
+client_id, first_name, last_name, sex, location, date_of_birth,
+department, payment_method, revisit, notes, billed, paid,
+timestamp, created_by FROM master_log WHERE
+payment_id='18';<b>Database Error:</b>SQLSTATE[01000]: Warning:
+1265 Data truncated for column 'department' at row 1<b>Client's Web
+Browser:</b>Unknown<b>Version:</b>7.47.0<b>Platform:</b>Unknown<b>User
+Account ID:</b><b>Time:</b>2018-09-22
+23:09:19**************************************************************************
+<form action='../dashboard.php'><input type='submit' value=
+'Back to dashboard'></form>
+**************************************************************************
+<table>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+</table>
+</body>
+</html>
+
+Error---Pay Bill Part 2---****************************
+
+<!-- This file is part of a web application designed to help Hope Matters interact with their database. The web application is licensed under the Affero General Public License v3. View the web application's readme.txt for more details. Copyright © 2017 Andrew Klassen --><!-- This file is part of a web application designed to help Hope Matters interact with their database. The web application is licensed under the Affero General Public License v3. View the web application's readme.txt for more details. Copyright © 2017 Andrew Klassen -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<html>
+<head>
+<meta name="generator" content=
+"HTML Tidy for Linux (vers 25 March 2009), see www.w3.org">
+<title></title>
+</head>
+<body>
+18**************************************************************************<b>Error</b>Please
+create a bug report that contains the information
+below.**************************************************************************<b>Error
+Location:</b>update_payment.php<b>SQL Query:</b>INSERT INTO
+master_log_history (payment_id, client_id, first_name, last_name,
+sex, location, date_of_birth, department, payment_method, revisit,
+notes, billed, paid, timestamp, created_by) SELECT payment_id,
+client_id, first_name, last_name, sex, location, date_of_birth,
+department, payment_method, revisit, notes, billed, paid,
+timestamp, created_by FROM master_log WHERE
+payment_id='18';<b>Database Error:</b>SQLSTATE[01000]: Warning:
+1265 Data truncated for column 'department' at row 1<b>Client's Web
+Browser:</b>Unknown<b>Version:</b>7.47.0<b>Platform:</b>Unknown<b>User
+Account ID:</b><b>Time:</b>2018-09-22
+23:09:19**************************************************************************
+<form action='../dashboard.php'><input type='submit' value=
+'Back to dashboard'></form>
+**************************************************************************
+<table>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+</table>
+</body>
+</html>
+
+Error---Pay Bill Part 1---****************************
+
+<!-- This file is part of a web application designed to help Hope Matters interact with their database. The web application is licensed under the Affero General Public License v3. View the web application's readme.txt for more details. Copyright © 2017 Andrew Klassen --><!-- This file is part of a web application designed to help Hope Matters interact with their database. The web application is licensed under the Affero General Public License v3. View the web application's readme.txt for more details. Copyright © 2017 Andrew Klassen -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<html>
+<head>
+<meta name="generator" content=
+"HTML Tidy for Linux (vers 25 March 2009), see www.w3.org">
+<title></title>
+</head>
+<body>
+10**************************************************************************<b>Error</b>Please
+create a bug report that contains the information
+below.**************************************************************************<b>Error
+Location:</b>update_payment.php<b>SQL Query:</b>INSERT INTO
+master_log_history (payment_id, client_id, first_name, last_name,
+sex, location, date_of_birth, department, payment_method, revisit,
+notes, billed, paid, timestamp, created_by) SELECT payment_id,
+client_id, first_name, last_name, sex, location, date_of_birth,
+department, payment_method, revisit, notes, billed, paid,
+timestamp, created_by FROM master_log WHERE
+payment_id='10';<b>Database Error:</b>SQLSTATE[01000]: Warning:
+1265 Data truncated for column 'department' at row 1<b>Client's Web
+Browser:</b>Unknown<b>Version:</b>7.47.0<b>Platform:</b>Unknown<b>User
+Account ID:</b><b>Time:</b>2018-09-22
+23:09:20**************************************************************************
+<form action='../dashboard.php'><input type='submit' value=
+'Back to dashboard'></form>
+**************************************************************************
+<table>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+</table>
+</body>
+</html>
+
+Error---Pay Bill Part 2---****************************
+
+<!-- This file is part of a web application designed to help Hope Matters interact with their database. The web application is licensed under the Affero General Public License v3. View the web application's readme.txt for more details. Copyright © 2017 Andrew Klassen --><!-- This file is part of a web application designed to help Hope Matters interact with their database. The web application is licensed under the Affero General Public License v3. View the web application's readme.txt for more details. Copyright © 2017 Andrew Klassen -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<html>
+<head>
+<meta name="generator" content=
+"HTML Tidy for Linux (vers 25 March 2009), see www.w3.org">
+<title></title>
+</head>
+<body>
+10**************************************************************************<b>Error</b>Please
+create a bug report that contains the information
+below.**************************************************************************<b>Error
+Location:</b>update_payment.php<b>SQL Query:</b>INSERT INTO
+master_log_history (payment_id, client_id, first_name, last_name,
+sex, location, date_of_birth, department, payment_method, revisit,
+notes, billed, paid, timestamp, created_by) SELECT payment_id,
+client_id, first_name, last_name, sex, location, date_of_birth,
+department, payment_method, revisit, notes, billed, paid,
+timestamp, created_by FROM master_log WHERE
+payment_id='10';<b>Database Error:</b>SQLSTATE[01000]: Warning:
+1265 Data truncated for column 'department' at row 1<b>Client's Web
+Browser:</b>Unknown<b>Version:</b>7.47.0<b>Platform:</b>Unknown<b>User
+Account ID:</b><b>Time:</b>2018-09-22
+23:09:20**************************************************************************
+<form action='../dashboard.php'><input type='submit' value=
+'Back to dashboard'></form>
+**************************************************************************
+<table>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+</table>
+</body>
+</html>
+
+Error---Pay Bill Part 1---****************************
+
+<!-- This file is part of a web application designed to help Hope Matters interact with their database. The web application is licensed under the Affero General Public License v3. View the web application's readme.txt for more details. Copyright © 2017 Andrew Klassen --><!-- This file is part of a web application designed to help Hope Matters interact with their database. The web application is licensed under the Affero General Public License v3. View the web application's readme.txt for more details. Copyright © 2017 Andrew Klassen -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<html>
+<head>
+<meta name="generator" content=
+"HTML Tidy for Linux (vers 25 March 2009), see www.w3.org">
+<title></title>
+</head>
+<body>
+4**************************************************************************<b>Error</b>Please
+create a bug report that contains the information
+below.**************************************************************************<b>Error
+Location:</b>update_payment.php<b>SQL Query:</b>INSERT INTO
+master_log_history (payment_id, client_id, first_name, last_name,
+sex, location, date_of_birth, department, payment_method, revisit,
+notes, billed, paid, timestamp, created_by) SELECT payment_id,
+client_id, first_name, last_name, sex, location, date_of_birth,
+department, payment_method, revisit, notes, billed, paid,
+timestamp, created_by FROM master_log WHERE
+payment_id='4';<b>Database Error:</b>SQLSTATE[01000]: Warning: 1265
+Data truncated for column 'department' at row 1<b>Client's Web
+Browser:</b>Unknown<b>Version:</b>7.47.0<b>Platform:</b>Unknown<b>User
+Account ID:</b><b>Time:</b>2018-09-22
+23:09:21**************************************************************************
+<form action='../dashboard.php'><input type='submit' value=
+'Back to dashboard'></form>
+**************************************************************************
+<table>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+</table>
+</body>
+</html>
+
+Error---Pay Bill Part 2---****************************
+
+<!-- This file is part of a web application designed to help Hope Matters interact with their database. The web application is licensed under the Affero General Public License v3. View the web application's readme.txt for more details. Copyright © 2017 Andrew Klassen --><!-- This file is part of a web application designed to help Hope Matters interact with their database. The web application is licensed under the Affero General Public License v3. View the web application's readme.txt for more details. Copyright © 2017 Andrew Klassen -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<html>
+<head>
+<meta name="generator" content=
+"HTML Tidy for Linux (vers 25 March 2009), see www.w3.org">
+<title></title>
+</head>
+<body>
+4**************************************************************************<b>Error</b>Please
+create a bug report that contains the information
+below.**************************************************************************<b>Error
+Location:</b>update_payment.php<b>SQL Query:</b>INSERT INTO
+master_log_history (payment_id, client_id, first_name, last_name,
+sex, location, date_of_birth, department, payment_method, revisit,
+notes, billed, paid, timestamp, created_by) SELECT payment_id,
+client_id, first_name, last_name, sex, location, date_of_birth,
+department, payment_method, revisit, notes, billed, paid,
+timestamp, created_by FROM master_log WHERE
+payment_id='4';<b>Database Error:</b>SQLSTATE[01000]: Warning: 1265
+Data truncated for column 'department' at row 1<b>Client's Web
+Browser:</b>Unknown<b>Version:</b>7.47.0<b>Platform:</b>Unknown<b>User
+Account ID:</b><b>Time:</b>2018-09-22
+23:09:21**************************************************************************
+<form action='../dashboard.php'><input type='submit' value=
+'Back to dashboard'></form>
+**************************************************************************
+<table>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+</table>
+</body>
+</html>
+
+Error---Pay Bill Part 1---****************************
+
+<!-- This file is part of a web application designed to help Hope Matters interact with their database. The web application is licensed under the Affero General Public License v3. View the web application's readme.txt for more details. Copyright © 2017 Andrew Klassen --><!-- This file is part of a web application designed to help Hope Matters interact with their database. The web application is licensed under the Affero General Public License v3. View the web application's readme.txt for more details. Copyright © 2017 Andrew Klassen -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<html>
+<head>
+<meta name="generator" content=
+"HTML Tidy for Linux (vers 25 March 2009), see www.w3.org">
+<title></title>
+</head>
+<body>
+2**************************************************************************<b>Error</b>Please
+create a bug report that contains the information
+below.**************************************************************************<b>Error
+Location:</b>update_payment.php<b>SQL Query:</b>INSERT INTO
+master_log_history (payment_id, client_id, first_name, last_name,
+sex, location, date_of_birth, department, payment_method, revisit,
+notes, billed, paid, timestamp, created_by) SELECT payment_id,
+client_id, first_name, last_name, sex, location, date_of_birth,
+department, payment_method, revisit, notes, billed, paid,
+timestamp, created_by FROM master_log WHERE
+payment_id='2';<b>Database Error:</b>SQLSTATE[01000]: Warning: 1265
+Data truncated for column 'department' at row 1<b>Client's Web
+Browser:</b>Unknown<b>Version:</b>7.47.0<b>Platform:</b>Unknown<b>User
+Account ID:</b><b>Time:</b>2018-09-22
+23:09:21**************************************************************************
+<form action='../dashboard.php'><input type='submit' value=
+'Back to dashboard'></form>
+**************************************************************************
+<table>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+</table>
+</body>
+</html>
+
+Error---Pay Bill Part 2---****************************
+
+<!-- This file is part of a web application designed to help Hope Matters interact with their database. The web application is licensed under the Affero General Public License v3. View the web application's readme.txt for more details. Copyright © 2017 Andrew Klassen --><!-- This file is part of a web application designed to help Hope Matters interact with their database. The web application is licensed under the Affero General Public License v3. View the web application's readme.txt for more details. Copyright © 2017 Andrew Klassen -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<html>
+<head>
+<meta name="generator" content=
+"HTML Tidy for Linux (vers 25 March 2009), see www.w3.org">
+<title></title>
+</head>
+<body>
+2**************************************************************************<b>Error</b>Please
+create a bug report that contains the information
+below.**************************************************************************<b>Error
+Location:</b>update_payment.php<b>SQL Query:</b>INSERT INTO
+master_log_history (payment_id, client_id, first_name, last_name,
+sex, location, date_of_birth, department, payment_method, revisit,
+notes, billed, paid, timestamp, created_by) SELECT payment_id,
+client_id, first_name, last_name, sex, location, date_of_birth,
+department, payment_method, revisit, notes, billed, paid,
+timestamp, created_by FROM master_log WHERE
+payment_id='2';<b>Database Error:</b>SQLSTATE[01000]: Warning: 1265
+Data truncated for column 'department' at row 1<b>Client's Web
+Browser:</b>Unknown<b>Version:</b>7.47.0<b>Platform:</b>Unknown<b>User
+Account ID:</b><b>Time:</b>2018-09-22
+23:09:21**************************************************************************
+<form action='../dashboard.php'><input type='submit' value=
+'Back to dashboard'></form>
+**************************************************************************
+<table>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+</table>
+</body>
+</html>
+
+Error---login---****************************
+
+<!--
+ This file is part of a web application designed to help Hope Matters interact with their database.
+ The web application is licensed under the Affero General Public License v3.
+ View the web application's readme.txt for more details.
+ 
+ Copyright © 2017 Andrew Klassen
+ -->
+<!-- This file is part of a web application designed to help Hope Matters interact with their database. The web application is licensed under the Affero General Public License v3. View the web application's readme.txt for more details. Copyright © 2017 Andrew Klassen -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<html>
+<head>
+<meta name="generator" content=
+"HTML Tidy for Linux (vers 25 March 2009), see www.w3.org">
+<title></title>
+</head>
+<body>
+<script type='text/javascript'>
+ alert('Invaild Username or Password'); 
+ document.location.href = '../index.html'; 
+</script>
+<table>
+<tr>
+<td></td>
+</tr>
+</table>
+</body>
+</html>
+
