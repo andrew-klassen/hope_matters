@@ -16,6 +16,50 @@ echo '' >> error.log
 }
 
 
+
+
+
+function create_vital_sign() {
+
+
+t=$(head /dev/urandom | tr -dc A-Za-z0-9 | head -c 10)
+hr=$(head /dev/urandom | tr -dc A-Za-z0-9 | head -c 10)
+bp=$(head /dev/urandom | tr -dc A-Za-z0-9 | head -c 10)
+sao2=$(echo $((1 + RANDOM % 99999)))
+pain_choises=("none" "mild" "moderate" "severe")
+pain=${pain_choises[$RANDOM % ${#pain_choises[@]} ]}
+notes=$(./lorem_ipsum -b $(echo $((1 + RANDOM % 255))) -n no)
+
+
+error=$(curl -s -d "username=andrew" -d "choosen_client_id=${1}" \
+-d "t=${t}" \
+-d "bp=${bp}" \
+-d "hr=${hr}" \
+-d "sao2=${sao2}" \
+-d "pain=${pain}" \
+-d "notes=${notes}" \
+-d "submit_button=Submit Vital Signs" -L http://${server}/php/vital_signs/insert_vital_signs.php >> /dev/null 2>&1)
+
+
+error_count=$(echo ${error} | grep "Error" | wc -l)
+
+if [ $error_count -gt 0 ]; then
+        log_error "create vital sign" "${error}"
+fi
+
+
+
+
+
+}
+
+
+
+
+
+
+
+
 function login_check() {
 
 
@@ -545,6 +589,7 @@ do
    create_payment $i
    create_treatment $i
    create_return_treatment $i
+   create_vital_sign $i
 done
 
 
