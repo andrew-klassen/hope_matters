@@ -556,7 +556,7 @@ fi
 login_check
 
 
-for i in {1..10};
+for i in {1..3};
 do
 
 create_client &
@@ -584,11 +584,14 @@ id_list_lab=($(curl -s -d "search=*" -d "search_submit=Search"-L http://${server
 
 for i in "${id_list_lab[@]}"
 do
-   create_lab $i
-   create_payment $i
-   create_treatment $i
-   create_return_treatment $i
-   create_vital_sign $i
+   create_lab $i &
+   create_payment $i &
+   create_treatment $i &
+   create_return_treatment $i &
+   create_vital_sign $i &
+
+   wait
+
 done
 
 
