@@ -54,8 +54,6 @@ fi
 }
 
 
-create_vital_sign 346
-exit
 
 
 
