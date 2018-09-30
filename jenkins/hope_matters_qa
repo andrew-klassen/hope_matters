@@ -16,7 +16,29 @@ echo '' >> error.log
 }
 
 
+function create_medication_order() {
 
+medication=$(head /dev/urandom | tr -dc A-Za-z0-9 | head -c 10)
+dosage=$(echo $((1 + RANDOM % 99999)))
+dosage="${dosage}mg"
+frequency=$(head /dev/urandom | tr -dc A-Za-z0-9 | head -c 10)
+administration_method_choises=("oral" "buccal" "enteral" "inhalable" "infused" "intramuscular" "intrathecal" "intravenous" "nasal" "ophthalmic" "otic" "rectal" "subcutaneous" "sublingual" "topical" "transdermal")
+administration_method=${administration_method_choises[$RANDOM % ${#administration_method_choises[@]} ]}
+notes=$(./lorem_ipsum $(echo $((1 + RANDOM % 255))))
+
+
+
+
+curl -d "username=andrew" -d "choosen_client_id=${1}" \
+-d "medication=${medication}" \
+-d "dosage=${dosage}" \
+-d "frequency=${frequency}" \
+-d "administration_method=${administration_method}" \
+-d "notes=${notes}" -L http://${server}/php/medication_order/insert_medication_order.php
+
+
+
+}
 
 
 function create_vital_sign() {
@@ -28,7 +50,7 @@ bp=$(head /dev/urandom | tr -dc A-Za-z0-9 | head -c 10)
 sao2=$(echo $((1 + RANDOM % 99999)))
 pain_choises=("none" "mild" "moderate" "severe")
 pain=${pain_choises[$RANDOM % ${#pain_choises[@]} ]}
-notes=$(./lorem_ipsum -b $(echo $((1 + RANDOM % 255))) -n no)
+notes=$(./lorem_ipsum $(echo $((1 + RANDOM % 255))))
 
 
 error=$(curl -s -d "username=andrew" -d "choosen_client_id=${1}" \
@@ -85,8 +107,8 @@ sao2=$(echo $((1 + RANDOM % 99999)))
 pain_choises=("none" "mild" "moderate" "severe")
 pain=${pain_choises[$RANDOM % ${#pain_choises[@]} ]}
 
-notes=$(./lorem_ipsum -b $(echo $((1 + RANDOM % 5000))) -n no)
-plan=$(./lorem_ipsum -b $(echo $((1 + RANDOM % 5000))) -n no)
+notes=$(./lorem_ipsum $(echo $((1 + RANDOM % 5000))))
+plan=$(./lorem_ipsum $(echo $((1 + RANDOM % 5000))))
 
 
 error=$(curl -d "t=${t}" \
@@ -149,11 +171,11 @@ sao2=$(echo $((1 + RANDOM % 99999)))
 pain_choises=("none" "mild" "moderate" "severe")
 pain=${pain_choises[$RANDOM % ${#pain_choises[@]} ]}
 
-history_text=$(./lorem_ipsum -b $(echo $((1 + RANDOM % 5000))) -n no)
-physical_examination=$(./lorem_ipsum -b $(echo $((1 + RANDOM % 5000))) -n no)
-impression=$(./lorem_ipsum -b $(echo $((1 + RANDOM % 5000))) -n no)
-plan=$(./lorem_ipsum -b $(echo $((1 + RANDOM % 5000))) -n no)
-health_education=$(./lorem_ipsum -b $(echo $((1 + RANDOM % 5000))) -n no)
+history_text=$(./lorem_ipsum $(echo $((1 + RANDOM % 5000))))
+physical_examination=$(./lorem_ipsum $(echo $((1 + RANDOM % 5000))))
+impression=$(./lorem_ipsum $(echo $((1 + RANDOM % 5000))))
+plan=$(./lorem_ipsum $(echo $((1 + RANDOM % 5000))))
+health_education=$(./lorem_ipsum $(echo $((1 + RANDOM % 5000))))
 
 
 error=$(curl -s -d "t=${t}" \
@@ -291,7 +313,7 @@ method_choises=("unknown" "cash" "m-pesa")
 method=${method_choises[$RANDOM % ${#method_choises[@]} ]}
 billed=$(echo $((1 + RANDOM % 9999)))
 paid=0
-notes=$(./lorem_ipsum -b $(echo $((1 + RANDOM % 150))) -n no)
+notes=$(./lorem_ipsum $(echo $((1 + RANDOM % 150))))
 revisit_choises=("yes" "no")
 revisit=${revisit_choises[$RANDOM % ${#revisit_choises[@]} ]}
 
@@ -338,8 +360,8 @@ location=$(sed "$(echo $((1 + RANDOM % $(cat wordlists/locations | wc -l))))q;d"
 contact=$(sed "$(echo $((1 + RANDOM % $(cat wordlists/names | wc -l))))q;d" wordlists/names)
 contact="$contact $(sed "$(echo $((1 + RANDOM % $(cat wordlists/names | wc -l))))q;d" wordlists/names)"
 allergies=$(sed "$(echo $((1 + RANDOM % $(cat wordlists/allergies | wc -l))))q;d" wordlists/allergies)
-medical_history=$(./lorem_ipsum -b $(echo $((1 + RANDOM % 255))) -n no)
-regular_medications=$(./lorem_ipsum -b $(echo $((1 + RANDOM % 255))) -n no)
+medical_history=$(./lorem_ipsum $(echo $((1 + RANDOM % 255))))
+regular_medications=$(./lorem_ipsum $(echo $((1 + RANDOM % 255))))
 
 hiv_status=${hiv_status_choices[$RANDOM % ${#hiv_status_choices[@]} ]}
 alcolol_use=${alcolol_use_choices[$RANDOM % ${#alcolol_use_choices[@]} ]}
@@ -394,7 +416,7 @@ fi
 
 count=$(echo $((1 + RANDOM % 9999)))
 value=$(echo $((1 + RANDOM % 9999)))
-notes=$(./lorem_ipsum -b $(echo $((1 + RANDOM % 255))) -n no)
+notes=$(./lorem_ipsum $(echo $((1 + RANDOM % 255))))
 barcode=$(echo $((1 + RANDOM % 999999999)))
 
 error=$(curl -s -d "name=${item_name}" \
@@ -476,7 +498,7 @@ leukocytes=${leukocytes_choises[$RANDOM % ${#leukocytes_choises[@]} ]}
 microscopy=$(sed "$(echo $((1 + RANDOM % $(cat wordlists/products | wc -l))))q;d" wordlists/products)
 macroscopy=$(sed "$(echo $((1 + RANDOM % $(cat wordlists/products | wc -l))))q;d" wordlists/products)
 microscopy_hvs=$(sed "$(echo $((1 + RANDOM % $(cat wordlists/products | wc -l))))q;d" wordlists/products)
-gram_stain=$(./lorem_ipsum -b $(echo $((1 + RANDOM % 255))) -n no)
+gram_stain=$(./lorem_ipsum $(echo $((1 + RANDOM % 255))))
 
 
 error=$(curl -s -d "choosen_client_id=${1}" \

@@ -3200,3 +3200,419 @@ Account ID:</b><b>Time:</b>2018-09-23
 </body>
 </html>
 
+Error---Pay Bill Part 1---****************************
+
+<!-- This file is part of a web application designed to help Hope Matters interact with their database. The web application is licensed under the Affero General Public License v3. View the web application's readme.txt for more details. Copyright © 2017 Andrew Klassen --><!-- This file is part of a web application designed to help Hope Matters interact with their database. The web application is licensed under the Affero General Public License v3. View the web application's readme.txt for more details. Copyright © 2017 Andrew Klassen -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<html>
+<head>
+<meta name="generator" content=
+"HTML Tidy for Linux (vers 25 March 2009), see www.w3.org">
+<title></title>
+</head>
+<body>
+14**************************************************************************<b>Error</b>Please
+create a bug report that contains the information
+below.**************************************************************************<b>Error
+Location:</b>update_payment.php<b>SQL Query:</b>INSERT INTO
+master_log_history (payment_id, client_id, first_name, last_name,
+sex, location, date_of_birth, department, payment_method, revisit,
+notes, billed, paid, timestamp, created_by) SELECT payment_id,
+client_id, first_name, last_name, sex, location, date_of_birth,
+department, payment_method, revisit, notes, billed, paid,
+timestamp, created_by FROM master_log WHERE
+payment_id='14';<b>Database Error:</b>SQLSTATE[01000]: Warning:
+1265 Data truncated for column 'department' at row 1<b>Client's Web
+Browser:</b>Unknown<b>Version:</b>7.47.0<b>Platform:</b>Unknown<b>User
+Account ID:</b><b>Time:</b>2018-09-28
+03:16:23**************************************************************************
+<form action='../dashboard.php'><input type='submit' value=
+'Back to dashboard'></form>
+**************************************************************************
+<table>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+</table>
+</body>
+</html>
+
+Error---Pay Bill Part 1---****************************
+
+<!-- This file is part of a web application designed to help Hope Matters interact with their database. The web application is licensed under the Affero General Public License v3. View the web application's readme.txt for more details. Copyright © 2017 Andrew Klassen --><!-- This file is part of a web application designed to help Hope Matters interact with their database. The web application is licensed under the Affero General Public License v3. View the web application's readme.txt for more details. Copyright © 2017 Andrew Klassen -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<html>
+<head>
+<meta name="generator" content=
+"HTML Tidy for Linux (vers 25 March 2009), see www.w3.org">
+<title></title>
+</head>
+<body>
+12**************************************************************************<b>Error</b>Please
+create a bug report that contains the information
+below.**************************************************************************<b>Error
+Location:</b>update_payment.php<b>SQL Query:</b>INSERT INTO
+master_log_history (payment_id, client_id, first_name, last_name,
+sex, location, date_of_birth, department, payment_method, revisit,
+notes, billed, paid, timestamp, created_by) SELECT payment_id,
+client_id, first_name, last_name, sex, location, date_of_birth,
+department, payment_method, revisit, notes, billed, paid,
+timestamp, created_by FROM master_log WHERE
+payment_id='12';<b>Database Error:</b>SQLSTATE[01000]: Warning:
+1265 Data truncated for column 'department' at row 1<b>Client's Web
+Browser:</b>Unknown<b>Version:</b>7.47.0<b>Platform:</b>Unknown<b>User
+Account ID:</b><b>Time:</b>2018-09-28
+03:16:23**************************************************************************
+<form action='../dashboard.php'><input type='submit' value=
+'Back to dashboard'></form>
+**************************************************************************
+<table>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+</table>
+</body>
+</html>
+
+Error---Pay Bill Part 1---****************************
+
+<!-- This file is part of a web application designed to help Hope Matters interact with their database. The web application is licensed under the Affero General Public License v3. View the web application's readme.txt for more details. Copyright © 2017 Andrew Klassen --><!-- This file is part of a web application designed to help Hope Matters interact with their database. The web application is licensed under the Affero General Public License v3. View the web application's readme.txt for more details. Copyright © 2017 Andrew Klassen -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<html>
+<head>
+<meta name="generator" content=
+"HTML Tidy for Linux (vers 25 March 2009), see www.w3.org">
+<title></title>
+</head>
+<body>
+11**************************************************************************<b>Error</b>Please
+create a bug report that contains the information
+below.**************************************************************************<b>Error
+Location:</b>update_payment.php<b>SQL Query:</b>INSERT INTO
+master_log_history (payment_id, client_id, first_name, last_name,
+sex, location, date_of_birth, department, payment_method, revisit,
+notes, billed, paid, timestamp, created_by) SELECT payment_id,
+client_id, first_name, last_name, sex, location, date_of_birth,
+department, payment_method, revisit, notes, billed, paid,
+timestamp, created_by FROM master_log WHERE
+payment_id='11';<b>Database Error:</b>SQLSTATE[01000]: Warning:
+1265 Data truncated for column 'department' at row 1<b>Client's Web
+Browser:</b>Unknown<b>Version:</b>7.47.0<b>Platform:</b>Unknown<b>User
+Account ID:</b><b>Time:</b>2018-09-28
+03:16:24**************************************************************************
+<form action='../dashboard.php'><input type='submit' value=
+'Back to dashboard'></form>
+**************************************************************************
+<table>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+</table>
+</body>
+</html>
+
+Error---Pay Bill Part 1---****************************
+
+<!-- This file is part of a web application designed to help Hope Matters interact with their database. The web application is licensed under the Affero General Public License v3. View the web application's readme.txt for more details. Copyright © 2017 Andrew Klassen --><!-- This file is part of a web application designed to help Hope Matters interact with their database. The web application is licensed under the Affero General Public License v3. View the web application's readme.txt for more details. Copyright © 2017 Andrew Klassen -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<html>
+<head>
+<meta name="generator" content=
+"HTML Tidy for Linux (vers 25 March 2009), see www.w3.org">
+<title></title>
+</head>
+<body>
+8**************************************************************************<b>Error</b>Please
+create a bug report that contains the information
+below.**************************************************************************<b>Error
+Location:</b>update_payment.php<b>SQL Query:</b>INSERT INTO
+master_log_history (payment_id, client_id, first_name, last_name,
+sex, location, date_of_birth, department, payment_method, revisit,
+notes, billed, paid, timestamp, created_by) SELECT payment_id,
+client_id, first_name, last_name, sex, location, date_of_birth,
+department, payment_method, revisit, notes, billed, paid,
+timestamp, created_by FROM master_log WHERE
+payment_id='8';<b>Database Error:</b>SQLSTATE[01000]: Warning: 1265
+Data truncated for column 'department' at row 1<b>Client's Web
+Browser:</b>Unknown<b>Version:</b>7.47.0<b>Platform:</b>Unknown<b>User
+Account ID:</b><b>Time:</b>2018-09-28
+03:16:24**************************************************************************
+<form action='../dashboard.php'><input type='submit' value=
+'Back to dashboard'></form>
+**************************************************************************
+<table>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+</table>
+</body>
+</html>
+
+Error---Pay Bill Part 2---****************************
+
+<!-- This file is part of a web application designed to help Hope Matters interact with their database. The web application is licensed under the Affero General Public License v3. View the web application's readme.txt for more details. Copyright © 2017 Andrew Klassen --><!-- This file is part of a web application designed to help Hope Matters interact with their database. The web application is licensed under the Affero General Public License v3. View the web application's readme.txt for more details. Copyright © 2017 Andrew Klassen -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<html>
+<head>
+<meta name="generator" content=
+"HTML Tidy for Linux (vers 25 March 2009), see www.w3.org">
+<title></title>
+</head>
+<body>
+8**************************************************************************<b>Error</b>Please
+create a bug report that contains the information
+below.**************************************************************************<b>Error
+Location:</b>update_payment.php<b>SQL Query:</b>INSERT INTO
+master_log_history (payment_id, client_id, first_name, last_name,
+sex, location, date_of_birth, department, payment_method, revisit,
+notes, billed, paid, timestamp, created_by) SELECT payment_id,
+client_id, first_name, last_name, sex, location, date_of_birth,
+department, payment_method, revisit, notes, billed, paid,
+timestamp, created_by FROM master_log WHERE
+payment_id='8';<b>Database Error:</b>SQLSTATE[01000]: Warning: 1265
+Data truncated for column 'department' at row 1<b>Client's Web
+Browser:</b>Unknown<b>Version:</b>7.47.0<b>Platform:</b>Unknown<b>User
+Account ID:</b><b>Time:</b>2018-09-28
+03:16:24**************************************************************************
+<form action='../dashboard.php'><input type='submit' value=
+'Back to dashboard'></form>
+**************************************************************************
+<table>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+</table>
+</body>
+</html>
+
+Error---Pay Bill Part 1---****************************
+
+<!-- This file is part of a web application designed to help Hope Matters interact with their database. The web application is licensed under the Affero General Public License v3. View the web application's readme.txt for more details. Copyright © 2017 Andrew Klassen --><!-- This file is part of a web application designed to help Hope Matters interact with their database. The web application is licensed under the Affero General Public License v3. View the web application's readme.txt for more details. Copyright © 2017 Andrew Klassen -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<html>
+<head>
+<meta name="generator" content=
+"HTML Tidy for Linux (vers 25 March 2009), see www.w3.org">
+<title></title>
+</head>
+<body>
+5**************************************************************************<b>Error</b>Please
+create a bug report that contains the information
+below.**************************************************************************<b>Error
+Location:</b>update_payment.php<b>SQL Query:</b>INSERT INTO
+master_log_history (payment_id, client_id, first_name, last_name,
+sex, location, date_of_birth, department, payment_method, revisit,
+notes, billed, paid, timestamp, created_by) SELECT payment_id,
+client_id, first_name, last_name, sex, location, date_of_birth,
+department, payment_method, revisit, notes, billed, paid,
+timestamp, created_by FROM master_log WHERE
+payment_id='5';<b>Database Error:</b>SQLSTATE[01000]: Warning: 1265
+Data truncated for column 'department' at row 1<b>Client's Web
+Browser:</b>Unknown<b>Version:</b>7.47.0<b>Platform:</b>Unknown<b>User
+Account ID:</b><b>Time:</b>2018-09-28
+03:16:24**************************************************************************
+<form action='../dashboard.php'><input type='submit' value=
+'Back to dashboard'></form>
+**************************************************************************
+<table>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+</table>
+</body>
+</html>
+
+Error---Pay Bill Part 1---****************************
+
+<!-- This file is part of a web application designed to help Hope Matters interact with their database. The web application is licensed under the Affero General Public License v3. View the web application's readme.txt for more details. Copyright © 2017 Andrew Klassen --><!-- This file is part of a web application designed to help Hope Matters interact with their database. The web application is licensed under the Affero General Public License v3. View the web application's readme.txt for more details. Copyright © 2017 Andrew Klassen -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<html>
+<head>
+<meta name="generator" content=
+"HTML Tidy for Linux (vers 25 March 2009), see www.w3.org">
+<title></title>
+</head>
+<body>
+3**************************************************************************<b>Error</b>Please
+create a bug report that contains the information
+below.**************************************************************************<b>Error
+Location:</b>update_payment.php<b>SQL Query:</b>INSERT INTO
+master_log_history (payment_id, client_id, first_name, last_name,
+sex, location, date_of_birth, department, payment_method, revisit,
+notes, billed, paid, timestamp, created_by) SELECT payment_id,
+client_id, first_name, last_name, sex, location, date_of_birth,
+department, payment_method, revisit, notes, billed, paid,
+timestamp, created_by FROM master_log WHERE
+payment_id='3';<b>Database Error:</b>SQLSTATE[01000]: Warning: 1265
+Data truncated for column 'department' at row 1<b>Client's Web
+Browser:</b>Unknown<b>Version:</b>7.47.0<b>Platform:</b>Unknown<b>User
+Account ID:</b><b>Time:</b>2018-09-28
+03:16:25**************************************************************************
+<form action='../dashboard.php'><input type='submit' value=
+'Back to dashboard'></form>
+**************************************************************************
+<table>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+</table>
+</body>
+</html>
+
+Error---Pay Bill Part 2---****************************
+
+<!-- This file is part of a web application designed to help Hope Matters interact with their database. The web application is licensed under the Affero General Public License v3. View the web application's readme.txt for more details. Copyright © 2017 Andrew Klassen --><!-- This file is part of a web application designed to help Hope Matters interact with their database. The web application is licensed under the Affero General Public License v3. View the web application's readme.txt for more details. Copyright © 2017 Andrew Klassen -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<html>
+<head>
+<meta name="generator" content=
+"HTML Tidy for Linux (vers 25 March 2009), see www.w3.org">
+<title></title>
+</head>
+<body>
+3**************************************************************************<b>Error</b>Please
+create a bug report that contains the information
+below.**************************************************************************<b>Error
+Location:</b>update_payment.php<b>SQL Query:</b>INSERT INTO
+master_log_history (payment_id, client_id, first_name, last_name,
+sex, location, date_of_birth, department, payment_method, revisit,
+notes, billed, paid, timestamp, created_by) SELECT payment_id,
+client_id, first_name, last_name, sex, location, date_of_birth,
+department, payment_method, revisit, notes, billed, paid,
+timestamp, created_by FROM master_log WHERE
+payment_id='3';<b>Database Error:</b>SQLSTATE[01000]: Warning: 1265
+Data truncated for column 'department' at row 1<b>Client's Web
+Browser:</b>Unknown<b>Version:</b>7.47.0<b>Platform:</b>Unknown<b>User
+Account ID:</b><b>Time:</b>2018-09-28
+03:16:25**************************************************************************
+<form action='../dashboard.php'><input type='submit' value=
+'Back to dashboard'></form>
+**************************************************************************
+<table>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+</table>
+</body>
+</html>
+
