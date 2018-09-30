@@ -403,6 +403,16 @@
        line: "$choosen_client_id = $_SESSION['choosen_client_id']; if (isset($_POST['choosen_client_id'])) {$choosen_client_id = $_POST['choosen_client_id'];}"
        regexp: "'choosen_client_id'"
 
+   - lineinfile:
+       path: /var/www/html/php/medication_order/insert_medication_order.php
+       line: "$username = $_SESSION['username']; if (isset($_POST['username'])) {$username = $_POST['username'];}"
+       regexp: "'username'"
+
+   - lineinfile:
+       path: /var/www/html/php/medication_order/insert_medication_order.php
+       line: "$choosen_client_id = $_SESSION['choosen_client_id']; if (isset($_POST['choosen_client_id'])) {$choosen_client_id = $_POST['choosen_client_id'];}"
+       regexp: "'choosen_client_id'"
+
    - name: (testing) import diagnoses
      mysql_db:
        name: hope_matters
@@ -430,5 +440,6 @@
        dos2unix /var/www/html/php/return_treatment_form/add_return_treatment_form_diagnoses.php
        dos2unix /var/www/html/php/return_treatment_form/insert_return_treatment_form.php
        dos2unix /var/www/html/php/vital_signs/insert_vital_signs.php
+       dos2unix /var/www/html/php/medication_order/insert_medication_order.php
 
   when: testing|default(false)|bool

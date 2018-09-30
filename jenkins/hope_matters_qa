@@ -29,16 +29,27 @@ notes=$(./lorem_ipsum $(echo $((1 + RANDOM % 255))))
 
 
 
-curl -d "username=andrew" -d "choosen_client_id=${1}" \
+error=$(curl -s -d "username=andrew" \
+-d "choosen_client_id=${1}" \
 -d "medication=${medication}" \
 -d "dosage=${dosage}" \
 -d "frequency=${frequency}" \
 -d "administration_method=${administration_method}" \
--d "notes=${notes}" -L http://${server}/php/medication_order/insert_medication_order.php
+-d "notes=${notes}" -L http://${server}/php/medication_order/insert_medication_order.php >> /dev/null 2>&1)
+
+
+error_count=$(echo ${error} | grep "Error" | wc -l)
+
+
+if [ $error_count -gt 0 ]; then
+        log_error "Medication Order" "${error}"
+fi
+
 
 
 
 }
+
 
 
 function create_vital_sign() {
@@ -328,6 +339,8 @@ error=$(curl  -s -d "transaction_type_add=${department}" \
 -d "submit_button=Submit" \
 -L http://${server}/php/master_log/insert_payment.php >> /dev/null 2>&1)
 
+error_count=$(echo ${error} | grep "Error" | wc -l)
+
 if [ $error_count -gt 0 ]; then
         log_error "Create Payment" "${error}"
 fi
@@ -611,6 +624,7 @@ do
    create_treatment $i &
    create_return_treatment $i &
    create_vital_sign $i &
+   create_medication_order $i &
 
    wait
 
