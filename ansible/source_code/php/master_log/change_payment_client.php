@@ -279,18 +279,18 @@ Copyright © 2017 Andrew Klassen
 							echo "
 								<select name='transaction_type' method='post'>
 									<option value='general' $general_selected>General</option>
-									<option value='dental' $dental_selected' >Dental</option>
+									<option value='dental' $dental_selected >Dental</option>
 									<option value='inquiry' $inquiry_selected >Inquiry</option>
 									<option value='laboratory' $laboratory_selected >Laboratory</option>
 									<option value='mch_anc' $mch_anc_selected >MCH/ANC</option>
 									<option value='mch_cwc' $mch_cwc_selected >MCH/CWC</option>
-									<option value='mch_delivery $mch_delivery_selected '>MCH/Delivery</option>
-									<option value='mch_fp $mch_fp_selected '>MCH/FP</option>
+									<option value='mch_delivery' $mch_delivery_selected >MCH/Delivery</option>
+									<option value='mch_fp' $mch_fp_selected >MCH/FP</option>
 									<option value='optometry' $optometry_selected >Optometry</option>
 									<option value='payment_rec' $payment_rec_selected >Payment Rec</option>
 									<option value='pharmacy' $pharmacy_selected >Pharmacy</option>
 									<option value='referral' $referral_selected >Referral</option>
-									<option value='screening_dm ' $screening_dm_selected >Screening/DM</option>
+									<option value='screening_dm' $screening_dm_selected >Screening/DM</option>
 									<option value='screening_gyn' $screening_gyn_selected >Screening/GYN</option>
 									<option value='screening_other' $screening_other_selected >Screening/OTHER</option>
 									<option value='tb_injection' $tb_injection_selected >TB Injection</option>
