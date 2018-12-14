@@ -29,7 +29,7 @@ class grab_value extends RecursiveIteratorIterator {
 		}
 }
 
-$choosen_payment_id = $_SESSION['choosen_payment_id'];
+$choosen_payment_id = $_SESSION['choosen_payment_id']; if (isset($_POST['choosen_payment_id'])) {echo $choosen_payment_id = $_POST['choosen_payment_id'];}
 $username = $_SESSION['username'];
 
 $transaction_type = $_POST['transaction_type'];

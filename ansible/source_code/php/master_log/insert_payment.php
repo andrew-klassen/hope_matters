@@ -15,7 +15,7 @@ login_check();
 master_log_check();
 
 $username = $_SESSION['username'];
-$client_id = $_SESSION['choosen_client_id'];
+$client_id = $_SESSION['choosen_client_id']; if (isset($_POST['choosen_client_id'])) {$client_id = $_POST['choosen_client_id'];}
 
 
 class grab_value extends RecursiveIteratorIterator {

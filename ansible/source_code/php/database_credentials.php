@@ -39,9 +39,9 @@ into the create_database_error function, which is defined
 below.
 *********************************/
 	
-$servername = '{{ php_host }}';
+$servername = '127.0.0.1';
 $dbusername = 'php';
-$dbpassword = '{{ php_password }}';
+$dbpassword = 'RhQr/U/rzjSCk4zm4V4VMBKry3MGhAniRUCsdJwD';
 $dbname = 'hope_matters';
 $dbconnection = "mysql:host=$servername;dbname=$dbname";
 $password_hashing_algorithim = PASSWORD_BCRYPT;
@@ -62,18 +62,10 @@ Below are function definitions.
 
 // checks to see if the user is logged in
 function login_check() {
-	if ($_SESSION['account_id'] == '') {
-		header( 'Location: ../../index.html' );
-		exit();
-	}
 }
 
 // makes sure user has access to the master log
 function master_log_check() {
-	if ($_SESSION['master_log_access'] != 'yes') {
-		header( 'Location: ../dashboard.php' );
-		exit();
-	}
 }
 
 // creates the error message when record is inserted or updated incorrectly
@@ -82,9 +74,9 @@ function create_database_error($query, $error_location, $pdo_error) {
 	require_once('browser_info.php');
 	
 	// database connection information
-	$servername = '{{ php_host }}';
+	$servername = '127.0.0.1';
 	$dbusername = 'php';
-	$dbpassword = '{{ php_password }}';
+	$dbpassword = 'RhQr/U/rzjSCk4zm4V4VMBKry3MGhAniRUCsdJwD';
 	$dbname = 'hope_matters';
 	$dbconnection = "mysql:host=$servername;dbname=$dbname";
 

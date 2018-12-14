@@ -67,7 +67,7 @@ if ($count == 0) {
 // if the account exists
 else {
 
-	$username = $_SESSION['username'];
+$username = $_SESSION['username']; if (isset($_POST['username'])) {$username = $_POST['username'];}
 
 	// get vital signs
 	$t = $_POST['t'];

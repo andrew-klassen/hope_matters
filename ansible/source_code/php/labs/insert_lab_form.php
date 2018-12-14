@@ -66,7 +66,7 @@ class grab_value extends RecursiveIteratorIterator {
 // if exists	
 if ($count){
 	
-    $client_id = $_SESSION['choosen_client_id'];
+$client_id = $_SESSION['choosen_client_id']; if (isset($_POST['choosen_client_id'])) {$client_id = $_POST['choosen_client_id'];}
 	
 
 	    // grab first name
@@ -547,6 +547,12 @@ if ($count){
 	$gram_stain = str_replace('\'', '\\\'', $gram_stain);
 
 	$username = $_SESSION['username'];
+
+
+
+	$culture = $_POST['culture'];
+
+
 
 
 	

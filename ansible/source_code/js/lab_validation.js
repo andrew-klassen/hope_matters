@@ -756,4 +756,12 @@ function toggle_disabled_hvs(_checked){
 	document.getElementById('microscopy_hvs').disabled = _checked ? false : true;
 	document.getElementById('gram_stain').value = "";
 	document.getElementById('gram_stain').disabled = _checked ? false : true;
+	document.getElementById('culture').value = "";
+	document.getElementById('culture').disabled = _checked ? false : true;
+}
+
+function toggle_disabled_blood_count(_checked) {
+	document.getElementById('rbc').value = "";
+	document.getElementById('rbc').disabled = _checked ? false : true;
+
 }

@@ -63,7 +63,7 @@ Copyright © 2017 Andrew Klassen
 		login_check();
 		master_log_check();
 
-		$choosen_payment_id = $_SESSION['choosen_payment_id'];
+$choosen_payment_id = $_SESSION['choosen_payment_id']; if (isset($_POST['choosen_payment_id'])) {echo $choosen_payment_id = $_POST['choosen_payment_id'];}
 		
 		
 		class grab_value extends RecursiveIteratorIterator {

@@ -454,6 +454,17 @@ $conn = null;
 					  </div>";
 			}
 		  ?>
+
+ 		  <!-- Client Secrets -->
+		  
+		  <div>
+			<form name="login_form" style='margin-top: 10px;' action="/php/secrets/select_secrets.php" method="post">
+				<input style="" type="submit" name="not_login" class="login login-submit" value="Secrets">
+			</form>
+		  </div>
+		  
+		 
+
 		   
    </div>
 
