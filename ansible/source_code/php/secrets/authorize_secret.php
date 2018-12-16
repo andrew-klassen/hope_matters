@@ -37,20 +37,21 @@ Copyright © 2017 Andrew Klassen
         <form method="post" action="/php/secrets/select_secrets.php">
             <input style="width: 210px;" type="submit" value="Select Secret">
         </form>
-      </div>
+      	</div>
 		  
 	  </div>
 	  <br></br>
 
 
-<div class='accountCard' style="width: 500px; height: 570px;">
+<div class='accountCard' style="width: 700px; height: 540px;">
   
 	<p style='color: black;text-align: center;'>Authorize Secret</p>
 	
 	<form action='/php/secrets/validate_secret_password.php' name='authorized_secret' onsubmit='return validate_form()' method='post' enctype='multipart/form-data' >
 	
-			  <div style='width: 400px;  margin-left: 50px; margin-top: 10px; float: left;'>
+			  <div style='width: 700px;  margin-left: 50px; margin-top: 10px; float: left;'>
 				<b>Label:</b>
+				
 				<?php
 					require('../database_credentials.php');
 					session_start();
@@ -77,7 +78,6 @@ Copyright © 2017 Andrew Klassen
 					$secret_id = $_SESSION['choosen_secret_id'];
 				
 				
-				
 					// make database connection
 					$conn = new PDO($dbconnection, $dbusername, $dbpassword);
 					$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -102,32 +102,30 @@ Copyright © 2017 Andrew Klassen
 					}
 					$description = $_SESSION['temp'];
 					
-					
-					
-				
 				
 					echo " $label <br><br>
 
-					
 					<b>Description:</b><br>
-					<textarea name='notes' style='width: 400px; height: 100px; margin-top: 5px;'  maxlength='255' disabled>$description</textarea>
-					<b>Password:</b><br>
-					<input style='height: 35px;' type='password' name='secret_password' autofocus onfocus='this.value = this.value'>
-					<div>Key File<br><input type='file' name='key_file' id='key_file'><br><label style='font-size: 12px;'>(.txt document 4096 characters max)</label></div>";
+					<textarea name='notes' style='width: 600px; height: 200px; margin-top: 5px;'  maxlength='255' disabled>$description</textarea>
+					<br><b>Password:</b><br>
+					<input style='width: 600px;height: 35px;' type='password' name='secret_password' maxlength='50' autofocus onfocus='this.value = this.value'>
+					<div>Key File<br><input type='file' name='key_file' id='key_file'><br><label style='font-size: 12px;'>(.txt document 3072 characters max)</label></div>";
 				?>
-				<input style='margin-left: 100px; margin-top: 20px; width: 200px;' type='submit' name='submit_button' class='submitbtn' value='View Secret'>
-			  </div>
-		  </form>
-<form action='/php/secrets/validate_secret_password_one_time.php' name='authorized_secret' onsubmit='return validate_form()' method='post'>
-	<input style='margin-left: 120px; margin-top: 20px; width: 200px;' type='submit' name='submit_button' class='submitbtn' value='Create Secret'>
-</form>
-
-
-
-<form action='/php/secrets/validate_secret_password_auto.php' name='authorized_secret' onsubmit='return validate_form()' method='post'>
-	<input style='margin-left: 120px; margin-top: 20px; width: 200px;' type='submit' name='submit_button' class='submitbtn' value='Auto Authorize'>
-</form>
+				
 		  
+</div>
+
+	<div style='margin-left: 50px;float: left;width: 700px; height: 50px; margin-top: 20px;'><input style='float: left; width: 200px;' type='submit' name='submit_button' class='submitbtn' value='View Secret'>
+			  
+	</form>
+
+	<form action='/php/secrets/validate_secret_password_auto.php' name='authorized_secret' onsubmit='return validate_form()' method='post'>
+		<input style=' width: 200px;' type='submit' name='submit_button' class='submitbtn' value='Auto Authorize'>
+	</form>
+
+	<form action='/php/secrets/validate_secret_password_one_time.php' name='authorized_secret' onsubmit='return validate_form()' method='post'>
+		<input style='width: 200px;' type='submit' name='submit_button' class='submitbtn' value='Create Secret'>
+	</form>
 		
   </div> 
 </body>

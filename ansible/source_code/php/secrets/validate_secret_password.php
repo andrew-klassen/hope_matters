@@ -34,15 +34,18 @@ $_SESSION['temp'] = '';
 $secret_id = $_SESSION['choosen_secret_id'];
 $secret_password = $_POST['secret_password'];
 
-
 $key_file = read_key_file('key_file');
 $secret_password = $secret_password . $key_file;
+
 	
 // make database connection
 $conn = new PDO($dbconnection, $dbusername, $dbpassword);
 $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
 
+//************ if more than one valid key exists, with different permissions, the admin permission takes affect ************
+
+// see if there are any read-only keys
 $stmt = $conn->prepare("SELECT AES_DECRYPT(`key`, '$secret_password') FROM secret_keys WHERE secret_id='$secret_id' and AES_DECRYPT(`key`, '$secret_password') is not NULL and privilege = 'read';");
 $stmt->execute();
 $result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
@@ -51,19 +54,16 @@ foreach(new grab_value(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v)
 
 }
 $temp_value = $_SESSION['temp'];
-echo $temp_value . 'a' . "<br>";
 
-
+// if valid key exists
 if ($temp_value != NULL) {
 	$value = $temp_value;
 	$privilege = "read";
 }
 
 
-
-
-
-
+// see if any admin keys exist
+$_SESSION['temp'] = '';
 $stmt = $conn->prepare("SELECT AES_DECRYPT(`key`, '$secret_password') FROM secret_keys WHERE secret_id='$secret_id' and AES_DECRYPT(`key`, '$secret_password') is not NULL and privilege = 'admin';");
 $stmt->execute();
 $result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
@@ -72,40 +72,30 @@ foreach(new grab_value(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v)
 
 }
 $temp_value = $_SESSION['temp'];
-echo $temp_value . 'b' . "<br>";
 
 
+// if valid key exists
 if ($temp_value != NULL) {
 	$value = $temp_value;
 	$privilege = "admin";
 }
 
-echo $value . "<br>";
-echo $privilege . "<br>";
-echo $secret_password;
 
-
-
+// if no valid keys exist
 if (! isset($value)) {
+	
 	echo "<script type='text/javascript'>alert('No key with the password found.')
 		document.location.href = 'authorize_secret.php';	
-	</script>";
+	     </script>";
 	exit();
-
 
 }
 
 
-
-
+// wipe the value and privilege to prevent sensitive data from being stored in user's session
 $_SESSION['value'] = $value;
 $_SESSION['privilege'] = $privilege;
 
 
-
-
 header( 'Location: show_secret.php');
 exit();
-
-
-

@@ -37,11 +37,11 @@ Copyright © 2017 Andrew Klassen
         <form method="post" action="/php/secrets/select_secrets.php">
             <input style="width: 210px;" type="submit" value="Select Secret">
         </form>
-      </div>
+
+      	</div>
 		  
 	  </div>
 	  <br></br>
-
 
 
 				<?php
@@ -67,25 +67,9 @@ Copyright © 2017 Andrew Klassen
 							}
 					}
 
-					class display_clinicians extends RecursiveIteratorIterator {
-					function __construct($it) {
-						parent::__construct($it, self::LEAVES_ONLY);
-					}
-					function current() {
-					
-						return "<option value='" . parent::current() . "'>";
-					}
-					function beginChildren() {
-						echo "<tr>";
-					}
-					function endChildren() {
-						echo "</tr>" . "\n";
-					}
-					}
 
 					$secret_id = $_SESSION['choosen_secret_id'];
 					
-				
 				
 					// make database connection
 					$conn = new PDO($dbconnection, $dbusername, $dbpassword);
@@ -102,31 +86,21 @@ Copyright © 2017 Andrew Klassen
 					$label = $_SESSION['temp'];
 					
 					
-					
-				
 					echo " 
 
-		
-
-<div class='accountCard' style='width: 500px; height: 370px;'>
-	
-	<p style='color: black;text-align: center;'>Add Key</p>
-	<b>label:</b> $label<br><br>
-<form action='/php/secrets/insert_secret_key_one_time.php' name='add_secret_key' onsubmit='return validate_form()' method='post' enctype='multipart/form-data'>
-	<b>Password:</b><br>
-	<input style='height: 35px;' type='password' name='secret_password' autofocus onfocus='this.value = this.value'>
-	<div>Key File<br><input type='file' name='key_file' id='key_file'><br><label style='font-size: 12px;'>(.txt document 4096 characters max)</label></div>
-	<input  style='margin-top: 50px; margin-left: 150px; width: 200px;' type='submit' name='submit_button' class='submitbtn' value='Add Key'>		
-</form>
-
-";
+					<div class='accountCard' style='width: 500px; height: 310px;'>
+						<p style='color: black;text-align: center;'>Add Key</p>
+						<b>label:</b> $label<br><br>
+					<form action='/php/secrets/insert_secret_key_one_time.php' name='add_secret_key' onsubmit='return validate_form()' method='post' enctype='multipart/form-data'>
+						<b>Password:</b><br>
+						<input style='height: 35px;' type='password' name='secret_password' maxlength='50' autofocus onfocus='this.value = this.value'>
+						<div>Key File<br><input type='file' name='key_file' id='key_file'><br><label style='font-size: 12px;'>(.txt document 3072 characters max)</label></div>
+						<input  style='margin-top: 50px; margin-left: 150px; width: 200px;' type='submit' name='submit_button' class='submitbtn' value='Add Key'>		
+					</form>";
 
 
 echo "
-	
-
 </div>
 </body>
 </html>";
 $value = '';
-

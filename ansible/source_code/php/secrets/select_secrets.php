@@ -15,15 +15,14 @@ Copyright © 2017 Andrew Klassen
 
 <!-- nav bar-->
 <div id="container">
-	   
-		
-	  <div id="sign-out">
+	   	
+      <div id="sign-out">
         <form method="post" action="/php/dashboard.php">
             <input type="submit" value="Dashboard">
         </form>
       </div>
 	  
-	  <div id="sign-out">
+      <div id="sign-out">
         <form method="post" action="/php/sign_out.php">
             <input type="submit" value="Sign Out">
         </form>
@@ -32,10 +31,10 @@ Copyright © 2017 Andrew Klassen
   </div>
   <br></br>
 
-  <header>Find Secrets</header>
+<header>Find Secrets</header>
   
 <!-- start of the search for clients card-->
-<div class="login-card">
+<div style="height: 1000px;" class="login-card">
   
 
 <?php
@@ -47,9 +46,8 @@ login_check();
 $_SESSION['temp'] = 0;
 $_SESSION['choosen_secret_id'] = 0;
 
-// grab current search and date of birth date
+// grab current search
 $search = $_POST['search'];
-$date_of_birth = $_POST['date_of_birth'];
 
 class view_secrets extends RecursiveIteratorIterator {
     function __construct($it) {
@@ -57,8 +55,10 @@ class view_secrets extends RecursiveIteratorIterator {
     }
 	
     function current() {
+
 		$_SESSION['choosen_secret_id'] = parent::current();
 		
+		// there are 2 colums 
 		if (($_SESSION['counter'] == 0) or ($_SESSION['counter'] % 2 == 0)) {
 		
 			$_SESSION['temp'] = $_SESSION['choosen_secret_id'];
@@ -79,9 +79,10 @@ class view_secrets extends RecursiveIteratorIterator {
 
 
 try {
+
 	// establish database connection
-    $conn = new PDO($dbconnection, $dbusername, $dbpassword);
-    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+	$conn = new PDO($dbconnection, $dbusername, $dbpassword);
+	$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
    
 	echo "<p style='color: black;;text-align: center;'>Click on a secret to view or edit it.</p>";
 	echo "<p style='color: black;;text-align: center;'>Search for a secret by ID or label. Use * to see all secrets.</p>";
@@ -99,17 +100,8 @@ try {
 	</form>
 	</div>";
 	
-	// prep the date of birth varibles for the query, if no date of birth wipe the memory location
-	if ($date_of_birth != '') {
-		$query_date_of_birth = "and date_of_birth = '$date_of_birth'";
-		$query_date_of_birth_wild = "WHERE date_of_birth = '$date_of_birth'";
-	} else {
-		$query_date_of_birth = '';
-		$query_date_of_birth_wild = '';
-	}
 	
-	
-    echo "<div id='tableCard'>";
+    	echo "<div id='tableCard'>";
 	
 	/******** determine if the user is searching by id, first name, or last name ********/
 	
@@ -157,7 +149,7 @@ try {
 		echo "<table style='border: none;'>";
 		echo "<tr><th>Secret ID</th><th>Label</th></tr>";
 		
-		$stmt = $conn->prepare("SELECT secret_id, label FROM secrets WHERE label LIKE '%$search%'ORDER BY secret_id DESC LIMIT $wild_card_limit;");
+		$stmt = $conn->prepare("SELECT secret_id, label FROM secrets WHERE label LIKE '%$search%'ORDER BY secret_id DESC LIMIT $search_limit;");
 		$stmt->execute();
 		$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
 		
@@ -169,14 +161,14 @@ try {
    
     }
 
-	echo "</table>";
+    	echo "</table>";
     echo "</div>";
 
 }
 
 
 catch(PDOException $e) {
-    echo "Error: " . $e->getMessage();
+    create_database_error($query, 'select_secrets.php', $e->getMessage());
 }
 
 $conn = null;

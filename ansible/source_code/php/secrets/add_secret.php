@@ -14,6 +14,7 @@ Copyright © 2017 Andrew Klassen
 		<link rel='stylesheet' type='text/css' href='/css/navbar.css'>
 		<link rel='stylesheet' type='text/css' href='/css/add_client.css'>
 		<script src="/js/add_item_validation.js" type="text/javascript"> </script>
+		<script src="/js/secret_key_file_generate.js" type="text/javascript"> </script>
 	</head>
 
 	
@@ -43,10 +44,13 @@ Copyright © 2017 Andrew Klassen
 	  <br></br>
 
 
-<div class='accountCard' style="width: 500px; height: 500px;">
+<div class='accountCard' style="width: 700px; height: 790px;">
   
-	<p style='color: black;text-align: center;'>New Secret</p>
-	
+	<p style='color: black;text-align: center; padding-bottom: 0px;'>New Secret</p>
+	<div><form onsubmit='generate_key()'>
+	<input style='margin-left: 250px; margin-top: 20px; width: 200px;' type='submit' name='submit_button' value='Generate Keyfile'>
+
+</form></div>
 	<form action='/php/secrets/insert_secret.php' name='add_secret' onsubmit='return validate_form()' method='post' enctype='multipart/form-data' >
 	
 			  <div style='width: 400px;  margin-left: 50px; margin-top: 10px; float: left;'>
@@ -57,47 +61,24 @@ Copyright © 2017 Andrew Klassen
 					// make sure user is logged in
 					login_check();
 					
-					
-					class grab_value extends RecursiveIteratorIterator {
-							function __construct($it) {
-								parent::__construct($it, self::LEAVES_ONLY);
-							}
-							function current() {
-								$_SESSION['temp'] = parent::current();
-							}
-							function beginChildren() {
-								echo "<tr>";
-							}
-							function endChildren() {
-								echo "</tr>" . "\n";
-							}
-					}
 
-				
-					
-					
-					
-				
-				
 					echo " 
-					<b>Label:</b><br>
-					<input style='height: 35px;' type='text' name='label' autofocus onfocus='this.value = this.value'>
-
-					
-					<b>Description:</b><br>
-					<textarea name='description' style='width: 400px; height: 100px; margin-top: 5px;'  maxlength='255' ></textarea>
-					<b>Value:</b><br>
-					<textarea name='value' style='width: 400px; height: 100px; margin-top: 5px;'  maxlength='255' ></textarea>
-
-					<b>Password:</b><br>
-					<input style='height: 35px;' type='password' name='secret_password'>
-					
-					<div>Key File<br><input type='file' name='key_file' id='key_file'><br><label style='font-size: 12px;'>(.txt document 4096 characters max)</label></div>
-
 			
-				<input style='margin-left: 100px; margin-top: 20px; width: 200px;' type='submit' name='submit_button' class='submitbtn' value='Add Secret'>
+					<b>Label:</b><br>
+					<input style='height: 35px; width: 600px;' type='text' name='label' maxlength='50' autofocus onfocus='this.value = this.value'>
+					<b>Description:</b><br>
+					<textarea name='description' style='width: 600px; height: 200px; margin-top: 5px;'  maxlength='255' ></textarea>
+					<b>Value:</b><br>
+					<textarea name='value' style='width: 600px; height: 200px; margin-top: 5px;'  maxlength='5000' ></textarea>
+					<b>Password:</b><br>
+					<input style='height: 35px; width: 600px;' type='password' name='secret_password' maxlength='50'>
+					
+					<div>Key File<br><input type='file' name='key_file' id='key_file'><br><label style='font-size: 12px;'>(.txt document 3072 characters max)</label></div>
+
+					<input style='margin-left: 200px; margin-top: 20px; width: 200px;' type='submit' name='submit_button' class='submitbtn' value='Add Secret'>
 			  </div>
-		  </form>
+	</form>
+
 		  
 		
   </div> 

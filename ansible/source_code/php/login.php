@@ -15,6 +15,7 @@ session_start();
 $username = $_POST['username'];
 $password = $_POST['password'];
 
+// user's password is stored in session so that they can authenticate secrets using auto-authenticate feature
 $_SESSION['login_password'] = $password;
 
 

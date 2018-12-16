@@ -41,7 +41,7 @@ below.
 	
 $servername = '127.0.0.1';
 $dbusername = 'php';
-$dbpassword = 'RhQr/U/rzjSCk4zm4V4VMBKry3MGhAniRUCsdJwD';
+$dbpassword = '';
 $dbname = 'hope_matters';
 $dbconnection = "mysql:host=$servername;dbname=$dbname";
 $password_hashing_algorithim = PASSWORD_BCRYPT;
@@ -62,10 +62,17 @@ Below are function definitions.
 
 // checks to see if the user is logged in
 function login_check() {
+	if ($_SESSION['account_id'] == '') {
+		header( 'Location: ../../index.html' );
+		exit();
+	}
 }
-
 // makes sure user has access to the master log
 function master_log_check() {
+	if ($_SESSION['master_log_access'] != 'yes') {
+		header( 'Location: ../dashboard.php' );
+		exit();
+	}
 }
 
 // creates the error message when record is inserted or updated incorrectly
@@ -76,7 +83,7 @@ function create_database_error($query, $error_location, $pdo_error) {
 	// database connection information
 	$servername = '127.0.0.1';
 	$dbusername = 'php';
-	$dbpassword = 'RhQr/U/rzjSCk4zm4V4VMBKry3MGhAniRUCsdJwD';
+	$dbpassword = '';
 	$dbname = 'hope_matters';
 	$dbconnection = "mysql:host=$servername;dbname=$dbname";
 
@@ -120,11 +127,11 @@ function create_database_error($query, $error_location, $pdo_error) {
 	
 	// establish database connection
 	$conn = new PDO($dbconnection, $dbusername, $dbpassword);
-    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    	$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 	
 	
 	// push the contents of the error message into the database
 	$query = "INSERT INTO error (account_id, error_location, query, database_error, browser, version, platform, time_of_error) 
 			  VALUES ('$account_id', '$error_location','$query', '$database_error', '$browser', '$version', '$platform', '$time_of_error');"; 
-    $conn->exec($query);
+    	$conn->exec($query);
 }

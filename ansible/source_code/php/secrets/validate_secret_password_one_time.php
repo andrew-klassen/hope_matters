@@ -29,17 +29,14 @@ class grab_value extends RecursiveIteratorIterator {
 		}
 }
 
-
 $secret_id = $_SESSION['choosen_secret_id'];
 $secret_password = $_POST['secret_password'];
 $account_id = $_SESSION['account_id'];
 
 
-	
 // make database connection
 $conn = new PDO($dbconnection, $dbusername, $dbpassword);
 $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
 
 
 $stmt = $conn->prepare("SELECT password FROM accounts WHERE account_id = '$account_id';");
@@ -51,14 +48,13 @@ foreach(new grab_value(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v)
 }
 $password = $_SESSION['temp'];
 
-
-
+// aes key used to decrypt one time password = user's password hash + id
 $secret_password = $password . $account_id;
 
+
+// get one time key id if one exists
 $_SESSION['temp'] = '';
-
-
-$stmt = $conn->prepare("SELECT secret_key_temp_id FROM secret_keys_temp WHERE secret_id='$secret_id' and AES_DECRYPT(`key`, '$secret_password') is not NULL and privilege = 'read';");
+$stmt = $conn->prepare("SELECT secret_key_temp_id FROM secret_keys_temp WHERE secret_id='$secret_id' and AES_DECRYPT(`key`, '$secret_password') is not NULL;");
 $stmt->execute();
 $result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
 			
@@ -68,24 +64,29 @@ foreach(new grab_value(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v)
 $secret_key_temp_id = $_SESSION['temp'];
 
 
+// exit and notify user that they are unauthorized if no key exists
+if ($secret_key_temp_id == '') {
+	
+	echo "<script type='text/javascript'>alert('You don\'t have permission to create a key.')
+		document.location.href = 'authorize_secret.php';	
+	     </script>";
+	exit();
+
+}
 
 
-
-
-$stmt = $conn->prepare("SELECT secret_key_temp_id FROM secret_keys_temp WHERE secret_id='$secret_id' and AES_DECRYPT(`key`, '$secret_password') is not NULL and privilege = 'admin';");
+// get one time key privilege
+$stmt = $conn->prepare("SELECT privilege FROM secret_keys_temp WHERE secret_key_temp_id='$secret_key_temp_id'");
 $stmt->execute();
 $result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
 			
 foreach(new grab_value(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
 
 }
-$secret_key_temp_id = $_SESSION['temp'];
+$privilege = $_SESSION['temp'];
 
 
-
-
-
-
+// get one time key value
 $stmt = $conn->prepare("SELECT AES_DECRYPT(`key`, '$secret_password') FROM secret_keys_temp WHERE secret_key_temp_id = '$secret_key_temp_id';");
 $stmt->execute();
 $result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
@@ -96,32 +97,11 @@ foreach(new grab_value(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v)
 $value = $_SESSION['temp'];
 
 
-
-
-
-
-
-if ($secret_key_temp_id == '') {
-	echo "<script type='text/javascript'>alert('You don\'t have permission to create a key.')
-		document.location.href = 'authorize_secret.php';	
-	</script>";
-	exit();
-
-
-}
-
-
-
-
 $_SESSION['value'] = $value;
 $_SESSION['privilege'] = $privilege;
 $_SESSION['secret_password'] = $secret_password;
 $_SESSION['secret_key_temp_id'] = $secret_key_temp_id;
 
 
-
 header( 'Location: add_secret_key_one_time.php');
 exit();
-
-
-
