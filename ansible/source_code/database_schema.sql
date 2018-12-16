@@ -44,7 +44,7 @@ CREATE TABLE `accounts` (
   PRIMARY KEY (`account_id`),
   UNIQUE KEY `account_id_UNIQUE` (`account_id`),
   UNIQUE KEY `username_UNIQUE` (`username`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1 ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1 ROW_FORMAT=DYNAMIC;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -800,7 +800,7 @@ CREATE TABLE `error` (
   UNIQUE KEY `error_id_UNIQUE` (`error_id`),
   KEY `account_id_error_idx` (`account_id`),
   CONSTRAINT `account_id_error` FOREIGN KEY (`account_id`) REFERENCES `accounts` (`account_id`) ON DELETE NO ACTION ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1760,7 +1760,7 @@ CREATE TABLE `secret_keys` (
   `key` varbinary(5016) DEFAULT NULL,
   `privilege` enum('admin','read') DEFAULT 'read',
   PRIMARY KEY (`secret_key_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=69 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1776,7 +1776,7 @@ CREATE TABLE `secret_keys_temp` (
   `key` varbinary(5016) DEFAULT NULL,
   `privilege` enum('admin','read') DEFAULT 'read',
   PRIMARY KEY (`secret_key_temp_id`)
-) ENGINE=MEMORY AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
+) ENGINE=MEMORY AUTO_INCREMENT=30 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1790,8 +1790,9 @@ CREATE TABLE `secrets` (
   `secret_id` int(11) NOT NULL AUTO_INCREMENT,
   `label` varchar(50) DEFAULT NULL,
   `description` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`secret_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=latin1;
+  PRIMARY KEY (`secret_id`),
+  UNIQUE KEY `label_UNIQUE` (`label`)
+) ENGINE=InnoDB AUTO_INCREMENT=40 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -2178,4 +2179,4 @@ CREATE TABLE `women_health_history` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-12-14 14:30:58
+-- Dump completed on 2018-12-15 18:02:00
