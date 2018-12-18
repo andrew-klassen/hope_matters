@@ -415,12 +415,12 @@ Copyright Â© 2017 Andrew Klassen
 			<br>
 			
 			 <b>RDW:</b>
-			<input type="text" id="rdw_text" name="hb_text" style="width: 200px; height: 30px;" maxlength="30" /> (Norm: 11.8%-15.5%)
+			<input type="text" id="rdw_text" name="rdw_text" style="width: 200px; height: 30px;" maxlength="30" /> (Norm: 11.8%-15.5%)
 			
 			<br>
 			
 			 <b>WBC:</b>
-			<input type="text" id="wbc_text" name="hb_text" style="width: 200px; height: 30px;" maxlength="30" /> (Norm: 3.5-10.5 billion cells/L)
+			<input type="text" id="wbc_text" name="wbc_text" style="width: 200px; height: 30px;" maxlength="30" /> (Norm: 3.5-10.5 billion cells/L)
 			
 			<br>
 			
@@ -463,7 +463,7 @@ Copyright Â© 2017 Andrew Klassen
 			<input type="checkbox" name="blood_chemistry" onchange="toggle_disabled_blood_chemistry(this.checked)"/><b>Blood Chemistry</b><br>
 			
 			<label style="margin-left: 50px; margin-right: 22px;">Sodium:</label>
-			<input type="text" id="sodium" name="sodium" style="width: 200px; height: 30px;" maxlength="30" /> (Norm: 135-145 mmol/L)
+			<input type="text" id="sodium_text" name="sodium_text" style="width: 200px; height: 30px;" maxlength="30" disabled/> (Norm: 135-145 mmol/L)
 			
 			<br>
 			
@@ -516,20 +516,20 @@ Copyright Â© 2017 Andrew Klassen
 						
 						
 						
-		    <input type="checkbox" name="arterial_blood" onchange="toggle_disabled_blood_gas(this.checked)"/><b>Arterial Blood Gas</b><br>
+		    <input type="checkbox" name="arterial_blood" onchange="toggle_disabled_arterial_blood(this.checked)"/><b>Arterial Blood Gas</b><br>
 			
 			<label style="margin-left: 50px; margin-right: 22px;">PaO2:</label>
-			<input type="text" id="pao2" name="pao2" style="width: 200px; height: 30px;" maxlength="30" disabled /> (Norm: 75-100 mm Hg)
+			<input type="text" id="pao2_text" name="pao2_text" style="width: 200px; height: 30px;" maxlength="30" disabled /> (Norm: 75-100 mm Hg)
 			
 			<br>
 			
 			 <label style="margin-left: 50px; margin-right: 22px;">PaCO2:</label>
-			<input type="text" id="chloride" name="chloride_text" style="width: 200px; height: 30px;" maxlength="30" disabled /> (Norm: 98-107 mmol/L)
+			<input type="text" id="paco2_text" name="paco2_text" style="width: 200px; height: 30px;" maxlength="30" disabled /> (Norm: 98-107 mmol/L)
 			
 			<br>
 			
 			<label style="margin-left: 50px; margin-right: 22px;">Arterial Blood pH:</label>
-			<input type="text" id="arterial_text" name="arterial_text" style="width: 200px; height: 30px;" maxlength="30" disabled /> (Norm: 7.38-7.42)
+			<input type="text" id="blood_ph_text" name="blood_ph_text" style="width: 200px; height: 30px;" maxlength="30" disabled /> (Norm: 7.38-7.42)
 			
 			<br>
 			
@@ -544,15 +544,15 @@ Copyright Â© 2017 Andrew Klassen
 			<br>	
 		   
 			
-			 <input type="checkbox" name="arterial_blood" onchange="toggle_disabled_blood_gas(this.checked)"/><b>Liver Function Test</b><br>
+			 <input type="checkbox" name="liver" onchange="toggle_disabled_liver(this.checked)"/><b>Liver Function Test</b><br>
 			
 			<label style="margin-left: 50px; margin-right: 22px;">ALT:</label>
-			<input type="text" id="alt" name="alt" style="width: 200px; height: 30px;" maxlength="30" disabled /> (Norm: 7-55 U/L)
+			<input type="text" id="alt_text" name="alt_text" style="width: 200px; height: 30px;" maxlength="30" disabled /> (Norm: 7-55 U/L)
 			
 			<br>
 			
 			 <label style="margin-left: 50px; margin-right: 22px;">AST:</label>
-			<input type="text" id="ast" name="ast_text" style="width: 200px; height: 30px;" maxlength="30" disabled /> (Norm: 8-48 U/L)
+			<input type="text" id="ast_text" name="ast_text" style="width: 200px; height: 30px;" maxlength="30" disabled /> (Norm: 8-48 U/L)
 			
 			<br>
 			
@@ -576,12 +576,12 @@ Copyright Â© 2017 Andrew Klassen
 			 <input type="checkbox" name="tft" onchange="toggle_disabled_tft(this.checked)"/><b>Thyroid Function Test</b><br>
 			
 			<label style="margin-left: 50px; margin-right: 22px;">TSH:</label>
-			<input type="text" id="tsh" name="tsh" style="width: 200px; height: 30px;" maxlength="30" disabled /> (Norm: 0.3-4.2)
+			<input type="text" id="tsh_text" name="tsh_text" style="width: 200px; height: 30px;" maxlength="30" disabled /> (Norm: 0.3-4.2)
 			
 			<br>
 			
 			 <label style="margin-left: 50px; margin-right: 22px;">Free T3:</label>
-			<input type="text" id="freet3" name="freet3_text" style="width: 200px; height: 30px;" maxlength="30" disabled /> (Norm: 2.8-4.4 pg/mL)
+			<input type="text" id="freet3_text" name="freet3_text" style="width: 200px; height: 30px;" maxlength="30" disabled /> (Norm: 2.8-4.4 pg/mL)
 			
 			<br>
 			
@@ -597,13 +597,13 @@ Copyright Â© 2017 Andrew Klassen
 			<input type="checkbox" name="tft" onchange="toggle_disabled_cholesterol(this.checked)"/><b>Cholesterol</b><br>
 			
 			<label style="margin-left: 50px; margin-right: 22px;">Total:</label>
-			<input type="text" id="total" name="total" style="width: 200px; height: 30px;" maxlength="30" disabled /> (Norm<200mg/dL, Brorderline 200-239 mg/dL, High>240 mg/dL )
+			<input type="text" id="total_text" name="total_text" style="width: 200px; height: 30px;" maxlength="30" disabled /> (Norm<200mg/dL, Brorderline 200-239 mg/dL, High>240 mg/dL )
 			
 			<br>
 			
 		        <label style="margin-left: 50px; margin-right: 22px;">HDL:</label>
 
-			<input type="text" id="hdl" name="hdl_text" style="width: 200px; height: 30px;" maxlength="30" disabled /> (Norm Male>40mg/dL, Female>50mg/dL)
+			<input type="text" id="hdl_text" name="hdl_text" style="width: 200px; height: 30px;" maxlength="30" disabled /> (Norm Male>40mg/dL, Female>50mg/dL)
 			
 			<br>
 			
@@ -617,13 +617,13 @@ Copyright Â© 2017 Andrew Klassen
 			<input type="checkbox" name="cardiac" onchange="toggle_disabled_cardiac(this.checked)"/><b>Cardiac Enzymes</b><br>
 			
 			<label style="margin-left: 50px; margin-right: 22px;">Troponin:</label>
-			<input type="text" id="troponin" name="troponin" style="width: 200px; height: 30px;" maxlength="30" disabled /> (Norm <0.04 ng/mL )
+			<input type="text" id="troponin_text" name="troponin_text" style="width: 200px; height: 30px;" maxlength="30" disabled /> (Norm <0.04 ng/mL )
 			
 			<br>
 			
 			<label style="margin-left: 50px; margin-right: 22px;">CK:</label>
 
-			<input type="text" id="ck" name="ck_text" style="width: 200px; height: 30px;" maxlength="30" disabled /> (Norm Male 39-308 U/L, Female 26-192 U/L)
+			<input type="text" id="ck_text" name="ck_text" style="width: 200px; height: 30px;" maxlength="30" disabled /> (Norm Male 39-308 U/L, Female 26-192 U/L)
 			
 			<br>
 			

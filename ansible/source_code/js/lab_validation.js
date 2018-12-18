@@ -756,6 +756,7 @@ function toggle_disabled_hvs(_checked){
 	document.getElementById('microscopy_hvs').disabled = _checked ? false : true;
 	document.getElementById('gram_stain').value = "";
 	document.getElementById('gram_stain').disabled = _checked ? false : true;
+
 	document.getElementById('culture').value = "";
 	document.getElementById('culture').disabled = _checked ? false : true;
 }
@@ -765,3 +766,90 @@ function toggle_disabled_blood_count(_checked) {
 	document.getElementById('rbc').disabled = _checked ? false : true;
 
 }
+
+function toggle_disabled_blood_chemistry(_checked) {
+	document.getElementById('sodium_text').value = "";
+	document.getElementById('sodium_text').disabled = _checked ? false : true;
+
+}
+
+
+function toggle_disabled_arterial_blood(_checked) {
+	document.getElementById('pao2_text').value = "";
+	document.getElementById('pao2_text').disabled = _checked ? false : true;
+	document.getElementById('paco2_text').value = "";
+	document.getElementById('paco2_text').disabled = _checked ? false : true;
+	document.getElementById('blood_ph_text').value = "";
+	document.getElementById('blood_ph_text').disabled = _checked ? false : true;
+	document.getElementById('sao2_text').value = "";
+	document.getElementById('sao2_text').disabled = _checked ? false : true;
+	document.getElementById('hco3_text').value = "";
+	document.getElementById('hco3_text').disabled = _checked ? false : true;
+	
+
+}
+
+
+
+function toggle_disabled_liver(_checked) {
+	document.getElementById('alt_text').value = "";
+	document.getElementById('alt_text').disabled = _checked ? false : true;
+	document.getElementById('ast_text').value = "";
+	document.getElementById('ast_text').disabled = _checked ? false : true;
+	document.getElementById('albumin_text').value = "";
+	document.getElementById('albumin_text').disabled = _checked ? false : true;
+
+}
+
+function toggle_disabled_prothrombin(_checked) {
+	document.getElementById('prothrombin_text').value = "";
+	document.getElementById('prothrombin_text').disabled = _checked ? false : true;
+
+}
+
+
+
+function toggle_disabled_inr(_checked) {
+	document.getElementById('inr_text').value = "";
+	document.getElementById('inr_text').disabled = _checked ? false : true;
+
+}
+
+
+function toggle_disabled_tft(_checked) {
+	document.getElementById('tsh_text').value = "";
+	document.getElementById('tsh_text').disabled = _checked ? false : true;
+	document.getElementById('freet3_text').value = "";
+	document.getElementById('freet3_text').disabled = _checked ? false : true;
+	document.getElementById('freet4_text').value = "";
+	document.getElementById('freet4_text').disabled = _checked ? false : true;
+
+}
+
+
+
+function toggle_disabled_cholesterol(_checked) {
+	document.getElementById('total_text').value = "";
+	document.getElementById('total_text').disabled = _checked ? false : true;
+	document.getElementById('hdl_text').value = "";
+	document.getElementById('hdl_text').disabled = _checked ? false : true;
+	document.getElementById('ldl_text').value = "";
+	document.getElementById('ldl_text').disabled = _checked ? false : true;
+
+}
+
+
+function toggle_disabled_cardiac(_checked) {
+	document.getElementById('troponin_text').value = "";
+	document.getElementById('troponin_text').disabled = _checked ? false : true;
+	document.getElementById('ck_text').value = "";
+	document.getElementById('ck_text').disabled = _checked ? false : true;
+
+}
+
+
+
+
+
+
+
