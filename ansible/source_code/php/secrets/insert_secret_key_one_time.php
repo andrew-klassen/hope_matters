@@ -32,7 +32,9 @@ class grab_value extends RecursiveIteratorIterator {
 
 $secret_key_temp_id = $_SESSION['secret_key_temp_id'];
 $secret_password_one_time = $_SESSION['secret_password'];
+
 $secret_password = $_POST['secret_password'];
+$secret_password = str_replace('\'', '\\\'', $secret_password);
 
 $key_file = read_key_file('key_file');
 $secret_password = $secret_password . $key_file;
@@ -61,6 +63,7 @@ $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
 			}
 			$value = $_SESSION['temp'];
+			$value = str_replace('\'', '\\\'', $value);
 
 			// grab the one time key's id
 			$stmt = $conn->prepare("SELECT secret_id FROM secret_keys_temp WHERE secret_key_temp_id = '$secret_key_temp_id';");

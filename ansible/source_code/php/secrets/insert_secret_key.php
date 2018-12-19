@@ -38,22 +38,22 @@ class get_user_ids extends RecursiveIteratorIterator {
 				
 				array_push($_SESSION['user_ids'], parent::current());
 
-				
-
-
-
-
-
 		}
 		
 }
 
 
 $secret_id = $_SESSION['choosen_secret_id'];
+
 $secret_password = $_POST['secret_password'];
+$secret_password = str_replace('\'', '\\\'', $secret_password);
+
 $accounts = $_POST['accounts'];
 $privilege = $_POST['privilege'];
+
 $value = $_SESSION['value'];
+$value = str_replace('\'', '\\\'', $value);
+
 $username = $_POST['username'];
 
 // aes key

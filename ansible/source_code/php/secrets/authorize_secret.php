@@ -124,7 +124,7 @@ Copyright © 2017 Andrew Klassen
 	</form>
 
 	<form action='/php/secrets/validate_secret_password_one_time.php' name='authorized_secret' onsubmit='return validate_form()' method='post'>
-		<input style='width: 200px;' type='submit' name='submit_button' class='submitbtn' value='Create Secret'>
+		<input style='width: 200px;' type='submit' name='submit_button' class='submitbtn' value='Create Key'>
 	</form>
 		
   </div> 

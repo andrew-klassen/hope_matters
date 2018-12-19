@@ -31,9 +31,16 @@ class grab_value extends RecursiveIteratorIterator {
 }
 
 $label = $_POST['label'];
+$label = str_replace('\'', '\\\'', $label);
+
 $description = $_POST['description'];
+$description = str_replace('\'', '\\\'', $description);
+
 $value = $_POST['value'];
+$value = str_replace('\'', '\\\'', $value);
+
 $secret_password = $_POST['secret_password'];
+$secret_password = str_replace('\'', '\\\'', $secret_password);
 
 // aes key
 $key_file = read_key_file('key_file');

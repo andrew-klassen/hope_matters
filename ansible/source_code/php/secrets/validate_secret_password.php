@@ -32,7 +32,9 @@ class grab_value extends RecursiveIteratorIterator {
 
 $_SESSION['temp'] = '';
 $secret_id = $_SESSION['choosen_secret_id'];
+
 $secret_password = $_POST['secret_password'];
+$secret_password = str_replace('\'', '\\\'', $secret_password);
 
 $key_file = read_key_file('key_file');
 $secret_password = $secret_password . $key_file;
