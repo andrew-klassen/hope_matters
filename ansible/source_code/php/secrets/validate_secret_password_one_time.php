@@ -117,7 +117,7 @@ for($j = 0; $j < $secret_value_temp_ids_max; ++$j) {
 				
 
 // exit and notify user that they are unauthorized if no key exists
-if ($secret_value_temp_id == '') {
+if (! isset($value)) {
 	
 	echo "<script type='text/javascript'>alert('You don\'t have permission to create a key.')
 		document.location.href = 'authorize_secret.php';	
