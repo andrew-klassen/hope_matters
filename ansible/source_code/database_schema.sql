@@ -800,7 +800,7 @@ CREATE TABLE `error` (
   UNIQUE KEY `error_id_UNIQUE` (`error_id`),
   KEY `account_id_error_idx` (`account_id`),
   CONSTRAINT `account_id_error` FOREIGN KEY (`account_id`) REFERENCES `accounts` (`account_id`) ON DELETE NO ACTION ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=39 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1797,35 +1797,37 @@ CREATE TABLE `return_treatment_temp` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Table structure for table `secret_keys`
+-- Table structure for table `secret_values`
 --
 
-DROP TABLE IF EXISTS `secret_keys`;
+DROP TABLE IF EXISTS `secret_values`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `secret_keys` (
-  `secret_key_id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `secret_values` (
+  `secret_value_id` int(11) NOT NULL AUTO_INCREMENT,
   `secret_id` int(11) NOT NULL,
-  `key` varbinary(5016) DEFAULT NULL,
+  `encrypted_value` varbinary(5016) DEFAULT NULL,
+  `initialization_vector` binary(16) NOT NULL,
   `privilege` enum('admin','read') DEFAULT 'read',
-  PRIMARY KEY (`secret_key_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=70 DEFAULT CHARSET=latin1;
+  PRIMARY KEY (`secret_value_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=99 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Table structure for table `secret_keys_temp`
+-- Table structure for table `secret_values_temp`
 --
 
-DROP TABLE IF EXISTS `secret_keys_temp`;
+DROP TABLE IF EXISTS `secret_values_temp`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `secret_keys_temp` (
-  `secret_key_temp_id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `secret_values_temp` (
+  `secret_value_temp_id` int(11) NOT NULL AUTO_INCREMENT,
   `secret_id` int(11) DEFAULT NULL,
-  `key` varbinary(5016) DEFAULT NULL,
+  `encrypted_value` varbinary(5016) DEFAULT NULL,
+  `initialization_vector` binary(16) NOT NULL,
   `privilege` enum('admin','read') DEFAULT 'read',
-  PRIMARY KEY (`secret_key_temp_id`)
-) ENGINE=MEMORY AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+  PRIMARY KEY (`secret_value_temp_id`)
+) ENGINE=MEMORY AUTO_INCREMENT=78 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1841,7 +1843,7 @@ CREATE TABLE `secrets` (
   `description` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`secret_id`),
   UNIQUE KEY `label_UNIQUE` (`label`)
-) ENGINE=InnoDB AUTO_INCREMENT=41 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=56 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -2228,4 +2230,4 @@ CREATE TABLE `women_health_history` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-12-18 12:16:10
+-- Dump completed on 2018-12-21  1:24:24

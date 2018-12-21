@@ -42,14 +42,13 @@ $value = str_replace('\'', '\\\'', $value);
 $secret_password = $_POST['secret_password'];
 $secret_password = str_replace('\'', '\\\'', $secret_password);
 
-// aes key
 $key_file = read_key_file('key_file');
 $secret_password = $secret_password . $key_file;
 
 $conn = new PDO($dbconnection, $dbusername, $dbpassword);
 $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-	try {
+	try {		
 		
 		// see if a key with the same label exists
 		$_SESSION['temp'] = '';
@@ -93,16 +92,18 @@ $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 		}
 		$secret_id = $_SESSION['temp'];
 
+		$initialization_vector = generate_initialization_vector();
+
 		// insert the first key
-		$query = "INSERT INTO secret_keys (secret_id, `key`, privilege) VALUES ('$secret_id', AES_ENCRYPT('$value', '$secret_password'), 'admin');"; 
+		$query = "INSERT INTO secret_values (secret_id, encrypted_value, initialization_vector, privilege) VALUES ('$secret_id', AES_ENCRYPT('$value', '$secret_password', '$initialization_vector'), '$initialization_vector', 'admin');"; 
 		$conn->exec($query);
 			
 		// remove sensitive varibles from user's php session
 		$_SESSION['value'] = '';
 		$_SESSION['privilege'] = '';
 		$_SESSION['secret_password'] = '';
-		$_SESSION['secret_key_temp_id'] = '';
-		$_SESSION['secret_key_id'] = '';
+		$_SESSION['secret_value_temp_id'] = '';
+		$_SESSION['secret_value_id'] = '';
 		$_SESSION['secret_id'] = '';
 		$_SESSION['choosen_secret_id'] = '';		
 	

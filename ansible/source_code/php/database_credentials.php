@@ -135,3 +135,17 @@ function create_database_error($query, $error_location, $pdo_error) {
 			  VALUES ('$account_id', '$error_location','$query', '$database_error', '$browser', '$version', '$platform', '$time_of_error');"; 
     	$conn->exec($query);
 }
+
+function generate_initialization_vector($length = 16) {
+   
+    $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$%^&*<>_+-=;:{}';
+    $characters_length = strlen($characters);
+    $random_string = '';
+  
+    for ($i = 0; $i < $length; $i++) {
+        $random_string .= $characters[rand(0, $characters_length - 1)];
+    }
+
+    return $random_string;
+
+}

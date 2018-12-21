@@ -42,6 +42,18 @@ class get_user_ids extends RecursiveIteratorIterator {
 		
 }
 
+class get_secret_value_temp_ids extends RecursiveIteratorIterator {
+		function __construct($it) {
+			parent::__construct($it, self::LEAVES_ONLY);
+		}
+		function current() {
+				
+				array_push($_SESSION['secret_value_temp_ids'], parent::current());
+
+		}
+		
+}
+
 
 $secret_id = $_SESSION['choosen_secret_id'];
 
@@ -56,7 +68,6 @@ $value = str_replace('\'', '\\\'', $value);
 
 $username = $_POST['username'];
 
-// aes key
 $key_file = read_key_file('key_file');
 $secret_password = $secret_password . $key_file;
 
@@ -88,7 +99,9 @@ $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 		// if user is adding a key	
 		else if ($secret_password != '') {
 
-			$query = "INSERT INTO secret_keys (secret_id, `key`, privilege) VALUES ('$secret_id', AES_ENCRYPT('$value', '$secret_password'), '$privilege');"; 
+			$initialization_vector = generate_initialization_vector();
+			
+			$query = "INSERT INTO secret_values (secret_id, encrypted_value, initialization_vector, privilege) VALUES ('$secret_id', AES_ENCRYPT('$value', '$secret_password', '$initialization_vector'), '$initialization_vector', '$privilege');"; 
 			$conn->exec($query);
 
 		}
@@ -110,10 +123,26 @@ $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 				$_SESSION['user_ids'];
 
 				$user_id_max = count($_SESSION['user_ids']);
+
+
+				// get list of all secrets temp ids
+				$_SESSION['secret_value_temp_ids'] = array();
+
+				$stmt = $conn->prepare("SELECT secret_value_temp_id FROM secret_values_temp WHERE secret_id = '$secret_id';");
+				$stmt->execute();
+				$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
+			
+				foreach(new get_secret_value_temp_ids(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
+
+				}
+
+
+				$secret_value_temp_ids_max = count($_SESSION['secret_value_temp_ids']);
+
 				
 				// create one time secret for all user's
 				for($i = 0; $i < $user_id_max; ++$i) {
-
+					
 					$account_id = $_SESSION['user_ids'][$i];
 
 					$stmt = $conn->prepare("SELECT password FROM accounts WHERE account_id = '$account_id';");
@@ -128,52 +157,53 @@ $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 					$secret_password = $_SESSION['temp'] . $account_id;
 
 					$_SESSION['temp'] = '';
-
-					// see if user already has a one time login
-					$stmt = $conn->prepare("SELECT AES_DECRYPT(`key`, '$secret_password') FROM secret_keys_temp WHERE secret_id='$secret_id' and AES_DECRYPT(`key`, '$secret_password') is not NULL;");
-					$stmt->execute();
-					$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
-			
-					foreach(new grab_value(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
-
-					}
-					$temp_value = $_SESSION['temp'];
-
-					// if there are no existing one time logins, create one
-					if ($temp_value == NULL) {
-				
-						$query = "INSERT INTO secret_keys_temp (secret_id, `key`, privilege) VALUES ('$secret_id', AES_ENCRYPT('$value', '$secret_password'), '$privilege');"; 
-						$conn->exec($query);
-
-					}
 					
-					// if one exists, make sure permissions are correct
-					else {
-			
-						$stmt = $conn->prepare("SELECT secret_key_temp_id FROM secret_keys_temp WHERE secret_id='$secret_id' and AES_DECRYPT(`key`, '$secret_password') is not NULL;");
+
+					// iterate through all temp ids
+					for($j = 0; $j < $secret_value_temp_ids_max; ++$j) {
+
+						$secret_value_temp_id = $_SESSION['secret_value_temp_ids'][$j];
+
+						$stmt = $conn->prepare("SELECT initialization_vector FROM secret_values_temp WHERE secret_value_temp_id='$secret_value_temp_id'");
 						$stmt->execute();
 						$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
-			
+								
 						foreach(new grab_value(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
 
 						}
-						$secret_key_temp_id = $_SESSION['temp'];
+						$initialization_vector = $_SESSION['temp'];
+
 						
-						$stmt = $conn->prepare("SELECT privilege FROM secret_keys_temp WHERE secret_key_temp_id=$secret_key_temp_id");
+						$_SESSION['temp'] = '';
+						$stmt = $conn->prepare("SELECT AES_DECRYPT(encrypted_value, '$secret_password', '$initialization_vector') FROM secret_values_temp WHERE secret_value_temp_id='$secret_value_temp_id';");
 						$stmt->execute();
 						$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
-			
+								
 						foreach(new grab_value(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
 
 						}
-						$current_privilege = $_SESSION['temp'];
+						$temp_value = $_SESSION['temp'];
+						
 
-						if ($current_privilege != $privilege) {
-							$query = "UPDATE secret_keys_temp SET privilege='$privilege' WHERE secret_key_temp_id='$secret_key_temp_id';"; 
+						// if valid key exists
+						if ($temp_value != NULL) {
+							
+							// delete current one time login if exists
+							$query = "DELETE FROM secret_values_temp WHERE secret_value_temp_id='$secret_value_temp_id';"; 
 							$conn->exec($query);
+
+							$value = $temp_value;
+							break;
+
 						}
 
 					}
+
+					// insert new one time login
+					$initialization_vector = generate_initialization_vector();
+
+					$query = "INSERT INTO secret_values_temp (secret_id, encrypted_value, initialization_vector, privilege) VALUES ('$secret_id', AES_ENCRYPT('$value', '$secret_password', '$initialization_vector'), '$initialization_vector', '$privilege');"; 
+					$conn->exec($query);
 									
 				}
 				
@@ -181,7 +211,7 @@ $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
 			else if ($username == 'Server Admins') {
 
-				// get list of all server admins user ids
+				// get list of everyone's user id
 				$_SESSION['user_ids'] = array();
 
 				$stmt = $conn->prepare("SELECT account_id FROM accounts WHERE server_admin = 'yes';");
@@ -194,10 +224,25 @@ $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 				$_SESSION['user_ids'];
 
 				$user_id_max = count($_SESSION['user_ids']);
-				
-				// create one time secret for all server admins
-				for($i = 0; $i < $user_id_max; ++$i) {
 
+
+				// get list of secrets temp ids
+				$_SESSION['secret_value_temp_ids'] = array();
+
+				$stmt = $conn->prepare("SELECT secret_value_temp_id FROM secret_values_temp WHERE secret_id = '$secret_id';");
+				$stmt->execute();
+				$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
+			
+				foreach(new get_secret_value_temp_ids(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
+
+				}
+
+				$secret_value_temp_ids_max = count($_SESSION['secret_value_temp_ids']);
+
+
+				// iterate through all users
+				for($i = 0; $i < $user_id_max; ++$i) {
+					
 					$account_id = $_SESSION['user_ids'][$i];
 
 					$stmt = $conn->prepare("SELECT password FROM accounts WHERE account_id = '$account_id';");
@@ -212,60 +257,71 @@ $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 					$secret_password = $_SESSION['temp'] . $account_id;
 
 					$_SESSION['temp'] = '';
+					
 
-					// see if user already has a one time login
-					$stmt = $conn->prepare("SELECT AES_DECRYPT(`key`, '$secret_password') FROM secret_keys_temp WHERE secret_id='$secret_id' and AES_DECRYPT(`key`, '$secret_password') is not NULL;");
-					$stmt->execute();
-					$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
-			
-					foreach(new grab_value(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
+					// iterate through all temp ids
+					for($j = 0; $j < $secret_value_temp_ids_max; ++$j) {
 
-					}
-					$temp_value = $_SESSION['temp'];
+						$secret_value_temp_id = $_SESSION['secret_value_temp_ids'][$j];
 
-					// if there are no existing one time logins, create one
-					if ($temp_value == NULL) {
-				
-						$query = "INSERT INTO secret_keys_temp (secret_id, `key`, privilege) VALUES ('$secret_id', AES_ENCRYPT('$value', '$secret_password'), '$privilege');"; 
-						$conn->exec($query);
+						$stmt = $conn->prepare("SELECT initialization_vector FROM secret_values_temp WHERE secret_value_temp_id='$secret_value_temp_id'");
+						$stmt->execute();
+						$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
+								
+						foreach(new grab_value(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
+
+						}
+						$initialization_vector = $_SESSION['temp'];
+
+						
+						$_SESSION['temp'] = '';
+						$stmt = $conn->prepare("SELECT AES_DECRYPT(encrypted_value, '$secret_password', '$initialization_vector') FROM secret_values_temp WHERE secret_value_temp_id='$secret_value_temp_id';");
+						$stmt->execute();
+						$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
+								
+						foreach(new grab_value(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
+
+						}
+						$temp_value = $_SESSION['temp'];
+						
+						
+						// if valid key exists
+						if ($temp_value != NULL) {
+
+							$query = "DELETE FROM secret_values_temp WHERE secret_value_temp_id='$secret_value_temp_id';"; 
+							$conn->exec($query);
+
+							$value = $temp_value;
+							break;
+						}
 
 					}
 					
-					// if there is a one time login, check permissions and set them correctly
-					else {
-			
-						$stmt = $conn->prepare("SELECT secret_key_temp_id FROM secret_keys_temp WHERE secret_id='$secret_id' and AES_DECRYPT(`key`, '$secret_password') is not NULL;");
-						$stmt->execute();
-						$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
-			
-						foreach(new grab_value(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
+					// insert new one time login				
+					$initialization_vector = generate_initialization_vector();
 
-						}
-						$secret_key_temp_id = $_SESSION['temp'];
-						
-						$stmt = $conn->prepare("SELECT privilege FROM secret_keys_temp WHERE secret_key_temp_id=$secret_key_temp_id");
-						$stmt->execute();
-						$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
-			
-						foreach(new grab_value(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
-
-						}
-						$current_privilege = $_SESSION['temp'];
-
-						if ($current_privilege != $privilege) {
-							$query = "UPDATE secret_keys_temp SET privilege='$privilege' WHERE secret_key_temp_id='$secret_key_temp_id';"; 
-							$conn->exec($query);
-						}
-
-					}
-									
-
+					$query = "INSERT INTO secret_values_temp (secret_id, encrypted_value, initialization_vector, privilege) VALUES ('$secret_id', AES_ENCRYPT('$value', '$secret_password', '$initialization_vector'), '$initialization_vector', '$privilege');"; 
+					$conn->exec($query);
+				
 				}
 				
 			}
 
 			// individual user
 			else {
+
+				$_SESSION['secret_value_temp_ids'] = array();
+
+				$stmt = $conn->prepare("SELECT secret_value_temp_id FROM secret_values_temp WHERE secret_id = '$secret_id';");
+				$stmt->execute();
+				$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
+			
+				foreach(new get_secret_value_temp_ids(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
+
+				}
+
+
+				$secret_value_temp_ids_max = count($_SESSION['secret_value_temp_ids']);
 				$stmt = $conn->prepare("SELECT account_id FROM accounts WHERE username = '$username';");
 				$stmt->execute();
 				$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
@@ -288,54 +344,56 @@ $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 				$secret_password = $_SESSION['temp'] . $account_id;
 
 				$_SESSION['temp'] = '';
-
-				// see if user already has a one time login
-				$stmt = $conn->prepare("SELECT AES_DECRYPT(`key`, '$secret_password') FROM secret_keys_temp WHERE secret_id='$secret_id' and AES_DECRYPT(`key`, '$secret_password') is not NULL;");
-				$stmt->execute();
-				$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
-			
-				foreach(new grab_value(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
-
-				}
-				$temp_value = $_SESSION['temp'];
-
-				// if there are no existing one time logins, create one
-				if ($temp_value == NULL) {
-				
-					$query = "INSERT INTO secret_keys_temp (secret_id, `key`, privilege) VALUES ('$secret_id', AES_ENCRYPT('$value', '$secret_password'), '$privilege');"; 
-					$conn->exec($query);
-
-				}
 					
-				else {
-			
-					$stmt = $conn->prepare("SELECT secret_key_temp_id FROM secret_keys_temp WHERE secret_id='$secret_id' and AES_DECRYPT(`key`, '$secret_password') is not NULL;");
+
+				// iterate through all temp ids
+				for($j = 0; $j < $secret_value_temp_ids_max; ++$j) {
+
+					$secret_value_temp_id = $_SESSION['secret_value_temp_ids'][$j];
+
+					$stmt = $conn->prepare("SELECT initialization_vector FROM secret_values_temp WHERE secret_value_temp_id='$secret_value_temp_id'");
 					$stmt->execute();
 					$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
-			
+								
 					foreach(new grab_value(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
 
 					}
-					$secret_key_temp_id = $_SESSION['temp'];
+					$initialization_vector = $_SESSION['temp'];
+
+
 						
-					$stmt = $conn->prepare("SELECT privilege FROM secret_keys_temp WHERE secret_key_temp_id=$secret_key_temp_id");
+					$_SESSION['temp'] = '';
+					$stmt = $conn->prepare("SELECT AES_DECRYPT(encrypted_value, '$secret_password', '$initialization_vector') FROM secret_values_temp WHERE secret_value_temp_id='$secret_value_temp_id';");
 					$stmt->execute();
 					$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
-			
+								
 					foreach(new grab_value(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
 
 					}
-					$current_privilege = $_SESSION['temp'];
+					$temp_value = $_SESSION['temp'];
+						
 
-					if ($current_privilege != $privilege) {
-						$query = "UPDATE secret_keys_temp SET privilege='$privilege' WHERE secret_key_temp_id='$secret_key_temp_id';"; 
+						
+					// if valid key exists
+					if ($temp_value != NULL) {
+
+						$query = "DELETE FROM secret_values_temp WHERE secret_value_temp_id='$secret_value_temp_id';"; 
 						$conn->exec($query);
+
+						$value = $temp_value;
+						break;
+
 					}
 
 				}
+				
+				// insert new one time login
+				$initialization_vector = generate_initialization_vector();
+
+				$query = "INSERT INTO secret_values_temp (secret_id, encrypted_value, initialization_vector, privilege) VALUES ('$secret_id', AES_ENCRYPT('$value', '$secret_password', '$initialization_vector'), '$initialization_vector', '$privilege');"; 
+				$conn->exec($query);
 
 			}
-			
 
 		}
 		
@@ -343,11 +401,12 @@ $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 		$_SESSION['value'] = '';
 		$_SESSION['privilege'] = '';
 		$_SESSION['secret_password'] = '';
-		$_SESSION['secret_key_temp_id'] = '';
-		$_SESSION['secret_key_id'] = '';
+		$_SESSION['secret_value_temp_id'] = '';
+		$_SESSION['secret_value_id'] = '';
 		$_SESSION['secret_id'] = '';
 		$_SESSION['choosen_secret_id'] = '';		
 
+		
 		// redirect user back to where they can add more secrets
 		header( 'Location: /php/secrets/select_secrets.php');
 		exit();

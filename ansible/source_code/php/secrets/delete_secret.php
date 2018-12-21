@@ -24,13 +24,13 @@ $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 	try {
 			
 		// wipes all keys, the secret, and one time logins
-		$query = "DELETE FROM secret_keys WHERE secret_id='$secret_id';"; 
+		$query = "DELETE FROM secret_values WHERE secret_id='$secret_id';"; 
 		$conn->exec($query);
 
 		$query = "DELETE FROM secrets WHERE secret_id='$secret_id';"; 
 		$conn->exec($query);
 
-		$query = "DELETE FROM secret_keys_temp WHERE secret_id='$secret_id';"; 
+		$query = "DELETE FROM secret_values_temp WHERE secret_id='$secret_id';"; 
 		$conn->exec($query);
 		
 				
