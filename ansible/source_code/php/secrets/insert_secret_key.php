@@ -69,6 +69,11 @@ $value_start = $_SESSION['value'];
 $username = $_POST['username'];
 
 $key_file = read_key_file('key_file');
+$key_file = trim($key_file);
+$keys = array();
+$keys = explode('---additional_key---', $key_file);
+$key_file = trim($keys[0]);
+
 $secret_password = $secret_password . $key_file;
 
 $conn = new PDO($dbconnection, $dbusername, $dbpassword);
