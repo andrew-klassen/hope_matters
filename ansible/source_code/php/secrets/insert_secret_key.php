@@ -64,7 +64,7 @@ $accounts = $_POST['accounts'];
 $privilege = $_POST['privilege'];
 
 $value = $_SESSION['value'];
-$value = str_replace('\'', '\\\'', $value);
+$value_start = $_SESSION['value'];
 
 $username = $_POST['username'];
 
@@ -100,8 +100,10 @@ $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 		else if ($secret_password != '') {
 
 			$initialization_vector = generate_initialization_vector();
-			
-			$query = "INSERT INTO secret_values (secret_id, encrypted_value, initialization_vector, privilege) VALUES ('$secret_id', AES_ENCRYPT('$value', '$secret_password', '$initialization_vector'), '$initialization_vector', '$privilege');"; 
+			$hash = password_hash($value, $password_hashing_algorithim);
+			$value = str_replace('\'', '\\\'', $value);			
+
+			$query = "INSERT INTO secret_values (secret_id, encrypted_value, initialization_vector, value_hash, privilege) VALUES ('$secret_id', AES_ENCRYPT('$value', '$secret_password', '$initialization_vector'), '$initialization_vector', '$hash', '$privilege');"; 
 			$conn->exec($query);
 
 		}
@@ -183,10 +185,21 @@ $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
 						}
 						$temp_value = $_SESSION['temp'];
+
+
+						$_SESSION['temp'] = '';
+						$stmt = $conn->prepare("SELECT value_hash FROM secret_values_temp WHERE secret_value_temp_id='$secret_value_temp_id';");
+						$stmt->execute();
+						$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
+							
+						foreach(new grab_value(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
+
+						}
+						$hash = $_SESSION['temp'];
 						
 
 						// if valid key exists
-						if ($temp_value != NULL) {
+						if (password_verify($temp_value, $hash)) {
 							
 							// delete current one time login if exists
 							$query = "DELETE FROM secret_values_temp WHERE secret_value_temp_id='$secret_value_temp_id';"; 
@@ -198,11 +211,15 @@ $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 						}
 
 					}
-
+					
 					// insert new one time login
 					$initialization_vector = generate_initialization_vector();
-
-					$query = "INSERT INTO secret_values_temp (secret_id, encrypted_value, initialization_vector, privilege) VALUES ('$secret_id', AES_ENCRYPT('$value', '$secret_password', '$initialization_vector'), '$initialization_vector', '$privilege');"; 
+					$value = $value_start;
+					$hash = password_hash($value, $password_hashing_algorithim);
+					$value = str_replace('\'', '\\\'', $value);
+					
+					
+					$query = "INSERT INTO secret_values_temp (secret_id, encrypted_value, initialization_vector, value_hash, privilege) VALUES ('$secret_id', AES_ENCRYPT('$value', '$secret_password', '$initialization_vector'), '$initialization_vector', '$hash', '$privilege');"; 
 					$conn->exec($query);
 									
 				}
@@ -283,10 +300,21 @@ $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
 						}
 						$temp_value = $_SESSION['temp'];
+
+
+						$_SESSION['temp'] = '';
+						$stmt = $conn->prepare("SELECT value_hash FROM secret_values_temp WHERE secret_value_temp_id='$secret_value_temp_id';");
+						$stmt->execute();
+						$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
+							
+						foreach(new grab_value(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
+
+						}
+						$hash = $_SESSION['temp'];
 						
 						
 						// if valid key exists
-						if ($temp_value != NULL) {
+						if (password_verify($temp_value, $hash)) {
 
 							$query = "DELETE FROM secret_values_temp WHERE secret_value_temp_id='$secret_value_temp_id';"; 
 							$conn->exec($query);
@@ -299,8 +327,11 @@ $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 					
 					// insert new one time login				
 					$initialization_vector = generate_initialization_vector();
-
-					$query = "INSERT INTO secret_values_temp (secret_id, encrypted_value, initialization_vector, privilege) VALUES ('$secret_id', AES_ENCRYPT('$value', '$secret_password', '$initialization_vector'), '$initialization_vector', '$privilege');"; 
+					$value = $value_start;
+					$hash = password_hash($value, $password_hashing_algorithim);
+					$value = str_replace('\'', '\\\'', $value);
+										
+					$query = "INSERT INTO secret_values_temp (secret_id, encrypted_value, initialization_vector, value_hash, privilege) VALUES ('$secret_id', AES_ENCRYPT('$value', '$secret_password', '$initialization_vector'), '$initialization_vector', '$hash', '$privilege');";
 					$conn->exec($query);
 				
 				}
@@ -360,7 +391,6 @@ $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 					}
 					$initialization_vector = $_SESSION['temp'];
 
-
 						
 					$_SESSION['temp'] = '';
 					$stmt = $conn->prepare("SELECT AES_DECRYPT(encrypted_value, '$secret_password', '$initialization_vector') FROM secret_values_temp WHERE secret_value_temp_id='$secret_value_temp_id';");
@@ -371,11 +401,21 @@ $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
 					}
 					$temp_value = $_SESSION['temp'];
-						
 
-						
+
+					$_SESSION['temp'] = '';
+					$stmt = $conn->prepare("SELECT value_hash FROM secret_values_temp WHERE secret_value_temp_id='$secret_value_temp_id';");
+					$stmt->execute();
+					$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
+							
+					foreach(new grab_value(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
+
+					}
+					$hash = $_SESSION['temp'];
+					
+	
 					// if valid key exists
-					if ($temp_value != NULL) {
+					if (password_verify($temp_value, $hash)) {
 
 						$query = "DELETE FROM secret_values_temp WHERE secret_value_temp_id='$secret_value_temp_id';"; 
 						$conn->exec($query);
@@ -389,8 +429,11 @@ $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 				
 				// insert new one time login
 				$initialization_vector = generate_initialization_vector();
+				$value = $value_start;
+				$hash = password_hash($value, $password_hashing_algorithim);
+				$value = str_replace('\'', '\\\'', $value);
 
-				$query = "INSERT INTO secret_values_temp (secret_id, encrypted_value, initialization_vector, privilege) VALUES ('$secret_id', AES_ENCRYPT('$value', '$secret_password', '$initialization_vector'), '$initialization_vector', '$privilege');"; 
+				$query = "INSERT INTO secret_values_temp (secret_id, encrypted_value, initialization_vector, value_hash, privilege) VALUES ('$secret_id', AES_ENCRYPT('$value', '$secret_password', '$initialization_vector'), '$initialization_vector', '$hash', '$privilege');";
 				$conn->exec($query);
 
 			}

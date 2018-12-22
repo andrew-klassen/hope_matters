@@ -37,7 +37,6 @@ $description = $_POST['description'];
 $description = str_replace('\'', '\\\'', $description);
 
 $value = $_POST['value'];
-$value = str_replace('\'', '\\\'', $value);
 
 $secret_password = $_POST['secret_password'];
 $secret_password = str_replace('\'', '\\\'', $secret_password);
@@ -93,10 +92,13 @@ $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 		$secret_id = $_SESSION['temp'];
 
 		$initialization_vector = generate_initialization_vector();
+		$hash = password_hash($value, $password_hashing_algorithim);
+		$value = str_replace('\'', '\\\'', $value);
 
 		// insert the first key
-		$query = "INSERT INTO secret_values (secret_id, encrypted_value, initialization_vector, privilege) VALUES ('$secret_id', AES_ENCRYPT('$value', '$secret_password', '$initialization_vector'), '$initialization_vector', 'admin');"; 
+		$query = "INSERT INTO secret_values (secret_id, encrypted_value, initialization_vector, value_hash, privilege) VALUES ('$secret_id', AES_ENCRYPT('$value', '$secret_password', '$initialization_vector'), '$initialization_vector', '$hash', 'admin');"; 
 		$conn->exec($query);
+
 			
 		// remove sensitive varibles from user's php session
 		$_SESSION['value'] = '';

@@ -103,11 +103,22 @@ for($j = 0; $j < $secret_value_temp_ids_max; ++$j) {
 
 	}
 	$temp_value = $_SESSION['temp'];
-						
+
+	
+	$_SESSION['temp'] = '';
+	$stmt = $conn->prepare("SELECT value_hash FROM secret_values_temp WHERE secret_value_temp_id='$secret_value_temp_id';");
+	$stmt->execute();
+	$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
+				
+	foreach(new grab_value(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
+
+	}
+	$hash = $_SESSION['temp'];
+			
 						
 	// if valid key exists
-	if ($temp_value != NULL) {
-
+	if (password_verify($temp_value, $hash)) {
+	
 		$value = $temp_value;
 		break;
 
