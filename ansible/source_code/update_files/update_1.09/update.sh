@@ -39,8 +39,24 @@ if [ "$response" = "y" ]; then
 	chmod 2777 -R /var/www/html/
 
 	# change default encryption mode
-	echo "block_encyption_mode=aes-256-cbc" >> /etc/mysql/mysql.conf.d/mysqld.cnf
+	echo "block_encryption_mode=aes-256-cbc" >> /etc/mysql/mysql.conf.d/mysqld.cnf
 	systemctl restart mysql
+
+
+	echo '' >> /var/www/html/php/database_credentials.php
+        echo "#***** update 1.09 *****" >> /var/www/html/php/database_credentials.php
+        echo "function generate_initialization_vector($length = 16) {" >> /var/www/html/php/database_credentials.php
+	echo '' >> /var/www/html/php/database_credentials.php
+	echo "\$characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$%^&*<>_+-=;:{}';" >> /var/www/html/php/database_credentials.php
+	echo "\$characters_length = strlen(\$characters);" >> /var/www/html/php/database_credentials.php
+	echo "\$random_string = '';" >> /var/www/html/php/database_credentials.php
+	echo '' >> /var/www/html/php/database_credentials.php
+	echo "for (\$i = 0; \$i < \$length; \$i++) {" >> /var/www/html/php/database_credentials.php
+	echo "\$random_string .= \$characters[rand(0, \$characters_length - 1)];" >> /var/www/html/php/database_credentials.php
+	echo "}" >> /var/www/html/php/database_credentials.php
+	echo "return \$random_string;" >> /var/www/html/php/database_credentials.php
+	echo '' >> /var/www/html/php/database_credentials.php
+	echo "}" >> /var/www/html/php/database_credentials.php
 
 	echo "*** Update Successful ***"
 	
