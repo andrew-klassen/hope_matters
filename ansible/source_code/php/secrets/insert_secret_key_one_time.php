@@ -51,6 +51,11 @@ $secret_password = $_POST['secret_password'];
 $secret_password = str_replace('\'', '\\\'', $secret_password);
 
 $key_file = read_key_file('key_file');
+$key_file = trim($key_file);
+$keys = array();
+$keys = explode('---additional_key---', $key_file);
+$key_file = trim($keys[0]);
+
 $secret_password = $secret_password . $key_file;
 
 $_SESSION['temp'] = '';
