@@ -114,6 +114,11 @@
 
         fi
 
+   - name: (rpm) change default encyption for mysql
+     lineinfile:
+       path: /etc/my.cnf
+       line: "block_encyption_mode=aes-256-cbc"
+
    - name: (rpm) restart mysql
      service:
        name: mysqld
@@ -216,11 +221,21 @@
       service:
         name: apache2
         enabled: yes
+    
+    - name: (dep) change default encyption for mysql
+      lineinfile:
+        path: /etc/mysql/mysql.conf.d/mysqld.cnf
+        line: "block_encyption_mode=aes-256-cbc"
 
     - name: (deb) enable mysql
       service:
         name: mysql
         enabled: yes
+
+    - name: (deb) restart mysql
+      service:
+        name: mysql
+        state: restarted
 
   when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
 
