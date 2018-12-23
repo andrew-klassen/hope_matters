@@ -4,7 +4,7 @@ The web application is licensed under the Affero General Public License v3.
 View the web application's readme.txt for more details.
 
 Copyright © 2017 Andrew Klassen
- */
+*/
 
 function validate_form() {
 	

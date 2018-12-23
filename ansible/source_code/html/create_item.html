@@ -1,0 +1,77 @@
+<!--
+This file is part of a web application designed to help Hope Matters interact with their database.
+The web application is licensed under the Affero General Public License v3.
+View the web application's readme.txt for more details.
+
+Copyright © 2017 Andrew Klassen
+-->
+
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Hope Matters</title>
+		<link rel='icon' href='/images/hope_matters_logo.png'>
+		<link rel='stylesheet' type='text/css' href='/css/navbar.css'>
+		<link rel='stylesheet' type='text/css' href='/css/add_client.css'>
+		<script src="/js/create_item_validation.js" type="text/javascript"> </script>
+	</head>
+
+	
+	<body style='padding-top: 70px;'>
+
+	  <div id='container'>
+		   
+		  <div id='sign-out'>
+			<form method='post' action='/php/dashboard.php'>
+				<input type='submit' value='Dashboard'>
+			</form>
+		  </div>
+		  
+		  <div id='sign-out'>
+			<form method='post' action='/php/sign_out.php'>
+				<input type='submit' value='Sign Out'>
+			</form>
+		  </div>
+		  
+		  <div style="float: left;  width: 300px;">
+        <form method="post" action="/php/inventory/select_item.php">
+            <input style="width: 200px;" type="submit" value="Select Item">
+        </form>
+      </div>
+		  
+	  </div>
+	  <br></br>
+
+
+<div class='accountCard' style="width: 500px; height: 520px;">
+  
+	<p style='color: black;text-align: center;'> Create an Item</p>
+	
+	<form action='/php/inventory/insert_item.php' name='add_item' onsubmit='return validate_form()' method='post'>
+	
+			  <div style='width: 400px;  margin-left: 50px; margin-top: 10px; float: left;'>
+				<b>Item Name:</b><br>
+				<input style='height: 35px;' type='text' name='name'  maxlength='45' autofocus onfocus='this.value = this.value;'>
+				<div style='margin-top: 10px;'><b>Item Type:</b>
+					<select name='type' method='post'>
+							<option value='supplies'>Supplies</option>
+							<option value='medicine'>Medicine</option>
+							<option value='equipment'>Equipment</option>
+					</select>
+				</div><br>
+				<b>Count:</b><br>
+				<input style='height: 35px;' name='count' type='number'>
+				<b>Value:</b><br>
+				<input style='height: 35px;' type='number' name='value'>
+				<b>Notes:</b><br>
+				<textarea name='notes' style='width: 400px; height: 100px; margin-top: 5px;'  maxlength='255'></textarea>
+				<b>Barcode:</b><br>
+				<input style='height: 35px;' type='text' name='barcode'>
+				<input style='margin-left: 100px; margin-top: 20px; width: 200px;' type='submit' name='submit_button' class='submitbtn' value='Create Item'>
+			  </div>
+		  </form>
+		  
+		
+  </div> 
+</body>
+</html>

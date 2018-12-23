@@ -168,6 +168,13 @@ function upload_package($file_name, $picture_name, $redirect_location, $target_d
 	}
 }
 
+function read_key_file($file_name) {
+	$temp = file_get_contents($_FILES[$file_name]["tmp_name"]);
+	return $temp;
+
+	
+}
+
 function strposX($string, $char, $number_of_occurrences){
     if($number_of_occurrences == '1'){
         return strpos($string, $char);

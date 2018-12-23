@@ -13,24 +13,21 @@ session_start();
 // if DEBUG_MODE is true, users will have the ability to report bugs
 const DEBUG_MODE = false;
 
-
 // storage checking
 /*********************************
 The STORAGE_CHECK constant determines whether or not the program will check
 to see if any thing is wrong with the hard drives in the array. The only offically
 supported raid controller is the LSI 9240-8i. This program also depends on
 storcli64 being installed. Below is a link to a mirror were storcli64 can be downloaded.
-
 ftp://ftp.supermicro.com/Driver/SAS/LSI/Tools/storcli_6.6-1.14.12/Linux/
-
 If STORAGE_CHECK is set to false, set NUMBER_OF_HARD_DRIVES equall to 0.
 *********************************/
+
 const STORAGE_CHECK = false;
 const NUMBER_OF_HARD_DRIVES = 3;
 const SERVER_WITH_STORAGE_ARRAY = '';
 const USERNAME = 'root';
 const PASSWORD = '';
-
 
 // database connection information
 /*********************************
@@ -38,7 +35,7 @@ Remember to duplicate the database connection information
 into the create_database_error function, which is defined
 below.
 *********************************/
-	
+
 $servername = '{{ php_host }}';
 $dbusername = 'php';
 $dbpassword = '{{ php_password }}';
@@ -46,15 +43,12 @@ $dbname = 'hope_matters';
 $dbconnection = "mysql:host=$servername;dbname=$dbname";
 $password_hashing_algorithim = PASSWORD_BCRYPT;
 
-
 // database query limits
 $search_limit = 200;
 $wild_card_limit = 200;
 $master_log_limit = 4000;
 $client_form_limit = 4000;
 $client_all_form_limit = 200;
-
-
 
 /*********************************
 Below are function definitions.
@@ -67,7 +61,6 @@ function login_check() {
 		exit();
 	}
 }
-
 // makes sure user has access to the master log
 function master_log_check() {
 	if ($_SESSION['master_log_access'] != 'yes') {
@@ -82,9 +75,9 @@ function create_database_error($query, $error_location, $pdo_error) {
 	require_once('browser_info.php');
 	
 	// database connection information
-	$servername = '{{ php_host }}';
+	$servername = '127.0.0.1';
 	$dbusername = 'php';
-	$dbpassword = '{{ php_password }}';
+	$dbpassword = '';
 	$dbname = 'hope_matters';
 	$dbconnection = "mysql:host=$servername;dbname=$dbname";
 
@@ -128,11 +121,25 @@ function create_database_error($query, $error_location, $pdo_error) {
 	
 	// establish database connection
 	$conn = new PDO($dbconnection, $dbusername, $dbpassword);
-    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    	$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 	
 	
 	// push the contents of the error message into the database
 	$query = "INSERT INTO error (account_id, error_location, query, database_error, browser, version, platform, time_of_error) 
 			  VALUES ('$account_id', '$error_location','$query', '$database_error', '$browser', '$version', '$platform', '$time_of_error');"; 
-    $conn->exec($query);
+    	$conn->exec($query);
+}
+
+function generate_initialization_vector($length = 16) {
+   
+    $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$%^&*<>_+-=;:{}';
+    $characters_length = strlen($characters);
+    $random_string = '';
+  
+    for ($i = 0; $i < $length; $i++) {
+        $random_string .= $characters[rand(0, $characters_length - 1)];
+    }
+
+    return $random_string;
+
 }

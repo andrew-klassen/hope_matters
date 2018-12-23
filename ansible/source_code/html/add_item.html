@@ -43,28 +43,19 @@ Copyright © 2017 Andrew Klassen
 	  <br></br>
 
 
-<div class='accountCard' style="width: 500px; height: 500px;">
+<div class='accountCard' style="width: 500px; height: 220px;">
   
 	<p style='color: black;text-align: center;'>Add an Item</p>
 	
-	<form action='/php/inventory/insert_item.php' name='add_item' onsubmit='return validate_form()' method='post'>
+	<form action='/php/inventory/add_item.php' name='add_item' onsubmit='return validate_form()' method='post'>
 	
 			  <div style='width: 400px;  margin-left: 50px; margin-top: 10px; float: left;'>
-				<b>Item Name:</b><br>
-				<input style='height: 35px;' type='text' name='name'  maxlength='45' autofocus onfocus='this.value = this.value;'>
-				<div style='margin-top: 10px;'><b>Item Type:</b>
-					<select name='type' method='post'>
-							<option value='supplies'>Supplies</option>
-							<option value='medicine'>Medicine</option>
-							<option value='equipment'>Equipment</option>
-					</select>
-				</div><br>
+				
 				<b>Count:</b><br>
-				<input style='height: 35px;' name='count' type='number'>
-				<b>Value:</b><br>
-				<input style='height: 35px;' type='number' name='value'>
-				<b>Notes:</b><br>
-				<textarea name='notes' style='width: 400px; height: 100px; margin-top: 5px;'  maxlength='255'></textarea>
+				<input style='height: 35px;' name='count' type='number' autofocus onfocus='this.value = this.value;'>
+				
+				<b>Barcode:</b><br>
+				<input style='height: 35px;' type='text' name='barcode'>
 				<input style='margin-left: 100px; margin-top: 20px; width: 200px;' type='submit' name='submit_button' class='submitbtn' value='Add Item'>
 			  </div>
 		  </form>

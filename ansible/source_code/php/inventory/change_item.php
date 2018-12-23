@@ -43,7 +43,7 @@ Copyright © 2017 Andrew Klassen
 	  <br></br>
 
 
-<div class='accountCard' style="width: 500px; height: 500px;">
+<div class='accountCard' style="width: 500px; height: 520px;">
   
 	<p style='color: black;text-align: center;'>Change Item</p>
 	
@@ -131,6 +131,16 @@ Copyright © 2017 Andrew Klassen
 
 					}
 					$notes = $_SESSION['temp'];
+
+
+					$stmt = $conn->prepare("SELECT barcode FROM inventory WHERE inventory_id='$inventory_id';");
+					$stmt->execute();
+					$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
+								
+					foreach(new grab_value(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
+
+					}
+					$barcode = $_SESSION['temp'];
 				
 				
 					// select current department on drop down menu
@@ -160,7 +170,9 @@ Copyright © 2017 Andrew Klassen
 					<b>Value:</b><br>
 					<input style='height: 35px;' type='number' name='value' value='$value'>
 					<b>Notes:</b><br>
-					<textarea name='notes' style='width: 400px; height: 100px; margin-top: 5px;'  maxlength='255'>$notes</textarea>";
+					<textarea name='notes' style='width: 400px; height: 100px; margin-top: 5px;'  maxlength='255'>$notes</textarea>
+					<b>Barcode:</b><br>
+					<input style='height: 35px;' type='text' name='barcode' value='$barcode'>";
 				?>
 				<input style='margin-left: 100px; margin-top: 20px; width: 200px;' type='submit' name='submit_button' class='submitbtn' value='Update Item'>
 			  </div>

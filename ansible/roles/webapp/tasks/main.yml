@@ -114,6 +114,11 @@
 
         fi
 
+   - name: (rpm) change default encyption for mysql
+     lineinfile:
+       path: /etc/my.cnf
+       line: "block_encryption_mode=aes-256-cbc"
+
    - name: (rpm) restart mysql
      service:
        name: mysqld
@@ -142,7 +147,7 @@
 - mysql_user:
     name: php
     password: "{{ php_password }}"
-    priv: 'hope_matters.*:SELECT,UPDATE,INSERT/hope_matters.diagnoses:DELETE/hope_matters.diagnoses_temp:DELETE/hope_matters.treatment_temp:DELETE/hope_matters.return_treatment_temp:DELETE'
+    priv: 'hope_matters.*:SELECT,UPDATE,INSERT/hope_matters.diagnoses:DELETE/hope_matters.diagnoses_temp:DELETE/hope_matters.treatment_temp:DELETE/hope_matters.return_treatment_temp:DELETE/hope_matters.secrets:DELETE/hope_matters.secret_values:DELETE/hope_matters.secret_values_temp:DELETE'
     state: present
   ignore_errors: yes
 
@@ -216,11 +221,21 @@
       service:
         name: apache2
         enabled: yes
+    
+    - name: (dep) change default encyption for mysql
+      lineinfile:
+        path: /etc/mysql/mysql.conf.d/mysqld.cnf
+        line: "block_encryption_mode=aes-256-cbc"
 
     - name: (deb) enable mysql
       service:
         name: mysql
         enabled: yes
+
+    - name: (deb) restart mysql
+      service:
+        name: mysql
+        state: restarted
 
   when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
 
@@ -289,3 +304,157 @@
        restorecon -R -v /var/www/html/uploaded_images
 
   when: ansible_distribution == 'CentOS' or ansible_distribution == 'Red Hat Enterprise Linux'
+
+- name: (testing) only for test builds
+  block:
+
+   - name: (testing) disable login_check(), allows for unauthorized logins
+     shell: |
+       #!/bin/bash
+       
+       if [[ $(grep "header( 'Location: ../../index.html' );" /var/www/html/php/database_credentials.php | wc -l) != 0 ]]; then
+          
+          start=$(grep -Fn 'function login_check() {' /var/www/html/php/database_credentials.php | cut -f1 -d':')
+          start=$((${start} + 1))
+          end=$((${start} + 3))
+          sed -i /var/www/html/php/database_credentials.php -re "${start},${end}d"    
+       
+       fi
+     args:
+       executable: /bin/bash
+
+   - name: (testing) disable master_log_check(), allows for unauthorized logins
+     shell: |
+       #!/bin/bash
+
+       if [[ $(grep "header( 'Location: ../dashboard.php' );" /var/www/html/php/database_credentials.php | wc -l) != 0 ]]; then
+
+          start=$(grep -Fn 'function master_log_check() {' /var/www/html/php/database_credentials.php | cut -f1 -d':')
+          start=$((${start} + 1))
+          end=$((${start} + 3))
+          sed -i /var/www/html/php/database_credentials.php -re "${start},${end}d"
+
+       fi
+     args:
+       executable: /bin/bash
+ 
+   - lineinfile:
+       path: /var/www/html/php/labs/insert_lab_form.php
+       line: "$client_id = $_SESSION['choosen_client_id']; if (isset($_POST['choosen_client_id'])) {$client_id = $_POST['choosen_client_id'];}"
+       regexp: "'choosen_client_id'"
+
+   - lineinfile:
+       path: /var/www/html/php/master_log/update_payment.php
+       line: "$choosen_payment_id = $_SESSION['choosen_payment_id']; if (isset($_POST['choosen_payment_id'])) {echo $choosen_payment_id = $_POST['choosen_payment_id'];}"
+       regexp: "'choosen_payment_id'"
+   
+   - lineinfile:
+       path: /var/www/html/php/master_log/insert_payment.php
+       line: "$client_id = $_SESSION['choosen_client_id']; if (isset($_POST['choosen_client_id'])) {$client_id = $_POST['choosen_client_id'];}"
+       regexp: "'choosen_client_id'"
+   
+   - lineinfile:
+       path: /var/www/html/php/master_log/change_payment.php
+       line: "$choosen_payment_id = $_SESSION['choosen_payment_id']; if (isset($_POST['choosen_payment_id'])) {echo $choosen_payment_id = $_POST['choosen_payment_id'];}"
+       regexp: "'choosen_payment_id'"
+ 
+   - lineinfile:
+       path: /var/www/html/php/treatment_form/insert_treatment_form_temp.php
+       line: "$username = $_SESSION['username']; if (isset($_POST['username'])) {$username = $_POST['username'];}"
+       regexp: "'username'"
+
+   - lineinfile:
+       path: /var/www/html/php/treatment_form/add_treatment_form_diagnoses.php
+       line: "$username = $_SESSION['username']; if (isset($_POST['username'])) {$username = $_POST['username'];}"
+       regexp: "'username'"
+
+   - lineinfile:
+       path: /var/www/html/php/treatment_form/add_treatment_form_diagnoses.php
+       line: "$choosen_client_id = $_SESSION['choosen_client_id']; if (isset($_POST['choosen_client_id'])) {$choosen_client_id = $_POST['choosen_client_id'];}"
+       regexp: "'choosen_client_id'"
+
+   - lineinfile:
+       path: /var/www/html/php/treatment_form/insert_treatment_form.php
+       line: "$choosen_client_id = $_SESSION['choosen_client_id']; if (isset($_POST['choosen_client_id'])) {$choosen_client_id = $_POST['choosen_client_id'];}"
+       regexp: "'choosen_client_id'"
+
+   - lineinfile:
+       path: /var/www/html/php/treatment_form/insert_treatment_form.php
+       line: "$username = $_SESSION['username']; if (isset($_POST['username'])) {$username = $_POST['username'];}"
+       regexp: "'username'"
+
+   - lineinfile:
+       path: /var/www/html/php/return_treatment_form/insert_return_treatment_form_temp.php
+       line: "$username = $_SESSION['username']; if (isset($_POST['username'])) {$username = $_POST['username'];}"
+       regexp: "'username'"
+
+   - lineinfile:
+       path: /var/www/html/php/return_treatment_form/add_return_treatment_form_diagnoses.php
+       line: "$username = $_SESSION['username']; if (isset($_POST['username'])) {$username = $_POST['username'];}"
+       regexp: "'username'"
+
+   - lineinfile:
+       path: /var/www/html/php/return_treatment_form/add_return_treatment_form_diagnoses.php
+       line: "$choosen_client_id = $_SESSION['choosen_client_id']; if (isset($_POST['choosen_client_id'])) {$choosen_client_id = $_POST['choosen_client_id'];}"
+       regexp: "'choosen_client_id'"
+
+   - lineinfile:
+       path: /var/www/html/php/return_treatment_form/insert_return_treatment_form.php
+       line: "$username = $_SESSION['username']; if (isset($_POST['username'])) {$username = $_POST['username'];}"
+       regexp: "'username'"
+
+   - lineinfile:
+       path: /var/www/html/php/return_treatment_form/insert_return_treatment_form.php
+       line: "$choosen_client_id = $_SESSION['choosen_client_id']; if (isset($_POST['choosen_client_id'])) {$choosen_client_id = $_POST['choosen_client_id'];}"
+       regexp: "'choosen_client_id'"
+
+   - lineinfile:
+       path: /var/www/html/php/vital_signs/insert_vital_signs.php
+       line: "$username = $_SESSION['username']; if (isset($_POST['username'])) {$username = $_POST['username'];}"
+       regexp: "'username'"
+
+   - lineinfile:
+       path: /var/www/html/php/vital_signs/insert_vital_signs.php
+       line: "$choosen_client_id = $_SESSION['choosen_client_id']; if (isset($_POST['choosen_client_id'])) {$choosen_client_id = $_POST['choosen_client_id'];}"
+       regexp: "'choosen_client_id'"
+
+   - lineinfile:
+       path: /var/www/html/php/medication_order/insert_medication_order.php
+       line: "$username = $_SESSION['username']; if (isset($_POST['username'])) {$username = $_POST['username'];}"
+       regexp: "'username'"
+
+   - lineinfile:
+       path: /var/www/html/php/medication_order/insert_medication_order.php
+       line: "$choosen_client_id = $_SESSION['choosen_client_id']; if (isset($_POST['choosen_client_id'])) {$choosen_client_id = $_POST['choosen_client_id'];}"
+       regexp: "'choosen_client_id'"
+
+   - name: (testing) import diagnoses
+     mysql_db:
+       name: hope_matters
+       state: import
+       target: "/root/hope/jenkins/diagnosis_types.sql"
+
+   - name: (testing) install dos2unix
+     apt:
+       name: "{{ packages }}"
+     vars:
+       packages:
+       - dos2unix
+
+   - name: (testing) convert changed files into unix format
+     shell: |
+       #!/bin/bash
+       dos2unix /var/www/html/php/labs/insert_lab_form.php
+       dos2unix /var/www/html/php/master_log/update_payment.php
+       dos2unix /var/www/html/php/master_log/insert_payment.php
+       dos2unix /var/www/html/php/master_log/change_payment.php
+       dos2unix /var/www/html/php/treatment_form/insert_treatment_form_temp.php
+       dos2unix /var/www/html/php/treatment_form/add_treatment_form_diagnoses.php
+       dos2unix /var/www/html/php/treatment_form/insert_treatment_form.php
+       dos2unix /var/www/html/php/return_treatment_form/insert_return_treatment_form_temp.php
+       dos2unix /var/www/html/php/return_treatment_form/add_return_treatment_form_diagnoses.php
+       dos2unix /var/www/html/php/return_treatment_form/insert_return_treatment_form.php
+       dos2unix /var/www/html/php/vital_signs/insert_vital_signs.php
+       dos2unix /var/www/html/php/medication_order/insert_medication_order.php
+
+  when: testing|default(false)|bool
