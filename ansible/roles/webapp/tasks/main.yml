@@ -117,7 +117,7 @@
    - name: (rpm) change default encyption for mysql
      lineinfile:
        path: /etc/my.cnf
-       line: "block_encyption_mode=aes-256-cbc"
+       line: "block_encryption_mode=aes-256-cbc"
 
    - name: (rpm) restart mysql
      service:
@@ -225,7 +225,7 @@
     - name: (dep) change default encyption for mysql
       lineinfile:
         path: /etc/mysql/mysql.conf.d/mysqld.cnf
-        line: "block_encyption_mode=aes-256-cbc"
+        line: "block_encryption_mode=aes-256-cbc"
 
     - name: (deb) enable mysql
       service:
