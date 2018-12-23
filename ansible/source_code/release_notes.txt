@@ -1,3 +1,11 @@
+
+************no longer in use************
+
+This file has been depricated due to this prodject now
+being managed through github.
+
+
+
 ************** Version 1.08 **************
 -apache indexes removed
 -user passwords are now hashed using bcrypt

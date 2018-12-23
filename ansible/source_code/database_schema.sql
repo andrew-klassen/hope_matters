@@ -44,7 +44,7 @@ CREATE TABLE `accounts` (
   PRIMARY KEY (`account_id`),
   UNIQUE KEY `account_id_UNIQUE` (`account_id`),
   UNIQUE KEY `username_UNIQUE` (`username`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1 ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=latin1 ROW_FORMAT=DYNAMIC;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -800,7 +800,7 @@ CREATE TABLE `error` (
   UNIQUE KEY `error_id_UNIQUE` (`error_id`),
   KEY `account_id_error_idx` (`account_id`),
   CONSTRAINT `account_id_error` FOREIGN KEY (`account_id`) REFERENCES `accounts` (`account_id`) ON DELETE NO ACTION ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=54 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1054,15 +1054,64 @@ CREATE TABLE `lab` (
   `hvs_macroscopy` varchar(45) DEFAULT NULL,
   `hvs_microscopy` varchar(45) DEFAULT NULL,
   `hvs_gram_stain` tinytext,
+  `culture` tinytext,
+  `blood_count` enum('yes','no') DEFAULT 'no',
+  `rbc` varchar(45) DEFAULT NULL,
+  `arterial_blood` enum('yes','no') DEFAULT 'no',
+  `pao2_text` varchar(45) DEFAULT NULL,
+  `paco2_text` varchar(45) DEFAULT NULL,
+  `blood_ph_text` varchar(45) DEFAULT NULL,
+  `sao2_text` varchar(45) DEFAULT NULL,
+  `hco3_text` varchar(45) DEFAULT NULL,
+  `liver` enum('yes','no') DEFAULT 'no',
+  `alt_text` varchar(45) DEFAULT NULL,
+  `ast_text` varchar(45) DEFAULT NULL,
+  `albumin_text` varchar(45) DEFAULT NULL,
+  `prothrombin` enum('yes','no') DEFAULT 'no',
+  `prothrombin_text` varchar(45) DEFAULT NULL,
+  `inr` enum('yes','no') DEFAULT 'yes',
+  `inr_text` varchar(45) DEFAULT NULL,
+  `tft` enum('yes','no') DEFAULT 'yes',
+  `tsh_text` varchar(45) DEFAULT NULL,
+  `freet3_text` varchar(45) DEFAULT NULL,
+  `freet4_text` varchar(45) DEFAULT NULL,
+  `cholesterol` enum('yes','no') DEFAULT 'yes',
+  `total_text` varchar(45) DEFAULT NULL,
+  `hdl_text` varchar(45) DEFAULT NULL,
+  `ldl_text` varchar(45) DEFAULT NULL,
+  `cardiac` enum('yes','no') DEFAULT 'yes',
+  `troponin_text` varchar(45) DEFAULT NULL,
+  `ck_text` varchar(45) DEFAULT NULL,
   `lab_order_id` int(11) unsigned DEFAULT NULL,
-  `timestamp` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `clinician` varchar(20) DEFAULT NULL,
+  `timestamp` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `created_by` varchar(20) DEFAULT NULL,
+  `hct_text` varchar(45) DEFAULT NULL,
+  `mcv_text` varchar(45) DEFAULT NULL,
+  `rdw_text` varchar(45) DEFAULT NULL,
+  `wbc_text` varchar(45) DEFAULT NULL,
+  `platelet_text` varchar(45) DEFAULT NULL,
+  `neutrophils_text` varchar(45) DEFAULT NULL,
+  `lymphocytes_text` varchar(45) DEFAULT NULL,
+  `monocytes_text` varchar(45) DEFAULT NULL,
+  `eosinophils_text` varchar(45) DEFAULT NULL,
+  `basophils_text` varchar(45) DEFAULT NULL,
+  `blood_chemistry` enum('yes','no') DEFAULT 'yes',
+  `sodium_text` varchar(45) DEFAULT NULL,
+  `chloride_text` varchar(45) DEFAULT NULL,
+  `potassium_text` varchar(45) DEFAULT NULL,
+  `calcium_text` varchar(45) DEFAULT NULL,
+  `bicarbonate_text` varchar(45) DEFAULT NULL,
+  `glucose_fasting_text` varchar(45) DEFAULT NULL,
+  `random_text` varchar(45) DEFAULT NULL,
+  `bun_text` varchar(45) DEFAULT NULL,
+  `creatinine_text` varchar(45) DEFAULT NULL,
+  `hba1c_text` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`lab_id`),
   UNIQUE KEY `lab_id_UNIQUE` (`lab_id`),
   KEY `lab_client_id_idx` (`client_id`),
   CONSTRAINT `client_id_lab` FOREIGN KEY (`client_id`) REFERENCES `general_info` (`client_id`) ON DELETE NO ACTION ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1748,35 +1797,39 @@ CREATE TABLE `return_treatment_temp` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Table structure for table `secret_keys`
+-- Table structure for table `secret_values`
 --
 
-DROP TABLE IF EXISTS `secret_keys`;
+DROP TABLE IF EXISTS `secret_values`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `secret_keys` (
-  `secret_key_id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `secret_values` (
+  `secret_value_id` int(11) NOT NULL AUTO_INCREMENT,
   `secret_id` int(11) NOT NULL,
-  `key` varbinary(5016) DEFAULT NULL,
+  `encrypted_value` varbinary(5016) DEFAULT NULL,
+  `initialization_vector` binary(16) NOT NULL,
+  `value_hash` char(60) NOT NULL,
   `privilege` enum('admin','read') DEFAULT 'read',
-  PRIMARY KEY (`secret_key_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=latin1;
+  PRIMARY KEY (`secret_value_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1365 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Table structure for table `secret_keys_temp`
+-- Table structure for table `secret_values_temp`
 --
 
-DROP TABLE IF EXISTS `secret_keys_temp`;
+DROP TABLE IF EXISTS `secret_values_temp`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `secret_keys_temp` (
-  `secret_key_temp_id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `secret_values_temp` (
+  `secret_value_temp_id` int(11) NOT NULL AUTO_INCREMENT,
   `secret_id` int(11) DEFAULT NULL,
-  `key` varbinary(5016) DEFAULT NULL,
+  `encrypted_value` varbinary(5016) DEFAULT NULL,
+  `initialization_vector` binary(16) NOT NULL,
+  `value_hash` char(60) NOT NULL,
   `privilege` enum('admin','read') DEFAULT 'read',
-  PRIMARY KEY (`secret_key_temp_id`)
-) ENGINE=MEMORY AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
+  PRIMARY KEY (`secret_value_temp_id`)
+) ENGINE=MEMORY AUTO_INCREMENT=233 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1790,8 +1843,9 @@ CREATE TABLE `secrets` (
   `secret_id` int(11) NOT NULL AUTO_INCREMENT,
   `label` varchar(50) DEFAULT NULL,
   `description` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`secret_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=latin1;
+  PRIMARY KEY (`secret_id`),
+  UNIQUE KEY `label_UNIQUE` (`label`)
+) ENGINE=InnoDB AUTO_INCREMENT=76 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -2178,4 +2232,4 @@ CREATE TABLE `women_health_history` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-12-14 14:30:58
+-- Dump completed on 2018-12-22 19:35:55
