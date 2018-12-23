@@ -175,10 +175,11 @@ $conn = null;
 		<div style="float: left; padding-left: 50px; width: 225px;">
 			
 			<div style="height: 35px; width: 200px;"><label>Clients:</label></div>
-			<div style="height: 35px; width: 200px;"><label>Dental Forms:</label></div>
-			<div style="height: 35px; width: 200px;"><label>Discharge Forms:</label></div>
+			<!--<div style="height: 35px; width: 200px;"><label>Dental Forms:</label></div>-->
+			<!--<div style="height: 35px; width: 200px;"><label>Discharge Forms:</label></div>-->
 			<div style="height: 35px; width: 200px;"><label>Labs:</label></div>
-			<div style="height: 35px; width: 200px;"><label>Optometry Forms:</label></div>
+			<!--<div style="height: 35px; width: 200px;"><label>Optometry Forms:</label></div>-->
+			<div style="height: 35px; width: 200px;"><label>Child Welfare Care:</label></div>
 			<div style="height: 35px; width: 200px;"><label>Referral Forms:</label></div>
 			<div style="height: 35px; width: 200px;"><label>Vital Signs:</label></div>
 		</div>
@@ -199,24 +200,24 @@ $conn = null;
 			</div>
 			
 			<!-- dental forms -->
-			<div style="height: 35px; width: 200px;">
+			<!-- <div style="height: 35px; width: 200px;">
 				<form action="/php/dental_forms/select_client_dental_form.php" name="login_form" onsubmit="return validateForm()" method="post">
 					<input style="float: left; margin-right: 10px;" type="submit" name="not_login" class="login login-submit" value="add">
 				</form>
 				<form action="/php/dental_forms/select_dental_form.php" name="login_form" onsubmit="return validateForm()" method="post">
 					<input style="float: left;" type="submit" name="not_login" class="login login-submit" value="view/change">
 				</form>
-			</div>
+			</div> -->
 			
 			<!-- discharge forms -->
-			<div style="height: 35px; width: 200px;">
+			<!--<div style="height: 35px; width: 200px;">
 				<form action="/php/discharge_forms/select_client_discharge_form.php" name="login_form" onsubmit="return validateForm()" method="post">
 					<input style="float: left; margin-right: 10px;" type="submit" name="not_login" class="login login-submit" value="add">	
 				</form>
 				<form action="/php/discharge_forms/select_discharge_form.php" name="login_form" onsubmit="return validateForm()" method="post">
 					<input style="float: left;" type="submit" name="not_login" class="login login-submit" value="view/change">
 				</form>
-			</div>
+			</div> -->
 			
 			<!-- lab forms -->
 			<div style="height: 35px; width: 200px;">
@@ -229,15 +230,25 @@ $conn = null;
 			</div>
 			
 			<!-- optometry forms -->
-			<div style="height: 35px; width: 200px;">
+			<!--<div style="height: 35px; width: 200px;">
 				<form action="/php/optometry_form/select_client_optometry.php" name="login_form" onsubmit="return validateForm()" method="post">
 					<input style="float: left; margin-right: 10px;" type="submit" name="not_login" class="login login-submit" value="add">
 				</form>
 				<form action="/php/optometry_form/select_optometry.php" name="login_form" onsubmit="return validateForm()" method="post">
 					<input style="float: left;" type="submit" name="not_login" class="login login-submit" value="view/change">
 				</form>
-			</div>
+			</div> -->
 			
+			<!-- Child Welfare Care -->
+			<div style="height: 35px; width: 200px;">
+				<form action="/php/child_welfare_care/select_client_child_welfare_care.php" name="login_form" onsubmit="return validateForm()" method="post">
+					<input style="float: left; margin-right: 10px;" type="submit" name="not_login" class="login login-submit" value="add">	
+				</form>
+				<form action="/php/child_welfare_care/select_child_welfare_care.php" name="login_form" onsubmit="return validateForm()" method="post">
+					<input style="float: left;" type="submit" name="not_login" class="login login-submit" value="view/change">
+				</form>
+			</div>
+
 			<!-- referral forms -->
 			<div style="height: 35px; width: 200px;">
 				<form action="/php/referral_form/select_client_referral_form.php" name="login_form" onsubmit="return validateForm()" method="post">
@@ -261,9 +272,8 @@ $conn = null;
 			<div style="height: 35px; width: 200px;"><label>Return Treatment:</label></div>
 			<div style="height: 35px; width: 200px;"><label>Treatment Forms:</label></div>
 			<div style="height: 35px; width: 200px;"><label>Ultrasounds:</label></div>
-			<div style="height: 35px; width: 200px;"><label>Lab Orders:</label></div>
-			<div style="height: 35px; width: 200px;"><label>Women's Health Reports:</label></div>
-			<div style="height: 35px; width: 200px;"><label>Child Welfare Care:</label></div>
+			<!--<div style="height: 35px; width: 200px;"><label>Lab Orders:</label></div>-->
+			<!--<div style="height: 35px; width: 200px;"><label>Women's Health Reports:</label></div>-->
 			<div style="height: 35px; width: 200px;"><label>Medication Order:</label></div>
 			
 		</div>
@@ -301,7 +311,7 @@ $conn = null;
 			</div>
 			
 			<!-- Lab Orders -->
-			<div style="height: 35px; width: 400px;">
+			<!--<div style="height: 35px; width: 400px;">
 				<form action="/php/lab_orders/select_client_lab_order.php" name="login_form" onsubmit="return validateForm()" method="post">
 					<input style="float: left; margin-right: 10px;" type="submit" name="not_login" class="login login-submit" value="add">	
 				</form>
@@ -311,28 +321,21 @@ $conn = null;
 				<form action="/php/lab_orders/select_complete_lab_order.php" name="login_form" onsubmit="return validateForm()" method="post">
 					<input style="float: left;" type="submit" name="not_login" class="login login-submit" value="Complete an Order">
 				</form>
-			</div>
+			</div>-->
 			
 			<!-- women health reports -->
-			<div style="height: 35px; width: 200px;">
+			<!--<div style="height: 35px; width: 200px;">
 				<form action="/php/women_health/select_client_women_health.php" name="login_form" onsubmit="return validateForm()" method="post">
 					<input style="float: left; margin-right: 10px;" type="submit" name="not_login" class="login login-submit" value="add">	
 				</form>
 				<form action="/php/women_health/select_women_health.php" name="login_form" onsubmit="return validateForm()" method="post">
 					<input style="float: left;" type="submit" name="not_login" class="login login-submit" value="view/change">
 				</form>
-			</div>
+			</div>-->
 			
-			<!-- Child Welfare Care -->
-			<div style="height: 35px; width: 200px;">
-				<form action="/php/child_welfare_care/select_client_child_welfare_care.php" name="login_form" onsubmit="return validateForm()" method="post">
-					<input style="float: left; margin-right: 10px;" type="submit" name="not_login" class="login login-submit" value="add">	
-				</form>
-				<form action="/php/child_welfare_care/select_child_welfare_care.php" name="login_form" onsubmit="return validateForm()" method="post">
-					<input style="float: left;" type="submit" name="not_login" class="login login-submit" value="view/change">
-				</form>
-			</div>
+			
 
+			
 			<!-- Medication Orders -->
 			<div style="height: 35px; width: 400px;">
 				<form action="/php/medication_order/select_client_medication_order.php" name="login_form" onsubmit="return validateForm()" method="post">
@@ -345,6 +348,7 @@ $conn = null;
 					<input style="float: left; " type="submit" name="not_login" class="login login-submit" value="Complete an Order">
 				</form>
 			</div>
+			
 
 			
 		</div>
@@ -421,11 +425,11 @@ $conn = null;
   <div style="float: left; margin-left: 100px; margin-top: 10px;">
 	
 		  <!-- Inventory -->
-		  <div>
+		  <!-- <div>
 			<form action="/php/inventory/select_item.php" name="login_form" method="post">
 				<input style="" type="submit" name="not_login" class="login login-submit" value="Inventory">
 			</form>
-		  </div>
+		  </div> -->
 		  
 		  <!-- Diagnosis Totals -->
 		  <div>
@@ -439,7 +443,7 @@ $conn = null;
    <div style="float: left; margin-left: 100px; margin-top: 10px;">
 	
 		  <!-- Expenses -->
-		   <?php
+		   <!--<?php
 			if ($master_log_access == 'yes') {
 				echo "<div>
 						<form action='/php/expenses/select_expense.php' name='login_form' method='post'>
@@ -453,7 +457,7 @@ $conn = null;
 						</form>
 					  </div>";
 			}
-		  ?>
+		  ?>-->
 
  		  <!-- Client Secrets -->
 		  
