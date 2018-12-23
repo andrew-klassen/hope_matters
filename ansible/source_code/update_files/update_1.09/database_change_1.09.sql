@@ -1,6 +1,10 @@
 USE hope_matters;
 
 
+GRANT DELETE ON hope_matters.secret_values_temp TO 'php'@'localhost';
+GRANT DELETE ON hope_matters.secret_values TO 'php'@'localhost';
+GRANT DELETE ON hope_matters.secrets TO 'php'@'localhost';
+
 
 ALTER TABLE `hope_matters`.`accounts_history` 
 CHANGE COLUMN `password` `password` CHAR(60) CHARACTER SET 'latin1' NULL DEFAULT NULL ;

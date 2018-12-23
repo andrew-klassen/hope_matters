@@ -45,7 +45,7 @@ if [ "$response" = "y" ]; then
 
 	echo '' >> /var/www/html/php/database_credentials.php
         echo "#***** update 1.09 *****" >> /var/www/html/php/database_credentials.php
-        echo "function generate_initialization_vector($length = 16) {" >> /var/www/html/php/database_credentials.php
+        echo "function generate_initialization_vector(\$length = 16) {" >> /var/www/html/php/database_credentials.php
 	echo '' >> /var/www/html/php/database_credentials.php
 	echo "\$characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$%^&*<>_+-=;:{}';" >> /var/www/html/php/database_credentials.php
 	echo "\$characters_length = strlen(\$characters);" >> /var/www/html/php/database_credentials.php
