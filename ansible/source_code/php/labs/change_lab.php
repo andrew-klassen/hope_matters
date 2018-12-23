@@ -567,56 +567,6 @@ Copyright © 2017 Andrew Klassen
 			}
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 			
 			$stmt = $conn->prepare("SELECT hba1c FROM lab WHERE lab_id='$choosen_lab'");
 			$stmt->execute();
@@ -662,24 +612,6 @@ Copyright © 2017 Andrew Klassen
 
                         <br/>";
 			}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -780,8 +712,6 @@ Copyright © 2017 Andrew Klassen
 
 
 
-
-
 			$stmt = $conn->prepare("SELECT creatinine FROM lab WHERE lab_id='$choosen_lab'");
 			$stmt->execute();
 			$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
@@ -824,10 +754,6 @@ echo "<input type='checkbox' name='creatinine' onchange='toggle_disabled_creatin
 			}
 
 
-
-
-
-
 			$stmt = $conn->prepare("SELECT electrolytes FROM lab WHERE lab_id='$choosen_lab'");
 			$stmt->execute();
 			$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
@@ -850,8 +776,6 @@ echo "<input type='checkbox' name='creatinine' onchange='toggle_disabled_creatin
 			$electrolytes_results = $_SESSION['temp'];
 
 
-
-
 			if ($electrolytes_check == 'yes') {
 				$electrolytes_check = 'checked';
 					
@@ -869,12 +793,6 @@ echo "<input type='checkbox' name='creatinine' onchange='toggle_disabled_creatin
                         <br/><b/r>";
 				
 			}
-
-
-
-
-
-
 
 
 			$stmt = $conn->prepare("SELECT pylori_stool FROM lab WHERE lab_id='$choosen_lab'");
@@ -930,10 +848,6 @@ echo "<input type='checkbox' name='creatinine' onchange='toggle_disabled_creatin
 			
 			<br/><br/>";
 			}
-
-
-
-
 
 
 			$stmt = $conn->prepare("SELECT pylori_blood FROM lab WHERE lab_id='$choosen_lab'");
@@ -995,12 +909,6 @@ echo "<input type='checkbox' name='creatinine' onchange='toggle_disabled_creatin
 			}
 
 
-
-
-
-
-
-
 			$stmt = $conn->prepare("SELECT rheumatoid_factor FROM lab WHERE lab_id='$choosen_lab'");
 			$stmt->execute();
 			$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
@@ -1021,9 +929,6 @@ echo "<input type='checkbox' name='creatinine' onchange='toggle_disabled_creatin
 			
 			}
 			$rheumatoid_factor_results = $_SESSION['temp'];
-
-
-
 
 
 
@@ -1064,73 +969,6 @@ echo "<input type='checkbox' name='creatinine' onchange='toggle_disabled_creatin
 
 			}
 
-
-
-
-
-
-
-
-
-
-
-			
-
-			
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-			
 			
 			// get stool
 			$stmt = $conn->prepare("SELECT stool FROM lab WHERE lab_id='$choosen_lab'");
