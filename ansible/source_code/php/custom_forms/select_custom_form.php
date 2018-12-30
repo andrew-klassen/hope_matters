@@ -50,24 +50,24 @@ login_check();
 
 $_SESSION['temp'] = 0;
 
-	// make database connection
-    $conn = new PDO($dbconnection_custom, $dbusername, $dbpassword);
-    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+// make database connection
+$conn = new PDO($dbconnection_custom, $dbusername, $dbpassword);
+$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
 
 class grab_value extends RecursiveIteratorIterator {
-			function __construct($it) {
-				parent::__construct($it, self::LEAVES_ONLY);
-			}
-			function current() {
-				$_SESSION['temp'] = parent::current();
-			}
-			function beginChildren() {
-				echo "<tr>";
-			}
-			function endChildren() {
-				echo "</tr>" . "\n";
-			}
+	function __construct($it) {
+		parent::__construct($it, self::LEAVES_ONLY);
+	}
+	function current() {
+		$_SESSION['temp'] = parent::current();
+	}
+	function beginChildren() {
+		echo "<tr>";
+	}
+	function endChildren() {
+		echo "</tr>" . "\n";
+	}
 }
 
 class view_forms extends RecursiveIteratorIterator {
@@ -75,7 +75,7 @@ class view_forms extends RecursiveIteratorIterator {
         parent::__construct($it, self::LEAVES_ONLY);
     }
 	
-	// this function creates an invisible <a link> that passes the clients id to the next page
+    // this function creates an invisible <a link> that passes the clients id to the next page
     function current() {
 	
 		$_SESSION['choosen_form'] = parent::current();
@@ -88,7 +88,6 @@ class view_forms extends RecursiveIteratorIterator {
 		}
 		$temp = $_SESSION['temp'];
 
-		
 
 		if ($_SESSION['client_linked'] == 'true') {
 			return "<td style='border-style: solid; border-color: #black; background-color: white; color: black;font-weight: 500;font-size: 12px;font-size: 30px;  '>" . "<a href='grab_choosen_custom_form_client.php? choosen_form=$temp' style='color: black;'>"  . parent::current() . "</a>" . "</td>";
@@ -97,10 +96,7 @@ class view_forms extends RecursiveIteratorIterator {
 		else {
 			return "<td style='border-style: solid; border-color: #black; background-color: white; color: black;font-weight: 500;font-size: 12px;font-size: 30px;  '>" . "<a href='grab_choosen_custom_form.php? choosen_form=$temp' style='color: black;'>"  . parent::current() . "</a>" . "</td>";
 
-		}
-
-		
-		
+		}	
   
     }
     function beginChildren() {
@@ -109,39 +105,24 @@ class view_forms extends RecursiveIteratorIterator {
     function endChildren() {
         echo "</tr>" . "\n";
     }
+
 }
 
 class get_meta_tables extends RecursiveIteratorIterator {
-		function __construct($it) {
-			parent::__construct($it, self::LEAVES_ONLY);
-		}
-		function current() {
-				
-				array_push($_SESSION['tables'], parent::current());
-
-		}
+	function __construct($it) {
+		parent::__construct($it, self::LEAVES_ONLY);
+	}
+	function current() {
+		array_push($_SESSION['tables'], parent::current());
+	}
 		
 }
 
 
-
-
-
-
-
 try {
 	
+    echo "<p style='color: black;;text-align: center;'>Click on a form to select it.</p>";
 
-   
-   
-	echo "<p style='color: black;;text-align: center;'>Click on a form to select it.</p>";
-
-
-	
-
-
-	
-	
     
     $_SESSION['tables'] = array();
 
@@ -154,30 +135,14 @@ try {
     }
 
     $tables_max = count($_SESSION['tables']);
-
     $tables = $_SESSION['tables'];
 
 
-
-
-
-
-	
     echo "<div id='tableCard' style='width: 200px; height: 500px;'>";
-	
-	
-	/******** determine if the user is searching by id, first name, or last name ********/
-	
-	// if the client is searching by id
-	
-	
-	// if the client is using a wild card
-
 	
 		echo "<table style='border: none;'>";
 		echo "<tr><th>Form</th></tr>";
 
-		
 
 			for($i = 0; $i < $tables_max; ++$i) {
 			$stmt = $conn->prepare("SELECT value FROM $tables[$i] WHERE attribute = 'client_linked';");
@@ -200,11 +165,10 @@ try {
 			}
 		}
 	
-	
 
 	echo "</table>";
 
-$username = $_SESSION['username'];
+	$username = $_SESSION['username'];
 	$stmt = $conn->prepare("SELECT EXISTS(SELECT 1 FROM mysql.user WHERE user = '$username')");
 	$stmt->execute();
 	$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
@@ -214,50 +178,34 @@ $username = $_SESSION['username'];
 	}
 	$mysql_user_exists = $_SESSION['temp'];
 
-
-	
-
     echo "</div>";
 
 
 if ($mysql_user_exists) {
 
-		echo "<div style='margin-left: 200px;'><div style='float:left;'><form action='/php/custom_forms/insert_new_custom_form.php' name='add_secret' onsubmit='return validate_form()' method='post' enctype='multipart/form-data' >
+		echo "<div style='margin-left: 200px;'><div style='float:left;'>
+			<form action='/php/custom_forms/insert_new_custom_form.php' name='add_secret' onsubmit='return validate_form()' method='post' enctype='multipart/form-data' >
+				<div>Add form<br><input type='file' name='json_file' id='json_file'><br><label style='font-size: 12px;'>(.json file)</label></div>
+				<input type='submit' name='submit_button' value='Upload json'>
+			</form>
+		     </div>
 
-			<div>Add form<br><input type='file' name='json_file' id='json_file'><br><label style='font-size: 12px;'>(.json file)</label></div>
-		<input type='submit' name='submit_button' value='Upload json'>
+		     <div style='float:left;'>
+			<form action='/php/custom_forms/select_custom_form_download.php' name='add_secret' onsubmit='return validate_form()' method='post'>
+				<input type='submit' name='submit_button' value='Download json'>
+		        </form>
+		     </div>
 
-		</form></div>";
-
-
-echo "<div style='float:left;'><form action='/php/custom_forms/select_custom_form_download.php' name='add_secret' onsubmit='return validate_form()' method='post'>
-
-		<input type='submit' name='submit_button' value='Download json'>
-
-		</form></div>
-
-<div style='float:left; margin-left: 180px;'><form action='/php/custom_forms/select_delete_custom_form.php' name='add_secret' onsubmit='return validate_form()' method='post'>
-
-		<input type='submit'  name='submit_button' value='Delete Form'>
-
-		</form></div>
-
-
-
-
-
-</div>";
-
-
-
+		     <div style='float:left; margin-left: 180px;'>
+			<form action='/php/custom_forms/select_delete_custom_form.php' name='add_secret' onsubmit='return validate_form()' method='post'>
+				<input type='submit'  name='submit_button' value='Delete Form'>
+		     	</form>
+		     </div>
+		    </div>";
 
 	}
 
-	
-
-
 }
-
 
 catch(PDOException $e) {
     echo "Error: " . $e->getMessage();

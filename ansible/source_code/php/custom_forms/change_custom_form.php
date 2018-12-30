@@ -48,13 +48,8 @@ Copyright © 2017 Andrew Klassen
 <div style="width:970px; margin: 0 auto; ">
   
   
-	
-	
 <?php
 
-	
-
-		
 		require('../database_credentials.php');
 		require('../date_functions.php');
 		session_start();
@@ -80,23 +75,6 @@ Copyright © 2017 Andrew Klassen
 				echo "</tr>" . "\n";
 			}
 		}
-		
-		// used to display list of clinicians in the database 
-		class display_clinicians extends RecursiveIteratorIterator {
-			function __construct($it) {
-				parent::__construct($it, self::LEAVES_ONLY);
-			}
-			function current() {
-					
-				return "<option value='" . parent::current() . "'>";
-			}
-			function beginChildren() {
-				echo "<tr>";
-			}
-			function endChildren() {
-				echo "</tr>" . "\n";
-			}
-		}
 
 		class get_meta_tables extends RecursiveIteratorIterator {
 				function __construct($it) {
@@ -109,7 +87,6 @@ Copyright © 2017 Andrew Klassen
 				}
 				
 		}
-
 
 		class get_table_columns extends RecursiveIteratorIterator {
 				function __construct($it) {
@@ -195,61 +172,56 @@ Copyright © 2017 Andrew Klassen
 		$occupation = $_SESSION['temp'];
 		
 		if ($_SESSION['client_linked'] == 'true') {
-		// get the client's age
-		$age = get_age_from_date_of_birth($date_of_birth);
+		
+			// get the client's age
+			$age = get_age_from_date_of_birth($date_of_birth);
 
-		echo "<div class='accountCard' style='float: left;  width: 885px; height: 150px;' >
-	<p class='p'style='color: black;font-weight:100; text-align: center;'>Client's General Info</p>";		
+			echo "<div class='accountCard' style='float: left;  width: 885px; height: 150px;' >
+		<p class='p'style='color: black;font-weight:100; text-align: center;'>Client's General Info</p>";		
 
-		
-		// display general info
-		echo "<div style=' padding-left: 10px; float: left;'>";
-		echo '<b>Client ID:</b>' . "<br>" . "<br>";
-		echo '<b>Sex:</b>' . "<br>" . "<br>";
-		echo "</div>";
-		
-		echo "<div style=' float: left;padding-left: 20px;width: 50px;'>";
-		echo $choosen_client_id . "<br>" . "<br>";
-		echo $sex;
-		echo "</div>";
-		
-		echo "<div style=' float: left;padding-left: 30px;'>";
-		echo '<b>First Name:</b>' . "<br>" . "<br>";
-		echo '<b>Last Name:</b>' . "<br>" . "<br>";
-		echo "</div>";
-		
-		echo "<div style=' float: left;padding-left: 15px; width: 170px;'>";
-		echo $first_name . "<br>" . "<br>";
-		echo $last_name;
-		echo "</div>";
-		
-		echo "<div style=' float: left;padding-left: 30px;'>";
-		echo '<b>Today\'s Date:</b>' . "<br>" . "<br>";
-		echo '<b>Age:</b>' . "<br>" . "<br>";
-		echo "</div>";
-		
-		echo "<div style=' float: left;padding-left: 15px;width: 180px;'>";
-		echo date("m/d/Y") . "<br>" . "<br>";
-		echo $age . "<br>" . "<br>";
-		echo "</div>";
-		
-		echo "<div style=' float: left; padding-left: 10px; width: 442px;'>";
-		echo '<b>Residence:</b>' . '<lable style="padding-left: 5px;">' . $location . '</lable>';
-		echo "</div>";
-		
-		echo "<div style=' float: left;padding-left: 30px; width: 350px;'>";
-		echo '<b>Occupation:</b>' . '<lable style="padding-left: 25px;">' . $occupation . '</lable>';
-		echo "</div>";
-	
-
-		
-		echo '</div>';
+			// display general info
+			echo "<div style=' padding-left: 10px; float: left;'>";
+			echo '<b>Client ID:</b>' . "<br>" . "<br>";
+			echo '<b>Sex:</b>' . "<br>" . "<br>";
+			echo "</div>";
+			
+			echo "<div style=' float: left;padding-left: 20px;width: 50px;'>";
+			echo $choosen_client_id . "<br>" . "<br>";
+			echo $sex;
+			echo "</div>";
+			
+			echo "<div style=' float: left;padding-left: 30px;'>";
+			echo '<b>First Name:</b>' . "<br>" . "<br>";
+			echo '<b>Last Name:</b>' . "<br>" . "<br>";
+			echo "</div>";
+			
+			echo "<div style=' float: left;padding-left: 15px; width: 170px;'>";
+			echo $first_name . "<br>" . "<br>";
+			echo $last_name;
+			echo "</div>";
+			
+			echo "<div style=' float: left;padding-left: 30px;'>";
+			echo '<b>Today\'s Date:</b>' . "<br>" . "<br>";
+			echo '<b>Age:</b>' . "<br>" . "<br>";
+			echo "</div>";
+			
+			echo "<div style=' float: left;padding-left: 15px;width: 180px;'>";
+			echo date("m/d/Y") . "<br>" . "<br>";
+			echo $age . "<br>" . "<br>";
+			echo "</div>";
+			
+			echo "<div style=' float: left; padding-left: 10px; width: 442px;'>";
+			echo '<b>Residence:</b>' . '<lable style="padding-left: 5px;">' . $location . '</lable>';
+			echo "</div>";
+			
+			echo "<div style=' float: left;padding-left: 30px; width: 350px;'>";
+			echo '<b>Occupation:</b>' . '<lable style="padding-left: 25px;">' . $occupation . '</lable>';
+			echo "</div>";
+			
+			echo '</div>';
 
 		}
 
-
-				
-				
 
 				$conn = new PDO($dbconnection_custom, $dbusername, $dbpassword);
 				$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -260,6 +232,7 @@ Copyright © 2017 Andrew Klassen
 				$meta_table = $table_name . '_meta';
 				
 
+				// get all table's columns
 				$_SESSION['table_columns'] = array();
 
     				$stmt = $conn->prepare("SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = 'custom_forms' AND TABLE_NAME = '$table_name';");
@@ -273,6 +246,7 @@ Copyright © 2017 Andrew Klassen
 				$table_columns_max = count($_SESSION['table_columns']);		
 
 				
+				// get the start column
 				$stmt = $conn->prepare("SELECT value FROM $meta_table WHERE attribute = 'start_column';");
 				$stmt->execute();
 				$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
@@ -293,8 +267,11 @@ Copyright © 2017 Andrew Klassen
 				
 				$table_id = $table_name . '_id';
 
+
+				// go through all the table's columns
 				for($i = 0; $i < $table_columns_max; ++$i) {
 					
+					// skip columns that do not have fields
 					if ($table_columns[$i] == $start_column) {
 						$start_found = true;
 					}
@@ -314,7 +291,6 @@ Copyright © 2017 Andrew Klassen
 						$current_column_type = $_SESSION['temp'];
 						
 						
-
 						$stmt = $conn->prepare("SELECT $table_columns[$i] FROM $table_name WHERE $table_id = $choosen_custom_form_id;");
 						$stmt->execute();
 						$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
@@ -368,53 +344,29 @@ Copyright © 2017 Andrew Klassen
 
 						}
 
-
-
-
-					if($focused && $start_found) {
-						$first_column = false;
-						$auto_focus = '';
-						$focused = false;
-						
-						
-					}
-
+						if($focused && $start_found) {
+							$first_column = false;
+							$auto_focus = '';
+							$focused = false;
+							
+							
+						}
 					}
 				}
 
 echo "<div class='accountCard' style='float: left; width: 885px; position: relative;'>
-	
-		<form name='custom_form' action='update_custom_form.php' onsubmit='return validate_form()' method='post'>";
+      <form name='custom_form' action='update_custom_form.php' onsubmit='return validate_form()' method='post'>
+      <p class='p'style='color: black;font-weight:100; text-align: center;'>$choosen_form</p>";
 
-
-echo "<p class='p'style='color: black;font-weight:100; text-align: center;'>$choosen_form</p>";
-
-
-
-
-
-
+				// echo out form fields
 				$form_array_max = count($form_array);
-				
-
-
 				for($i = 0; $i < $form_array_max; ++$i) {
 					
 					echo $form_array[$i];		
 			
 				}
 
-
-
-
-
-
-			?>
-
-			
-			
-			
-			
+?>
 			
 			<div style="width: 200px; margin-left: 350px; margin-top: 50px;">		
 				<input type="submit" name="submit_button" class="submitbtn" value="Submit">

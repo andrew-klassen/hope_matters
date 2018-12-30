@@ -56,9 +56,9 @@ login_check();
 
 $_SESSION['temp'] = 0;
 
-	// make database connection
-    $conn = new PDO($dbconnection_custom, $dbusername, $dbpassword);
-    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+// make database connection
+$conn = new PDO($dbconnection_custom, $dbusername, $dbpassword);
+$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
 
 class grab_value extends RecursiveIteratorIterator {
@@ -74,58 +74,41 @@ class grab_value extends RecursiveIteratorIterator {
 			function endChildren() {
 				echo "</tr>" . "\n";
 			}
+
 }
 
- 
-		class display_forms extends RecursiveIteratorIterator {
-			function __construct($it) {
-				parent::__construct($it, self::LEAVES_ONLY);
-			}
-			function current() {
-					
-				return "<option value='" . parent::current() . "'>";
-			}
-			function beginChildren() {
-				echo "<tr>";
-			}
-			function endChildren() {
-				echo "</tr>" . "\n";
-			}
-		}
+class display_forms extends RecursiveIteratorIterator {
+	function __construct($it) {
+		parent::__construct($it, self::LEAVES_ONLY);
+	}
+	function current() {		
+		return "<option value='" . parent::current() . "'>";
+	}
+	function beginChildren() {
+		echo "<tr>";
+	}
+	function endChildren() {
+		echo "</tr>" . "\n";
+	}
+
+}
 
 class get_meta_tables extends RecursiveIteratorIterator {
 		function __construct($it) {
 			parent::__construct($it, self::LEAVES_ONLY);
 		}
 		function current() {
-				
-				array_push($_SESSION['tables'], parent::current());
-
+			array_push($_SESSION['tables'], parent::current());
 		}
 		
 }
 
 
-
-
-
-
-
 try {
-	
 
-   
-   
-	echo "<p style='color: black;;text-align: center;'>Select a form to delete.</p>";
-	echo "<p style='color: black;;text-align: center;'><b>Warning: This will permanently delete the form along with all its data.</b></p>";
+    echo "<p style='color: black;;text-align: center;'>Select a form to delete.</p>";
+    echo "<p style='color: black;;text-align: center;'><b>Warning: This will permanently delete the form along with all its data.</b></p>";
 
-
-	
-
-
-	
-	
-    
     $_SESSION['tables'] = array();
 
     $stmt = $conn->prepare("SHOW tables IN custom_forms LIKE '%_meta';");
@@ -137,14 +120,11 @@ try {
     }
 
     $tables_max = count($_SESSION['tables']);
-
     $tables = $_SESSION['tables'];
 
     echo "<form name='delete_form' action='delete_custom_form.php' method='post'>";
-
-	echo "<div style='margin-left: 380px;'>Form: <input list='form_list' name='form' style='padding-left: 10px; margin-left: 10px;width: 180px; height: 20px;' maxlength='20'> <br>
-			 
-					 <datalist id='form_list'>";
+    echo "<div style='margin-left: 380px;'>Form: <input list='form_list' name='form' style='padding-left: 10px; margin-left: 10px;width: 180px; height: 20px;' maxlength='20'> <br> 
+	  <datalist id='form_list'>";
 							
 		for ($i = 0; $i < $tables_max; ++$i) {
 
@@ -164,20 +144,10 @@ try {
 									
 							
 	echo "</datalist>";
-
 	echo "<div style='margin-top: 50px; margin-left: 20px;'>		
-				<input style='width: 200px; height: 30px; background-color: red; color: white;' type='submit' name='submit_button' class='submitbtn' value='Delete'>
-			</div>";
-
-
-	
-echo "</form></div>";
-
-
-
-
-	
-
+			<input style='width: 200px; height: 30px; background-color: red; color: white;' type='submit' name='submit_button' class='submitbtn' value='Delete'>
+	      </div>";
+	echo "</form></div>";
 
 }
 

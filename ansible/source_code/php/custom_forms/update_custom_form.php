@@ -30,9 +30,6 @@ class grab_value extends RecursiveIteratorIterator {
 }
 
 
-
-
-
 $conn = new PDO($dbconnection_custom, $dbusername, $dbpassword);
 $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
@@ -47,11 +44,10 @@ $table_columns_temp_max = count($_SESSION['table_columns']);
 
 $start_found = false;
 
+// gets all the non specific form columns
 $table_columns = array();
-
 for($i = 0; $i < $table_columns_temp_max; ++$i) {
 
-	//echo $table_columns_temp[$i];
 	if ($table_columns_temp[$i] == $_SESSION['start_column']) {
 		$start_found = true;
 
@@ -64,26 +60,27 @@ for($i = 0; $i < $table_columns_temp_max; ++$i) {
 
 	}
 	
-	
 }
+
 $column_array = array();
 
+// use column data for update queries
 $table_columns_max = count($table_columns);
 for($i = 0; $i < $table_columns_max; ++$i) {
-		array_push($column_array, $table_columns[$i]);
-		$insert_columns = $insert_columns . $table_columns[$i] . ', '; 
-		$current_column = $table_columns[$i];
-		$update_values = $update_values .  $current_column ." = '" . $_POST[$current_column] . "'" . ', ';
+
+	array_push($column_array, $table_columns[$i]);
+	$insert_columns = $insert_columns . $table_columns[$i] . ', '; 
+	$current_column = $table_columns[$i];
+	$update_values = $update_values .  $current_column ." = '" . $_POST[$current_column] . "'" . ', ';
 		
 }
 
 $update_values = substr($update_values, 0, -2);
 $insert_columns = substr($insert_columns, 0, -2);
 
-
+// pepare insert query, used to archive the forms previous state
 foreach ($column_array as $current_column) {
 	
-
 	$stmt = $conn->prepare("SELECT $current_column FROM $table_name WHERE $table_id='$choosen_custom_form_id'");
 	$stmt->execute();
 	$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
@@ -92,7 +89,6 @@ foreach ($column_array as $current_column) {
 		
 	}
 	$previous_value = $_SESSION['temp'];
-
 
 	$insert_values = $insert_values . "'" . $previous_value . "', ";
 
@@ -108,10 +104,7 @@ foreach(new grab_value(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v)
 }
 $previous_value = $_SESSION['temp'];
 
-
 $insert_values = $insert_values . "'" . $previous_value . "', ";
-
-
 
 $stmt = $conn->prepare("SELECT created_by FROM $table_name WHERE $table_id='$choosen_custom_form_id'");
 $stmt->execute();
@@ -124,38 +117,24 @@ $previous_value = $_SESSION['temp'];
 
 
 $insert_values = $insert_values . "'" . $previous_value . "', ";
-
-
-
-
-
 $insert_values = substr($insert_values, 0, -2);
 
 
-
-echo $insert_columns . '<br>';
-echo $insert_values . '<br>';
-
-
-
-
 	try {		
+
 		$query = "INSERT INTO $table_name_history ($insert_columns, timestamp, created_by, $table_id) VALUES ($insert_values, $choosen_custom_form_id);"; 
 		$conn->exec($query);
 
 		$query = "UPDATE $table_name SET $update_values, created_by = '$username' WHERE $table_id = '$choosen_custom_form_id';";
 		$conn->exec($query);
 			
-		
-	
-		// redirect user back to where they can add more secrets
 		header( 'Location: /php/custom_forms/select_add_or_change.php');
 		exit();
 
 	}
 
 	catch(PDOException $e) {
-		create_database_error($query, 'insert_custom_form.php', $e->getMessage());
+		create_database_error($query, 'update_custom_form.php', $e->getMessage());
 	}
 
 $conn = null;

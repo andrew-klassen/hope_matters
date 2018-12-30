@@ -14,9 +14,6 @@ session_start();
 // make sure user is logged in
 login_check();
 
-
-
-
 $conn = new PDO($dbconnection_custom, $dbusername, $dbpassword);
 $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
@@ -27,8 +24,7 @@ $table_name_history = $table_name . '_history';
 
 
 try {		
-		
-		
+			
 		$query = "DROP TABLE IF EXISTS $table_name;"; 
 		$conn->exec($query);
 
@@ -38,12 +34,6 @@ try {
 		$query = "DROP TABLE IF EXISTS $table_name_history;"; 
 		$conn->exec($query);
 
-
-
-			
-		
-	
-		// redirect user back to where they can add more secrets
 		header( 'Location: /php/custom_forms/select_delete_custom_form.php');
 		exit();
 

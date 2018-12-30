@@ -91,12 +91,11 @@ class view_clients extends RecursiveIteratorIterator {
 }
 
 
-
 try {
 	
 	// create the database connection
-    $conn = new PDO($dbconnection, $dbusername, $dbpassword);
-    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $conn = new PDO($dbconnection, $dbusername, $dbpassword);
+        $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
    
 	echo "<p style='color: black;;text-align: center;'>Click on a client to create a <b>" . $_SESSION['choosen_form'] . "</b> form for them.</p>";
 	echo "<p style='color: black;;text-align: center;'>Search for a client by ID or name. Use * to see all clients.</p>";

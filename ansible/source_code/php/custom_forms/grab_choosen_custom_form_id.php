@@ -12,6 +12,5 @@ session_start();
 
 $_SESSION['choosen_custom_form_id'] =  $_GET['choosen_custom_form_id'];
 
-
 header('Location: change_custom_form.php');
 exit();

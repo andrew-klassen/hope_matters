@@ -22,34 +22,30 @@ $conn = new PDO($dbconnection_custom, $dbusername, $dbpassword);
 $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
 
-
 class grab_value extends RecursiveIteratorIterator {
-			function __construct($it) {
-				parent::__construct($it, self::LEAVES_ONLY);
-			}
-			function current() {
-				$_SESSION['temp'] = parent::current();
-			}
-			function beginChildren() {
+	function __construct($it) {
+		parent::__construct($it, self::LEAVES_ONLY);
+	}
+	function current() {
+		$_SESSION['temp'] = parent::current();
+	}
+	function beginChildren() {
 				
-			}
-			function endChildren() {
+	}
+	function endChildren() {
 				
-			}
+	}
+
 }
 class get_table_columns extends RecursiveIteratorIterator {
-				function __construct($it) {
-					parent::__construct($it, self::LEAVES_ONLY);
-				}
-				function current() {
-						
-						array_push($_SESSION['table_columns'], parent::current());
-
-				}
-				
+	function __construct($it) {
+		parent::__construct($it, self::LEAVES_ONLY);
+	}
+	function current() {			
+		array_push($_SESSION['table_columns'], parent::current());
+	}
+		
 }
-
-
 
 
 $form_name = $_SESSION['choosen_form'];
@@ -58,11 +54,10 @@ $table_name = str_replace(' ', '_', $table_name);
 $meta_table = $table_name . '_meta';
 $file_name = $table_name . '.txt';
 
+
+// anything echo'ed below this lines will appear in the json download
 header("Content-type: text/plain");
 header("Content-Disposition: attachment; filename=$file_name");
-
-
-
 
 
 				$stmt = $conn->prepare("SELECT value FROM $meta_table WHERE attribute = 'client_linked';");
@@ -75,13 +70,9 @@ header("Content-Disposition: attachment; filename=$file_name");
 				$client_linked = $_SESSION['temp'];
 
 
+				$json_object = "{\"form_name\": \"$form_name\", \"meta\": {\"client_linked\": $client_linked }, \"body\": {";
 
-$json_object = "{\"form_name\": \"$form_name\", \"meta\": {\"client_linked\": $client_linked }, \"body\": {";
-
-
-
-
-
+				// gets the tables columns
 				$_SESSION['table_columns'] = array();
 
     				$stmt = $conn->prepare("SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = 'custom_forms' AND TABLE_NAME = '$table_name';");
@@ -112,6 +103,7 @@ $json_object = "{\"form_name\": \"$form_name\", \"meta\": {\"client_linked\": $c
 				$form_array = array();
 				$focused = true;
 
+				// iterate through all columns
 				for($i = 0; $i < $table_columns_max; ++$i) {
 					
 					if ($table_columns[$i] == $start_column) {
@@ -146,7 +138,6 @@ $json_object = "{\"form_name\": \"$form_name\", \"meta\": {\"client_linked\": $c
 						    case 'text':
 							$json_object = $json_object . "\"" . $column_label . "\" : \"textarea_large\",";
 							break;
-						    
 						}
 						
 						if(substr( $current_column_type, 0, 4 ) === "enum") {
@@ -166,58 +157,25 @@ $json_object = "{\"form_name\": \"$form_name\", \"meta\": {\"client_linked\": $c
 							$radio_json_temp = substr($radio_json_temp, 0, -1);
 							$json_object = $json_object . "\"" . $column_label . "\"" . " : { \"type\" : \"radio_button_group\", \"buttons\" : " . "[" . $radio_json_temp . "]},";
 							
-
 						}
 
+						if($focused && $start_found) {
 
-
-
-					if($focused && $start_found) {
-						$first_column = false;
-						$auto_focus = '';
-						$focused = false;
-						
-						
-					}
+							$first_column = false;
+							$auto_focus = '';
+							$focused = false;
+							
+						}
 
 					}
 				}
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 $json_object = substr($json_object, 0, -1);
-
-
 $json_object = $json_object . "}}";
-
 $json_object = make_json_readable($json_object);
+
+
+// displays the json
 echo $json_object;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 echo $content;

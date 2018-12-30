@@ -44,27 +44,29 @@ Copyright © 2017 Andrew Klassen
   </div>
   <br></br>
 
-<!-- below is the code that generates the password change card -->
-	<div class="login-card">
+<div class="login-card">
 		
-		<?php
+<?php
 
-			require('../database_credentials.php');
-			session_start(); 
-			echo '<h1>' . $_SESSION['choosen_form'] . '</h1>';
-class get_meta_tables extends RecursiveIteratorIterator {
-				function __construct($it) {
-					parent::__construct($it, self::LEAVES_ONLY);
-				}
-				function current() {
-						
-						array_push($_SESSION['meta_tables'], parent::current());
+	require('../database_credentials.php');
 
-				}
-				
+	session_start(); 
+
+	echo '<h1>' . $_SESSION['choosen_form'] . '</h1>';
+	
+
+	class get_meta_tables extends RecursiveIteratorIterator {
+		function __construct($it) {
+			parent::__construct($it, self::LEAVES_ONLY);
 		}
+		function current() {			
+			array_push($_SESSION['meta_tables'], parent::current());
 
-class grab_value extends RecursiveIteratorIterator {
+		}
+				
+	}
+
+	class grab_value extends RecursiveIteratorIterator {
 			function __construct($it) {
 				parent::__construct($it, self::LEAVES_ONLY);
 			}
@@ -77,7 +79,7 @@ class grab_value extends RecursiveIteratorIterator {
 			function endChildren() {
 				echo "</tr>" . "\n";
 			}
-		}
+	}
 
 			
 				$conn = new PDO($dbconnection_custom, $dbusername, $dbpassword);
@@ -94,18 +96,13 @@ class grab_value extends RecursiveIteratorIterator {
 			   	foreach(new get_meta_tables(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
 
 			   	}
-
-			    	
-
 			   	$meta_tables = $_SESSION['meta_tables'];
-				
 				$meta_tables_max = count($_SESSION['meta_tables']);
 				
 
-
+				// get all form display names
 				for($i = 0; $i < $meta_tables_max; ++$i) {
 
-					
 					$stmt = $conn->prepare("SELECT value FROM $meta_tables[$i] WHERE attribute = 'database_table_name';");
 					$stmt->execute();
 					$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
@@ -133,46 +130,32 @@ class grab_value extends RecursiveIteratorIterator {
 
 					}
 
-
 				}
-
-
-
-
-
-
-
 
 
 			if ($_SESSION['client_linked'] == 'false') {
 				echo "<form action='/php/custom_forms/add_custom_form.php' name='password_form' onsubmit='return validate_form()' method='post'>
-			
-			
-					<input type='submit' name='login' class='login login-submit' value='Add'>
-				</form>
-				<form action='/php/custom_forms/select_custom_form_individual_form.php' name='password_form' onsubmit='return validate_form()' method='post'>
-					<input type='submit' name='login' class='login login-submit' value='Change'>
-				</form>";
+						<input type='submit' name='login' class='login login-submit' value='Add'>
+				      </form>
+					<form action='/php/custom_forms/select_custom_form_individual_form.php' name='password_form' onsubmit='return validate_form()' method='post'>
+						<input type='submit' name='login' class='login login-submit' value='Change'>
+					</form>";
 
 			}
+
 			else {
 
 				echo "<form action='/php/custom_forms/select_client_custom_form.php' name='password_form' onsubmit='return validate_form()' method='post'>
-			
-			
 						<input type='submit' name='login' class='login login-submit' value='Add'>
-					</form>
-					<form action='/php/custom_forms/select_custom_form_individual_form.php' name='password_form' onsubmit='return validate_form()' method='post'>
+				      </form>
+				      <form action='/php/custom_forms/select_custom_form_individual_form.php' name='password_form' onsubmit='return validate_form()' method='post'>
 						<input type='submit' name='login' class='login login-submit' value='Change'>
-					</form>";				
+				      </form>";				
 
 			}
 
-
-
-		?>
-		
-		
+?>
+			
 	</div>
 	
 </body>

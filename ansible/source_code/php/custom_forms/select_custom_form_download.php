@@ -56,24 +56,23 @@ login_check();
 
 $_SESSION['temp'] = 0;
 
-	// make database connection
-    $conn = new PDO($dbconnection_custom, $dbusername, $dbpassword);
-    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+$conn = new PDO($dbconnection_custom, $dbusername, $dbpassword);
+$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
 
 class grab_value extends RecursiveIteratorIterator {
-			function __construct($it) {
-				parent::__construct($it, self::LEAVES_ONLY);
-			}
-			function current() {
-				$_SESSION['temp'] = parent::current();
-			}
-			function beginChildren() {
-				echo "<tr>";
-			}
-			function endChildren() {
-				echo "</tr>" . "\n";
-			}
+	function __construct($it) {
+		parent::__construct($it, self::LEAVES_ONLY);
+	}
+	function current() {
+		$_SESSION['temp'] = parent::current();
+	}
+	function beginChildren() {
+		echo "<tr>";
+	}
+	function endChildren() {
+		echo "</tr>" . "\n";
+	}
 }
 
 class view_forms extends RecursiveIteratorIterator {
@@ -81,7 +80,7 @@ class view_forms extends RecursiveIteratorIterator {
         parent::__construct($it, self::LEAVES_ONLY);
     }
 	
-	// this function creates an invisible <a link> that passes the clients id to the next page
+    // this function creates an invisible <a link> that passes the clients id to the next page
     function current() {
 	
 		$_SESSION['choosen_form'] = parent::current();
@@ -95,12 +94,8 @@ class view_forms extends RecursiveIteratorIterator {
 		$temp = $_SESSION['temp'];
 
 		
-			return "<td style='border-style: solid; border-color: #black; background-color: white; color: black;font-weight: 500;font-size: 12px;font-size: 30px;  '>" . "<a href='grab_choosen_custom_form_download.php? choosen_form=$temp' style='color: black;'>"  . parent::current() . "</a>" . "</td>";
+		return "<td style='border-style: solid; border-color: #black; background-color: white; color: black;font-weight: 500;font-size: 12px;font-size: 30px;  '>" . "<a href='grab_choosen_custom_form_download.php? choosen_form=$temp' style='color: black;'>"  . parent::current() . "</a>" . "</td>";
 
-
-		
-		
-  
     }
     function beginChildren() {
         echo "<tr>";
@@ -108,6 +103,7 @@ class view_forms extends RecursiveIteratorIterator {
     function endChildren() {
         echo "</tr>" . "\n";
     }
+
 }
 
 class get_meta_tables extends RecursiveIteratorIterator {
@@ -115,33 +111,17 @@ class get_meta_tables extends RecursiveIteratorIterator {
 			parent::__construct($it, self::LEAVES_ONLY);
 		}
 		function current() {
-				
-				array_push($_SESSION['tables'], parent::current());
-
+			array_push($_SESSION['tables'], parent::current());
 		}
 		
 }
 
 
-
-
-
-
-
 try {
 	
-
-   
-   
-	echo "<p style='color: black;;text-align: center;'>Click on a form to download its json.</p>";
+    echo "<p style='color: black;;text-align: center;'>Click on a form to download its json.</p>";
 
 
-	
-
-
-	
-	
-    
     $_SESSION['tables'] = array();
 
     $stmt = $conn->prepare("SHOW tables IN custom_forms LIKE '%_meta';");
@@ -153,33 +133,15 @@ try {
     }
 
     $tables_max = count($_SESSION['tables']);
-
     $tables = $_SESSION['tables'];
 
 
-
-
-
-
-	
     echo "<div id='tableCard' style='width: 200px;'>";
-	
-	
-	/******** determine if the user is searching by id, first name, or last name ********/
-	
-	// if the client is searching by id
-	
-	
-	// if the client is using a wild card
 
-	
 		echo "<table style='border: none;'>";
 		echo "<tr><th>Form</th></tr>";
 
-		
-
 			for($i = 0; $i < $tables_max; ++$i) {
-			
 			
 				$stmt = $conn->prepare("SELECT value FROM $tables[$i] WHERE attribute = 'form_name';");
 				$stmt->execute();
@@ -190,21 +152,11 @@ try {
 				   echo $v;
 				   ++$_SESSION['counter'];
 				}
-			}
-	
-	
+
+			}	
 
 	echo "</table>";
-
-
-
-
-
-
-    echo "</div>";
-
-	
-
+    	echo "</div>";
 
 }
 

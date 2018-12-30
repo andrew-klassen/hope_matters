@@ -34,7 +34,6 @@ Copyright © 2017 Andrew Klassen
         </form>
       </div>
 
-	  
 </div>
 <br></br>
 
@@ -62,11 +61,11 @@ $date_of_birth = $_POST['date_of_birth'];
 
 class view_clients extends RecursiveIteratorIterator {
     
-	function __construct($it) {
+    function __construct($it) {
         parent::__construct($it, self::LEAVES_ONLY);
     }
 	
-	// this function creates an invisible <a link> that passes the clients id to the next page
+    // this function creates an invisible <a link> that passes the clients id to the next page
     function current() {
 	
 		$_SESSION['choosen_custom_form_id'] = parent::current();
@@ -88,17 +87,16 @@ class view_clients extends RecursiveIteratorIterator {
     function endChildren() {
         echo "</tr>" . "\n";
     }
+
 }
-
-
 
 class view_clients_no_link extends RecursiveIteratorIterator {
     
-	function __construct($it) {
+    function __construct($it) {
         parent::__construct($it, self::LEAVES_ONLY);
     }
 	
-	// this function creates an invisible <a link> that passes the clients id to the next page
+    // this function creates an invisible <a link> that passes the clients id to the next page
     function current() {
 	
 		$_SESSION['choosen_custom_form_id'] = parent::current();
@@ -123,12 +121,11 @@ class view_clients_no_link extends RecursiveIteratorIterator {
 }
 
 
-
 try {
 	
 	// create the database connection
-    $conn = new PDO($dbconnection_custom, $dbusername, $dbpassword);
-    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $conn = new PDO($dbconnection_custom, $dbusername, $dbpassword);
+        $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
 	$table_name = $_SESSION['database_table_name'];
 	$table_id = $table_name . '_id';
@@ -154,11 +151,11 @@ try {
 			<input type='submit' id='search_submit' value='Search'>";
 
 
-if ($_SESSION['client_linked'] == 'true') {
+	if ($_SESSION['client_linked'] == 'true') {
 			echo "Date of Birth (optional) <input type='date' name='date_of_birth' value='$date_of_birth'>";
-}
+	}
 		echo "</div>
-	</form>
+		</form>
 	</div>";
 	
 
@@ -174,7 +171,7 @@ if ($_SESSION['client_linked'] == 'true') {
 	}
 	
 	
-    echo "<div id='tableCard'>";
+        echo "<div id='tableCard'>";
 	
 	/******** determine if the user is searching by id, first name, or last name ********/
 	
@@ -277,11 +274,9 @@ if ($_SESSION['client_linked'] == 'true') {
 			
 		}
 
-
-
 	}
 
-	echo "</table>";
+    echo "</table>";
     echo "</div>";
 
 }

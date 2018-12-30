@@ -30,16 +30,16 @@ class grab_value extends RecursiveIteratorIterator {
 }
 
 
+// general info needs to be collected if client is linked
 if ($_SESSION['client_linked'] == 'true') {
 
+		$conn = new PDO($dbconnection, $dbusername, $dbpassword);
+		$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-$conn = new PDO($dbconnection, $dbusername, $dbpassword);
-$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
 		$client_id = $_SESSION['choosen_client_id'];
 	
-
-	    // grab first name
+	        // grab first name
 		$stmt = $conn->prepare("SELECT first_name FROM general_info WHERE client_id='$client_id'");
 		$stmt->execute();
 		$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
@@ -93,10 +93,10 @@ $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 		}
 		$date_of_birth = $_SESSION['temp'];
 	
-	// single quotes need to be replaced with the correct excape keys for the following values
-	$first_name = str_replace('\'', '\\\'', $first_name);
-	$last_name = str_replace('\'', '\\\'', $last_name);
-	$location = str_replace('\'', '\\\'', $location);
+		// single quotes need to be replaced with the correct excape keys for the following values
+		$first_name = str_replace('\'', '\\\'', $first_name);
+		$last_name = str_replace('\'', '\\\'', $last_name);
+		$location = str_replace('\'', '\\\'', $location);
 
 }
 
@@ -108,68 +108,54 @@ $table_name = $_SESSION['database_table_name'];
 $username = $_SESSION['username'];
 $table_columns_temp = $_SESSION['table_columns'];
 $table_columns_temp_max = count($_SESSION['table_columns']);
-
 $start_found = false;
 
-$table_columns = array();
 
+// get all form specific columns 
+$table_columns = array();
 for($i = 0; $i < $table_columns_temp_max; ++$i) {
 
-	//echo $table_columns_temp[$i];
 	if ($table_columns_temp[$i] == $_SESSION['start_column']) {
 		$start_found = true;
-
 	}
 	if ($table_columns_temp[$i] == 'timestamp') {
 		break;
 	}
 	else if ($start_found){
 		array_push($table_columns, $table_columns_temp[$i]);
-
 	}
-	
-	
+		
 }
 
+// create insert query strings
 $table_columns_max = count($table_columns);
 for($i = 0; $i < $table_columns_max; ++$i) {
-		$insert_columns = $insert_columns . $table_columns[$i] . ', '; 
-		$current_column = $table_columns[$i];
-		$insert_values = $insert_values . "'" . $_POST[$current_column] . "'" . ', ';
+
+	$insert_columns = $insert_columns . $table_columns[$i] . ', '; 
+	$current_column = $table_columns[$i];
+	$insert_values = $insert_values . "'" . $_POST[$current_column] . "'" . ', ';
+
 }
+
 $insert_columns = substr($insert_columns, 0, -2);
 $insert_values = substr($insert_values, 0, -2);
-
-
-//$insert_columns = $insert_columns . $table_columns[$i] . ', ';
-echo $insert_values;
-
-
-
-
 
 
 	try {		
 		
 		if ($_SESSION['client_linked'] == 'true') {
 
-			// insert the first key
 			$query = "INSERT INTO $table_name (client_id, first_name, last_name, sex, location, date_of_birth, created_by, $insert_columns) VALUES ('$client_id', '$first_name', '$last_name', '$sex', '$location', '$date_of_birth', '$username', $insert_values);"; 
 			$conn->exec($query);
 
 		}
 		else {
 
-			// insert the first key
 			$query = "INSERT INTO $table_name (created_by, $insert_columns) VALUES ('$username', $insert_values);"; 
 			$conn->exec($query);
 
 		}
 
-			
-		
-	
-		// redirect user back to where they can add more secrets
 		header( 'Location: /php/custom_forms/select_add_or_change.php');
 		exit();
 
