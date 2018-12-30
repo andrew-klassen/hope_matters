@@ -66,6 +66,7 @@ class grab_value extends RecursiveIteratorIterator {
 // if exists	
 if ($count){
 	
+
     $client_id = $_SESSION['choosen_client_id'];
 	
 

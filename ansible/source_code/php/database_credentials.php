@@ -1,12 +1,13 @@
-<!--
+<?php
+
+/*
 This file is part of a web application designed to help Hope Matters interact with their database.
 The web application is licensed under the Affero General Public License v3.
 View the web application's readme.txt for more details.
 
 Copyright © 2017 Andrew Klassen
--->
 
-<?php
+*/
 
 session_start();
 
@@ -36,11 +37,12 @@ into the create_database_error function, which is defined
 below.
 *********************************/
 
-$servername = '{{ php_host }}';
+$servername = '127.0.0.1';
 $dbusername = 'php';
-$dbpassword = '{{ php_password }}';
+$dbpassword = '';
 $dbname = 'hope_matters';
 $dbconnection = "mysql:host=$servername;dbname=$dbname";
+$dbconnection_custom = "mysql:host=$servername;dbname=custom_forms";
 $password_hashing_algorithim = PASSWORD_BCRYPT;
 
 // database query limits
@@ -80,6 +82,7 @@ function create_database_error($query, $error_location, $pdo_error) {
 	$dbpassword = '';
 	$dbname = 'hope_matters';
 	$dbconnection = "mysql:host=$servername;dbname=$dbname";
+	$dbconnection_custom = "mysql:host=$servername;dbname=custom_forms";
 
 	$browser_info = get_browser_info();
 	$account_id = $_SESSION['account_id'];
