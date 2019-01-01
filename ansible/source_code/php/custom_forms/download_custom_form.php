@@ -52,7 +52,7 @@ $form_name = $_SESSION['choosen_form'];
 $table_name = strtolower($_SESSION['choosen_form']);
 $table_name = str_replace(' ', '_', $table_name);
 $meta_table = $table_name . '_meta';
-$file_name = $table_name . '.txt';
+$file_name = $table_name . '.json';
 
 
 // anything echo'ed below this lines will appear in the json download
@@ -138,15 +138,35 @@ header("Content-Disposition: attachment; filename=$file_name");
 						    case 'text':
 							$json_object = $json_object . "\"" . $column_label . "\" : \"textarea_large\",";
 							break;
+						    case 'varchar(1000)':
+							
+							$stmt = $conn->prepare("SELECT COLUMN_DEFAULT FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = 'custom_forms' AND TABLE_NAME = '$table_name' AND COLUMN_NAME = '$table_columns[$i]';");
+							$stmt->execute();
+							$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
+						
+							foreach(new grab_value(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
+							
+							}
+							$current_column_default = $_SESSION['temp'];
+
+							$json_object = $json_object . "\"" . $current_column_default . "\" : \"text\",";
+							break;
+						}
+
+						if ($current_column_type == "enum('yes','no')") {
+
+							$json_object = $json_object . "\"" . $column_label . "\" : \"checkbox\",";
+						
 						}
 						
-						if(substr( $current_column_type, 0, 4 ) === "enum") {
+						else if(substr( $current_column_type, 0, 4 ) === "enum") {
 						
 							$current_column_type = substr($current_column_type, 5);
 							$current_column_type = substr($current_column_type, 0, -1);
 							$current_column_type = str_replace('\'', '', $current_column_type);
 							$current_column_type = str_replace(',', ' ', $current_column_type);
-
+							
+							$radio_json_temp = '';
 							$radio_button_array = explode(' ', $current_column_type);
 							foreach ($radio_button_array as &$current_button) {
 							

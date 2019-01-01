@@ -131,7 +131,7 @@ for($i = 0; $i < $table_columns_temp_max; ++$i) {
 $table_columns_max = count($table_columns);
 for($i = 0; $i < $table_columns_max; ++$i) {
 
-	$insert_columns = $insert_columns . $table_columns[$i] . ', '; 
+	$insert_columns = $insert_columns . '`' . $table_columns[$i] . '`' . ', '; 
 	$current_column = $table_columns[$i];
 	$insert_values = $insert_values . "'" . $_POST[$current_column] . "'" . ', ';
 

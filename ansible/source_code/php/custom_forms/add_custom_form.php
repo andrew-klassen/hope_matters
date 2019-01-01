@@ -311,16 +311,35 @@ Copyright © 2017 Andrew Klassen
 						    case 'varchar(50)':
 							array_push($form_array,"<div style='height: 50px;'>$column_label: <input style='height: 35px; width: 500px;' type='text' name='$current_column' maxlength='50' $auto_focus></div>");
 							break;
+						    case 'varchar(1000)':
+
+							$stmt = $conn->prepare("SELECT COLUMN_DEFAULT FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = 'custom_forms' AND TABLE_NAME = '$table_name' AND COLUMN_NAME = '$table_columns[$i]';");
+							$stmt->execute();
+							$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
+						
+							foreach(new grab_value(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
+							
+							}
+							$current_column_default = $_SESSION['temp'];
+
+							array_push($form_array,"<div style='height: 50px;margin-top: 10px;'><p style='font-size:18px;'>$current_column_default</p></div>");
+							break;
 						    case 'tinytext':
 							array_push($form_array,"<div style='height: 200px;'>$column_label: <br><textarea style='height: 150px; width: 500px;' name='$current_column' maxlength='255' $auto_focus></textarea></div>");
 							break;
 						    case 'text':
-							array_push($form_array,"<div style='height: 300px;'>$column_label: <br><textarea style='height: 250px; width: 800px;' name='$current_column' maxlength='5000' $auto_focus></textarea></div>");
+							array_push($form_array,"<div style='height: 300px;'> $column_label: <br><textarea style='height: 250px; width: 800px;' name='$current_column' maxlength='5000' $auto_focus></textarea></div>");
 							break;
 						    
 						}
+						
+						if ($current_column_type == "enum('yes','no')") {
+						
+							array_push($form_array, "<div style='height: 40px;'><input type='hidden' name='$current_column' value='no'><input type='checkbox' name='$current_column' value='yes' >$column_label </div>"); 						
 
-						if(substr( $current_column_type, 0, 4 ) === "enum") {
+						}
+
+						else if(substr( $current_column_type, 0, 4 ) === "enum") {
 						
 							$temp_html = "<div style='height: 50px;'>$column_label: ";
 							$current_column_type = substr($current_column_type, 5);

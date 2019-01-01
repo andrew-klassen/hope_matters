@@ -1,8 +1,6 @@
-CREATE DATABASE  IF NOT EXISTS `hope_matters` /*!40100 DEFAULT CHARACTER SET latin1 */;
-USE `hope_matters`;
 -- MySQL dump 10.13  Distrib 5.7.22, for Linux (x86_64)
 --
--- Host: 10.0.2.210    Database: hope_matters
+-- Host: 10.0.0.25    Database: custom_forms
 -- ------------------------------------------------------
 -- Server version	5.7.24
 
@@ -16,6 +14,30 @@ USE `hope_matters`;
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+--
+-- Current Database: `custom_forms`
+--
+
+CREATE DATABASE /*!32312 IF NOT EXISTS*/ `custom_forms` /*!40100 DEFAULT CHARACTER SET latin1 */;
+
+USE `custom_forms`;
+
+--
+-- Dumping events for database 'custom_forms'
+--
+
+--
+-- Dumping routines for database 'custom_forms'
+--
+
+--
+-- Current Database: `hope_matters`
+--
+
+CREATE DATABASE /*!32312 IF NOT EXISTS*/ `hope_matters` /*!40100 DEFAULT CHARACTER SET latin1 */;
+
+USE `hope_matters`;
 
 --
 -- Table structure for table `accounts`
@@ -44,7 +66,7 @@ CREATE TABLE `accounts` (
   PRIMARY KEY (`account_id`),
   UNIQUE KEY `account_id_UNIQUE` (`account_id`),
   UNIQUE KEY `username_UNIQUE` (`username`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=latin1 ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=latin1 ROW_FORMAT=DYNAMIC;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -637,7 +659,7 @@ CREATE TABLE `diagnoses` (
   UNIQUE KEY `diagnoses_id_UNIQUE` (`diagnosis_id`),
   KEY `client_id_diagnoses_idx` (`client_id`),
   CONSTRAINT `client_id_diagnoses` FOREIGN KEY (`client_id`) REFERENCES `general_info` (`client_id`) ON DELETE NO ACTION ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=160 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -697,7 +719,7 @@ CREATE TABLE `diagnosis_types` (
   `created_by` varchar(20) DEFAULT NULL,
   PRIMARY KEY (`diagnosis_types_id`),
   UNIQUE KEY `diagnoses_id_UNIQUE` (`diagnosis_types_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=225 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -800,7 +822,7 @@ CREATE TABLE `error` (
   UNIQUE KEY `error_id_UNIQUE` (`error_id`),
   KEY `account_id_error_idx` (`account_id`),
   CONSTRAINT `account_id_error` FOREIGN KEY (`account_id`) REFERENCES `accounts` (`account_id`) ON DELETE NO ACTION ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=54 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -872,7 +894,7 @@ CREATE TABLE `general_info` (
   `created_by` varchar(20) DEFAULT NULL,
   PRIMARY KEY (`client_id`),
   UNIQUE KEY `client_id_UNIQUE` (`client_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=318 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -908,7 +930,7 @@ CREATE TABLE `general_info_history` (
   KEY `created_by_general_info_idx` (`created_by`),
   KEY `client_id_general_info_history_idx` (`client_id`),
   CONSTRAINT `client_id_general_info_history` FOREIGN KEY (`client_id`) REFERENCES `general_info` (`client_id`) ON DELETE NO ACTION ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -931,7 +953,7 @@ CREATE TABLE `inventory` (
   PRIMARY KEY (`inventory_id`),
   UNIQUE KEY `name_UNIQUE` (`name`),
   UNIQUE KEY `barcode_UNIQUE` (`barcode`)
-) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -954,7 +976,7 @@ CREATE TABLE `inventory_change` (
   `created_by` varchar(20) DEFAULT NULL,
   PRIMARY KEY (`inventory_change_id`),
   UNIQUE KEY `inventory_history_id_UNIQUE` (`inventory_change_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -977,7 +999,7 @@ CREATE TABLE `inventory_history` (
   `created_by` varchar(20) DEFAULT NULL,
   PRIMARY KEY (`inventory_history_id`),
   UNIQUE KEY `inventory_history_id_UNIQUE` (`inventory_history_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1111,7 +1133,7 @@ CREATE TABLE `lab` (
   UNIQUE KEY `lab_id_UNIQUE` (`lab_id`),
   KEY `lab_client_id_idx` (`client_id`),
   CONSTRAINT `client_id_lab` FOREIGN KEY (`client_id`) REFERENCES `general_info` (`client_id`) ON DELETE NO ACTION ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1309,7 +1331,7 @@ CREATE TABLE `master_log` (
   KEY `client_id_master_log_idx` (`client_id`),
   KEY `client_id_master_log` (`client_id`),
   CONSTRAINT `client_id_master_log` FOREIGN KEY (`client_id`) REFERENCES `general_info` (`client_id`) ON DELETE NO ACTION ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1338,7 +1360,7 @@ CREATE TABLE `master_log_change` (
   PRIMARY KEY (`change_id`),
   UNIQUE KEY `payment_history_id_UNIQUE` (`change_id`),
   KEY `client_id_master_log_idx` (`client_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1370,7 +1392,7 @@ CREATE TABLE `master_log_history` (
   UNIQUE KEY `payment_history_id_UNIQUE` (`payment_history_id`),
   KEY `client_id_master_log_idx` (`client_id`),
   CONSTRAINT `client_id_master_log_history` FOREIGN KEY (`client_id`) REFERENCES `general_info` (`client_id`) ON DELETE NO ACTION ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1400,7 +1422,7 @@ CREATE TABLE `medication_order` (
   PRIMARY KEY (`medication_order_id`),
   UNIQUE KEY `referral_form_id_UNIQUE` (`medication_order_id`),
   KEY `client_id_refferal_form_idx` (`client_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1738,7 +1760,7 @@ CREATE TABLE `return_treatment` (
   UNIQUE KEY `return_treatment_id_UNIQUE` (`return_treatment_id`),
   KEY `client_id_return_treatment_idx` (`client_id`),
   CONSTRAINT `client_id_return_treatment` FOREIGN KEY (`client_id`) REFERENCES `general_info` (`client_id`) ON DELETE NO ACTION ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1811,7 +1833,7 @@ CREATE TABLE `secret_values` (
   `value_hash` char(60) NOT NULL,
   `privilege` enum('admin','read') DEFAULT 'read',
   PRIMARY KEY (`secret_value_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1365 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1829,7 +1851,7 @@ CREATE TABLE `secret_values_temp` (
   `value_hash` char(60) NOT NULL,
   `privilege` enum('admin','read') DEFAULT 'read',
   PRIMARY KEY (`secret_value_temp_id`)
-) ENGINE=MEMORY AUTO_INCREMENT=233 DEFAULT CHARSET=latin1;
+) ENGINE=MEMORY DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1845,7 +1867,7 @@ CREATE TABLE `secrets` (
   `description` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`secret_id`),
   UNIQUE KEY `label_UNIQUE` (`label`)
-) ENGINE=InnoDB AUTO_INCREMENT=76 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1881,7 +1903,7 @@ CREATE TABLE `treatment` (
   UNIQUE KEY `treatment_id_UNIQUE` (`treatment_id`),
   KEY `client_id_treatment_idx` (`client_id`),
   CONSTRAINT `client_id_treatment` FOREIGN KEY (`client_id`) REFERENCES `general_info` (`client_id`) ON DELETE NO ACTION ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -2062,7 +2084,7 @@ CREATE TABLE `vital_signs` (
   PRIMARY KEY (`vital_signs_id`),
   UNIQUE KEY `referral_form_id_UNIQUE` (`vital_signs_id`),
   KEY `client_id_refferal_form_idx` (`client_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -2232,4 +2254,4 @@ CREATE TABLE `women_health_history` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-12-22 19:35:55
+-- Dump completed on 2018-12-31 17:15:17

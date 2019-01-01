@@ -115,12 +115,26 @@ foreach ($json_form_array as $current_json_form) {
 	
 	// for every form specific column
 	$start_column_found = false;
+	$static_text_counter = 1;
 	foreach ($current_json_form['body'] as $form_element => $value) {
 
 		if (! $start_column_found) {
-			$start_column = $form_element;
+			
+			if ($value == 'text') {
+				$start_column = "text_{$static_text_counter}";
+			}
+			else {
+				$start_column = $form_element;
+			}
+
 			$start_column_found = true;
 		}
+
+			
+		$original_form_element = $form_element;
+		$form_element = strtolower($form_element);
+		$form_element = str_replace(' ', '_', $form_element);
+
 
 		switch ($value) {
 		    case 'textbox':
@@ -137,10 +151,25 @@ foreach ($json_form_array as $current_json_form) {
 
 			break;
 
+		    case 'text':
+			
+			$main_table_create_query = $main_table_create_query . "`text_{$static_text_counter}` varchar(1000) DEFAULT '$original_form_element',";
+			$history_table_create_query = $history_table_create_query . "`text_{$static_text_counter}` varchar(1000) DEFAULT '$original_form_element',";
+			++$static_text_counter;
+
+			break;
+
 		    case 'textarea_large':
 			
 			$main_table_create_query = $main_table_create_query . "`$form_element` text DEFAULT NULL,";
 			$history_table_create_query = $history_table_create_query . "`$form_element` text DEFAULT NULL,";
+
+			break;
+			
+		    case 'checkbox':
+			
+			$main_table_create_query = $main_table_create_query . "`$form_element` enum('yes','no') DEFAULT NULL,";
+			$history_table_create_query = $history_table_create_query . "`$form_element` enum('yes','no') DEFAULT NULL,";
 
 			break;
 
@@ -148,21 +177,22 @@ foreach ($json_form_array as $current_json_form) {
 
 		if (is_array($value)) {
 
-			if ($current_json_form['body'][$form_element]['type'] == 'radio_button_group') {
+			if ($current_json_form['body'][$original_form_element]['type'] == 'radio_button_group') {
 				
 				$radio_enum_array = "enum(";
-				foreach($current_json_form['body'][$form_element]['buttons'] as $current_radio_element => $current_radio_element_value) {
+				foreach($current_json_form['body'][$original_form_element]['buttons'] as $current_radio_element => $current_radio_element_value) {
 					$radio_enum_array = $radio_enum_array . "'" . $current_radio_element_value . "', ";
 				}
 				$radio_enum_array = substr($radio_enum_array, 0, -2);
-				$radio_enum_array = $radio_enum_array . ')';
+				$radio_enum_array = $radio_enum_array . ')';			
+
 				$main_table_create_query = $main_table_create_query . "`$form_element` $radio_enum_array DEFAULT NULL,";
 				$history_table_create_query = $history_table_create_query . "`$form_element` $radio_enum_array DEFAULT NULL,";				
-				}		
+			}		
 
-			}
-		
 		}
+
+	}
 
 
 	// end of the create query
