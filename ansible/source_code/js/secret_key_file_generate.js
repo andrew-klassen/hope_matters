@@ -1,21 +1,12 @@
-function make_key(length){
+function make_key(length) {
 
-    var charPos;
-            var pwChar;
-            var pwLength = length;  // Change for shorter or longer password
+	const valid_chars = 'abcdefghijklmnopqrstuvwxyz0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$%^&*()_+=-';
+	let array = new Uint8Array(length);
+	window.crypto.getRandomValues(array);
+	array = array.map(x => valid_chars.charCodeAt(x % valid_chars.length));
+	const random_state = String.fromCharCode.apply(null, array);
+	return random_state;
 
-            // 1) You can add special characters like "@" to the following string if desired
-            // 2) You can even include characters more than once to increase their likelihood of appearing!
-            var availChars = "abcdefghijklmnopqrstuvwxyz0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$%^&*()_+=-";
-            var pw = "";
-            for (i = 0; i < pwLength; i++) {
-                charPos = Math.floor(Math.random() * availChars.length);
-                pwChar = availChars.charAt(charPos);
-                pw = pw + pwChar;
-            }
-            
-
-    return pw;
 }
 
 function generate_key() {
