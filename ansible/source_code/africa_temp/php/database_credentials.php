@@ -39,7 +39,7 @@ below.
 
 $servername = '127.0.0.1';
 $dbusername = 'php';
-$dbpassword = '';
+$dbpassword = 'mgitHN0G1pIXvC0NQmemZBIBctPqYTu8WIq7hLqB';
 $dbname = 'hope_matters';
 $dbconnection = "mysql:host=$servername;dbname=$dbname";
 $dbconnection_custom = "mysql:host=$servername;dbname=custom_forms";
@@ -135,14 +135,6 @@ function create_database_error($query, $error_location, $pdo_error) {
 
 function generate_initialization_vector($length = 16) {
    
-    $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$%^&*<>_+-=;:{}';
-    $characters_length = strlen($characters);
-    $random_string = '';
-  
-    for ($i = 0; $i < $length; $i++) {
-        $random_string .= $characters[rand(0, $characters_length - 1)];
-    }
-
-    return $random_string;
+    return random_bytes($length);
 
 }
