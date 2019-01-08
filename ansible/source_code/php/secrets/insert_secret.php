@@ -96,6 +96,7 @@ $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 		}
 		$secret_id = $_SESSION['temp'];
 
+
 		$initialization_vector = generate_initialization_vector();
 		$hash = password_hash($value, $password_hashing_algorithim);
 		$value = str_replace('\'', '\\\'', $value);

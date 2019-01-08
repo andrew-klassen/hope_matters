@@ -111,6 +111,7 @@ $table_columns_temp_max = count($_SESSION['table_columns']);
 $start_found = false;
 
 
+
 // get all form specific columns 
 $table_columns = array();
 for($i = 0; $i < $table_columns_temp_max; ++$i) {
@@ -122,10 +123,15 @@ for($i = 0; $i < $table_columns_temp_max; ++$i) {
 		break;
 	}
 	else if ($start_found){
-		array_push($table_columns, $table_columns_temp[$i]);
+		
+		if ( ! strstr( $table_columns_temp[$i], 'column_' )) {
+			array_push($table_columns, $table_columns_temp[$i]);
+		}
+
 	}
 		
 }
+
 
 // create insert query strings
 $table_columns_max = count($table_columns);

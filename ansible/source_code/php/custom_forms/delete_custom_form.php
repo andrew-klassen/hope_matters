@@ -9,6 +9,7 @@ Copyright © 2017 Andrew Klassen
 <?php
 
 require('../database_credentials.php');
+require('../file_upload.php');
 session_start();
 
 // make sure user is logged in
@@ -21,6 +22,8 @@ $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 $table_name = $_POST['form'];
 $table_name_meta = $table_name . '_meta';
 $table_name_history = $table_name . '_history';
+
+rrmdir("/var/www/html/uploaded_images/custom_forms/{$table_name}");
 
 
 try {		

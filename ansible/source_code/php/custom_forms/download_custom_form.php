@@ -47,6 +47,17 @@ class get_table_columns extends RecursiveIteratorIterator {
 		
 }
 
+class get_table_columns_meta extends RecursiveIteratorIterator {
+				function __construct($it) {
+					parent::__construct($it, self::LEAVES_ONLY);
+				}
+				function current() {
+					return parent::current();
+
+				}
+				
+}
+
 
 $form_name = $_SESSION['choosen_form'];
 $table_name = strtolower($_SESSION['choosen_form']);
@@ -83,6 +94,34 @@ header("Content-Disposition: attachment; filename=$file_name");
 
 			   	}
 				$table_columns = $_SESSION['table_columns'];
+
+
+
+				$stmt = $conn->prepare("SELECT attribute FROM $meta_table WHERE attribute LIKE 'column_%';");
+			    	$stmt->execute();
+			   	$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
+							
+			   	foreach(new get_table_columns_meta(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
+										
+					
+					$temp_column_meta = array();
+					$temp_column_meta = explode("_", $v);
+					array_splice( $table_columns, $temp_column_meta[1], 0, $v);
+					unset($temp_column_meta);
+					
+			   	}
+
+
+/*
+				echo "<pre>";
+				var_dump($table_columns); // or var_dump($data);
+				echo "</pre>";
+
+*/
+				
+
+
+
 				$table_columns_max = count($_SESSION['table_columns']);		
 
 				
@@ -114,6 +153,46 @@ header("Content-Disposition: attachment; filename=$file_name");
 					}
 
 					if ($start_found) {
+
+
+
+						$attribute_value = '';
+						$_SESSION['temp'] = '';
+
+						$stmt = $conn->prepare("SELECT `value` FROM $meta_table WHERE attribute LIKE 'column_{$i}_%' LIMIT 1;");
+						$stmt->execute();
+						$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
+					
+						foreach(new grab_value(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
+						
+						}
+						$attribute_value = $_SESSION['temp'];
+
+
+						if (substr( $table_columns[$i], 0, 7 ) == "column_") {
+
+							$temp_column_array = array();
+							$temp_column_array = explode('_', $table_columns[$i]);
+
+							switch ($temp_column_array[2]) {
+								case 'image':
+									switch ($temp_column_array[3]) {
+										case 'medium':
+											$json_object = $json_object . "\"" . $attribute_value . "\" : \"image_medium\",";
+											break;
+									}
+									break;
+								case 'text':
+									$json_object = $json_object . "\"" . $attribute_value . "\" : \"text\",";
+									break;
+
+							}
+							
+							continue;
+						}
+
+
+
 
 						$stmt = $conn->prepare("SELECT COLUMN_TYPE FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = 'custom_forms' AND TABLE_NAME = '$table_name' AND COLUMN_NAME = '$table_columns[$i]';");
 						$stmt->execute();

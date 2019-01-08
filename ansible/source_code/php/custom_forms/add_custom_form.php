@@ -117,6 +117,17 @@ Copyright © 2017 Andrew Klassen
 				
 		}
 
+		class get_table_columns_meta extends RecursiveIteratorIterator {
+				function __construct($it) {
+					parent::__construct($it, self::LEAVES_ONLY);
+				}
+				function current() {
+					return parent::current();
+
+				}
+				
+		}
+
 		
 		// create database connection
 		$conn = new PDO($dbconnection, $dbusername, $dbpassword);
@@ -260,8 +271,46 @@ Copyright © 2017 Andrew Klassen
 
 			   	}
 				$table_columns = $_SESSION['table_columns'];
-				$table_columns_max = count($_SESSION['table_columns']);		
+				
 
+
+
+				
+				
+				
+				$stmt = $conn->prepare("SELECT attribute FROM $meta_table WHERE attribute LIKE 'column_%';");
+			    	$stmt->execute();
+			   	$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
+							
+			   	foreach(new get_table_columns_meta(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
+										
+					
+					$temp_column_meta = array();
+					$temp_column_meta = explode("_", $v);
+					array_splice( $table_columns, $temp_column_meta[1], 0, $v);
+					unset($temp_column_meta);
+					
+			   	}
+					
+				$_SESSION['table_columns'] = $table_columns;
+
+				
+/*
+				echo "<pre>";
+    				var_dump($bob); // or var_dump($data);
+    				echo "</pre>";
+
+				
+
+				echo "<pre>";
+    				var_dump($table_columns); // or var_dump($data);
+    				echo "</pre>";
+				
+*/
+				
+
+
+				$table_columns_max = count($_SESSION['table_columns']);	
 				
 				// get the tables start column
 				$stmt = $conn->prepare("SELECT value FROM $meta_table WHERE attribute = 'start_column';");
@@ -293,6 +342,19 @@ Copyright © 2017 Andrew Klassen
 
 					// skip until start column, columns like client_id and date of birth don't need form fields
 					if ($start_found) {
+						
+
+						$stmt = $conn->prepare("SELECT COLUMN_DEFAULT FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = 'custom_forms' AND TABLE_NAME = '$table_name' AND COLUMN_NAME = '$table_columns[$i]';");
+						$stmt->execute();
+						$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
+						
+						foreach(new grab_value(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
+							
+						}
+						$current_column_default = $_SESSION['temp'];
+
+
+
 
 						$stmt = $conn->prepare("SELECT COLUMN_TYPE FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = 'custom_forms' AND TABLE_NAME = '$table_name' AND COLUMN_NAME = '$table_columns[$i]';");
 						$stmt->execute();
@@ -307,33 +369,60 @@ Copyright © 2017 Andrew Klassen
 						$column_label = str_replace('_', ' ', $column_label);
 						$current_column = $table_columns[$i];
 
-						switch ($current_column_type) {
-						    case 'varchar(50)':
-							array_push($form_array,"<div style='height: 50px;'>$column_label: <input style='height: 35px; width: 500px;' type='text' name='$current_column' maxlength='50' $auto_focus></div>");
-							break;
-						    case 'varchar(1000)':
 
-							$stmt = $conn->prepare("SELECT COLUMN_DEFAULT FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = 'custom_forms' AND TABLE_NAME = '$table_name' AND COLUMN_NAME = '$table_columns[$i]';");
-							$stmt->execute();
-							$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
+
 						
-							foreach(new grab_value(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
-							
-							}
-							$current_column_default = $_SESSION['temp'];
+						$attribute_value = '';
+						$_SESSION['temp'] = '';
+						
 
-							array_push($form_array,"<div style='height: 50px;margin-top: 10px;'><p style='font-size:18px;'>$current_column_default</p></div>");
-							break;
-						    case 'tinytext':
-							array_push($form_array,"<div style='height: 200px;'>$column_label: <br><textarea style='height: 150px; width: 500px;' name='$current_column' maxlength='255' $auto_focus></textarea></div>");
-							break;
-						    case 'text':
-							array_push($form_array,"<div style='height: 300px;'> $column_label: <br><textarea style='height: 250px; width: 800px;' name='$current_column' maxlength='5000' $auto_focus></textarea></div>");
-							break;
-						    
+						$stmt = $conn->prepare("SELECT `value` FROM $meta_table WHERE attribute LIKE 'column_{$i}_%' LIMIT 1;");
+						$stmt->execute();
+						$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
+					
+						foreach(new grab_value(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
+						
 						}
+						$attribute_value = $_SESSION['temp'];
+
+
+						$stmt = $conn->prepare("SELECT `attribute` FROM $meta_table WHERE attribute LIKE 'column_{$i}_%' LIMIT 1;");
+						$stmt->execute();
+						$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
+					
+						foreach(new grab_value(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
 						
-						if ($current_column_type == "enum('yes','no')") {
+						}
+						$attribute_name = $_SESSION['temp'];
+						
+
+						if ($attribute_value != '') {
+							$attribute_name_array = array();
+							$attribute_name_array = explode("_", $attribute_name);
+							
+							switch ($attribute_name_array[2]) {
+								case 'image':
+									switch ($attribute_name_array[3]) {
+										case 'medium':
+											array_push($form_array, "<div style='height: 350px; weight: 197px;'><img style='height: 350px; weight: 197px;' src='$attribute_value' alt='unable to load image'></div>");
+											break;
+
+									}
+									break;
+								case 'text':
+									array_push($form_array,"<div style='height: 50px;margin-top: 10px;'><p style='font-size:18px;'>$attribute_value</p></div>");
+									break;
+
+
+
+							}
+
+							continue;
+
+							
+
+						}
+						else if ($current_column_type == "enum('yes','no')") {
 						
 							array_push($form_array, "<div style='height: 40px;'><input type='hidden' name='$current_column' value='no'><input type='checkbox' name='$current_column' value='yes' >$column_label </div>"); 						
 
@@ -358,6 +447,46 @@ Copyright © 2017 Andrew Klassen
 							array_push($form_array, $temp_html);
 
 						}
+						
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+						switch ($current_column_type) {
+						    case 'varchar(50)':
+							array_push($form_array,"<div style='height: 50px;'>$column_label: <input style='height: 35px; width: 500px;' type='text' name='$current_column' maxlength='50' $auto_focus></div>");
+							break;
+						    case 'text':
+						    	array_push($form_array,"<div style='height: 300px;'> $column_label: <br><textarea style='height: 250px; width: 800px;' name='$current_column' maxlength='5000' $auto_focus></textarea></div>");
+							break;
+						    case 'tinytext':
+							array_push($form_array,"<div style='height: 200px;'>$column_label: <br><textarea style='height: 150px; width: 500px;' name='$current_column' maxlength='255' $auto_focus></textarea></div>");
+							break;
+						 
+						    
+						}
+						
+						
 
 						// set curror to first field on the form
 						if($focused && $start_found) {
@@ -374,6 +503,10 @@ Copyright © 2017 Andrew Klassen
 echo "<div class='accountCard' style='float: left; width: 885px; position: relative;'>
       <form name='custom_form' action='insert_custom_form.php' onsubmit='return validate_form()' method='post'>
       <p class='p'style='color: black;font-weight:100; text-align: center;'>$choosen_form</p>";
+
+
+
+
 
 				
 				// echo out all html elements

@@ -17,9 +17,12 @@ session_start();
 login_check();
 
 // grab json contents
-$json_object = read_key_file('json_file');
 
 
+$json_object = read_json_file('json_file');
+
+
+$username = $_SESSION['username'];
 $json_form_array = array();
 $brace_count = 0;
 $left_brace_index = 0;
@@ -77,12 +80,17 @@ foreach ($json_form_array as $current_json_form) {
 	$history_id = $history_table_name . '_id';
 	$history_id_unique = $history_id . '_UNIQUE';
 
+	mkdir("/var/www/html/uploaded_images/custom_forms/{$database_table_name}", 0777);
+	mkdir("/var/www/html/uploaded_images/custom_forms/{$database_table_name}/static", 0777);
+	mkdir("/var/www/html/uploaded_images/custom_forms/{$database_table_name}/in_use", 0777);
+	mkdir("/var/www/html/uploaded_images/custom_forms/{$database_table_name}/no_longer_used", 0777);
+
 
 	// below is the not form specific, top half of the table create query
 	$meta_table_create_query = "CREATE TABLE `$meta_table_name` (
 	  `$meta_id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-	  `attribute` varchar(45) DEFAULT NULL,
-	  `value` varchar(45) DEFAULT NULL,
+	  `attribute` varchar(100) DEFAULT NULL,
+	  `value` varchar(1000) DEFAULT NULL,
 	  `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 	  PRIMARY KEY (`$meta_id`),
 	  UNIQUE KEY `$meta_id_unique` (`$meta_id`)
@@ -115,13 +123,27 @@ foreach ($json_form_array as $current_json_form) {
 	
 	// for every form specific column
 	$start_column_found = false;
-	$static_text_counter = 1;
+	$meta_attributes = array();
+	$meta_values = array();
+	$counter = 0;
 	foreach ($current_json_form['body'] as $form_element => $value) {
+
+		if ($client_linked) {
+			$column_number = $counter + 7;
+				
+		}
+		else {
+			$column_number = $counter + 1;
+		}
+
 
 		if (! $start_column_found) {
 			
 			if ($value == 'text') {
 				$start_column = "text_{$static_text_counter}";
+			}
+			else if ($value == 'image_medium') {
+				$start_column = "column_{$column_number}_image_medium";
 			}
 			else {
 				$start_column = $form_element;
@@ -153,9 +175,8 @@ foreach ($json_form_array as $current_json_form) {
 
 		    case 'text':
 			
-			$main_table_create_query = $main_table_create_query . "`text_{$static_text_counter}` varchar(1000) DEFAULT '$original_form_element',";
-			$history_table_create_query = $history_table_create_query . "`text_{$static_text_counter}` varchar(1000) DEFAULT '$original_form_element',";
-			++$static_text_counter;
+			array_push($meta_values, "$original_form_element");
+			array_push($meta_attributes, "column_{$column_number}_text");
 
 			break;
 
@@ -170,6 +191,14 @@ foreach ($json_form_array as $current_json_form) {
 			
 			$main_table_create_query = $main_table_create_query . "`$form_element` enum('yes','no') DEFAULT NULL,";
 			$history_table_create_query = $history_table_create_query . "`$form_element` enum('yes','no') DEFAULT NULL,";
+
+			break;
+
+		     case 'image_medium':
+			
+			rename("/var/www/html/uploaded_images/custom_forms/{$username}/{$form_element}", "/var/www/html/uploaded_images/custom_forms/{$database_table_name}/static/{$form_element}");
+			array_push($meta_values, "../../uploaded_images/custom_forms/{$database_table_name}/static/{$form_element}");
+			array_push($meta_attributes, "column_{$column_number}_image_medium");
 
 			break;
 
@@ -191,6 +220,7 @@ foreach ($json_form_array as $current_json_form) {
 			}		
 
 		}
+		++$counter;
 
 	}
 
@@ -239,7 +269,14 @@ foreach ($json_form_array as $current_json_form) {
 		$conn->exec($query);
 
 		$query = "INSERT INTO `$meta_table_name` (`attribute`, `value`) VALUES ('start_column', '$start_column');"; 
-		$conn->exec($query);				
+		$conn->exec($query);	
+
+		$meta_max = count($meta_values);
+		for ($i = 0; $i < $meta_max; ++$i) {
+			$query = "INSERT INTO `$meta_table_name` (`attribute`, `value`) VALUES ('$meta_attributes[$i]', '$meta_values[$i]');"; 
+			$conn->exec($query);
+		}
+		rmdir("/var/www/html/uploaded_images/custom_forms/{$username}");	
 
 	}
 
