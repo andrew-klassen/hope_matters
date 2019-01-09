@@ -252,7 +252,7 @@ Copyright © 2017 Andrew Klassen
 		}
 
 
-				$conn = new PDO($dbconnection_custom, $dbusername, $dbpassword);
+				$conn = new PDO($dbconnection_custom, $dbusername_custom, $dbpassword_custom);
 				$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 								
 				
@@ -272,12 +272,8 @@ Copyright © 2017 Andrew Klassen
 			   	}
 				$table_columns = $_SESSION['table_columns'];
 				
-
-
-
 				
-				
-				
+				// this include meta columns into the table columns array
 				$stmt = $conn->prepare("SELECT attribute FROM $meta_table WHERE attribute LIKE 'column_%';");
 			    	$stmt->execute();
 			   	$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
@@ -292,22 +288,7 @@ Copyright © 2017 Andrew Klassen
 					
 			   	}
 					
-				$_SESSION['table_columns'] = $table_columns;
-
-				
-/*
-				echo "<pre>";
-    				var_dump($bob); // or var_dump($data);
-    				echo "</pre>";
-
-	
-
-				echo "<pre>";
-    				var_dump($table_columns); // or var_dump($data);
-    				echo "</pre>";
-				
-*/
-				
+				$_SESSION['table_columns'] = $table_columns;		
 
 
 				$table_columns_max = count($_SESSION['table_columns']);	
@@ -354,8 +335,6 @@ Copyright © 2017 Andrew Klassen
 						$current_column_default = $_SESSION['temp'];
 
 
-
-
 						$stmt = $conn->prepare("SELECT COLUMN_TYPE FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = 'custom_forms' AND TABLE_NAME = '$table_name' AND COLUMN_NAME = '$table_columns[$i]';");
 						$stmt->execute();
 						$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
@@ -369,9 +348,8 @@ Copyright © 2017 Andrew Klassen
 						$column_label = str_replace('_', ' ', $column_label);
 						$current_column = $table_columns[$i];
 
-
-
 						
+						// below in for in the event that the column is meta
 						$attribute_value = '';
 						$_SESSION['temp'] = '';
 						
@@ -384,9 +362,6 @@ Copyright © 2017 Andrew Klassen
 						
 						}
 						$attribute_value = $_SESSION['temp'];
-
-
-
 
 
 						$stmt = $conn->prepare("SELECT `attribute` FROM $meta_table WHERE attribute LIKE 'column_{$i}_%' LIMIT 1;");
@@ -403,6 +378,7 @@ Copyright © 2017 Andrew Klassen
 							$attribute_name_array = array();
 							$attribute_name_array = explode("_", $attribute_name);
 							
+							// meta columns are stored in the following format column_<number>_<main_attribute>_<sub-attribute>
 							switch ($attribute_name_array[2]) {
 								case 'image':
 									switch ($attribute_name_array[3]) {
@@ -415,7 +391,6 @@ Copyright © 2017 Andrew Klassen
 										case 'large':
 											array_push($form_array, "<div style='height: 600px; '><img style='height: 600px; width: 600px; ' src='$attribute_value' alt='unable to load image'></div>");
 											break;
-
 									}
 									break;
 								case 'image-upload':
@@ -432,7 +407,6 @@ Copyright © 2017 Andrew Klassen
 
 									}
 									break;
-
 								case 'text':
 									array_push($form_array,"<div style='height: 50px;margin-top: 10px;'><p style='font-size:18px;'>$attribute_value</p></div>");
 									break;
@@ -440,37 +414,33 @@ Copyright © 2017 Andrew Klassen
 									$textbox_array_temp = "<div style='width: 800px;height: 50px;'>";
 									++$i;
 									
-									
 									do {
 										$current_column = $table_columns[$i];
 										$column_label = str_replace("_{$attribute_value}", '', $current_column);
-										
-
 										$textbox_array_temp = $textbox_array_temp . "<div style='height: 50px; float: left;margin-left: 15px;'>$column_label: <input style='height: 35px; width: 100px;' type='text' name='$current_column' maxlength='25' $auto_focus></div>";
 										++$i;
 										
 									} while (strpos($table_columns[$i], $attribute_value) !== false);
+										
 										--$i;	
-																										
 										$textbox_array_temp = $textbox_array_temp . "</div>";
 										array_push($form_array, $textbox_array_temp);
 									
 									break;
 
-
 							}
 
 							continue;
 
-							
-
 						}
+						
+						// checkbox
 						else if ($current_column_type == "enum('yes','no')") {
 						
 							array_push($form_array, "<div style='height: 40px;'><input type='hidden' name='$current_column' value='no'><input type='checkbox' name='$current_column' value='yes' >$column_label </div>"); 						
-
 						}
 
+						// radio_button_group
 						else if(substr( $current_column_type, 0, 4 ) === "enum") {
 						
 							$temp_html = "<div style='height: 50px;'>$column_label: ";
@@ -490,34 +460,13 @@ Copyright © 2017 Andrew Klassen
 							array_push($form_array, $temp_html);
 
 						}
+												
 						
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 						switch ($current_column_type) {
+
 						    case 'varchar(50)':
 							array_push($form_array,"<div style='height: 50px;'>$column_label: <input style='height: 35px; width: 500px;' type='text' name='$current_column' maxlength='50' $auto_focus></div>");
 							break;
-
 						    case 'int(11)':
 							array_push($form_array,"<div style='height: 50px;'>$column_label: <input style='height: 35px; width: 150px;' type='number' name='$current_column' $auto_focus></div>");
 							break;
@@ -533,12 +482,10 @@ Copyright © 2017 Andrew Klassen
 						    case 'varchar(1000)':
 							array_push($form_array,"<div style='margin-top: 10px;margin-left: 80px;height: 80px;'>Add/Change Image <br><input type='file' name='$current_column' id='$current_column'><br><label style='font-size: 12px;'>(jpg, jpeg, png, or gif,  20MB max)</label></div>");
 							break;
-						 
 						    
 						}
 						
 						
-
 						// set curror to first field on the form
 						if($focused && $start_found) {
 							
@@ -554,11 +501,6 @@ Copyright © 2017 Andrew Klassen
 echo "<div class='accountCard' style='float: left; width: 885px; position: relative;'>
       <form name='custom_form' action='insert_custom_form.php' onsubmit='return validate_form()' method='post' enctype='multipart/form-data'>
       <p class='p'style='color: black;font-weight:100; text-align: center;'>$choosen_form</p>";
-
-
-
-
-
 				
 				// echo out all html elements
 				$form_array_max = count($form_array);
@@ -568,7 +510,7 @@ echo "<div class='accountCard' style='float: left; width: 885px; position: relat
 			
 				}
 
-?>			
+?>
 			
 			<div style="width: 200px; margin-left: 350px; margin-top: 50px;">		
 				<input type="submit" name="submit_button" class="submitbtn" value="Submit">

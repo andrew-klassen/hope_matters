@@ -11,16 +11,14 @@ Copyright © 2017 Andrew Klassen
 require('../database_credentials.php');
 require('../file_upload.php');
 require('../json_functions.php');
+
 session_start();
 
 // make sure user is logged in
 login_check();
 
 // grab json contents
-
-
 $json_object = read_json_file('json_file');
-
 
 $username = $_SESSION['username'];
 $json_form_array = array();
@@ -53,7 +51,7 @@ for ($i = 0; $i < strlen($json_object); ++$i){
 }
 
 
-$conn = new PDO($dbconnection_custom, $dbusername, $dbpassword);
+$conn = new PDO($dbconnection_custom, $dbusername_custom, $dbpassword_custom);
 $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
 $regex = '~"[^"]*"(*SKIP)(*F)|\s+~';
@@ -80,6 +78,7 @@ foreach ($json_form_array as $current_json_form) {
 	$history_id = $history_table_name . '_id';
 	$history_id_unique = $history_id . '_UNIQUE';
 
+	// create custom form image directories
 	mkdir("/var/www/html/uploaded_images/custom_forms/{$database_table_name}", 0777);
 	mkdir("/var/www/html/uploaded_images/custom_forms/{$database_table_name}/static", 0777);
 	mkdir("/var/www/html/uploaded_images/custom_forms/{$database_table_name}/in_use", 0777);
@@ -97,12 +96,12 @@ foreach ($json_form_array as $current_json_form) {
 	) ENGINE=InnoDB DEFAULT CHARSET=latin1;";
 
 	$main_table_create_query = "CREATE TABLE `$database_table_name` (`$table_id` int(11) unsigned NOT NULL AUTO_INCREMENT,";
-
 	$history_table_create_query = "CREATE TABLE `$history_table_name` (`$history_id` int(11) unsigned NOT NULL AUTO_INCREMENT,
 									   `$table_id` int(11) unsigned NOT NULL,";
 
 
 	if ($client_linked) {
+
 		 $main_table_create_query = $main_table_create_query . "`client_id` int(11) DEFAULT NULL,
 		  `first_name` varchar(25) DEFAULT NULL,
 		  `last_name` varchar(25) DEFAULT NULL,
@@ -117,7 +116,6 @@ foreach ($json_form_array as $current_json_form) {
 		  `date_of_birth` date DEFAULT NULL,
 		  `sex` enum('male','female') DEFAULT NULL,";
 
-
 	}
 
 	
@@ -128,10 +126,8 @@ foreach ($json_form_array as $current_json_form) {
 	$counter = 0;
 
 
-
+	// iterate through contents of file
 	foreach ($current_json_form['body'] as $form_element => $value) {
-
-		
 
 		$original_form_element = $form_element;
 		$form_element = strtolower($form_element);
@@ -146,9 +142,6 @@ foreach ($json_form_array as $current_json_form) {
 			else {
 				$counter += 1;
 			}
-
-
-
 
 			if ($value == 'text') {
 				$start_column = "column_{$counter}_text";
@@ -172,7 +165,6 @@ foreach ($json_form_array as $current_json_form) {
 				$start_column = "column_{$counter}_image-upload_large";
 			}
 			else if (is_array($value)) {
-
 				
 				switch ($current_json_form['body'][$original_form_element]['type']) {
 
@@ -182,74 +174,67 @@ foreach ($json_form_array as $current_json_form) {
 						
 						break;
 				}
+
 			}
 			else {
+
 				$start_column = $form_element;
+
 			}
 
 			$start_column_found = true;
+
 		}
 
-			
-
-
+		
 		switch ($value) {
 		    case 'textbox':
 			
 			$main_table_create_query = $main_table_create_query . "`$form_element` varchar(50) DEFAULT NULL,";
 			$history_table_create_query = $history_table_create_query . "`$form_element` varchar(50) DEFAULT NULL,";
-
 			break;
 
 		    case 'textarea':
 			
 			$main_table_create_query = $main_table_create_query . "`$form_element` tinytext DEFAULT NULL,";
 			$history_table_create_query = $history_table_create_query . "`$form_element` tinytext DEFAULT NULL,";
-
 			break;
-
 
 		    case 'date':
 			
 			$main_table_create_query = $main_table_create_query . "`$form_element` date DEFAULT NULL,";
 			$history_table_create_query = $history_table_create_query . "`$form_element` date DEFAULT NULL,";
-
 			break;
 
 		    case 'integer':
 			
 			$main_table_create_query = $main_table_create_query . "`$form_element` int(11) DEFAULT NULL,";
 			$history_table_create_query = $history_table_create_query . "`$form_element` int(11) DEFAULT NULL,";
-
 			break;
-
 
 		    case 'text':
 			
 			array_push($meta_values, "$original_form_element");
 			array_push($meta_attributes, "column_{$counter}_text");
-
 			break;
 
 		    case 'textarea_large':
 			
 			$main_table_create_query = $main_table_create_query . "`$form_element` text DEFAULT NULL,";
 			$history_table_create_query = $history_table_create_query . "`$form_element` text DEFAULT NULL,";
-
 			break;
 			
 		    case 'checkbox':
 			
 			$main_table_create_query = $main_table_create_query . "`$form_element` enum('yes','no') DEFAULT NULL,";
 			$history_table_create_query = $history_table_create_query . "`$form_element` enum('yes','no') DEFAULT NULL,";
-
 			break;
+
 		    case 'image_small':
 			
 			rename("/var/www/html/uploaded_images/custom_forms/{$username}/{$form_element}", "/var/www/html/uploaded_images/custom_forms/{$database_table_name}/static/{$form_element}");
 			array_push($meta_values, "../../uploaded_images/custom_forms/{$database_table_name}/static/{$form_element}");
 			array_push($meta_attributes, "column_{$counter}_image_small");
-
 			break;
 
 		    case 'image_medium':
@@ -257,18 +242,14 @@ foreach ($json_form_array as $current_json_form) {
 			rename("/var/www/html/uploaded_images/custom_forms/{$username}/{$form_element}", "/var/www/html/uploaded_images/custom_forms/{$database_table_name}/static/{$form_element}");
 			array_push($meta_values, "../../uploaded_images/custom_forms/{$database_table_name}/static/{$form_element}");
 			array_push($meta_attributes, "column_{$counter}_image_medium");
-
 			break;
-
 
 		    case 'image_large':
 			
 			rename("/var/www/html/uploaded_images/custom_forms/{$username}/{$form_element}", "/var/www/html/uploaded_images/custom_forms/{$database_table_name}/static/{$form_element}");
 			array_push($meta_values, "../../uploaded_images/custom_forms/{$database_table_name}/static/{$form_element}");
 			array_push($meta_attributes, "column_{$counter}_image_large");
-
 			break;
-
 
 		    case 'image-upload_small':
 			
@@ -283,9 +264,6 @@ foreach ($json_form_array as $current_json_form) {
 			++$counter;
 			break;
 
-
-
-
 		     case 'image-upload_medium':
 			
 			rename("/var/www/html/uploaded_images/custom_forms/{$username}/{$form_element}", "/var/www/html/uploaded_images/custom_forms/{$database_table_name}/static/{$form_element}");
@@ -298,8 +276,6 @@ foreach ($json_form_array as $current_json_form) {
 			$history_table_create_query = $history_table_create_query . "`$form_element_format` varchar(1000) DEFAULT NULL,";
 			++$counter;
 			break;
-
-
 
 	            case 'image-upload_large':
 			
@@ -314,14 +290,13 @@ foreach ($json_form_array as $current_json_form) {
 			++$counter;
 			break;
 
-
-
 		}
 
 		if (is_array($value)) {
 
 			switch ($current_json_form['body'][$original_form_element]['type']) {
 				case 'radio_button_group':
+
 					$radio_enum_array = "enum(";
 					foreach($current_json_form['body'][$original_form_element]['buttons'] as $current_radio_element => $current_radio_element_value) {
 						$radio_enum_array = $radio_enum_array . "'" . $current_radio_element_value . "', ";
@@ -351,6 +326,7 @@ foreach ($json_form_array as $current_json_form) {
 			}		
 
 		}
+
 		++$counter;
 
 	}
@@ -407,6 +383,8 @@ foreach ($json_form_array as $current_json_form) {
 			$query = "INSERT INTO `$meta_table_name` (`attribute`, `value`) VALUES ('$meta_attributes[$i]', '$meta_values[$i]');"; 
 			$conn->exec($query);
 		}
+		
+		// remove empty temp directory, all static images should be moved out of it at this point
 		rmdir("/var/www/html/uploaded_images/custom_forms/{$username}");	
 
 	}

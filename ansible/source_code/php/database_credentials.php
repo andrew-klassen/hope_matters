@@ -42,8 +42,13 @@ $dbusername = 'php';
 $dbpassword = '';
 $dbname = 'hope_matters';
 $dbconnection = "mysql:host=$servername;dbname=$dbname";
+
 $dbconnection_custom = "mysql:host=$servername;dbname=custom_forms";
-$password_hashing_algorithim = PASSWORD_BCRYPT;
+$dbusername_custom = $_SESSION['username'];
+$dbpassword_custom = $_SESSION['login_password'];
+
+$password_hashing_algorithim = PASSWORD_ARGON2ID;
+$password_hash_migration = true;
 
 // database query limits
 $search_limit = 200;

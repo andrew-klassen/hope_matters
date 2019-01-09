@@ -51,7 +51,7 @@ try {
 	}
 	$database_password = $_SESSION['temp'];
 
-	
+
 	// count is used to determine whether or not if the email and password are valid 
 	if (password_verify($password, $database_password)) {
 		
@@ -79,7 +79,6 @@ try {
 					 exit();
 				 }
 				
-				
 			}
 			
 		}
@@ -93,6 +92,25 @@ try {
 					
 		}
 		$_SESSION['account_id'] = $_SESSION['temp'];
+
+
+		$account_id = $_SESSION['account_id'];
+
+		// switches the users current hash time if migration is set in config
+		if ($password_hash_migration) {
+
+			// hash new password			
+			$new_password = password_hash($new_password, $password_hashing_algorithim);
+			
+			$sql = "UPDATE accounts SET password='$new_password' WHERE account_id='$account_id'";
+			$stmt = $conn->prepare($sql);
+			$stmt->execute();
+
+			$sql = "UPDATE accounts_history SET password='$new_password' WHERE account_id='$account_id'";
+			$stmt = $conn->prepare($sql);
+			$stmt->execute();
+
+		}
 		
 
 		// redirect to dashboard

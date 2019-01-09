@@ -82,7 +82,7 @@ Copyright © 2017 Andrew Klassen
 	}
 
 			
-				$conn = new PDO($dbconnection_custom, $dbusername, $dbpassword);
+				$conn = new PDO($dbconnection_custom, $dbusername_custom, $dbpassword_custom);
 				$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
 				$choosen_form = $_SESSION['choosen_form'];

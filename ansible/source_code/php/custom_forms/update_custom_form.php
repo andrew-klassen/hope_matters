@@ -8,8 +8,6 @@ Copyright © 2017 Andrew Klassen
 
 <?php
 
-
-
 require('../database_credentials.php');
 require('../file_upload.php');
 session_start();
@@ -33,7 +31,7 @@ class grab_value extends RecursiveIteratorIterator {
 }
 
 
-$conn = new PDO($dbconnection_custom, $dbusername, $dbpassword);
+$conn = new PDO($dbconnection_custom, $dbusername_custom, $dbpassword_custom);
 $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
 
@@ -48,8 +46,6 @@ $table_columns_temp_max = count($_SESSION['table_columns']);
 $start_found = false;
 
 
-
-
 // gets all the non specific form columns
 $table_columns = array();
 for($i = 0; $i < $table_columns_temp_max; ++$i) {
@@ -62,6 +58,7 @@ for($i = 0; $i < $table_columns_temp_max; ++$i) {
 		break;
 	}
 	else if ($start_found){
+
 		if ( ! strstr( $table_columns_temp[$i], 'column_' )) {
 			array_push($table_columns, $table_columns_temp[$i]);
 		}
@@ -69,10 +66,6 @@ for($i = 0; $i < $table_columns_temp_max; ++$i) {
 	}
 	
 }
-
-
-
-
 
 
 $column_array = array();
@@ -95,9 +88,10 @@ for($i = 0; $i < $table_columns_max; ++$i) {
 	}
 	$current_column_type = $_SESSION['temp'];
 
+
+	// if column is upload image
 	if ($current_column_type == 'varchar(1000)' ) {
 
-		
 		$temp_image_name = $_FILES[$current_column]['name'];
 
 		$stmt = $conn->prepare("SELECT $current_column FROM $table_name WHERE $table_id='$choosen_custom_form_id';");
@@ -113,10 +107,11 @@ for($i = 0; $i < $table_columns_max; ++$i) {
 		if ($temp_image_name != '') {
 		
 			$image_path = upload_file($current_column, $temp_image_name, 'change_custom_form.php', "../../uploaded_images/custom_forms/{$table_name}/in_use/");
-
 			$previous_file_name = basename($previous_image_path);
-		
+
+			// move old image to archive folder			
 			rename($previous_image_path, "../../uploaded_images/custom_forms/{$table_name}/no_longer_used/{$previous_file_name}");
+		
 		}
 		else {
 			$image_path = $previous_image_path;
@@ -127,10 +122,11 @@ for($i = 0; $i < $table_columns_max; ++$i) {
 	else {
 		$update_values = $update_values .  $current_column ." = '" . $_POST[$current_column] . "'" . ', ';
 	}
-
-		
+	
 }
 
+
+// remove ending comma
 $update_values = substr($update_values, 0, -2);
 $insert_columns = substr($insert_columns, 0, -2);
 
@@ -172,6 +168,7 @@ foreach(new grab_value(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v)
 $previous_value = $_SESSION['temp'];
 
 
+// remove ending comma
 $insert_values = $insert_values . "'" . $previous_value . "', ";
 $insert_values = substr($insert_values, 0, -2);
 

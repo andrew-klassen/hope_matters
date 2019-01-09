@@ -234,7 +234,7 @@ Copyright © 2017 Andrew Klassen
 		}
 
 
-				$conn = new PDO($dbconnection_custom, $dbusername, $dbpassword);
+				$conn = new PDO($dbconnection_custom, $dbusername_custom, $dbpassword_custom);
 				$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 								
 				
@@ -256,11 +256,7 @@ Copyright © 2017 Andrew Klassen
 				$table_columns = $_SESSION['table_columns'];
 
 
-
-
-
-
-
+				// includes meta columns
 				$stmt = $conn->prepare("SELECT attribute FROM $meta_table WHERE attribute LIKE 'column_%';");
 			    	$stmt->execute();
 			   	$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
@@ -275,11 +271,6 @@ Copyright © 2017 Andrew Klassen
 					
 			   	}
 				$_SESSION['table_columns'] = $table_columns;
-
-
-
-
-
 
 
 				$table_columns_max = count($_SESSION['table_columns']);		
@@ -321,29 +312,16 @@ Copyright © 2017 Andrew Klassen
 					if ($start_found) {
 
 						
-
-						
 						$column_label = ucfirst($table_columns[$i]);
 						$column_label = str_replace('_', ' ', $column_label);
 						$current_column = $table_columns[$i];
 
 
-
-
-
-
-
-
-
-
-
 						$attribute_value = '';
 						$_SESSION['temp'] = '';
 						
-
 						
-
-
+						// include meta tables into the table column array
 						$stmt = $conn->prepare("SELECT `value` FROM $meta_table WHERE attribute LIKE 'column_{$i}_%' LIMIT 1;");
 						$stmt->execute();
 						$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
@@ -352,10 +330,6 @@ Copyright © 2017 Andrew Klassen
 						
 						}
 						$attribute_value = $_SESSION['temp'];
-
-
-
-						
 
 
 						$stmt = $conn->prepare("SELECT `attribute` FROM $meta_table WHERE attribute LIKE 'column_{$i}_%' LIMIT 1;");
@@ -367,15 +341,12 @@ Copyright © 2017 Andrew Klassen
 						}
 						$attribute_name = $_SESSION['temp'];
 
-						
-						
-						
-						
-
+												
 						if ($attribute_value != '') {
 							$attribute_name_array = array();
 							$attribute_name_array = explode("_", $attribute_name);
 							
+							// meta columns are stored in the following format column_<number>_<main_attribute>_<sub-attribute>
 							switch ($attribute_name_array[2]) {
 								case 'image':
 									switch ($attribute_name_array[3]) {
@@ -388,65 +359,39 @@ Copyright © 2017 Andrew Klassen
 										case 'large':
 											array_push($form_array, "<div style='height: 600px; '><img style='height: 600px; width: 600px; ' src='$attribute_value' alt='unable to load image'></div>");
 											break;
-
 									}
 									break;
 								case 'text':
 									array_push($form_array,"<div style='height: 50px;margin-top: 10px;'><p style='font-size:18px;'>$attribute_value</p></div>");
 									break;
-
 								case 'image-upload':
-
-
-
 
 									$next_index = $i + 1;
 
-										$stmt = $conn->prepare("SELECT $table_columns[$next_index] FROM $table_name WHERE $table_id = $choosen_custom_form_id;");
-										$stmt->execute();
-										$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
+									$stmt = $conn->prepare("SELECT $table_columns[$next_index] FROM $table_name WHERE $table_id = $choosen_custom_form_id;");
+									$stmt->execute();
+									$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
 										
-										foreach(new grab_value(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
+									foreach(new grab_value(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
 											
-										}
-										$next_value = $_SESSION['temp'];
+									}
+									$next_value = $_SESSION['temp'];
 
-										if ($next_value == 'no_image') {
-											$next_value = $attribute_value;
-										}
-
-
-
-
-
-
+									// static image is shown if no image was uploaded
+									if ($next_value == 'no_image') {
+										$next_value = $attribute_value;
+									}
 
 									switch ($attribute_name_array[3]) {
-
-										
-										
 										case 'small':
-											
-
-
 											array_push($form_array, "<div style='padding-left: 110px;height: 100px;'><img style='height: 100px; width: 100px;' src='$next_value' alt='unable to load image'></div>");
 											break;
 										case 'medium':
-											
-											
-
-
 											array_push($form_array, "<div style='height: 300px;'><img style='height: 300px; width: 300px;' src='$next_value' alt='unable to load image'></div>");
 											break;
-
-
 										case 'large':
-											
-
-
 											array_push($form_array, "<div style='height: 600px; '><img style='height: 600px; width: 600px; ' src='$next_value' alt='unable to load image'></div>");
 											break;
-
 									}
 									break;
 								case 'textbox':
@@ -457,7 +402,6 @@ Copyright © 2017 Andrew Klassen
 										$current_column = $table_columns[$i];
 										$column_label = str_replace("_{$attribute_value}", '', $current_column);
 										
-
 										$stmt = $conn->prepare("SELECT $table_columns[$i] FROM $table_name WHERE $table_id = $choosen_custom_form_id;");
 										$stmt->execute();
 										$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
@@ -467,9 +411,6 @@ Copyright © 2017 Andrew Klassen
 										}
 										$textbox_value = $_SESSION['temp'];
 
-
-										
-
 										$textbox_array_temp = $textbox_array_temp . "<div style='height: 50px; float: left;margin-left: 15px;'>$column_label: <input style='height: 35px; width: 100px;' type='text' value='$textbox_value' name='$current_column' maxlength='25' $auto_focus></div>";
 										++$i;
 										
@@ -477,25 +418,14 @@ Copyright © 2017 Andrew Klassen
 										--$i;																	
 										$textbox_array_temp = $textbox_array_temp . "</div>";
 										array_push($form_array, $textbox_array_temp);
-	
 									break;
-
-
 
 							}
 
 							continue;
 
-							
-
 						}
 						
-
-
-
-
-
-
 						
 						$stmt = $conn->prepare("SELECT COLUMN_TYPE FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = 'custom_forms' AND TABLE_NAME = '$table_name' AND COLUMN_NAME = '$table_columns[$i]';");
 						$stmt->execute();
@@ -516,11 +446,8 @@ Copyright © 2017 Andrew Klassen
 						}
 						$value = $_SESSION['temp'];
 
-
-
-
-
-
+						
+						// checkbox
 						if ($current_column_type == "enum('yes','no')") {
 						
 							if ($value == 'yes') {
@@ -530,7 +457,8 @@ Copyright © 2017 Andrew Klassen
 							array_push($form_array, "<div style='height: 40px;'><input type='hidden' name='$current_column' value='no'><input type='checkbox' name='$current_column' value='yes' $checked>$column_label </div>");
 												
 						}
-
+						
+						// radio_button_group
 						else if(substr( $current_column_type, 0, 4 ) === "enum") {
 						
 							$temp_html = "<div style='height: 50px;'>$column_label: ";
@@ -558,53 +486,28 @@ Copyright © 2017 Andrew Klassen
 						}
 
 
-
-
-
-
-
-
-
-
-
-
-
 						switch ($current_column_type) {
 						    case 'varchar(50)':
 							array_push($form_array,"<div style='height: 50px;'>$column_label: <input style='height: 35px; width: 500px;' type='text' name='$current_column' value='$value' maxlength='50' $auto_focus></div>");
 							break;
-
-
 						    case 'int(11)':
 							array_push($form_array,"<div style='height: 50px;'>$column_label: <input style='height: 35px; width: 150px;' type='number' name='$current_column' value='$value' $auto_focus></div>");
 							break;
-						    
 						    case 'tinytext':
 							array_push($form_array,"<div style='height: 200px;'>$column_label: <br><textarea style='height: 150px; width: 500px;' name='$current_column' maxlength='255' $auto_focus>$value</textarea></div>");
 							break;
 						    case 'text':
 							array_push($form_array,"<div style='height: 300px;'>$column_label: <br><textarea style='height: 250px; width: 800px;' name='$current_column' maxlength='5000' $auto_focus>$value</textarea></div>");
 							break;
-
 						    case 'varchar(1000)':
 							array_push($form_array,"<div style='margin-left: 80px; margin-top: 10px;height: 80px;'>Add/Change Image <br><input type='file' name='$current_column' id='$current_column'><br><label style='font-size: 12px;'>(jpg, jpeg, png, or gif,  20MB max)</label></div>");
 							break;
-
 						    case 'date':
 							array_push($form_array,"<div style='height: 50px;'>$column_label: <input style='height: 25px; width: 150px;' type='date' name='$current_column' value='$value' $auto_focus></div>");
 							break;
-						    
 						}
 
 						
-
-
-
-						
-
-
-
-
 						if($focused && $start_found) {
 							$first_column = false;
 							$auto_focus = '';
@@ -614,13 +517,6 @@ Copyright © 2017 Andrew Klassen
 						}
 					}
 				}
-
-
-
-
-
-
-
 
 
 echo "<div class='accountCard' style='float: left; width: 885px; position: relative;'>

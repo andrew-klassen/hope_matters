@@ -51,7 +51,7 @@ login_check();
 $_SESSION['temp'] = 0;
 
 // make database connection
-$conn = new PDO($dbconnection_custom, $dbusername, $dbpassword);
+$conn = new PDO($dbconnection_custom, $dbusername_custom, $dbpassword_custom);
 $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
 

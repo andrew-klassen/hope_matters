@@ -102,7 +102,7 @@ if ($_SESSION['client_linked'] == 'true') {
 
 }
 
-$conn = new PDO($dbconnection_custom, $dbusername, $dbpassword);
+$conn = new PDO($dbconnection_custom, $dbusername_custom, $dbpassword_custom);
 $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
 
@@ -129,13 +129,13 @@ for($i = 0; $i < $table_columns_temp_max; ++$i) {
 			array_push($table_columns, $table_columns_temp[$i]);
 		}
 
-	}
-		
+	}	
 }
 
 
 // create insert query strings
 $table_columns_max = count($table_columns);
+
 for($i = 0; $i < $table_columns_max; ++$i) {
 
 	$insert_columns = $insert_columns . '`' . $table_columns[$i] . '`' . ', '; 
@@ -150,6 +150,8 @@ for($i = 0; $i < $table_columns_max; ++$i) {
 	}
 	$current_column_type = $_SESSION['temp'];
 
+	
+	// if image upload column
 	if ($current_column_type == 'varchar(1000)') {
 		$temp_table_column = $table_columns[$i];
 		$temp_image_name = $_FILES[$temp_table_column]['name'];
@@ -163,6 +165,7 @@ for($i = 0; $i < $table_columns_max; ++$i) {
 
 }
 
+// removes the ending comma
 $insert_columns = substr($insert_columns, 0, -2);
 $insert_values = substr($insert_values, 0, -2);
 

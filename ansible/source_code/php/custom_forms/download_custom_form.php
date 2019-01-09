@@ -12,13 +12,11 @@ Copyright © 2017 Andrew Klassen
 require('../database_credentials.php');
 require('../json_functions.php');
 
-
 session_start();
-		
-		
+				
 login_check();
 
-$conn = new PDO($dbconnection_custom, $dbusername, $dbpassword);
+$conn = new PDO($dbconnection_custom, $dbusername_custom, $dbpassword_custom);
 $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
 
@@ -37,6 +35,7 @@ class grab_value extends RecursiveIteratorIterator {
 	}
 
 }
+
 class get_table_columns extends RecursiveIteratorIterator {
 	function __construct($it) {
 		parent::__construct($it, self::LEAVES_ONLY);
@@ -48,14 +47,14 @@ class get_table_columns extends RecursiveIteratorIterator {
 }
 
 class get_table_columns_meta extends RecursiveIteratorIterator {
-				function __construct($it) {
-					parent::__construct($it, self::LEAVES_ONLY);
-				}
-				function current() {
-					return parent::current();
+	function __construct($it) {
+		parent::__construct($it, self::LEAVES_ONLY);
+	}
+	function current() {
+		return parent::current();
 
-				}
-				
+	}
+			
 }
 
 
@@ -80,7 +79,7 @@ header("Content-Disposition: attachment; filename=$file_name");
 				}
 				$client_linked = $_SESSION['temp'];
 
-
+				// begining of json string
 				$json_object = "{\"form_name\": \"$form_name\", \"meta\": {\"client_linked\": $client_linked }, \"body\": {";
 
 				// gets the tables columns
@@ -96,7 +95,7 @@ header("Content-Disposition: attachment; filename=$file_name");
 				$table_columns = $_SESSION['table_columns'];
 
 
-
+				// include meta tables
 				$stmt = $conn->prepare("SELECT attribute FROM $meta_table WHERE attribute LIKE 'column_%';");
 			    	$stmt->execute();
 			   	$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
@@ -111,19 +110,8 @@ header("Content-Disposition: attachment; filename=$file_name");
 					
 			   	}
 
-/*
-
-				echo "<pre>";
-				var_dump($table_columns); // or var_dump($data);
-				echo "</pre>";
-*/
-
-				
-
-
 
 				$table_columns_max = count($table_columns);		
-
 				
 				$stmt = $conn->prepare("SELECT value FROM $meta_table WHERE attribute = 'start_column';");
 				$stmt->execute();
@@ -153,8 +141,6 @@ header("Content-Disposition: attachment; filename=$file_name");
 					}
 
 					if ($start_found) {
-
-
 
 						$attribute_value = '';
 						$_SESSION['temp'] = '';
@@ -214,31 +200,23 @@ header("Content-Disposition: attachment; filename=$file_name");
 										$current_column = $table_columns[$i];
 										$column_label = str_replace("_{$attribute_value}", '', $current_column);
 										
-
-										
-
-
-										
-
 										$json_object = $json_object . "\"$column_label\",";
+
 										++$i;
 										
 									} while (strpos($table_columns[$i], $attribute_value) !== false);
+										
 										--$i;			
 										$json_object = substr($json_object, 0, -1);														
 										$json_object = $json_object . "]},";
 										
-	
 									break;
-
-
 
 							}
 							
 							continue;
+
 						}
-
-
 
 
 						$stmt = $conn->prepare("SELECT COLUMN_TYPE FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = 'custom_forms' AND TABLE_NAME = '$table_name' AND COLUMN_NAME = '$table_columns[$i]';");
@@ -250,15 +228,14 @@ header("Content-Disposition: attachment; filename=$file_name");
 						}
 						$current_column_type = $_SESSION['temp'];
 
-
 						
 						$column_label = ucfirst($table_columns[$i]);
 						$column_label = str_replace('_', ' ', $column_label);
 						$current_column = $table_columns[$i];
 
 						
-
 						switch ($current_column_type) {
+
 						    case 'varchar(50)':
 							$json_object = $json_object . "\"" . $column_label . "\" : \"textbox\",";
 							break;

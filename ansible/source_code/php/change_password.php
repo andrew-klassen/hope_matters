@@ -48,7 +48,7 @@ try {
 					
 	}
 	$database_password = $_SESSION['temp'];
-	
+
 
 	// if count is 1, then the account exists
 	if (password_verify($old_password, $database_password)) {
@@ -58,8 +58,12 @@ try {
 
 			// hash new password			
 			$new_password = password_hash($new_password, $password_hashing_algorithim);
-
+			
 			$sql = "UPDATE accounts SET password='$new_password' WHERE account_id='$account_id'";
+			$stmt = $conn->prepare($sql);
+			$stmt->execute();
+
+			$sql = "UPDATE accounts_history SET password='$new_password' WHERE account_id='$account_id'";
 			$stmt = $conn->prepare($sql);
 			$stmt->execute();
 			

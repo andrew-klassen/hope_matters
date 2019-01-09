@@ -124,7 +124,7 @@ class view_clients_no_link extends RecursiveIteratorIterator {
 try {
 	
 	// create the database connection
-        $conn = new PDO($dbconnection_custom, $dbusername, $dbpassword);
+        $conn = new PDO($dbconnection_custom, $dbusername_custom, $dbpassword_custom);
         $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
 	$table_name = $_SESSION['database_table_name'];
