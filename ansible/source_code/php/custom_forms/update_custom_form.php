@@ -8,7 +8,10 @@ Copyright © 2017 Andrew Klassen
 
 <?php
 
+
+
 require('../database_credentials.php');
+require('../file_upload.php');
 session_start();
 
 // make sure user is logged in
@@ -81,7 +84,50 @@ for($i = 0; $i < $table_columns_max; ++$i) {
 	array_push($column_array, $table_columns[$i]);
 	$insert_columns = $insert_columns . $table_columns[$i] . ', '; 
 	$current_column = $table_columns[$i];
-	$update_values = $update_values .  $current_column ." = '" . $_POST[$current_column] . "'" . ', ';
+
+
+	$stmt = $conn->prepare("SELECT COLUMN_TYPE FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = 'custom_forms' AND TABLE_NAME = '$table_name' AND COLUMN_NAME = '$table_columns[$i]';");
+	$stmt->execute();
+	$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
+					
+	foreach(new grab_value(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
+						
+	}
+	$current_column_type = $_SESSION['temp'];
+
+	if ($current_column_type == 'varchar(1000)' ) {
+
+		
+		$temp_image_name = $_FILES[$current_column]['name'];
+
+		$stmt = $conn->prepare("SELECT $current_column FROM $table_name WHERE $table_id='$choosen_custom_form_id';");
+		$stmt->execute();
+		$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
+						
+		foreach(new grab_value(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
+							
+		}
+		$previous_image_path = $_SESSION['temp'];
+
+		
+		if ($temp_image_name != '') {
+		
+			$image_path = upload_file($current_column, $temp_image_name, 'change_custom_form.php', "../../uploaded_images/custom_forms/{$table_name}/in_use/");
+
+			$previous_file_name = basename($previous_image_path);
+		
+			rename($previous_image_path, "../../uploaded_images/custom_forms/{$table_name}/no_longer_used/{$previous_file_name}");
+		}
+		else {
+			$image_path = $previous_image_path;
+		}
+
+		$update_values = $update_values .  $current_column ." = '" . $image_path . "'" . ', ';
+	}
+	else {
+		$update_values = $update_values .  $current_column ." = '" . $_POST[$current_column] . "'" . ', ';
+	}
+
 		
 }
 

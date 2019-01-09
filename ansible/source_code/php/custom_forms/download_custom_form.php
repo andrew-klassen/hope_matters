@@ -111,18 +111,18 @@ header("Content-Disposition: attachment; filename=$file_name");
 					
 			   	}
 
-
 /*
+
 				echo "<pre>";
 				var_dump($table_columns); // or var_dump($data);
 				echo "</pre>";
-
 */
+
 				
 
 
 
-				$table_columns_max = count($_SESSION['table_columns']);		
+				$table_columns_max = count($table_columns);		
 
 				
 				$stmt = $conn->prepare("SELECT value FROM $meta_table WHERE attribute = 'start_column';");
@@ -177,14 +177,61 @@ header("Content-Disposition: attachment; filename=$file_name");
 							switch ($temp_column_array[2]) {
 								case 'image':
 									switch ($temp_column_array[3]) {
+										case 'small':
+											$json_object = $json_object . "\"" . $attribute_value . "\" : \"image_small\",";
+											break;
 										case 'medium':
 											$json_object = $json_object . "\"" . $attribute_value . "\" : \"image_medium\",";
+											break;
+										case 'large':
+											$json_object = $json_object . "\"" . $attribute_value . "\" : \"image_large\",";
 											break;
 									}
 									break;
 								case 'text':
 									$json_object = $json_object . "\"" . $attribute_value . "\" : \"text\",";
 									break;
+
+								case 'image-upload':
+																	
+									switch ($temp_column_array[3]) {
+										case 'small':
+											$json_object = $json_object . "\"" . $attribute_value . "\" : \"image-upload_small\",";
+											break;
+										case 'medium':
+											$json_object = $json_object . "\"" . $attribute_value . "\" : \"image-upload_medium\",";
+											break;
+										case 'large':
+											$json_object = $json_object . "\"" . $attribute_value . "\" : \"image-upload_large\",";
+											break;
+									}
+									break;
+								case 'textbox':
+									$json_object = $json_object . "\"{$attribute_value}\":{\"type\":\"textbox_array\",\"labels\":[";
+									++$i;
+									do {
+										
+										$current_column = $table_columns[$i];
+										$column_label = str_replace("_{$attribute_value}", '', $current_column);
+										
+
+										
+
+
+										
+
+										$json_object = $json_object . "\"$column_label\",";
+										++$i;
+										
+									} while (strpos($table_columns[$i], $attribute_value) !== false);
+										--$i;			
+										$json_object = substr($json_object, 0, -1);														
+										$json_object = $json_object . "]},";
+										
+	
+									break;
+
+
 
 							}
 							
@@ -202,14 +249,21 @@ header("Content-Disposition: attachment; filename=$file_name");
 						
 						}
 						$current_column_type = $_SESSION['temp'];
+
+
 						
 						$column_label = ucfirst($table_columns[$i]);
 						$column_label = str_replace('_', ' ', $column_label);
 						$current_column = $table_columns[$i];
 
+						
+
 						switch ($current_column_type) {
 						    case 'varchar(50)':
 							$json_object = $json_object . "\"" . $column_label . "\" : \"textbox\",";
+							break;
+						    case 'int(11)':
+							$json_object = $json_object . "\"" . $column_label . "\" : \"integer\",";
 							break;
 						    case 'tinytext':
 							$json_object = $json_object . "\"" . $column_label . "\" : \"textarea\",";
@@ -217,19 +271,10 @@ header("Content-Disposition: attachment; filename=$file_name");
 						    case 'text':
 							$json_object = $json_object . "\"" . $column_label . "\" : \"textarea_large\",";
 							break;
-						    case 'varchar(1000)':
-							
-							$stmt = $conn->prepare("SELECT COLUMN_DEFAULT FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = 'custom_forms' AND TABLE_NAME = '$table_name' AND COLUMN_NAME = '$table_columns[$i]';");
-							$stmt->execute();
-							$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
-						
-							foreach(new grab_value(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
-							
-							}
-							$current_column_default = $_SESSION['temp'];
-
-							$json_object = $json_object . "\"" . $current_column_default . "\" : \"text\",";
+						    case 'date':
+							$json_object = $json_object . "\"" . $column_label . "\" : \"date\",";
 							break;
+						    
 						}
 
 						if ($current_column_type == "enum('yes','no')") {

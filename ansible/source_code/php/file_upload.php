@@ -4,7 +4,7 @@ session_start();
 
 // upload_file returns the path that the image was moved to
 function upload_file($file_name, $picture_name, $redirect_location, $target_directory) {
-	
+
 	// if user decides not to upload an image
 	if (basename($_FILES[$file_name]["name"] == '')){
 		return 'no_image';

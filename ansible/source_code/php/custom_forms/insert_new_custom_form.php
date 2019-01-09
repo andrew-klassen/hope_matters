@@ -126,24 +126,62 @@ foreach ($json_form_array as $current_json_form) {
 	$meta_attributes = array();
 	$meta_values = array();
 	$counter = 0;
+
+
+
 	foreach ($current_json_form['body'] as $form_element => $value) {
 
-		if ($client_linked) {
-			$column_number = $counter + 7;
-				
-		}
-		else {
-			$column_number = $counter + 1;
-		}
+		
 
+		$original_form_element = $form_element;
+		$form_element = strtolower($form_element);
+		$form_element = str_replace(' ', '_', $form_element);
 
 		if (! $start_column_found) {
 			
+			if ($client_linked) {
+				$counter += 7;
+				
+			}
+			else {
+				$counter += 1;
+			}
+
+
+
+
 			if ($value == 'text') {
-				$start_column = "text_{$static_text_counter}";
+				$start_column = "column_{$counter}_text";
+			}
+			else if ($value == 'image_small') {
+				$start_column = "column_{$counter}_image_small";
 			}
 			else if ($value == 'image_medium') {
-				$start_column = "column_{$column_number}_image_medium";
+				$start_column = "column_{$counter}_image_medium";
+			}
+			else if ($value == 'image_large') {
+				$start_column = "column_{$counter}_image_large";
+			}
+			else if ($value == 'image-upload_small') {
+				$start_column = "column_{$counter}_image-upload_small";
+			}
+			else if ($value == 'image-upload_medium') {
+				$start_column = "column_{$counter}_image-upload_medium";
+			}
+			else if ($value == 'image-upload_large') {
+				$start_column = "column_{$counter}_image-upload_large";
+			}
+			else if (is_array($value)) {
+
+				
+				switch ($current_json_form['body'][$original_form_element]['type']) {
+
+					
+					case 'textbox_array':
+						$start_column = "column_{$counter}_textbox_array";
+						
+						break;
+				}
 			}
 			else {
 				$start_column = $form_element;
@@ -153,9 +191,6 @@ foreach ($json_form_array as $current_json_form) {
 		}
 
 			
-		$original_form_element = $form_element;
-		$form_element = strtolower($form_element);
-		$form_element = str_replace(' ', '_', $form_element);
 
 
 		switch ($value) {
@@ -173,10 +208,26 @@ foreach ($json_form_array as $current_json_form) {
 
 			break;
 
+
+		    case 'date':
+			
+			$main_table_create_query = $main_table_create_query . "`$form_element` date DEFAULT NULL,";
+			$history_table_create_query = $history_table_create_query . "`$form_element` date DEFAULT NULL,";
+
+			break;
+
+		    case 'integer':
+			
+			$main_table_create_query = $main_table_create_query . "`$form_element` int(11) DEFAULT NULL,";
+			$history_table_create_query = $history_table_create_query . "`$form_element` int(11) DEFAULT NULL,";
+
+			break;
+
+
 		    case 'text':
 			
 			array_push($meta_values, "$original_form_element");
-			array_push($meta_attributes, "column_{$column_number}_text");
+			array_push($meta_attributes, "column_{$counter}_text");
 
 			break;
 
@@ -193,30 +244,110 @@ foreach ($json_form_array as $current_json_form) {
 			$history_table_create_query = $history_table_create_query . "`$form_element` enum('yes','no') DEFAULT NULL,";
 
 			break;
-
-		     case 'image_medium':
+		    case 'image_small':
 			
 			rename("/var/www/html/uploaded_images/custom_forms/{$username}/{$form_element}", "/var/www/html/uploaded_images/custom_forms/{$database_table_name}/static/{$form_element}");
 			array_push($meta_values, "../../uploaded_images/custom_forms/{$database_table_name}/static/{$form_element}");
-			array_push($meta_attributes, "column_{$column_number}_image_medium");
+			array_push($meta_attributes, "column_{$counter}_image_small");
 
 			break;
+
+		    case 'image_medium':
+			
+			rename("/var/www/html/uploaded_images/custom_forms/{$username}/{$form_element}", "/var/www/html/uploaded_images/custom_forms/{$database_table_name}/static/{$form_element}");
+			array_push($meta_values, "../../uploaded_images/custom_forms/{$database_table_name}/static/{$form_element}");
+			array_push($meta_attributes, "column_{$counter}_image_medium");
+
+			break;
+
+
+		    case 'image_large':
+			
+			rename("/var/www/html/uploaded_images/custom_forms/{$username}/{$form_element}", "/var/www/html/uploaded_images/custom_forms/{$database_table_name}/static/{$form_element}");
+			array_push($meta_values, "../../uploaded_images/custom_forms/{$database_table_name}/static/{$form_element}");
+			array_push($meta_attributes, "column_{$counter}_image_large");
+
+			break;
+
+
+		    case 'image-upload_small':
+			
+			rename("/var/www/html/uploaded_images/custom_forms/{$username}/{$form_element}", "/var/www/html/uploaded_images/custom_forms/{$database_table_name}/static/{$form_element}");
+			array_push($meta_values, "../../uploaded_images/custom_forms/{$database_table_name}/static/{$form_element}");
+			array_push($meta_attributes, "column_{$counter}_image-upload_small");
+
+			$form_element_format = strtok($form_element, '.');
+
+			$main_table_create_query = $main_table_create_query . "`$form_element_format` varchar(1000) DEFAULT NULL,";
+			$history_table_create_query = $history_table_create_query . "`$form_element_format` varchar(1000) DEFAULT NULL,";
+			++$counter;
+			break;
+
+
+
+
+		     case 'image-upload_medium':
+			
+			rename("/var/www/html/uploaded_images/custom_forms/{$username}/{$form_element}", "/var/www/html/uploaded_images/custom_forms/{$database_table_name}/static/{$form_element}");
+			array_push($meta_values, "../../uploaded_images/custom_forms/{$database_table_name}/static/{$form_element}");
+			array_push($meta_attributes, "column_{$counter}_image-upload_medium");
+
+			$form_element_format = strtok($form_element, '.');
+
+			$main_table_create_query = $main_table_create_query . "`$form_element_format` varchar(1000) DEFAULT NULL,";
+			$history_table_create_query = $history_table_create_query . "`$form_element_format` varchar(1000) DEFAULT NULL,";
+			++$counter;
+			break;
+
+
+
+	            case 'image-upload_large':
+			
+			rename("/var/www/html/uploaded_images/custom_forms/{$username}/{$form_element}", "/var/www/html/uploaded_images/custom_forms/{$database_table_name}/static/{$form_element}");
+			array_push($meta_values, "../../uploaded_images/custom_forms/{$database_table_name}/static/{$form_element}");
+			array_push($meta_attributes, "column_{$counter}_image-upload_large");
+
+			$form_element_format = strtok($form_element, '.');
+
+			$main_table_create_query = $main_table_create_query . "`$form_element_format` varchar(1000) DEFAULT NULL,";
+			$history_table_create_query = $history_table_create_query . "`$form_element_format` varchar(1000) DEFAULT NULL,";
+			++$counter;
+			break;
+
+
 
 		}
 
 		if (is_array($value)) {
 
-			if ($current_json_form['body'][$original_form_element]['type'] == 'radio_button_group') {
-				
-				$radio_enum_array = "enum(";
-				foreach($current_json_form['body'][$original_form_element]['buttons'] as $current_radio_element => $current_radio_element_value) {
-					$radio_enum_array = $radio_enum_array . "'" . $current_radio_element_value . "', ";
-				}
-				$radio_enum_array = substr($radio_enum_array, 0, -2);
-				$radio_enum_array = $radio_enum_array . ')';			
+			switch ($current_json_form['body'][$original_form_element]['type']) {
+				case 'radio_button_group':
+					$radio_enum_array = "enum(";
+					foreach($current_json_form['body'][$original_form_element]['buttons'] as $current_radio_element => $current_radio_element_value) {
+						$radio_enum_array = $radio_enum_array . "'" . $current_radio_element_value . "', ";
+					}
+					$radio_enum_array = substr($radio_enum_array, 0, -2);
+					$radio_enum_array = $radio_enum_array . ')';			
 
-				$main_table_create_query = $main_table_create_query . "`$form_element` $radio_enum_array DEFAULT NULL,";
-				$history_table_create_query = $history_table_create_query . "`$form_element` $radio_enum_array DEFAULT NULL,";				
+					$form_element_format = strtok($form_element, '.');
+
+					$main_table_create_query = $main_table_create_query . "`$form_element_format` $radio_enum_array DEFAULT NULL,";
+					$history_table_create_query = $history_table_create_query . "`$form_element_format` $radio_enum_array DEFAULT NULL,";	
+					break;
+
+				case 'textbox_array':
+					
+					array_push($meta_values, "$form_element");
+					array_push($meta_attributes, "column_{$counter}_textbox_array");
+					foreach($current_json_form['body'][$original_form_element]['labels'] as $current_label => $current_label_value) {
+						$temp_label = $current_label_value . '_' . $form_element;
+						$main_table_create_query = $main_table_create_query . "`$temp_label` varchar(25) DEFAULT NULL,";
+						$history_table_create_query = $history_table_create_query . "`$temp_label` varchar(25) DEFAULT NULL,";
+					}
+					$textbox_array_count = count($current_json_form['body'][$original_form_element]['labels']);
+					$counter += $textbox_array_count;
+					break;
+			
 			}		
 
 		}

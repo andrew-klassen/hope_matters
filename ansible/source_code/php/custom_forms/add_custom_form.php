@@ -300,7 +300,7 @@ Copyright © 2017 Andrew Klassen
     				var_dump($bob); // or var_dump($data);
     				echo "</pre>";
 
-				
+	
 
 				echo "<pre>";
     				var_dump($table_columns); // or var_dump($data);
@@ -322,7 +322,7 @@ Copyright © 2017 Andrew Klassen
 				}
 				$start_column = $_SESSION['temp'];
 				$_SESSION['start_column'] = $start_column;
-
+				
 
 				$start_found = false;
 				$first_column = true;
@@ -342,7 +342,7 @@ Copyright © 2017 Andrew Klassen
 
 					// skip until start column, columns like client_id and date of birth don't need form fields
 					if ($start_found) {
-						
+
 
 						$stmt = $conn->prepare("SELECT COLUMN_DEFAULT FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = 'custom_forms' AND TABLE_NAME = '$table_name' AND COLUMN_NAME = '$table_columns[$i]';");
 						$stmt->execute();
@@ -386,6 +386,9 @@ Copyright © 2017 Andrew Klassen
 						$attribute_value = $_SESSION['temp'];
 
 
+
+
+
 						$stmt = $conn->prepare("SELECT `attribute` FROM $meta_table WHERE attribute LIKE 'column_{$i}_%' LIMIT 1;");
 						$stmt->execute();
 						$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
@@ -403,16 +406,56 @@ Copyright © 2017 Andrew Klassen
 							switch ($attribute_name_array[2]) {
 								case 'image':
 									switch ($attribute_name_array[3]) {
+										case 'small':
+											array_push($form_array, "<div style='height: 100px; '><img style='height: 100px; width: 100px; ' src='$attribute_value' alt='unable to load image'></div>");
+											break;
 										case 'medium':
-											array_push($form_array, "<div style='height: 350px; weight: 197px;'><img style='height: 350px; weight: 197px;' src='$attribute_value' alt='unable to load image'></div>");
+											array_push($form_array, "<div style='height: 300px; '><img style='height: 300px; width: 300px; ' src='$attribute_value' alt='unable to load image'></div>");
+											break;
+										case 'large':
+											array_push($form_array, "<div style='height: 600px; '><img style='height: 600px; width: 600px; ' src='$attribute_value' alt='unable to load image'></div>");
 											break;
 
 									}
 									break;
+								case 'image-upload':
+									switch ($attribute_name_array[3]) {
+										case 'small':
+											array_push($form_array, "<div style='padding-left: 110px;height: 100px;'><img style='height: 100px; width: 100px; ' src='$attribute_value' alt='unable to load image'></div>");
+											break;
+										case 'medium':
+											array_push($form_array, "<div style='height: 300px;'><img style='height: 300px; width: 300px; ' src='$attribute_value' alt='unable to load image'></div>");
+											break;
+										case 'large':
+											array_push($form_array, "<div style='height: 600px;'><img style='height: 600px; width: 600px; ' src='$attribute_value' alt='unable to load image'></div>");
+											break;
+
+									}
+									break;
+
 								case 'text':
 									array_push($form_array,"<div style='height: 50px;margin-top: 10px;'><p style='font-size:18px;'>$attribute_value</p></div>");
 									break;
+								case 'textbox':
+									$textbox_array_temp = "<div style='width: 800px;height: 50px;'>";
+									++$i;
+									
+									
+									do {
+										$current_column = $table_columns[$i];
+										$column_label = str_replace("_{$attribute_value}", '', $current_column);
+										
 
+										$textbox_array_temp = $textbox_array_temp . "<div style='height: 50px; float: left;margin-left: 15px;'>$column_label: <input style='height: 35px; width: 100px;' type='text' name='$current_column' maxlength='25' $auto_focus></div>";
+										++$i;
+										
+									} while (strpos($table_columns[$i], $attribute_value) !== false);
+										--$i;	
+																										
+										$textbox_array_temp = $textbox_array_temp . "</div>";
+										array_push($form_array, $textbox_array_temp);
+									
+									break;
 
 
 							}
@@ -470,17 +513,25 @@ Copyright © 2017 Andrew Klassen
 
 
 
-
-
 						switch ($current_column_type) {
 						    case 'varchar(50)':
 							array_push($form_array,"<div style='height: 50px;'>$column_label: <input style='height: 35px; width: 500px;' type='text' name='$current_column' maxlength='50' $auto_focus></div>");
+							break;
+
+						    case 'int(11)':
+							array_push($form_array,"<div style='height: 50px;'>$column_label: <input style='height: 35px; width: 150px;' type='number' name='$current_column' $auto_focus></div>");
 							break;
 						    case 'text':
 						    	array_push($form_array,"<div style='height: 300px;'> $column_label: <br><textarea style='height: 250px; width: 800px;' name='$current_column' maxlength='5000' $auto_focus></textarea></div>");
 							break;
 						    case 'tinytext':
 							array_push($form_array,"<div style='height: 200px;'>$column_label: <br><textarea style='height: 150px; width: 500px;' name='$current_column' maxlength='255' $auto_focus></textarea></div>");
+							break;
+						    case 'date':
+							array_push($form_array,"<div style='height: 50px;'>$column_label: <input style='height: 25px; width: 150px;' type='date' name='$current_column' $auto_focus></div>");
+							break;
+						    case 'varchar(1000)':
+							array_push($form_array,"<div style='margin-top: 10px;margin-left: 80px;height: 80px;'>Add/Change Image <br><input type='file' name='$current_column' id='$current_column'><br><label style='font-size: 12px;'>(jpg, jpeg, png, or gif,  20MB max)</label></div>");
 							break;
 						 
 						    
@@ -501,7 +552,7 @@ Copyright © 2017 Andrew Klassen
 				}
 
 echo "<div class='accountCard' style='float: left; width: 885px; position: relative;'>
-      <form name='custom_form' action='insert_custom_form.php' onsubmit='return validate_form()' method='post'>
+      <form name='custom_form' action='insert_custom_form.php' onsubmit='return validate_form()' method='post' enctype='multipart/form-data'>
       <p class='p'style='color: black;font-weight:100; text-align: center;'>$choosen_form</p>";
 
 

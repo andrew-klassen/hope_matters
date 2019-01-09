@@ -8,7 +8,9 @@ Copyright © 2017 Andrew Klassen
 
 <?php
 
+
 require('../database_credentials.php');
+require('../file_upload.php');
 session_start();
 
 // make sure user is logged in
@@ -111,7 +113,6 @@ $table_columns_temp_max = count($_SESSION['table_columns']);
 $start_found = false;
 
 
-
 // get all form specific columns 
 $table_columns = array();
 for($i = 0; $i < $table_columns_temp_max; ++$i) {
@@ -139,7 +140,26 @@ for($i = 0; $i < $table_columns_max; ++$i) {
 
 	$insert_columns = $insert_columns . '`' . $table_columns[$i] . '`' . ', '; 
 	$current_column = $table_columns[$i];
-	$insert_values = $insert_values . "'" . $_POST[$current_column] . "'" . ', ';
+
+	$stmt = $conn->prepare("SELECT COLUMN_TYPE FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = 'custom_forms' AND TABLE_NAME = '$table_name' AND COLUMN_NAME = '$table_columns[$i]';");
+	$stmt->execute();
+	$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
+					
+	foreach(new grab_value(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
+						
+	}
+	$current_column_type = $_SESSION['temp'];
+
+	if ($current_column_type == 'varchar(1000)') {
+		$temp_table_column = $table_columns[$i];
+		$temp_image_name = $_FILES[$temp_table_column]['name'];
+		$image_path = upload_file($temp_table_column, $temp_image_name, 'add_custom_form.php', "../../uploaded_images/custom_forms/{$table_name}/in_use/");
+
+		$insert_values = $insert_values . "'" . $image_path . "'" . ', ';
+	}
+	else {
+		$insert_values = $insert_values . "'" . $_POST[$current_column] . "'" . ', ';
+	}
 
 }
 
