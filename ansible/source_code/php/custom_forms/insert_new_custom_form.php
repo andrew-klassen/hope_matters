@@ -12,6 +12,10 @@ require('../database_credentials.php');
 require('../file_upload.php');
 require('../json_functions.php');
 
+
+
+
+
 session_start();
 
 // make sure user is logged in
@@ -63,8 +67,7 @@ foreach ($json_form_array as $current_json_form) {
 	$current_json_form = json_decode($current_json_form, true);
 	$form_name = $current_json_form['form_name'];
 
-	$database_table_name = strtolower($form_name);
-	$database_table_name = str_replace (' ', '_', $database_table_name);
+	$database_table_name = database_format($form_name);
 	$table_id = $database_table_name . '_id';
 	$table_id_unique = $table_id . '_UNIQUE';
 
@@ -130,8 +133,7 @@ foreach ($json_form_array as $current_json_form) {
 	foreach ($current_json_form['body'] as $form_element => $value) {
 
 		$original_form_element = $form_element;
-		$form_element = strtolower($form_element);
-		$form_element = str_replace(' ', '_', $form_element);
+		$form_element = database_format($form_element);
 
 		if (! $start_column_found) {
 			
@@ -146,6 +148,10 @@ foreach ($json_form_array as $current_json_form) {
 			if ($value == 'text') {
 				$start_column = "column_{$counter}_text";
 			}
+			else if ($value == 'bold_text') {
+				$start_column = "column_{$counter}_bold_text";
+
+			}
 			else if ($value == 'image_small') {
 				$start_column = "column_{$counter}_image_small";
 			}
@@ -155,6 +161,9 @@ foreach ($json_form_array as $current_json_form) {
 			else if ($value == 'image_large') {
 				$start_column = "column_{$counter}_image_large";
 			}
+			else if ($value == 'image_large-short') {
+				$start_column = "column_{$counter}_image_large-short";
+			}
 			else if ($value == 'image-upload_small') {
 				$start_column = "column_{$counter}_image-upload_small";
 			}
@@ -163,6 +172,9 @@ foreach ($json_form_array as $current_json_form) {
 			}
 			else if ($value == 'image-upload_large') {
 				$start_column = "column_{$counter}_image-upload_large";
+			}
+			else if ($value == 'image-upload_large-short') {
+				$start_column = "column_{$counter}_image-upload_large-short";
 			}
 			else if (is_array($value)) {
 				
@@ -218,6 +230,12 @@ foreach ($json_form_array as $current_json_form) {
 			array_push($meta_attributes, "column_{$counter}_text");
 			break;
 
+		    case 'bold_text':
+			
+			array_push($meta_values, "$original_form_element");
+			array_push($meta_attributes, "column_{$counter}_bold_text");
+			break;
+
 		    case 'textarea_large':
 			
 			$main_table_create_query = $main_table_create_query . "`$form_element` text DEFAULT NULL,";
@@ -249,6 +267,14 @@ foreach ($json_form_array as $current_json_form) {
 			rename("/var/www/html/uploaded_images/custom_forms/{$username}/{$form_element}", "/var/www/html/uploaded_images/custom_forms/{$database_table_name}/static/{$form_element}");
 			array_push($meta_values, "../../uploaded_images/custom_forms/{$database_table_name}/static/{$form_element}");
 			array_push($meta_attributes, "column_{$counter}_image_large");
+			break;
+
+
+		    case 'image_large-short':
+			
+			rename("/var/www/html/uploaded_images/custom_forms/{$username}/{$form_element}", "/var/www/html/uploaded_images/custom_forms/{$database_table_name}/static/{$form_element}");
+			array_push($meta_values, "../../uploaded_images/custom_forms/{$database_table_name}/static/{$form_element}");
+			array_push($meta_attributes, "column_{$counter}_image_large-short");
 			break;
 
 		    case 'image-upload_small':
@@ -290,6 +316,20 @@ foreach ($json_form_array as $current_json_form) {
 			++$counter;
 			break;
 
+
+		    case 'image-upload_large-short':
+			
+			rename("/var/www/html/uploaded_images/custom_forms/{$username}/{$form_element}", "/var/www/html/uploaded_images/custom_forms/{$database_table_name}/static/{$form_element}");
+			array_push($meta_values, "../../uploaded_images/custom_forms/{$database_table_name}/static/{$form_element}");
+			array_push($meta_attributes, "column_{$counter}_image-upload_large-short");
+
+			$form_element_format = strtok($form_element, '.');
+
+			$main_table_create_query = $main_table_create_query . "`$form_element_format` varchar(1000) DEFAULT NULL,";
+			$history_table_create_query = $history_table_create_query . "`$form_element_format` varchar(1000) DEFAULT NULL,";
+			++$counter;
+			break;
+
 		}
 
 		if (is_array($value)) {
@@ -315,9 +355,12 @@ foreach ($json_form_array as $current_json_form) {
 					array_push($meta_values, "$form_element");
 					array_push($meta_attributes, "column_{$counter}_textbox_array");
 					foreach($current_json_form['body'][$original_form_element]['labels'] as $current_label => $current_label_value) {
+
+						$current_label_value = database_format($current_label_value);
 						$temp_label = $current_label_value . '_' . $form_element;
 						$main_table_create_query = $main_table_create_query . "`$temp_label` varchar(25) DEFAULT NULL,";
 						$history_table_create_query = $history_table_create_query . "`$temp_label` varchar(25) DEFAULT NULL,";
+
 					}
 					$textbox_array_count = count($current_json_form['body'][$original_form_element]['labels']);
 					$counter += $textbox_array_count;
@@ -326,7 +369,7 @@ foreach ($json_form_array as $current_json_form) {
 			}		
 
 		}
-
+		
 		++$counter;
 
 	}

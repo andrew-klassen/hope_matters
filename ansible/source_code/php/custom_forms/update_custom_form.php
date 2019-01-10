@@ -8,6 +8,7 @@ Copyright © 2017 Andrew Klassen
 
 <?php
 
+
 require('../database_credentials.php');
 require('../file_upload.php');
 session_start();
@@ -46,6 +47,8 @@ $table_columns_temp_max = count($_SESSION['table_columns']);
 $start_found = false;
 
 
+
+
 // gets all the non specific form columns
 $table_columns = array();
 for($i = 0; $i < $table_columns_temp_max; ++$i) {
@@ -70,16 +73,28 @@ for($i = 0; $i < $table_columns_temp_max; ++$i) {
 
 $column_array = array();
 
+
+/*
+ echo "<pre>";
+    var_dump($_POST); // or var_dump($data);
+    echo "</pre>";
+exit();
+
+
+*/
 // use column data for update queries
 $table_columns_max = count($table_columns);
 for($i = 0; $i < $table_columns_max; ++$i) {
 
 	array_push($column_array, $table_columns[$i]);
-	$insert_columns = $insert_columns . $table_columns[$i] . ', '; 
-	$current_column = $table_columns[$i];
+	$insert_columns = $insert_columns  . '`' . $table_columns[$i] . '`, '; 
+	$current_column = query_format($table_columns[$i]);
+	$html_name = html_name_format($table_columns[$i]);
+	$bob = query_format($_POST[$html_name]);
 
 
-	$stmt = $conn->prepare("SELECT COLUMN_TYPE FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = 'custom_forms' AND TABLE_NAME = '$table_name' AND COLUMN_NAME = '$table_columns[$i]';");
+
+	$stmt = $conn->prepare("SELECT COLUMN_TYPE FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = 'custom_forms' AND TABLE_NAME = '$table_name' AND COLUMN_NAME = '$current_column';");
 	$stmt->execute();
 	$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
 					
@@ -117,10 +132,11 @@ for($i = 0; $i < $table_columns_max; ++$i) {
 			$image_path = $previous_image_path;
 		}
 
-		$update_values = $update_values .  $current_column ." = '" . $image_path . "'" . ', ';
+		$update_values = $update_values . '`' .  $table_columns[$i] ."` = '" . $image_path . "'" . ', ';
 	}
 	else {
-		$update_values = $update_values .  $current_column ." = '" . $_POST[$current_column] . "'" . ', ';
+	
+		$update_values = $update_values . '`' . $table_columns[$i] ."` = '" . query_format($_POST[$html_name]) . "'" . ', ';
 	}
 	
 }
@@ -130,10 +146,11 @@ for($i = 0; $i < $table_columns_max; ++$i) {
 $update_values = substr($update_values, 0, -2);
 $insert_columns = substr($insert_columns, 0, -2);
 
+
 // pepare insert query, used to archive the forms previous state
-foreach ($column_array as $current_column) {
-	
-	$stmt = $conn->prepare("SELECT $current_column FROM $table_name WHERE $table_id='$choosen_custom_form_id'");
+foreach ($column_array as $current_column) {	
+		
+	$stmt = $conn->prepare("SELECT `$current_column` FROM $table_name WHERE $table_id='$choosen_custom_form_id'");
 	$stmt->execute();
 	$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
 	
@@ -142,7 +159,7 @@ foreach ($column_array as $current_column) {
 	}
 	$previous_value = $_SESSION['temp'];
 
-	$insert_values = $insert_values . "'" . $previous_value . "', ";
+	$insert_values = $insert_values . "'" . query_format($previous_value) . "', ";
 
 }
 
@@ -179,6 +196,9 @@ $insert_values = substr($insert_values, 0, -2);
 		$conn->exec($query);
 
 		$query = "UPDATE $table_name SET $update_values, created_by = '$username' WHERE $table_id = '$choosen_custom_form_id';";
+		echo $query;
+
+		
 		$conn->exec($query);
 			
 		header( 'Location: /php/custom_forms/select_add_or_change.php');

@@ -139,9 +139,10 @@ $table_columns_max = count($table_columns);
 for($i = 0; $i < $table_columns_max; ++$i) {
 
 	$insert_columns = $insert_columns . '`' . $table_columns[$i] . '`' . ', '; 
-	$current_column = $table_columns[$i];
+	$current_column = query_format($table_columns[$i]);
+	$html_name = html_name_format($table_columns[$i]);
 
-	$stmt = $conn->prepare("SELECT COLUMN_TYPE FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = 'custom_forms' AND TABLE_NAME = '$table_name' AND COLUMN_NAME = '$table_columns[$i]';");
+	$stmt = $conn->prepare("SELECT COLUMN_TYPE FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = 'custom_forms' AND TABLE_NAME = '$table_name' AND COLUMN_NAME = '$current_column';");
 	$stmt->execute();
 	$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
 					
@@ -160,7 +161,7 @@ for($i = 0; $i < $table_columns_max; ++$i) {
 		$insert_values = $insert_values . "'" . $image_path . "'" . ', ';
 	}
 	else {
-		$insert_values = $insert_values . "'" . $_POST[$current_column] . "'" . ', ';
+		$insert_values = $insert_values . "'" . query_format($_POST[$html_name]) . "'" . ', ';
 	}
 
 }

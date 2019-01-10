@@ -62,18 +62,18 @@ $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
 
 class grab_value extends RecursiveIteratorIterator {
-			function __construct($it) {
-				parent::__construct($it, self::LEAVES_ONLY);
-			}
-			function current() {
-				$_SESSION['temp'] = parent::current();
-			}
-			function beginChildren() {
-				echo "<tr>";
-			}
-			function endChildren() {
-				echo "</tr>" . "\n";
-			}
+	function __construct($it) {
+		parent::__construct($it, self::LEAVES_ONLY);
+	}
+	function current() {
+		$_SESSION['temp'] = parent::current();
+	}
+	function beginChildren() {
+		echo "<tr>";
+	}
+	function endChildren() {
+		echo "</tr>" . "\n";
+	}
 
 }
 
@@ -94,12 +94,12 @@ class display_forms extends RecursiveIteratorIterator {
 }
 
 class get_meta_tables extends RecursiveIteratorIterator {
-		function __construct($it) {
-			parent::__construct($it, self::LEAVES_ONLY);
-		}
-		function current() {
-			array_push($_SESSION['tables'], parent::current());
-		}
+	function __construct($it) {
+		parent::__construct($it, self::LEAVES_ONLY);
+	}
+	function current() {
+		array_push($_SESSION['tables'], parent::current());
+	}
 		
 }
 
@@ -123,7 +123,7 @@ try {
     $tables = $_SESSION['tables'];
 
     echo "<form name='delete_form' action='delete_custom_form.php' method='post'>";
-    echo "<div style='margin-left: 380px;'>Form: <input list='form_list' name='form' style='padding-left: 10px; margin-left: 10px;width: 180px; height: 20px;' maxlength='20'> <br> 
+    echo "<div style='margin-left: 380px;'>Form: <input list='form_list' name='form' style='padding-left: 10px; margin-left: 10px;width: 180px; height: 20px;' maxlength='100'> <br> 
 	  <datalist id='form_list'>";
 							
 		for ($i = 0; $i < $tables_max; ++$i) {

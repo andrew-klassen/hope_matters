@@ -149,3 +149,73 @@ function generate_initialization_vector($length = 16) {
 	return $initialization_vector;
 
 }
+
+
+function database_format($string) {
+
+	$search = array("\\",  "\x00", "\n",  "\r", "\x1a");
+        $replace = array("\\\\","\\0","\\n", "\\r", "\\Z");
+
+	$string = strtolower($string);
+	$string = str_replace(' ', '_', $string);
+	$string = str_replace($search, $replace, $string);
+
+        return $string;
+
+}
+
+function query_format($string) {
+
+	$search = array("\\",  "\x00", "\n",  "\r",  "'",  '"', "\x1a");
+        $replace = array("\\\\","\\0","\\n", "\\r", "\'", '\"', "\\Z");
+
+	$string = str_replace($search, $replace, $string);
+
+        return $string;
+
+}
+
+function html_value_format($string) {
+
+	$search = array("\\",  "\x00", "\n",  "\r",  "'",  '"', "\x1a");
+        $replace = array("\\\\","\\0","\\n", "\\r", "&#39;", "&#34;", "\\Z");
+
+	$string = str_replace($search, $replace, $string);
+
+        return $string;
+
+}
+
+
+function html_name_format($string) {
+
+	$search = array("\\",  "\x00", "\n",  "\r",  "'",  '"', "\x1a", ".");
+        $replace = array("\\\\","\\0","\\n", "\\r", "", "", "\\Z", "");
+
+	$string = str_replace($search, $replace, $string);
+
+        return $string;
+
+}
+
+
+function html_format($string) {
+
+	$string = ucfirst($string);
+	$string = str_replace('_', ' ', $string);
+	
+	$string = htmlentities($string);
+
+	return $string;
+
+}
+
+
+
+
+
+
+
+
+
+

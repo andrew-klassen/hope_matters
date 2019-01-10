@@ -312,9 +312,11 @@ Copyright © 2017 Andrew Klassen
 					if ($start_found) {
 
 						
-						$column_label = ucfirst($table_columns[$i]);
-						$column_label = str_replace('_', ' ', $column_label);
-						$current_column = $table_columns[$i];
+						$column_label = html_format($table_columns[$i]);
+						$current_column = query_format($table_columns[$i]);
+						$html_name = html_name_format($table_columns[$i]);
+						
+						
 
 
 						$attribute_value = '';
@@ -322,7 +324,7 @@ Copyright © 2017 Andrew Klassen
 						
 						
 						// include meta tables into the table column array
-						$stmt = $conn->prepare("SELECT `value` FROM $meta_table WHERE attribute LIKE 'column_{$i}_%' LIMIT 1;");
+						$stmt = $conn->prepare("SELECT `value` FROM $meta_table WHERE attribute REGEXP  '^column_{$i}_.*$' LIMIT 1;");
 						$stmt->execute();
 						$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
 					
@@ -332,7 +334,7 @@ Copyright © 2017 Andrew Klassen
 						$attribute_value = $_SESSION['temp'];
 
 
-						$stmt = $conn->prepare("SELECT `attribute` FROM $meta_table WHERE attribute LIKE 'column_{$i}_%' LIMIT 1;");
+						$stmt = $conn->prepare("SELECT `attribute` FROM $meta_table WHERE attribute REGEXP  '^column_{$i}_.*$' LIMIT 1;");
 						$stmt->execute();
 						$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
 					
@@ -340,7 +342,7 @@ Copyright © 2017 Andrew Klassen
 						
 						}
 						$attribute_name = $_SESSION['temp'];
-
+						
 												
 						if ($attribute_value != '') {
 							$attribute_name_array = array();
@@ -357,12 +359,19 @@ Copyright © 2017 Andrew Klassen
 											array_push($form_array, "<div style='height: 300px; '><img style='height: 300px; width: 300px; ' src='$attribute_value' alt='unable to load image'></div>");
 											break;
 										case 'large':
-											array_push($form_array, "<div style='height: 600px; '><img style='height: 600px; width: 600px; ' src='$attribute_value' alt='unable to load image'></div>");
+											array_push($form_array, "<div style='height: 800px; '><img style='height: 800px; width: 800px; ' src='$attribute_value' alt='unable to load image'></div>");
+											break;
+										case 'large-short':
+											array_push($form_array, "<div style='height: 400px; '><img style='height: 400px; width: 800px; ' src='$attribute_value' alt='unable to load image'></div>");
 											break;
 									}
 									break;
 								case 'text':
 									array_push($form_array,"<div style='height: 50px;margin-top: 10px;'><p style='font-size:18px;'>$attribute_value</p></div>");
+									break;
+
+								case 'bold':
+									array_push($form_array,"<div style='height: 50px;margin-top: 10px;'><p style='font-size:18px;'><b>$attribute_value</b></p></div>");
 									break;
 								case 'image-upload':
 
@@ -390,19 +399,26 @@ Copyright © 2017 Andrew Klassen
 											array_push($form_array, "<div style='height: 300px;'><img style='height: 300px; width: 300px;' src='$next_value' alt='unable to load image'></div>");
 											break;
 										case 'large':
-											array_push($form_array, "<div style='height: 600px; '><img style='height: 600px; width: 600px; ' src='$next_value' alt='unable to load image'></div>");
+											array_push($form_array, "<div style='height: 800px; '><img style='height: 800px; width: 800px; ' src='$next_value' alt='unable to load image'></div>");
+											break;
+										case 'large-short':
+											array_push($form_array, "<div style='height: 400px;'><img style='height: 400px; width: 800px; ' src='$next_value' alt='unable to load image'></div>");
 											break;
 									}
 									break;
 								case 'textbox':
 									$textbox_array_temp = "<div style='width: 800px;height: 50px;'>";
 									++$i;
+									
 									do {
 										
 										$current_column = $table_columns[$i];
+										$current_column_query = query_format($table_columns[$i]);
 										$column_label = str_replace("_{$attribute_value}", '', $current_column);
+										$column_label =  html_format($column_label);
+										$html_name = html_name_format($table_columns[$i]);
 										
-										$stmt = $conn->prepare("SELECT $table_columns[$i] FROM $table_name WHERE $table_id = $choosen_custom_form_id;");
+										$stmt = $conn->prepare("SELECT `$current_column_query` FROM $table_name WHERE $table_id = $choosen_custom_form_id;");
 										$stmt->execute();
 										$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
 									
@@ -410,14 +426,19 @@ Copyright © 2017 Andrew Klassen
 										
 										}
 										$textbox_value = $_SESSION['temp'];
+										$textbox_value = html_value_format($textbox_value);
 
-										$textbox_array_temp = $textbox_array_temp . "<div style='height: 50px; float: left;margin-left: 15px;'>$column_label: <input style='height: 35px; width: 100px;' type='text' value='$textbox_value' name='$current_column' maxlength='25' $auto_focus></div>";
+										$textbox_array_temp = $textbox_array_temp . "<div style='height: 50px; float: left;margin-left: 15px;'>$column_label: <input style='height: 35px; width: 100px;' type='text' value='$textbox_value' name='$html_name' maxlength='25' $auto_focus></div>";
 										++$i;
 										
+										
 									} while (strpos($table_columns[$i], $attribute_value) !== false);
-										--$i;																	
+										--$i;		
+													
+																							
 										$textbox_array_temp = $textbox_array_temp . "</div>";
 										array_push($form_array, $textbox_array_temp);
+										
 									break;
 
 							}
@@ -427,7 +448,7 @@ Copyright © 2017 Andrew Klassen
 						}
 						
 						
-						$stmt = $conn->prepare("SELECT COLUMN_TYPE FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = 'custom_forms' AND TABLE_NAME = '$table_name' AND COLUMN_NAME = '$table_columns[$i]';");
+						$stmt = $conn->prepare("SELECT COLUMN_TYPE FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = 'custom_forms' AND TABLE_NAME = '$table_name' AND COLUMN_NAME = '$current_column';");
 						$stmt->execute();
 						$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
 					
@@ -437,7 +458,7 @@ Copyright © 2017 Andrew Klassen
 						$current_column_type = $_SESSION['temp'];
 
 
-						$stmt = $conn->prepare("SELECT $table_columns[$i] FROM $table_name WHERE $table_id = $choosen_custom_form_id;");
+						$stmt = $conn->prepare("SELECT `$table_columns[$i]` FROM $table_name WHERE $table_id = $choosen_custom_form_id;");
 						$stmt->execute();
 						$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
 					
@@ -445,16 +466,21 @@ Copyright © 2017 Andrew Klassen
 						
 						}
 						$value = $_SESSION['temp'];
-
+						$value = html_value_format($value);
 						
+						
+
 						// checkbox
 						if ($current_column_type == "enum('yes','no')") {
 						
 							if ($value == 'yes') {
 								$checked = 'checked';
-							} 	
+							} 
+							else {
+								$checked = '';
+							}	
 							
-							array_push($form_array, "<div style='height: 40px;'><input type='hidden' name='$current_column' value='no'><input type='checkbox' name='$current_column' value='yes' $checked>$column_label </div>");
+							array_push($form_array, "<div style='height: 40px;'><input type='hidden' name='$html_name' value='no'><input type='checkbox' name='$html_name' value='yes' $checked>$column_label </div>");
 												
 						}
 						
@@ -476,7 +502,7 @@ Copyright © 2017 Andrew Klassen
 								else {
 									$is_checked = '';
 								}
-								$temp_html = $temp_html . "<input type='radio' name='$current_column' value='$current_button' $is_checked>$current_button ";
+								$temp_html = $temp_html . "<input type='radio' name='$html_name' value='$current_button' $is_checked>$current_button ";
 
 							}
 
@@ -485,25 +511,26 @@ Copyright © 2017 Andrew Klassen
 
 						}
 
-
+						
 						switch ($current_column_type) {
 						    case 'varchar(50)':
-							array_push($form_array,"<div style='height: 50px;'>$column_label: <input style='height: 35px; width: 500px;' type='text' name='$current_column' value='$value' maxlength='50' $auto_focus></div>");
+							array_push($form_array,"<div style='height: 50px;'>$column_label: <input style='height: 35px; width: 500px;' type='text' name='$html_name' value='$value' maxlength='50' $auto_focus></div>");
 							break;
 						    case 'int(11)':
-							array_push($form_array,"<div style='height: 50px;'>$column_label: <input style='height: 35px; width: 150px;' type='number' name='$current_column' value='$value' $auto_focus></div>");
+							array_push($form_array,"<div style='height: 50px;'>$column_label: <input style='height: 35px; width: 150px;' type='number' name='$html_name' value='$value' $auto_focus></div>");
 							break;
 						    case 'tinytext':
-							array_push($form_array,"<div style='height: 200px;'>$column_label: <br><textarea style='height: 150px; width: 500px;' name='$current_column' maxlength='255' $auto_focus>$value</textarea></div>");
+							array_push($form_array,"<div style='height: 200px;'>$column_label: <br><textarea style='height: 150px; width: 500px;' name='$html_name' maxlength='255' $auto_focus>$value</textarea></div>");
 							break;
 						    case 'text':
-							array_push($form_array,"<div style='height: 300px;'>$column_label: <br><textarea style='height: 250px; width: 800px;' name='$current_column' maxlength='5000' $auto_focus>$value</textarea></div>");
+							array_push($form_array,"<div style='height: 300px;'>$column_label: <br><textarea style='height: 250px; width: 800px;' name='$html_name' maxlength='5000' $auto_focus>$value</textarea></div>");
+							
 							break;
 						    case 'varchar(1000)':
-							array_push($form_array,"<div style='margin-left: 80px; margin-top: 10px;height: 80px;'>Add/Change Image <br><input type='file' name='$current_column' id='$current_column'><br><label style='font-size: 12px;'>(jpg, jpeg, png, or gif,  20MB max)</label></div>");
+							array_push($form_array,"<div style='margin-left: 80px; margin-top: 10px;height: 80px;'>Add/Change Image <br><input type='file' name='$html_name' id='$current_column'><br><label style='font-size: 12px;'>(jpg, jpeg, png, or gif,  20MB max)</label></div>");
 							break;
 						    case 'date':
-							array_push($form_array,"<div style='height: 50px;'>$column_label: <input style='height: 25px; width: 150px;' type='date' name='$current_column' value='$value' $auto_focus></div>");
+							array_push($form_array,"<div style='height: 50px;margin-top: 15px;'>$column_label: <input style='height: 25px; width: 150px;' type='date' name='$html_name' value='$value' $auto_focus></div>");
 							break;
 						}
 

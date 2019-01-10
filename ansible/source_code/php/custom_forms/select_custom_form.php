@@ -138,7 +138,7 @@ try {
     $tables = $_SESSION['tables'];
 
 
-    echo "<div id='tableCard' style='width: 200px; height: 500px;'>";
+    echo "<div id='tableCard' style='width: 400px; height: 500px;'>";
 	
 		echo "<table style='border: none;'>";
 		echo "<tr><th>Form</th></tr>";

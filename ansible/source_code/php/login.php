@@ -39,6 +39,7 @@ try {
 	
 	// create new connection 
     	$conn = new PDO($dbconnection, $dbusername, $dbpassword);
+	$conn->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
     	$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
 	// make sure account with username and password exists
@@ -100,7 +101,7 @@ try {
 		if ($password_hash_migration) {
 
 			// hash new password			
-			$new_password = password_hash($new_password, $password_hashing_algorithim);
+			$new_password = password_hash($password, $password_hashing_algorithim);
 			
 			$sql = "UPDATE accounts SET password='$new_password' WHERE account_id='$account_id'";
 			$stmt = $conn->prepare($sql);

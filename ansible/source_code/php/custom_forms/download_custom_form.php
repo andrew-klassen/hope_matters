@@ -9,6 +9,8 @@ Copyright © 2017 Andrew Klassen
 
 */
 
+
+
 require('../database_credentials.php');
 require('../json_functions.php');
 
@@ -59,8 +61,7 @@ class get_table_columns_meta extends RecursiveIteratorIterator {
 
 
 $form_name = $_SESSION['choosen_form'];
-$table_name = strtolower($_SESSION['choosen_form']);
-$table_name = str_replace(' ', '_', $table_name);
+$table_name = database_format($form_name);
 $meta_table = $table_name . '_meta';
 $file_name = $table_name . '.json';
 
@@ -172,10 +173,17 @@ header("Content-Disposition: attachment; filename=$file_name");
 										case 'large':
 											$json_object = $json_object . "\"" . $attribute_value . "\" : \"image_large\",";
 											break;
+										case 'large-short':
+											$json_object = $json_object . "\"" . $attribute_value . "\" : \"image_large-short\",";
+											break;
 									}
 									break;
 								case 'text':
 									$json_object = $json_object . "\"" . $attribute_value . "\" : \"text\",";
+									break;
+
+								case 'bold':
+									$json_object = $json_object . "\"" . $attribute_value . "\" : \"bold_text\",";
 									break;
 
 								case 'image-upload':
@@ -190,6 +198,9 @@ header("Content-Disposition: attachment; filename=$file_name");
 										case 'large':
 											$json_object = $json_object . "\"" . $attribute_value . "\" : \"image-upload_large\",";
 											break;
+										case 'large-short':
+											$json_object = $json_object . "\"" . $attribute_value . "\" : \"image-upload_large-short\",";
+											break;
 									}
 									break;
 								case 'textbox':
@@ -199,6 +210,7 @@ header("Content-Disposition: attachment; filename=$file_name");
 										
 										$current_column = $table_columns[$i];
 										$column_label = str_replace("_{$attribute_value}", '', $current_column);
+										$column_label = html_format($column_label);
 										
 										$json_object = $json_object . "\"$column_label\",";
 
@@ -217,9 +229,12 @@ header("Content-Disposition: attachment; filename=$file_name");
 							continue;
 
 						}
+						
+						$column_label = html_format($table_columns[$i]);
+						$current_column = query_format($table_columns[$i]);
 
 
-						$stmt = $conn->prepare("SELECT COLUMN_TYPE FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = 'custom_forms' AND TABLE_NAME = '$table_name' AND COLUMN_NAME = '$table_columns[$i]';");
+						$stmt = $conn->prepare("SELECT COLUMN_TYPE FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = 'custom_forms' AND TABLE_NAME = '$table_name' AND COLUMN_NAME = '$current_column';");
 						$stmt->execute();
 						$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
 					
@@ -229,9 +244,7 @@ header("Content-Disposition: attachment; filename=$file_name");
 						$current_column_type = $_SESSION['temp'];
 
 						
-						$column_label = ucfirst($table_columns[$i]);
-						$column_label = str_replace('_', ' ', $column_label);
-						$current_column = $table_columns[$i];
+						
 
 						
 						switch ($current_column_type) {
