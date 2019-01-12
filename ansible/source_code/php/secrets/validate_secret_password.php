@@ -85,27 +85,6 @@ foreach ($keys as &$current_key) {
 
 		$secret_value_id = $_SESSION['secret_keys_ids'][$i];
 
-		$stmt = $conn->prepare("SELECT initialization_vector FROM secret_values WHERE secret_value_id='$secret_value_id'");
-		$stmt->execute();
-		$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
-				
-		foreach(new grab_value(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
-
-		}
-		$initialization_vector = $_SESSION['temp'];
-
-
-		// see if any admin keys exist
-		$_SESSION['temp'] = '';
-		$stmt = $conn->prepare("SELECT AES_DECRYPT(encrypted_value, '$secret_password', '$initialization_vector') FROM secret_values WHERE secret_value_id='$secret_value_id';");
-		$stmt->execute();
-		$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
-				
-		foreach(new grab_value(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
-
-		}
-		$temp_value = $_SESSION['temp'];
-
 
 		$_SESSION['temp'] = '';
 		$stmt = $conn->prepare("SELECT key_hash FROM secret_values WHERE secret_value_id='$secret_value_id';");
@@ -120,6 +99,28 @@ foreach ($keys as &$current_key) {
 
 		// if valid key exists
 		if (password_verify($secret_password, $hash)) {
+
+			$stmt = $conn->prepare("SELECT initialization_vector FROM secret_values WHERE secret_value_id='$secret_value_id'");
+			$stmt->execute();
+			$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
+					
+			foreach(new grab_value(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
+
+			}
+			$initialization_vector = $_SESSION['temp'];
+
+
+			// see if any admin keys exist
+			$_SESSION['temp'] = '';
+			$stmt = $conn->prepare("SELECT AES_DECRYPT(encrypted_value, '$secret_password', '$initialization_vector') FROM secret_values WHERE secret_value_id='$secret_value_id';");
+			$stmt->execute();
+			$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
+					
+			foreach(new grab_value(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
+
+			}
+			$temp_value = $_SESSION['temp'];
+
 			$value = $temp_value;
 			$privilege = "admin";
 			break;
@@ -148,27 +149,6 @@ foreach ($keys as &$current_key) {
 
 			$secret_value_id = $_SESSION['secret_keys_ids'][$i];
 
-			$stmt = $conn->prepare("SELECT initialization_vector FROM secret_values WHERE secret_value_id='$secret_value_id'");
-			$stmt->execute();
-			$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
-					
-			foreach(new grab_value(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
-
-			}
-			$initialization_vector = $_SESSION['temp'];
-
-
-			// see if any read secret exist
-			$_SESSION['temp'] = '';
-			$stmt = $conn->prepare("SELECT AES_DECRYPT(encrypted_value, '$secret_password', '$initialization_vector') FROM secret_values WHERE secret_value_id='$secret_value_id' and AES_DECRYPT(encrypted_value, '$secret_password', '$initialization_vector') is not NULL;");
-			$stmt->execute();
-			$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
-					
-			foreach(new grab_value(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
-
-			}
-			$temp_value = $_SESSION['temp'];
-
 
 			$_SESSION['temp'] = '';
 			$stmt = $conn->prepare("SELECT key_hash FROM secret_values WHERE secret_value_id='$secret_value_id';");
@@ -183,6 +163,28 @@ foreach ($keys as &$current_key) {
 
 			// if valid key exists
 			if (password_verify($secret_password, $hash)) {
+
+				$stmt = $conn->prepare("SELECT initialization_vector FROM secret_values WHERE secret_value_id='$secret_value_id'");
+				$stmt->execute();
+				$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
+						
+				foreach(new grab_value(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
+
+				}
+				$initialization_vector = $_SESSION['temp'];
+
+
+				// see if any read secret exist
+				$_SESSION['temp'] = '';
+				$stmt = $conn->prepare("SELECT AES_DECRYPT(encrypted_value, '$secret_password', '$initialization_vector') FROM secret_values WHERE secret_value_id='$secret_value_id' and AES_DECRYPT(encrypted_value, '$secret_password', '$initialization_vector') is not NULL;");
+				$stmt->execute();
+				$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
+						
+				foreach(new grab_value(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
+
+				}
+				$temp_value = $_SESSION['temp'];
+
 				$value = $temp_value;
 				$privilege = "read";
 				break;

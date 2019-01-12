@@ -43,10 +43,7 @@ $table_name_history = $table_name . '_history';
 $table_id = $table_name . '_id';
 $table_columns_temp = $_SESSION['table_columns'];
 $table_columns_temp_max = count($_SESSION['table_columns']);
-
 $start_found = false;
-
-
 
 
 // gets all the non specific form columns
@@ -70,18 +67,9 @@ for($i = 0; $i < $table_columns_temp_max; ++$i) {
 	
 }
 
-
 $column_array = array();
 
 
-/*
- echo "<pre>";
-    var_dump($_POST); // or var_dump($data);
-    echo "</pre>";
-exit();
-
-
-*/
 // use column data for update queries
 $table_columns_max = count($table_columns);
 for($i = 0; $i < $table_columns_max; ++$i) {
@@ -90,8 +78,6 @@ for($i = 0; $i < $table_columns_max; ++$i) {
 	$insert_columns = $insert_columns  . '`' . $table_columns[$i] . '`, '; 
 	$current_column = query_format($table_columns[$i]);
 	$html_name = html_name_format($table_columns[$i]);
-	$bob = query_format($_POST[$html_name]);
-
 
 
 	$stmt = $conn->prepare("SELECT COLUMN_TYPE FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = 'custom_forms' AND TABLE_NAME = '$table_name' AND COLUMN_NAME = '$current_column';");
@@ -196,9 +182,6 @@ $insert_values = substr($insert_values, 0, -2);
 		$conn->exec($query);
 
 		$query = "UPDATE $table_name SET $update_values, created_by = '$username' WHERE $table_id = '$choosen_custom_form_id';";
-		echo $query;
-
-		
 		$conn->exec($query);
 			
 		header( 'Location: /php/custom_forms/select_add_or_change.php');

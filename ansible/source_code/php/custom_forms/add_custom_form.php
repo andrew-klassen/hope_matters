@@ -274,10 +274,6 @@ Copyright © 2017 Andrew Klassen
 				$table_columns = $_SESSION['table_columns'];
 				
 				
-
-				
-
-				
 				// this include meta columns into the table columns array
 				$stmt = $conn->prepare("SELECT attribute FROM $meta_table WHERE attribute LIKE 'column_%';");
 			    	$stmt->execute();
@@ -285,40 +281,17 @@ Copyright © 2017 Andrew Klassen
 							
 			   	foreach(new get_table_columns_meta(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
 										
-					
 					$temp_column_meta = array();
 					$temp_column_meta = explode("_", $v);
-					
-					
-
-					
-
-
 					array_splice( $table_columns, $temp_column_meta[1], 0, $v);
-
-
-
-
-					
 					unset($temp_column_meta);
 					
 			   	}
-				
-
-
-				
 					
 				$_SESSION['table_columns'] = $table_columns;		
-
-
 				$table_columns_max = count($_SESSION['table_columns']);	
 
 
-
-
-
-
-				
 				// get the tables start column
 				$stmt = $conn->prepare("SELECT value FROM $meta_table WHERE attribute = 'start_column';");
 				$stmt->execute();
@@ -375,7 +348,6 @@ Copyright © 2017 Andrew Klassen
 						}
 						$current_column_type = $_SESSION['temp'];
 						
-
 						
 						// below in for in the event that the column is meta
 						$attribute_value = '';
@@ -460,7 +432,6 @@ Copyright © 2017 Andrew Klassen
 										$column_label =  html_format($column_label);
 
 
-
 										$textbox_array_temp = $textbox_array_temp . "<div style='height: 50px; float: left;margin-left: 15px;'>$column_label: <input style='height: 35px; width: 100px;' type='text' name='$html_name' maxlength='25' $auto_focus></div>";
 										++$i;
 										
@@ -510,7 +481,6 @@ Copyright © 2017 Andrew Klassen
 
 						    case 'varchar(50)':
 							
-
 							array_push($form_array,"<div style='height: 50px;'>$column_label: <input style='height: 35px; width: 500px;' type='text' name='$html_name' maxlength='50' $auto_focus></div>");
 							break;
 						    case 'int(11)':

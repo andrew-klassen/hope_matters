@@ -12,10 +12,6 @@ require('../database_credentials.php');
 require('../file_upload.php');
 require('../json_functions.php');
 
-
-
-
-
 session_start();
 
 // make sure user is logged in
@@ -101,7 +97,6 @@ foreach ($json_form_array as $current_json_form) {
 	$main_table_create_query = "CREATE TABLE `$database_table_name` (`$table_id` int(11) unsigned NOT NULL AUTO_INCREMENT,";
 	$history_table_create_query = "CREATE TABLE `$history_table_name` (`$history_id` int(11) unsigned NOT NULL AUTO_INCREMENT,
 									   `$table_id` int(11) unsigned NOT NULL,";
-
 
 	if ($client_linked) {
 
@@ -354,6 +349,7 @@ foreach ($json_form_array as $current_json_form) {
 					
 					array_push($meta_values, "$form_element");
 					array_push($meta_attributes, "column_{$counter}_textbox_array");
+
 					foreach($current_json_form['body'][$original_form_element]['labels'] as $current_label => $current_label_value) {
 
 						$current_label_value = database_format($current_label_value);
@@ -362,6 +358,7 @@ foreach ($json_form_array as $current_json_form) {
 						$history_table_create_query = $history_table_create_query . "`$temp_label` varchar(25) DEFAULT NULL,";
 
 					}
+
 					$textbox_array_count = count($current_json_form['body'][$original_form_element]['labels']);
 					$counter += $textbox_array_count;
 					break;

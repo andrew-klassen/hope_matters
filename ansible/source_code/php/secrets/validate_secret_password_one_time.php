@@ -83,28 +83,6 @@ for($j = 0; $j < $secret_value_temp_ids_max; ++$j) {
 
 	$secret_value_temp_id = $_SESSION['secret_value_temp_ids'][$j];
 						
-
-	$stmt = $conn->prepare("SELECT initialization_vector FROM secret_values_temp WHERE secret_value_temp_id='$secret_value_temp_id'");
-	$stmt->execute();
-	$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
-								
-	foreach(new grab_value(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
-
-	}
-	$initialization_vector = $_SESSION['temp'];
-
-						
-	$_SESSION['temp'] = '';
-	$stmt = $conn->prepare("SELECT AES_DECRYPT(encrypted_value, '$secret_password', '$initialization_vector') FROM secret_values_temp WHERE secret_value_temp_id='$secret_value_temp_id';");
-	$stmt->execute();
-	$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
-								
-	foreach(new grab_value(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
-
-	}
-	$temp_value = $_SESSION['temp'];
-
-	
 	$_SESSION['temp'] = '';
 	$stmt = $conn->prepare("SELECT key_hash FROM secret_values_temp WHERE secret_value_temp_id='$secret_value_temp_id';");
 	$stmt->execute();
@@ -119,6 +97,26 @@ for($j = 0; $j < $secret_value_temp_ids_max; ++$j) {
 	// if valid key exists
 	if (password_verify($secret_password, $hash)) {
 	
+		$stmt = $conn->prepare("SELECT initialization_vector FROM secret_values_temp WHERE secret_value_temp_id='$secret_value_temp_id'");
+		$stmt->execute();
+		$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
+									
+		foreach(new grab_value(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
+
+		}
+		$initialization_vector = $_SESSION['temp'];
+
+							
+		$_SESSION['temp'] = '';
+		$stmt = $conn->prepare("SELECT AES_DECRYPT(encrypted_value, '$secret_password', '$initialization_vector') FROM secret_values_temp WHERE secret_value_temp_id='$secret_value_temp_id';");
+		$stmt->execute();
+		$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
+									
+		foreach(new grab_value(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
+
+		}
+		$temp_value = $_SESSION['temp'];
+
 		$value = $temp_value;
 		break;
 

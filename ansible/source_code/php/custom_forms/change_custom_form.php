@@ -263,16 +263,14 @@ Copyright © 2017 Andrew Klassen
 							
 			   	foreach(new get_table_columns_meta(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
 										
-					
 					$temp_column_meta = array();
 					$temp_column_meta = explode("_", $v);
 					array_splice( $table_columns, $temp_column_meta[1], 0, $v);
 					unset($temp_column_meta);
 					
 			   	}
+
 				$_SESSION['table_columns'] = $table_columns;
-
-
 				$table_columns_max = count($_SESSION['table_columns']);		
 
 				
@@ -311,14 +309,11 @@ Copyright © 2017 Andrew Klassen
 					
 					if ($start_found) {
 
-						
 						$column_label = html_format($table_columns[$i]);
 						$current_column = query_format($table_columns[$i]);
 						$html_name = html_name_format($table_columns[$i]);
 						
 						
-
-
 						$attribute_value = '';
 						$_SESSION['temp'] = '';
 						
@@ -434,8 +429,7 @@ Copyright © 2017 Andrew Klassen
 										
 									} while (strpos($table_columns[$i], $attribute_value) !== false);
 										--$i;		
-													
-																							
+																										
 										$textbox_array_temp = $textbox_array_temp . "</div>";
 										array_push($form_array, $textbox_array_temp);
 										
@@ -467,7 +461,6 @@ Copyright © 2017 Andrew Klassen
 						}
 						$value = $_SESSION['temp'];
 						$value = html_value_format($value);
-						
 						
 
 						// checkbox

@@ -244,9 +244,6 @@ header("Content-Disposition: attachment; filename=$file_name");
 						$current_column_type = $_SESSION['temp'];
 
 						
-						
-
-						
 						switch ($current_column_type) {
 
 						    case 'varchar(50)':
