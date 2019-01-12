@@ -92,7 +92,7 @@ for($i = 0; $i < $secret_keys_id_max; ++$i) {
 
 
 	$_SESSION['temp'] = '';
-	$stmt = $conn->prepare("SELECT value_hash FROM secret_values WHERE secret_value_id='$secret_value_id';");
+	$stmt = $conn->prepare("SELECT key_hash FROM secret_values WHERE secret_value_id='$secret_value_id';");
 	$stmt->execute();
 	$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
 			
@@ -103,7 +103,7 @@ for($i = 0; $i < $secret_keys_id_max; ++$i) {
 
 
 	// if valid key exists
-	if (password_verify($temp_value, $hash)) {
+	if (password_verify($secret_password, $hash)) {
 		$value = $temp_value;
 		$privilege = "admin";
 		break;
@@ -154,7 +154,7 @@ if ($privilege != "admin") {
 
 
 		$_SESSION['temp'] = '';
-		$stmt = $conn->prepare("SELECT value_hash FROM secret_values WHERE secret_value_id='$secret_value_id';");
+		$stmt = $conn->prepare("SELECT key_hash FROM secret_values WHERE secret_value_id='$secret_value_id';");
 		$stmt->execute();
 		$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
 				
@@ -165,7 +165,7 @@ if ($privilege != "admin") {
 
 
 		// if valid key exists
-		if (password_verify($temp_value, $hash)) {
+		if (password_verify($secret_password, $hash)) {
 			$value = $temp_value;
 			$privilege = "read";
 			break;

@@ -98,11 +98,11 @@ $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
 
 		$initialization_vector = generate_initialization_vector();
-		$hash = password_hash($value, $password_hashing_algorithim);
+		$hash = password_hash($secret_password, $password_hashing_algorithim);
 		$value = str_replace('\'', '\\\'', $value);
 
 		// insert the first key
-		$query = "INSERT INTO secret_values (secret_id, encrypted_value, initialization_vector, value_hash, privilege) VALUES ('$secret_id', AES_ENCRYPT('$value', '$secret_password', '$initialization_vector'), '$initialization_vector', '$hash', 'admin');"; 
+		$query = "INSERT INTO secret_values (secret_id, encrypted_value, initialization_vector, key_hash, privilege) VALUES ('$secret_id', AES_ENCRYPT('$value', '$secret_password', '$initialization_vector'), '$initialization_vector', '$hash', 'admin');"; 
 		$conn->exec($query);
 
 			

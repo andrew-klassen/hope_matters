@@ -106,7 +106,7 @@ for($j = 0; $j < $secret_value_temp_ids_max; ++$j) {
 
 	
 	$_SESSION['temp'] = '';
-	$stmt = $conn->prepare("SELECT value_hash FROM secret_values_temp WHERE secret_value_temp_id='$secret_value_temp_id';");
+	$stmt = $conn->prepare("SELECT key_hash FROM secret_values_temp WHERE secret_value_temp_id='$secret_value_temp_id';");
 	$stmt->execute();
 	$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
 				
@@ -117,7 +117,7 @@ for($j = 0; $j < $secret_value_temp_ids_max; ++$j) {
 			
 						
 	// if valid key exists
-	if (password_verify($temp_value, $hash)) {
+	if (password_verify($secret_password, $hash)) {
 	
 		$value = $temp_value;
 		break;
