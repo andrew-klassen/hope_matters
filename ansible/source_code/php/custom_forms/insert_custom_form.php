@@ -102,7 +102,7 @@ if ($_SESSION['client_linked'] == 'true') {
 
 }
 
-$conn = new PDO($dbconnection_custom, $dbusername_custom, $dbpassword_custom);
+$conn = new PDO($dbconnection_custom, $dbusername, $dbpassword);
 $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
 

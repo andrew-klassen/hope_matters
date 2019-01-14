@@ -411,16 +411,12 @@ try {
 						
 							View Forms: <select name='transaction_type' method='post'>
 											<option value='all' selected='selected'>All Forms</option>
-											<option value='dental'>Dental</option>
-											<option value='discharge'>Discharge</option>
 											<option value='lab'>Lab</option>
-											<option value='optometry'>Optometry</option>
 											<option value='referral'>Referral</option>
 											<option value='return_treatment'>Return Treatment</option>
 											<option value='treatment'>Treatment</option>";
 											if ($sex == 'female') {
 												echo "<option value='ultrasound'>Ultrasound</option>";
-												echo "<option value='women_health'>Women's Health</option>";
 											} echo "
 											<option value='lab_order'>Lab Order</option>
 											<option value='child_welfare'>Child Welfare</option>
@@ -434,16 +430,12 @@ try {
 							<input style='margin-left: 20px; float: right; height: 20px;'type='submit' id='search_submit' value='Add'>
 							
 							New Form: <select name='form_type' method='post'>
-										<option value='dental' selected='selected'>Dental</option>
-										<option value='discharge'>Discharge</option>
 										<option value='lab'>Lab</option>
-										<option value='optometry'>Optometry</option>
 										<option value='referral'>Referral</option>
 										<option value='return_treatment'>Return Treatment</option>
 										<option value='treatment'>Treatment</option>";
 										if ($sex == 'female') {
 												echo "<option value='ultrasound'>Ultrasound</option>";
-												echo "<option value='women_health'>Women's Health</option>";
 										} echo "
 										<option value='lab_order'>Lab Order</option>
 										<option value='child_welfare'>Child Welfare</option>

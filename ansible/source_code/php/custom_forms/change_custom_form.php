@@ -234,7 +234,7 @@ Copyright © 2017 Andrew Klassen
 		}
 
 
-				$conn = new PDO($dbconnection_custom, $dbusername_custom, $dbpassword_custom);
+				$conn = new PDO($dbconnection_custom, $dbusername, $dbpassword);
 				$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 								
 				

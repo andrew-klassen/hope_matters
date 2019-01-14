@@ -1,0 +1,37 @@
+{
+        "form_name" : "LD Progress Notes",
+        "meta" : {
+                "client_linked" : true
+        },
+        "body" : {
+         	"name" : "textbox",
+		
+		"diagnosis" : "textbox",
+		"today's date" : "date",
+		"Understanding of diagnosis" : "checkbox",
+		"diagnosis question" : "textarea",
+
+		"address change" : "checkbox",
+		"continued medication" : "checkbox",
+		"taking medication" : "checkbox",
+		"location of visit" : {
+			"type" : "radio_button_group",
+			"buttons" : [
+				"inpatient",
+				"outpatient",
+				"home"
+
+			]
+
+
+		},
+		"Medication concerns/problems" : "textarea",
+		"clinic follow up request" : "checkbox",
+		"reason" : "textarea",
+
+		"Social Worker" : "bold_text",
+		"impression comments" : "textarea_large",
+		"additional services needed" : "textarea_large",
+		"future follow up plan" : "textarea_large"
+        }
+}

@@ -272,7 +272,7 @@ $conn = null;
 			<div style="height: 35px; width: 200px;"><label>Return Treatment:</label></div>
 			<div style="height: 35px; width: 200px;"><label>Treatment Forms:</label></div>
 			<div style="height: 35px; width: 200px;"><label>Ultrasounds:</label></div>
-			<!--<div style="height: 35px; width: 200px;"><label>Lab Orders:</label></div>-->
+			<div style="height: 35px; width: 200px;"><label>Lab Orders:</label></div>
 			<!--<div style="height: 35px; width: 200px;"><label>Women's Health Reports:</label></div>-->
 			<div style="height: 35px; width: 200px;"><label>Medication Order:</label></div>
 			
@@ -311,7 +311,7 @@ $conn = null;
 			</div>
 			
 			<!-- Lab Orders -->
-			<!--<div style="height: 35px; width: 400px;">
+			<div style="height: 35px; width: 400px;">
 				<form action="/php/lab_orders/select_client_lab_order.php" name="login_form" onsubmit="return validateForm()" method="post">
 					<input style="float: left; margin-right: 10px;" type="submit" name="not_login" class="login login-submit" value="add">	
 				</form>
@@ -321,7 +321,7 @@ $conn = null;
 				<form action="/php/lab_orders/select_complete_lab_order.php" name="login_form" onsubmit="return validateForm()" method="post">
 					<input style="float: left;" type="submit" name="not_login" class="login login-submit" value="Complete an Order">
 				</form>
-			</div>-->
+			</div>
 			
 			<!-- women health reports -->
 			<!--<div style="height: 35px; width: 200px;">

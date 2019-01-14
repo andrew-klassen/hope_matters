@@ -14,6 +14,7 @@ session_start();
 $_SESSION['account_id'] = '';
 $_SESSION['username'] = '';
 $_SESSION['master_log_access'] = '';
+$_SESSION['login_password'] = '';
 
 // redirect user to home page
 header("Location: ../index.html");
