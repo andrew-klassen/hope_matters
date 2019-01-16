@@ -3,7 +3,7 @@ This file is part of a web application designed to help Hope Matters interact wi
 The web application is licensed under the Affero General Public License v3.
 View the web application's readme.txt for more details.
 
-Copyright Â© 2017 Andrew Klassen
+Copyright © 2017 Andrew Klassen
 -->
 
 <?php
@@ -137,35 +137,39 @@ class grab_value extends RecursiveIteratorIterator {
 	}
 
 	
-	$vdrl_rpr = $_POST['vdrl_rpr'];
+	$h_pylori_stool = $_POST['h_pylori_stool'];
 	
-	if ($vdrl_rpr){
-		$vdrl_rpr = "yes";
+	if ($h_pylori_stool){
+		$h_pylori_stool = "yes";
 	}
 	else {
-		$vdrl_rpr = "no";
+		$h_pylori_stool = "no";
 	}
-
 	
-	$p24_hiv = $_POST['p24_hiv'];
 	
-	if ($p24_hiv){
-		$p24_hiv = "yes";
+	
+	$h_pylori_blood = $_POST['h_pylori_blood'];
+	
+	if ($h_pylori_blood){
+		$h_pylori_blood = "yes";
 	}
 	else {
-		$p24_hiv = "no";
+		$h_pylori_blood = "no";
 	}
-
 	
-	$blood_sugar = $_POST['blood_sugar'];
 	
-	if ($blood_sugar){
-		$blood_sugar = "yes";
+	
+	$rheumatoid_factor = $_POST['rheumatoid_factor'];
+                                    
+	
+	if ($rheumatoid_factor){
+		$rheumatoid_factor = "yes";
 	}
 	else {
-		$blood_sugar = "no";
+		$rheumatoid_factor = "no";
 	}
-
+	
+	
 	
 	$stool = $_POST['stool'];
 	
@@ -177,34 +181,26 @@ class grab_value extends RecursiveIteratorIterator {
 	}
 	
 	
-	$blood_group = $_POST['blood_group'];
+	$p24_hiv = $_POST['p24_hiv'];
 	
-	if ($blood_group){
-		$blood_group = "yes";
+	if ($p24_hiv){
+		$p24_hiv = "yes";
 	}
 	else {
-		$blood_group = "no";
+		$p24_hiv = "no";
+	}
+	
+	
+	
+	$vdrl_rpr = $_POST['vdrl_rpr'];
+	
+	if ($vdrl_rpr){
+		$vdrl_rpr = "yes";
+	}
+	else {
+		$vdrl_rpr = "no";
 	}
 
-	
-	$pregnancy = $_POST['pregnancy'];
-	
-	if ($pregnancy){
-		$pregnancy = "yes";
-	}
-	else {
-		$pregnancy = "no";
-	}
-
-	
-	$hb = $_POST['hb'];
-	
-	if ($hb){
-		$hb = "yes";
-	}
-	else {
-		$hb = "no";
-	}
 	
 	
 	$urinalysis = $_POST['urinalysis'];
@@ -216,6 +212,17 @@ class grab_value extends RecursiveIteratorIterator {
 		$urinalysis = "no";
 	}
 	
+	
+	$pregnancy_test = $_POST['pregnancy_test'];
+	
+	if ($pregnancy_test){
+		$pregnancy_test = "yes";
+	}
+	else {
+		$pregnancy_test = "no";
+	}
+	
+	
 
 	$hvs = $_POST['hvs'];
 	
@@ -225,13 +232,149 @@ class grab_value extends RecursiveIteratorIterator {
 	else {
 		$hvs = "no";
 	}
+
+
+
+    $gram_stain = $_POST['gram_stain'];
 	
+	if ($gram_stain){
+		$gram_stain = "yes";
+	}
+	else {
+		$gram_stain = "no";
+	}
+	
+	
+	
+	$culture = $_POST['culture'];
+	
+	if ($culture){
+		$culture = "yes";
+	}
+	else {
+		$culture = "no";
+	}
+	
+	
+	
+	$blood_group= $_POST['blood_group'];
+	
+	if ($blood_group){
+		$blood_group = "yes";
+	}
+	else {
+		$blood_group = "no";
+	}
+	
+	
+	
+	$blood_count = $_POST['blood_count'];
+	
+	if ($blood_count){
+		$blood_count = "yes";
+	}
+	else {
+		$blood_count = "no";
+	}
+
+	
+	
+    $blood_chemistry = $_POST['blood_chemistry'];
+	
+	if ($blood_chemistry){
+		$blood_chemistry = "yes";
+	}
+	else {
+		$blood_chemistry = "no";
+	}
+	
+	
+	
+	
+    $arterial_blood = $_POST['arterial_blood'];
+	
+	if ($arterial_blood){
+		$arterial_blood = "yes";
+	}
+	else {
+		$arterial_blood = "no";
+	}
+	
+	
+	
+	$liver_function_test = $_POST['liver_function_test'];
+	
+	if ($liver_function_test){
+		$liver_function_test = "yes";
+	}
+	else {
+		$liver_function_test = "no";
+	}
+	
+	
+	
+	$prothrombin_time = $_POST['prothrombin_time'];
+	
+	if ($prothrombin_time){
+		$prothrombin_time = "yes";
+	}
+	else {
+		$prothrombin_time = "no";
+	}
+	
+	
+
+	$inr = $_POST['inr'];
+	
+	if ($inr){
+		$inr = "yes";
+	}
+	else {
+		$inr = "no";
+	}
+	
+	
+	
+	$thyroid_function = $_POST['tft'];
+	
+	if ($thyroid_function){
+		$thyroid_function = "yes";
+	}
+	else {
+		$thyroid_function = "no";
+	}
+	
+	
+	
+	$cholesterol = $_POST['cholesterol'];
+	
+	if ($cholesterol){
+		$cholesterol = "yes";
+	}
+	else {
+		$cholesterol = "no";
+	}
+	
+	
+	
+	$cardiac = $_POST['cardiac'];
+	
+	if ($cardiac){
+		$cardiac = "yes";
+	}
+	else {
+		$cardiac = "no";
+	}
+	
+		
 	$username = $_SESSION['username'];
 	$time_created = date("Y-m-d H:i:s");
 	
 	try {
 		
-		$query = "INSERT INTO lab_order (client_id, first_name, last_name, sex, location, date_of_birth, bs_for_mps, pbf, widal, brucella, vdrl_rpr, p24_hiv, blood_sugar, stool, blood_group, pregnancy_test, hb, urinalysis, hvs, time_created, created_by  ) VALUES ('$client_id', '$first_name', '$last_name', '$sex', '$location', '$date_of_birth', '$bs_for_mps', '$pbf', '$widal', '$brucella', '$vdrl_rpr', '$p24_hiv', '$blood_sugar', '$stool', '$blood_group', '$pregnancy', '$hb', '$urinalysis', '$hvs', '$time_created', '$username' )"; 
+		$query = "INSERT INTO lab_order (client_id, first_name, last_name, sex, location, date_of_birth, bs_for_mps, pbf, widal, brucella, h_pylori_stool, h_pylori_blood, rheumatoid_factor, stool, p24_hiv, vdrl_rpr, urinalysis, pregnancy_test, hvs, gram_stain, culture, blood_group, blood_count, blood_chemistry, arterial_blood, liver_function_test, prothrombin_time, inr, thyroid_function_test, cholesterol, cardiac, time_created, created_by)  VALUES ('$client_id', '$first_name', '$last_name', '$sex', '$location', '$date_of_birth', '$bs_for_mps', '$pbf', '$widal', '$brucella', '$h_pylori_stool', '$h_pylori_blood', '$rheumatoid_factor', '$stool', '$p24_hiv', '$vdrl_rpr', '$urinalysis', '$pregnancy_test', '$hvs', '$gram_stain', '$culture', '$blood_group', '$blood_count', '$blood_chemistry', '$arterial_blood', '$liver_function_test', '$prothrombin_time', '$inr' ,'$thyroid_function' , '$cholesterol' , '$cardiac', '$time_created', '$username' )";
+
+		
 		$conn->exec($query);
 		
 		// redirect user back to client selection

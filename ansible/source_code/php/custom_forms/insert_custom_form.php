@@ -131,7 +131,7 @@ for($i = 0; $i < $table_columns_temp_max; ++$i) {
 
 	}	
 }
-
+ 
 
 // create insert query strings
 $table_columns_max = count($table_columns);

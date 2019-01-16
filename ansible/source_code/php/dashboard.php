@@ -318,9 +318,9 @@ $conn = null;
 				<form action="/php/lab_orders/select_lab_order.php" name="login_form" onsubmit="return validateForm()" method="post">
 					<input style="float: left;  margin-right: 10px;" type="submit" name="not_login" class="login login-submit" value="view/change">
 				</form>
-				<form action="/php/lab_orders/select_complete_lab_order.php" name="login_form" onsubmit="return validateForm()" method="post">
+				<!--<form action="/php/lab_orders/select_complete_lab_order.php" name="login_form" onsubmit="return validateForm()" method="post">
 					<input style="float: left;" type="submit" name="not_login" class="login login-submit" value="Complete an Order">
-				</form>
+				</form>-->
 			</div>
 			
 			<!-- women health reports -->

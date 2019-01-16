@@ -66,7 +66,7 @@ CREATE TABLE `accounts` (
   PRIMARY KEY (`account_id`),
   UNIQUE KEY `account_id_UNIQUE` (`account_id`),
   UNIQUE KEY `username_UNIQUE` (`username`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=latin1 ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=latin1 ROW_FORMAT=DYNAMIC;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1104,10 +1104,6 @@ CREATE TABLE `lab` (
   `cardiac` enum('yes','no') DEFAULT 'yes',
   `troponin_text` varchar(45) DEFAULT NULL,
   `ck_text` varchar(45) DEFAULT NULL,
-  `lab_order_id` int(11) unsigned DEFAULT NULL,
-  `clinician` varchar(20) DEFAULT NULL,
-  `timestamp` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `created_by` varchar(20) DEFAULT NULL,
   `hct_text` varchar(45) DEFAULT NULL,
   `mcv_text` varchar(45) DEFAULT NULL,
   `rdw_text` varchar(45) DEFAULT NULL,
@@ -1129,11 +1125,15 @@ CREATE TABLE `lab` (
   `bun_text` varchar(45) DEFAULT NULL,
   `creatinine_text` varchar(45) DEFAULT NULL,
   `hba1c_text` varchar(45) DEFAULT NULL,
+  `lab_order_id` int(11) unsigned DEFAULT NULL,
+  `clinician` varchar(20) DEFAULT NULL,
+  `timestamp` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `created_by` varchar(20) DEFAULT NULL,
   PRIMARY KEY (`lab_id`),
   UNIQUE KEY `lab_id_UNIQUE` (`lab_id`),
   KEY `lab_client_id_idx` (`client_id`),
   CONSTRAINT `client_id_lab` FOREIGN KEY (`client_id`) REFERENCES `general_info` (`client_id`) ON DELETE NO ACTION ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1144,11 +1144,11 @@ DROP TABLE IF EXISTS `lab_history`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `lab_history` (
-  `lab_history_id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `lab_id` int(11) unsigned NOT NULL,
-  `client_id` int(11) unsigned NOT NULL,
-  `first_name` varchar(15) DEFAULT NULL,
-  `last_name` varchar(15) DEFAULT NULL,
+  `lab_history_id` int(11) NOT NULL AUTO_INCREMENT,
+  `lab_id` int(11) unsigned DEFAULT NULL,
+  `client_id` int(11) unsigned DEFAULT NULL,
+  `first_name` varchar(25) DEFAULT NULL,
+  `last_name` varchar(25) DEFAULT NULL,
   `sex` enum('male','female') DEFAULT NULL,
   `location` varchar(45) DEFAULT NULL,
   `date_of_birth` date DEFAULT NULL,
@@ -1211,16 +1211,63 @@ CREATE TABLE `lab_history` (
   `hvs_macroscopy` varchar(45) DEFAULT NULL,
   `hvs_microscopy` varchar(45) DEFAULT NULL,
   `hvs_gram_stain` tinytext,
+  `culture` tinytext,
+  `blood_count` enum('yes','no') DEFAULT 'no',
+  `rbc` varchar(45) DEFAULT NULL,
+  `arterial_blood` enum('yes','no') DEFAULT 'no',
+  `pao2_text` varchar(45) DEFAULT NULL,
+  `paco2_text` varchar(45) DEFAULT NULL,
+  `blood_ph_text` varchar(45) DEFAULT NULL,
+  `sao2_text` varchar(45) DEFAULT NULL,
+  `hco3_text` varchar(45) DEFAULT NULL,
+  `liver` enum('yes','no') DEFAULT 'no',
+  `alt_text` varchar(45) DEFAULT NULL,
+  `ast_text` varchar(45) DEFAULT NULL,
+  `albumin_text` varchar(45) DEFAULT NULL,
+  `prothrombin` enum('yes','no') DEFAULT 'no',
+  `prothrombin_text` varchar(45) DEFAULT NULL,
+  `inr` enum('yes','no') DEFAULT 'yes',
+  `inr_text` varchar(45) DEFAULT NULL,
+  `tft` enum('yes','no') DEFAULT 'yes',
+  `tsh_text` varchar(45) DEFAULT NULL,
+  `freet3_text` varchar(45) DEFAULT NULL,
+  `freet4_text` varchar(45) DEFAULT NULL,
+  `cholesterol` enum('yes','no') DEFAULT 'yes',
+  `total_text` varchar(45) DEFAULT NULL,
+  `hdl_text` varchar(45) DEFAULT NULL,
+  `ldl_text` varchar(45) DEFAULT NULL,
+  `cardiac` enum('yes','no') DEFAULT 'yes',
+  `troponin_text` varchar(45) DEFAULT NULL,
+  `ck_text` varchar(45) DEFAULT NULL,
+  `hct_text` varchar(45) DEFAULT NULL,
+  `mcv_text` varchar(45) DEFAULT NULL,
+  `rdw_text` varchar(45) DEFAULT NULL,
+  `wbc_text` varchar(45) DEFAULT NULL,
+  `platelet_text` varchar(45) DEFAULT NULL,
+  `neutrophils_text` varchar(45) DEFAULT NULL,
+  `lymphocytes_text` varchar(45) DEFAULT NULL,
+  `monocytes_text` varchar(45) DEFAULT NULL,
+  `eosinophils_text` varchar(45) DEFAULT NULL,
+  `basophils_text` varchar(45) DEFAULT NULL,
+  `blood_chemistry` enum('yes','no') DEFAULT 'yes',
+  `sodium_text` varchar(45) DEFAULT NULL,
+  `chloride_text` varchar(45) DEFAULT NULL,
+  `potassium_text` varchar(45) DEFAULT NULL,
+  `calcium_text` varchar(45) DEFAULT NULL,
+  `bicarbonate_text` varchar(45) DEFAULT NULL,
+  `glucose_fasting_text` varchar(45) DEFAULT NULL,
+  `random_text` varchar(45) DEFAULT NULL,
+  `bun_text` varchar(45) DEFAULT NULL,
+  `creatinine_text` varchar(45) DEFAULT NULL,
+  `hba1c_text` varchar(45) DEFAULT NULL,
   `lab_order_id` int(11) unsigned DEFAULT NULL,
-  `timestamp` datetime DEFAULT NULL,
   `clinician` varchar(20) DEFAULT NULL,
+  `timestamp` timestamp NULL DEFAULT NULL,
   `created_by` varchar(20) DEFAULT NULL,
   PRIMARY KEY (`lab_history_id`),
-  UNIQUE KEY `lab_history_id_UNIQUE` (`lab_history_id`),
-  KEY `lab_client_id_idx` (`client_id`),
-  KEY `clinician_lab_idx` (`clinician`),
-  CONSTRAINT `client_id_lab_history` FOREIGN KEY (`client_id`) REFERENCES `general_info` (`client_id`) ON DELETE NO ACTION ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  UNIQUE KEY `lab_id_UNIQUE` (`lab_history_id`),
+  KEY `lab_client_id_idx` (`client_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1251,15 +1298,29 @@ CREATE TABLE `lab_order` (
   `hb` enum('yes','no') DEFAULT 'no',
   `urinalysis` enum('yes','no') DEFAULT 'no',
   `hvs` enum('yes','no') DEFAULT 'no',
+  `completed_by` varchar(20) DEFAULT NULL,
+  `h_pylori_stool` enum('yes','no') DEFAULT 'no',
+  `h_pylori_blood` enum('yes','no') DEFAULT NULL,
+  `rheumatoid_factor` enum('yes','no') DEFAULT NULL,
+  `cholesterol` enum('yes','no') DEFAULT NULL,
+  `culture` enum('yes','no') DEFAULT NULL,
+  `blood_count` enum('yes','no') DEFAULT NULL,
+  `blood_chemistry` enum('yes','no') DEFAULT NULL,
+  `arterial_blood` enum('yes','no') DEFAULT NULL,
+  `liver_function_test` enum('yes','no') DEFAULT NULL,
+  `prothrombin_time` enum('yes','no') DEFAULT NULL,
+  `inr` enum('yes','no') DEFAULT NULL,
+  `thyroid_function_test` enum('yes','no') DEFAULT NULL,
+  `gram_stain` enum('yes','no') DEFAULT NULL,
+  `cardiac` enum('yes','no') DEFAULT NULL,
   `time_created` datetime DEFAULT NULL,
   `time_completed` datetime DEFAULT NULL,
   `created_by` varchar(20) DEFAULT NULL,
-  `completed_by` varchar(20) DEFAULT NULL,
   PRIMARY KEY (`lab_order_id`),
   UNIQUE KEY `lab_order_id_UNIQUE` (`lab_order_id`),
   KEY `client_id_lab_order_idx` (`client_id`),
   CONSTRAINT `client_id_lab_order` FOREIGN KEY (`client_id`) REFERENCES `general_info` (`client_id`) ON DELETE NO ACTION ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1291,15 +1352,28 @@ CREATE TABLE `lab_order_history` (
   `hb` enum('yes','no') DEFAULT 'no',
   `urinalysis` enum('yes','no') DEFAULT 'no',
   `hvs` enum('yes','no') DEFAULT 'no',
+  `completed_by` varchar(20) DEFAULT NULL,
+  `h_pylori_stool` enum('yes','no') DEFAULT 'no',
+  `h_pylori_blood` enum('yes','no') DEFAULT NULL,
+  `rheumatoid_factor` enum('yes','no') DEFAULT NULL,
+  `cholesterol` enum('yes','no') DEFAULT NULL,
+  `culture` enum('yes','no') DEFAULT NULL,
+  `blood_count` enum('yes','no') DEFAULT NULL,
+  `blood_chemistry` enum('yes','no') DEFAULT NULL,
+  `arterial_blood` enum('yes','no') DEFAULT NULL,
+  `liver_function_test` enum('yes','no') DEFAULT NULL,
+  `prothrombin_time` enum('yes','no') DEFAULT NULL,
+  `inr` enum('yes','no') DEFAULT NULL,
+  `thyroid_function_test` enum('yes','no') DEFAULT NULL,
+  `gram_stain` enum('yes','no') DEFAULT NULL,
+  `cardiac` enum('yes','no') DEFAULT NULL,
   `time_created` datetime DEFAULT NULL,
   `time_completed` datetime DEFAULT NULL,
   `created_by` varchar(20) DEFAULT NULL,
-  `completed_by` varchar(20) DEFAULT NULL,
   PRIMARY KEY (`lab_order_history_id`),
-  UNIQUE KEY `lab_order_history_id_UNIQUE` (`lab_order_history_id`),
-  KEY `client_id_order_history_idx` (`client_id`),
-  CONSTRAINT `client_id_order_history` FOREIGN KEY (`client_id`) REFERENCES `general_info` (`client_id`) ON DELETE NO ACTION ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  UNIQUE KEY `lab_order_id_UNIQUE` (`lab_order_history_id`),
+  KEY `client_id_lab_order_idx` (`client_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1851,7 +1925,7 @@ CREATE TABLE `secret_values_temp` (
   `key_hash` varchar(96) NOT NULL,
   `privilege` enum('admin','read') DEFAULT 'read',
   PRIMARY KEY (`secret_value_temp_id`)
-) ENGINE=MEMORY AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
+) ENGINE=MEMORY DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -2254,4 +2328,4 @@ CREATE TABLE `women_health_history` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-01-12 11:58:47
+-- Dump completed on 2019-01-16 11:43:40

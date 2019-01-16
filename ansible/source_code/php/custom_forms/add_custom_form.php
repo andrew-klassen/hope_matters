@@ -255,7 +255,7 @@ Copyright © 2017 Andrew Klassen
 
 				$conn = new PDO($dbconnection_custom, $dbusername, $dbpassword);
 				$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-								
+		 						
 				
 				$table_name = $_SESSION['database_table_name'];
 				$meta_table = $table_name . '_meta';

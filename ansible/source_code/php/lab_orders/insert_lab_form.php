@@ -125,17 +125,11 @@ class grab_value extends RecursiveIteratorIterator {
 	$ba1 = $_POST['ba1'];
 
 	
-	$reactive = $_POST['reactive'];
-
-
-	$reactive_p24_hiv = $_POST['reactive_p24_hiv'];
-
+	$h_pylori_stool = $_POST['h_pylori_stool'];
 	
-	$blood_sugar_text = $_POST['blood_sugar_text'];
+	$h_pylori_blood = $_POST['h_pylori_blood'];
 	
-	// single quotes need to be replaced with the correct excape keys for the following value
-	$blood_sugar_text = str_replace('\'', '\\\'', $blood_sugar_text);
-
+	$rheumatoid_factor = $_POST['rheumatoid_factor'];
 	
 	$app = $_POST['app'];
 	$mic = $_POST['mic'];
@@ -143,25 +137,13 @@ class grab_value extends RecursiveIteratorIterator {
 	// single quotes need to be replaced with the correct excape keys for the following values
 	$app = str_replace('\'', '\\\'', $app);
 	$mic = str_replace('\'', '\\\'', $mic);
+	
+	$reactive_p24_hiv = $_POST['reactive_p24_hiv'];
 
 	
-	$rhve = $_POST['rhve'];
-	$aboab = $_POST['aboab'];
-	$du_test = $_POST['du_test'];
+	$vdrl_rpr = $_POST['vdrl_rpr'];
 	
-	// single quotes need to be replaced with the correct excape keys for the following value
-	$du_test = str_replace('\'', '\\\'', $du_test);
-
 	
-	$hcg_detected = $_POST['hcg_detected'];
-
-	
-	$hb_text = $_POST['hb_text'];
-	
-	// single quotes need to be replaced with the correct excape keys for the following value
-	$hb_text = str_replace('\'', '\\\'', $hb_text);
-
-
 	$urobilinogen = $_POST['urobilinogen'];
 	$glucose = $_POST['glucose'];
 	$bilirubin = $_POST['bilirubin'];
@@ -172,21 +154,175 @@ class grab_value extends RecursiveIteratorIterator {
 	$protein = $_POST['protein'];
 	$nitrite = $_POST['nitrite'];
 	$leukocytes = $_POST['leukocytes'];
-	$microscopy = $_POST['microscopy'];
 	
-	// single quotes need to be replaced with the correct excape keys for the following value
-	$microscopy = str_replace('\'', '\\\'', $microscopy);
-
+	
+	$hcg_detected = $_POST['hcg_detected'];
+	
 	
 	$macroscopy = $_POST['macroscopy'];
 	$microscopy_hvs = $_POST['microscopy_hvs'];
-	$gram_stain = $_POST['gram_stain'];
 	
 	// single quotes need to be replaced with the correct excape keys for the following values
 	$macroscopy = str_replace('\'', '\\\'', $macroscopy);
 	$microscopy_hvs = str_replace('\'', '\\\'', $microscopy_hvs);
+	
+	
+	
+	$gram_stain = $_POST['gram_stain'];
+	
+	// single quotes need to be replaced with the correct excape keys for the following values
 	$gram_stain = str_replace('\'', '\\\'', $gram_stain);
 
+	
+	$culture = $_POST['culture'];
+	
+	// single quotes need to be replaced with the correct excape keys for the following values
+	$culture = str_replace('\'', '\\\'', $culture);
+	
+	
+	
+	
+	$rhve = $_POST['rhve'];
+	$aboab = $_POST['aboab'];
+	$du_test = $_POST['du_test'];
+	
+	// single quotes need to be replaced with the correct excape keys for the following value
+	$du_test = str_replace('\'', '\\\'', $du_test);
+	
+	
+	
+    $rbc = $_POST['rbc'];
+	$hb = $_POST['hb'];
+	$hct = $_POST['hct'];
+	$mcv = $_POST['mcv'];
+	$rdw = $_POST['rdw'];
+	$wbc = $_POST['wbc'];
+	$platelet = $_POST['platelet'];
+	$neutrophils = $_POST['neutrophils'];
+	$lymphocytes = $_POST['lymphocytes'];
+	$monocytes = $_POST['monocytes'];
+	$eosinophils = $_POST['eosinophils'];
+	$basophils = $_POST['basophils'];
+	
+	// single quotes need to be replaced with the correct excape keys for the following value
+	$rbc = str_replace('\'', '\\\'', $rbc);
+	$hb = str_replace('\'', '\\\'', $hb);
+	$hct = str_replace('\'', '\\\'', $hct);
+	$mcv = str_replace('\'', '\\\'', $mcv);
+	$rdw = str_replace('\'', '\\\'', $rdw);
+	$wbc = str_replace('\'', '\\\'', $wbc);
+	$platelet = str_replace('\'', '\\\'', $platelet);
+	$neutrophils = str_replace('\'', '\\\'', $neutrophils);
+	$lymphocytes = str_replace('\'', '\\\'', $lymphocytes);
+	$monocytes = str_replace('\'', '\\\'', $monocytes);
+	$eosinophils = str_replace('\'', '\\\'', $eosinophils);
+	$basophils = str_replace('\'', '\\\'', $basophils);
+	
+	
+	
+	
+    $sodium = $_POST['sodium'];
+	$chloride = $_POST['chloride'];
+	$potassium = $_POST['potassium'];
+	$calcium = $_POST['calcium'];
+	$bicarbonate = $_POST['bicarbonate'];
+	$glucose_fasting = $_POST['glucose_fasting'];
+	$glucose_random = $_POST['glucose_random'];
+	$bun = $_POST['bun'];
+	$creatinine = $_POST['creatinine'];
+	$hba1c = $_POST['hba1c'];
+	
+	// single quotes need to be replaced with the correct excape keys for the following value
+	$sodium = str_replace('\'', '\\\'', $sodium);
+	$chloride = str_replace('\'', '\\\'', $chloride);
+	$potassium = str_replace('\'', '\\\'', $potassium);
+	$calcium = str_replace('\'', '\\\'', $calcium);
+	$bicarbonate = str_replace('\'', '\\\'', $bicarbonate);
+	$glucose_fasting = str_replace('\'', '\\\'', $glucose_fasting);
+	$glucose_random = str_replace('\'', '\\\'', $glucose_random);
+	$bun = str_replace('\'', '\\\'', $bun);
+	$creatinine = str_replace('\'', '\\\'', $creatinine);
+	$hba1c = str_replace('\'', '\\\'', $hba1c);
+	
+	
+	
+	$pao2 = $_POST['pao2'];
+	$paco2 = $_POST['paco2'];
+	$arterial_text = $_POST['arterial_text'];
+	$sao2_text = $_POST['sao2_text'];
+	$hco3_text = $_POST['hco3_text'];
+		
+	// single quotes need to be replaced with the correct excape keys for the following values
+	$pao2 = str_replace('\'', '\\\'', $pao2);
+	$paco2 = str_replace('\'', '\\\'', $paco2);
+	$arterial_text = str_replace('\'', '\\\'', $arterial_text);
+	$sao2_text = str_replace('\'', '\\\'', $sao2_text);
+	$hco3_text = str_replace('\'', '\\\'', $hco3_text);
+	
+	
+	
+	
+	$alt = $_POST['alt'];
+	$ast_text = $_POST['ast_text'];
+	$albumin_text = $_POST['albumin_text'];
+		
+	// single quotes need to be replaced with the correct excape keys for the following values
+	$alt = str_replace('\'', '\\\'', $alt);
+	$ast_text = str_replace('\'', '\\\'', $ast_text);
+	$albumin_text= str_replace('\'', '\\\'', $albumin_text);
+	
+	
+	
+	$prothrombin_text = $_POST['prothrombin_text'];
+	
+		
+	// single quotes need to be replaced with the correct excape keys for the following values
+	$prothrombin_text = str_replace('\'', '\\\'', $prothrombin_text);
+	
+	
+	
+	$inr_text = $_POST['inr_text'];
+	
+		
+	// single quotes need to be replaced with the correct excape keys for the following values
+	$inr_text = str_replace('\'', '\\\'', $inr_text);
+	
+	
+	
+	
+	$tsh = $_POST['tsh'];
+	$freet3_text = $_POST['freet3_text'];
+	$freet4_text = $_POST['freet4_text'];
+		
+	// single quotes need to be replaced with the correct excape keys for the following values
+	$tsh = str_replace('\'', '\\\'', $tsh);
+	$freet3_text = str_replace('\'', '\\\'', $freet3_text);
+	$freet4_text = str_replace('\'', '\\\'', $freet4_text);
+	
+	
+	
+	
+	$total = $_POST['total'];
+	$hdl_text = $_POST['hdl_text'];
+	$ldl_text = $_POST['ldl_text'];
+		
+	// single quotes need to be replaced with the correct excape keys for the following values
+	$total = str_replace('\'', '\\\'', $total);
+	$hdl_text = str_replace('\'', '\\\'', $hdl_text);
+	$ldl_text = str_replace('\'', '\\\'', $ldl_text);
+	
+	
+	
+	$troponin = $_POST['troponin'];
+	$hdl_text = $_POST['hdl_text'];
+		
+	// single quotes need to be replaced with the correct excape keys for the following values
+	$troponin = str_replace('\'', '\\\'', $troponin);
+	$ck_text = str_replace('\'', '\\\'', $ck_text);
+	
+	
+	
+	
 	
 	// the tests that are going to be preformed have to be pulled from the lab orders table
 	// because disabled checkboxes are always interperted as unchecked
@@ -230,34 +366,40 @@ class grab_value extends RecursiveIteratorIterator {
 	$brucella = $_SESSION['temp'];
 	
 	
-	$stmt = $conn->prepare("SELECT vdrl_rpr FROM lab_order WHERE lab_order_id='$lab_order_id';");
+	
+	$stmt = $conn->prepare("SELECT h_pylori_stool FROM lab_order WHERE lab_order_id='$lab_order_id';");
 	$stmt->execute();
 	$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
 	
 	foreach(new grab_value(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
 	
 	}
-	$vdrl_rpr = $_SESSION['temp'];
+	$h_pylori_stool = $_SESSION['temp'];
 	
 	
-	$stmt = $conn->prepare("SELECT p24_hiv FROM lab_order WHERE lab_order_id='$lab_order_id';");
+	
+	$stmt = $conn->prepare("SELECT h_pylori_blood FROM lab_order WHERE lab_order_id='$lab_order_id';");
 	$stmt->execute();
 	$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
 	
 	foreach(new grab_value(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
 	
 	}
-	$p24_hiv = $_SESSION['temp'];
+	$h_pylori_blood = $_SESSION['temp'];
 	
 	
-	$stmt = $conn->prepare("SELECT blood_sugar FROM lab_order WHERE lab_order_id='$lab_order_id';");
+	
+	
+	$stmt = $conn->prepare("SELECT rheumatoid_factor FROM lab_order WHERE lab_order_id='$lab_order_id';");
 	$stmt->execute();
 	$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
 	
 	foreach(new grab_value(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
 	
 	}
-	$blood_sugar = $_SESSION['temp'];
+	$rheumatoid_factor = $_SESSION['temp'];
+	
+	
 	
 	
 	$stmt = $conn->prepare("SELECT stool FROM lab_order WHERE lab_order_id='$lab_order_id';");
@@ -270,14 +412,39 @@ class grab_value extends RecursiveIteratorIterator {
 	$stool = $_SESSION['temp'];
 	
 	
-	$stmt = $conn->prepare("SELECT blood_group FROM lab_order WHERE lab_order_id='$lab_order_id';");
+	
+	
+	$stmt = $conn->prepare("SELECT p24_hiv FROM lab_order WHERE lab_order_id='$lab_order_id';");
 	$stmt->execute();
 	$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
 	
 	foreach(new grab_value(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
 	
 	}
-	$blood_group = $_SESSION['temp'];
+	$p24_hiv = $_SESSION['temp'];
+	
+	
+	
+	$stmt = $conn->prepare("SELECT vdrl_rpr FROM lab_order WHERE lab_order_id='$lab_order_id';");
+	$stmt->execute();
+	$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
+	
+	foreach(new grab_value(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
+	
+	}
+	$vdrl_rpr = $_SESSION['temp'];
+	
+	
+	
+	$stmt = $conn->prepare("SELECT urinalysis FROM lab_order WHERE lab_order_id='$lab_order_id';");
+	$stmt->execute();
+	$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
+	
+	foreach(new grab_value(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
+	
+	}
+	$urinalysis = $_SESSION['temp'];
+	
 	
 	
 	$stmt = $conn->prepare("SELECT pregnancy_test FROM lab_order WHERE lab_order_id='$lab_order_id';");
@@ -290,24 +457,6 @@ class grab_value extends RecursiveIteratorIterator {
 	$pregnancy_test = $_SESSION['temp'];
 	
 	
-	$stmt = $conn->prepare("SELECT hb FROM lab_order WHERE lab_order_id='$lab_order_id';");
-	$stmt->execute();
-	$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
-	
-	foreach(new grab_value(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
-	
-	}
-	$hb = $_SESSION['temp'];
-	
-	
-	$stmt = $conn->prepare("SELECT urinalysis FROM lab_order WHERE lab_order_id='$lab_order_id';");
-	$stmt->execute();
-	$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
-	
-	foreach(new grab_value(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
-	
-	}
-	$urinalysis = $_SESSION['temp'];
 	
 	
 	$stmt = $conn->prepare("SELECT hvs FROM lab_order WHERE lab_order_id='$lab_order_id';");
@@ -321,6 +470,145 @@ class grab_value extends RecursiveIteratorIterator {
 	
 	
 	
+	
+	$stmt = $conn->prepare("SELECT gram_stain FROM lab_order WHERE lab_order_id='$lab_order_id';");
+	$stmt->execute();
+	$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
+	
+	foreach(new grab_value(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
+	
+	}
+	$gram_stain = $_SESSION['temp'];
+	
+	
+	
+	$stmt = $conn->prepare("SELECT culture FROM lab_order WHERE lab_order_id='$lab_order_id';");
+	$stmt->execute();
+	$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
+	
+	foreach(new grab_value(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
+	
+	}
+	$culture = $_SESSION['temp'];
+	
+	
+	$stmt = $conn->prepare("SELECT blood_group FROM lab_order WHERE lab_order_id='$lab_order_id';");
+	$stmt->execute();
+	$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
+	
+	foreach(new grab_value(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
+	
+	}
+	$blood_group = $_SESSION['temp'];
+	
+	
+	
+	
+	$stmt = $conn->prepare("SELECT blood_count FROM lab_order WHERE lab_order_id='$lab_order_id';");
+	$stmt->execute();
+	$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
+	
+	foreach(new grab_value(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
+	
+	}
+	$blood_count = $_SESSION['temp'];
+	
+	
+	
+	$stmt = $conn->prepare("SELECT blood_chemistry FROM lab_order WHERE lab_order_id='$lab_order_id';");
+	$stmt->execute();
+	$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
+	
+	foreach(new grab_value(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
+	
+	}
+	$blood_chemistry = $_SESSION['temp'];
+	
+	
+	
+	$stmt = $conn->prepare("SELECT arterial_blood FROM lab_order WHERE lab_order_id='$lab_order_id';");
+	$stmt->execute();
+	$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
+	
+	foreach(new grab_value(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
+	
+	}
+	$arterial_blood = $_SESSION['temp'];
+	
+	
+	
+	$stmt = $conn->prepare("SELECT liver_function_test FROM lab_order WHERE lab_order_id='$lab_order_id';");
+	$stmt->execute();
+	$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
+	
+	foreach(new grab_value(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
+	
+	}
+	$liver_function_test = $_SESSION['temp'];
+	
+	
+	
+	$stmt = $conn->prepare("SELECT prothrombin_text FROM lab_order WHERE lab_order_id='$lab_order_id';");
+	$stmt->execute();
+	$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
+	
+	foreach(new grab_value(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
+	
+	}
+	$prothrombin_text = $_SESSION['temp'];
+	
+	
+	$stmt = $conn->prepare("SELECT inr FROM lab_order WHERE lab_order_id='$lab_order_id';");
+	$stmt->execute();
+	$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
+	
+	foreach(new grab_value(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
+	
+	}
+	$inr = $_SESSION['temp'];
+	
+	
+	
+	$stmt = $conn->prepare("SELECT thyroid_function_test FROM lab_order WHERE lab_order_id='$lab_order_id';");
+	$stmt->execute();
+	$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
+	
+	foreach(new grab_value(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
+	
+	}
+	$thyroid_function_test = $_SESSION['temp'];
+	
+	
+	
+	
+	
+	$stmt = $conn->prepare("SELECT cholesterol FROM lab_order WHERE lab_order_id='$lab_order_id';");
+	$stmt->execute();
+	$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
+	
+	foreach(new grab_value(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
+	
+	}
+	$cholesterol = $_SESSION['temp'];
+	
+	
+	
+	
+	
+	$stmt = $conn->prepare("SELECT cardiac FROM lab_order WHERE lab_order_id='$lab_order_id';");
+	$stmt->execute();
+	$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
+	
+	foreach(new grab_value(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
+	
+	}
+	$cardiac = $_SESSION['temp'];
+
+	
+	
+	
+	
+	
 	$username = $_SESSION['username'];
 	$time_completed = date("Y-m-d H:i:s"); 
 	
@@ -331,8 +619,23 @@ class grab_value extends RecursiveIteratorIterator {
 		$conn->exec($query);
 		
 		// create the lab from the lab order
-		$query = "INSERT INTO lab (client_id, first_name, last_name, sex, location, date_of_birth, bs_for_mps, bs_for_mps_results, pbf, pbf_results, widal, th1, th0, brucella, bm1, ba1, vdrl_rpr, vdrl_rpr_results, p24_hiv, reactive_p24_hiv,  blood_sugar, blood_sugar_results, stool, app, mic, blood_group, blood_group_rh, blood_group_type, du_test, pregnancy_test, pregnancy_test_results, hb, hb_results, urinalysis, urinalysis_urobilinogen, urinalysis_glucose, urinalysis_bilirubin, urinalysis_ketones, urinalysis_specific_gravity, urinalysis_blood, urinalysis_ph, urinalysis_protein, urinalysis_nitrite, urinalysis_leukocytes, urinalysis_microscopy, hvs, hvs_macroscopy, hvs_microscopy, hvs_gram_stain, lab_order_id, clinician, created_by  ) VALUES ('$client_id', '$first_name', '$last_name', '$sex', '$location', '$date_of_birth', '$bs_for_mps', '$mps', '$pbf', '$pbf_text', '$widal', '$th1', '$th2', '$brucella', '$bm1', '$ba1', '$vdrl_rpr', '$reactive', '$p24_hiv', '$reactive_p24_hiv', '$blood_sugar', '$blood_sugar_text', '$stool', '$app', '$mic', '$blood_group', '$rhve', '$aboab', '$du_test', '$pregnancy_test', '$hcg_detected', '$hb', '$hb_text', '$urinalysis', '$urobilinogen', '$glucose', '$bilirubin', '$ketones', '$specific_gravity', '$blood', '$ph', '$protein', '$nitrite', '$leukocytes', '$microscopy', '$hvs', '$macroscopy', '$microscopy_hvs', '$gram_stain', '$lab_order_id', '$username', '$username' );"; 
-		$conn->exec($query);
+		$query = "INSERT INTO lab (`lab_id`, `client_id`, `first_name`, `last_name`, `sex`, `date_of_birth`, `location`, `bs_for_mps`, `bs_for_mps_results`,
+		`widal`, `th1`, `th0`, `brucella`, `bm1`, `ba1`, `pylori_stool`, `pylori_stool_results`, `pylori_blood`, `pylori_blood_results`, `rheumatoid_factor`, 
+		`rheumatoid_factor_results`, `stool`, `app`, `mic`, `p24_hiv`, `reactive_p24_hiv`, `vdrl_rpr`, `vdrl_rpr_results`, `urinalysis`, `urinalysis_urobilinogen`, 
+		`urinalysis_glucose`, `urinalysis_bilirubin`, `urinalysis_ketones`, `urinalysis_specific_gravity`, `urinalysis_blood`, `urinalysis_ph`, `urinalysis_protein`, 
+		`urinalysis_nitrite`, `urinalysis_leukocytes`, `pregnancy_test`, `pregnancy_test_results`, `hvs`, `hvs_macroscopy`, `hvs_microscopy`, `gram_stain`, `culture`,
+		`blood_group`, `blood_group_rh`, `blood_group_type`, `du_test`, `blood_counts`, `rbc`, `hb`, `hct`, `mcv`, `rdw`, `wbc`, `platelet`, `neutrophils`, `lymphocytes`, 
+		`monocytes`, `eosinophils`, `basophils`, `blood_chemistry`, `sodium`, `chloride`, `potassium`, `calcium`, `bicarbonate`, `glucose_fasting`, `glucose_random`, `bun`,
+		`creatinine`, `hba1c`, `arterial_blood_gas`, `pao2`, `paco2`, `arterial_blood_ph`, `sao2`, `hco3`, `liver_function_test`, `alt`, `ast`, `albumin`, `prothrombin_time`,
+		`prothrombin_time_results`, `inr`, `inr_results`, `thyroid_function_test`, `tsh`, `freet3`, `freet4`, `cholesterol`, `total`, `hdl`, `ldl`, `cardiac_enzymes`, `troponin`,
+		`ck`, `lab_order_id`, `timestamp`, `clinician`, `created_by`)
+		
+		VALUES ('$client_id', '$first_name', '$last_name','$sex','$date_of_birth','$location', '$bs_for_mps', '$mps', '$widal', '$th1','$th2','$brucella', '$bm1','$ba1','$pylori_stool', '$pylori_stool_radio', '$pylori_blood', '$pylori_blood_radio', '$rheumatoid', '$reactive_rheumatoid_radio', '$stool', '$app', '$mic', '$p24_hiv', 'reactive_p24_hiv', '$vdrl_rpr', '$reactive', '$urinalysis', '$urobilinogen', 
+		'$glucose', '$bilirubin', '$ketones', '$specific_gravity', '$blood', '$ph', '$protein', '$nitrite', '$leukocytes', '$pregnancy', '$hcg_detected', '$hvs', '$macroscopy', '$microscopy_hvs', '$gram_stain', '$gram_stain_text', '$culture', '$culture_text', '$blood_group', '$rhve', '$aboab', '$du_test', '$blood_count', '$rbc', '$hb_text', '$hct_text', '$mcv_text', '$rdw_text', '$wbc_text', '$platelet_text', '$neutrophils_text', '$lymphocytes_text', '$monocytes_text',
+		'$eosinophils_text', '$basophils_text', '$blood_chemistry', '$sodium', '$chloride_text', '$potassium_text', '$calcium_text', '$bicarbonate_text', '$glucose_fasting_text', '$random_text', '$bun_text', '$creatinine_text', '$hba1c_text', '$arterial_blood', '$pao2', '$paco2', '$arterial_text', '$sao2_text', '$hco3_text', '$liver_function_test`', '$alt', '$ast_text','$albumin_text','$prothrombin', '$prothrombin_text','$inr', '$inr_text','$tft','$tsh',
+		'$freet3_text', '$freet4_text', '$cholesterol', '$total', '$hdl_text', '$ldl_text', '$cardiac', '$troponin', '$ck_text','$clinician', '$username' );"; 
+		$conn->exec($query); 
+
 		
 		// redirect the user to where they can select an order to complete
 		header( 'Location: select_complete_lab_order.php');
