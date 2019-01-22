@@ -77,15 +77,12 @@ $conn->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
 			
 			if ($username == 'Everyone') {
 				
-
+				// gets list of all user id's
 				$stmt = $conn->prepare("SELECT account_id, CONCAT(`password`, account_id) as secret_password FROM accounts;");
 				$stmt->execute();
 				$user_ids = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 				$user_id_max = count($user_ids);
-
-
-
 
 				// get list of all secrets temp ids
 				$stmt = $conn->prepare("SELECT secret_value_temp_id, key_hash FROM secret_values_temp WHERE secret_id = :secret_id;");
@@ -93,7 +90,6 @@ $conn->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
 				$secret_value_temp_ids = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 				$secret_value_temp_ids_max = count($secret_value_temp_ids);
-
 
 
 				// create one time secret for all user's
@@ -105,17 +101,12 @@ $conn->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
 					$secret_password = $user_ids[$i]['secret_password'];
 
 
-					
 					// iterate through all temp ids
 					for($j = 0; $j < $secret_value_temp_ids_max; ++$j) {
 
 						$secret_value_temp_id = $secret_value_temp_ids[$j]['secret_value_temp_id'];
-
-
-						
 						$hash = $secret_value_temp_ids[$j]['key_hash'];
 						
-
 						// if valid key exists
 						if (password_verify($secret_password, $hash)) {
 							
@@ -138,24 +129,19 @@ $conn->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
 
 					$stmt = $conn->prepare("INSERT INTO secret_values_temp (secret_id, encrypted_value, initialization_vector, key_hash, privilege) VALUES (:secret_id, AES_ENCRYPT(:value, :secret_password, :initialization_vector), :initialization_vector2, :hash, :privilege);");
 					$stmt->execute(array('secret_id' => $secret_id, 'value' => $value, 'secret_password' => $secret_password, 'initialization_vector' => $initialization_vector, 'initialization_vector2' => $initialization_vector, 'hash' => $hash, 'privilege' => $privilege));
-
-
-									
+				
 				}
 				
 			}
 
 			else if ($username == 'Server Admins') {
 
-
+				// gets list of all user id's
 				$stmt = $conn->prepare("SELECT account_id, CONCAT(`password`, account_id) as secret_password FROM accounts WHERE server_admin = 'yes';");
 				$stmt->execute();
 				$user_ids = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 				$user_id_max = count($user_ids);
-
-
-
 
 				// get list of all secrets temp ids
 				$stmt = $conn->prepare("SELECT secret_value_temp_id, key_hash FROM secret_values_temp WHERE secret_id = :secret_id;");
@@ -163,8 +149,6 @@ $conn->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
 				$secret_value_temp_ids = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 				$secret_value_temp_ids_max = count($secret_value_temp_ids);
-
-
 
 
 				// iterate through all users
@@ -180,9 +164,7 @@ $conn->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
 					for($j = 0; $j < $secret_value_temp_ids_max; ++$j) {
 
 						$secret_value_temp_id = $secret_value_temp_ids[$j]['secret_value_temp_id'];
-
 						$hash = $secret_value_temp_ids[$j]['key_hash'];
-						
 						
 						// if valid key exists
 						if (password_verify($secret_password, $hash)) {
@@ -219,28 +201,22 @@ $conn->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
 
 				$secret_value_temp_ids_max = count($secret_value_temp_ids);
 
-
-
+				// get account_id and secret password, only one in this case
 				$stmt = $conn->prepare("SELECT account_id, CONCAT(`password`, account_id) as secret_password FROM accounts WHERE username = :username;");
 				$stmt->execute(array('username' => $username));
 				$user_ids = $stmt->fetch(PDO::FETCH_ASSOC);
 
 				$account_id = $user_ids['account_id'];
 				
-
 				// aes key used for one time login = users_password_hash + account_id
 				$secret_password = $user_ids['secret_password'];
 
-
-		
 
 				// iterate through all temp ids
 				for($j = 0; $j < $secret_value_temp_ids_max; ++$j) {
 
 					$secret_value_temp_id = $secret_value_temp_ids[$j]['secret_value_temp_id'];
-
 					$hash = $secret_value_temp_ids[$j]['key_hash'];
-					
 	
 					// if valid key exists
 					if (password_verify($secret_password, $hash)) {

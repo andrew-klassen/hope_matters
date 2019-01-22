@@ -52,7 +52,6 @@ Copyright © 2017 Andrew Klassen
 					login_check();
 					
 
-
 					$secret_id = $_SESSION['choosen_secret_id'];
 					
 				
@@ -68,7 +67,6 @@ Copyright © 2017 Andrew Klassen
 
 					$label = $secret_row['label'];
 
-					
 					
 					echo " 
 

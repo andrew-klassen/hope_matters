@@ -71,12 +71,10 @@ $conn->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
 		$stmt->execute(array('label' => $label, 'description' => $description));
 
 
-
 		$stmt = $conn->prepare("SELECT LAST_INSERT_ID();");
 		$stmt->execute();
 		$secret_id_row = $stmt->fetch(PDO::FETCH_NUM);
 		$secret_id = $secret_id_row[0];
-
 
 
 		$initialization_vector = generate_initialization_vector();

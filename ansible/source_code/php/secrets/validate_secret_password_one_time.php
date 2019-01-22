@@ -26,14 +26,13 @@ $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 $conn->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
 
 
+// get user's password hash
 $stmt = $conn->prepare("SELECT password FROM accounts WHERE account_id = :account_id;");
 $stmt->execute(array('account_id' => $account_id));
 $password = $stmt->fetch(PDO::FETCH_ASSOC);
 
-
 // aes key used to decrypt one time password = user's password hash + id
 $secret_password = $password['password'] . $account_id;
-
 
 
 // get all temp ids
@@ -41,24 +40,20 @@ $stmt = $conn->prepare("SELECT secret_value_temp_id, key_hash FROM secret_values
 $stmt->execute(array('secret_id' => $secret_id));
 $secret_value_temp_rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-
 $secret_value_temp_rows_max = count($secret_value_temp_rows);
 
 
 for($i = 0; $i < $secret_value_temp_rows_max; ++$i) {
 
 	$hash = $secret_value_temp_rows[$i]['key_hash'];
-	
-						
+							
 	// if valid key exists
 	if (password_verify($secret_password, $hash)) {
 	
-
 		$stmt = $conn->prepare("SELECT AES_DECRYPT(encrypted_value, :secret_password, initialization_vector) as `value`, privilege FROM secret_values_temp WHERE secret_value_temp_id = :secret_value_temp_ids;");
 		$stmt->execute(array('secret_password' => $secret_password, 'secret_value_temp_ids' => $secret_value_temp_rows[$i]['secret_value_temp_id']));
 		$secret_value_temp_record = $stmt->fetch(PDO::FETCH_ASSOC);
-
-		
+	
 		$value = $secret_value_temp_record['value'];
 		break;
 

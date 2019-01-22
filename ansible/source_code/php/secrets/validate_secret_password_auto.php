@@ -25,73 +25,58 @@ $conn->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
 
 
 // get all admin secrets 
-
 $stmt = $conn->prepare("SELECT secret_value_id, key_hash FROM secret_values WHERE secret_id = :secret_id and privilege = 'admin';");
 $stmt->execute(array('secret_id' => $secret_id));
 $secret_keys_ids = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-
 $secret_keys_id_max = count($secret_keys_ids);
-
 
 
 for($i = 0; $i < $secret_keys_id_max; ++$i) {
 
 	$hash = $secret_keys_ids[$i]['key_hash'];
 
-
 	// if valid key exists
 	if (password_verify($secret_password, $hash)) {
-
-		
-
 
 		$stmt = $conn->prepare("SELECT AES_DECRYPT(encrypted_value, :secret_password, initialization_vector) as `value`, privilege FROM secret_values WHERE secret_value_id = :secret_value_id;");
 		$stmt->execute(array('secret_password' => $secret_password, 'secret_value_id' => $secret_keys_ids[$i]['secret_value_id']));
 		$secret_value_record = $stmt->fetch(PDO::FETCH_ASSOC);
 
-
-
-
 		$value = $secret_value_record['value'];
 		$privilege = "admin";
 		break;
+
 	}
 
 }
 
 
-
 if ($privilege != "admin") {
 
+	// get all read keys
 	$stmt = $conn->prepare("SELECT secret_value_id, key_hash FROM secret_values WHERE secret_id = :secret_id and privilege = 'read';");
 	$stmt->execute(array('secret_id' => $secret_id));
 	$secret_keys_ids = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-
 	$secret_keys_id_max = count($secret_keys_ids);
-
 
 
 	for($i = 0; $i < $secret_keys_id_max; ++$i) {
 
 		$hash = $secret_keys_ids[$i]['key_hash'];
 
-
 		// if valid key exists
 		if (password_verify($secret_password, $hash)) {
-
 		
 			$stmt = $conn->prepare("SELECT AES_DECRYPT(encrypted_value, :secret_password, initialization_vector) as `value`, privilege FROM secret_values WHERE secret_value_id = :secret_value_id;");
 			$stmt->execute(array('secret_password' => $secret_password, 'secret_value_id' => $secret_keys_ids[$i]['secret_value_id']));
 			$secret_value_record = $stmt->fetch(PDO::FETCH_ASSOC);
 
-
-
-
 			$value = $secret_value_record['value'];
 			$privilege = "read";
 			break;
+
 		}
 
 	}

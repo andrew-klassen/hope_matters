@@ -56,45 +56,35 @@ $conn->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
 			$stmt->execute(array('secret_id' => $secret_id));
 			$secret_value_temp_ids = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-
 			$secret_value_temp_ids_max = count($secret_value_temp_ids);
 
 	
-
 			for($j = 0; $j < $secret_value_temp_ids_max; ++$j) {
 
-						$hash = $secret_value_temp_ids[$j]['key_hash'];
+					$hash = $secret_value_temp_ids[$j]['key_hash'];
 						
+					// if valid key exists
+					if (password_verify($secret_password_one_time, $hash)) {
 
-						// if valid key exists
-						if (password_verify($secret_password_one_time, $hash)) {
-
-							
-
-
-							$stmt = $conn->prepare("SELECT AES_DECRYPT(encrypted_value, :secret_password_one_time, initialization_vector) as `value`, privilege FROM secret_values_temp WHERE secret_value_temp_id = :secret_value_temp_id;");
-							$stmt->execute(array('secret_password_one_time' => $secret_password_one_time, 'secret_value_temp_id' => $secret_value_temp_ids[$j]['secret_value_temp_id']));
-							$secret_value_record = $stmt->fetch(PDO::FETCH_ASSOC);
+						$stmt = $conn->prepare("SELECT AES_DECRYPT(encrypted_value, :secret_password_one_time, initialization_vector) as `value`, privilege FROM secret_values_temp WHERE secret_value_temp_id = :secret_value_temp_id;");
+						$stmt->execute(array('secret_password_one_time' => $secret_password_one_time, 'secret_value_temp_id' => $secret_value_temp_ids[$j]['secret_value_temp_id']));
+						$secret_value_record = $stmt->fetch(PDO::FETCH_ASSOC);
 	
-							$value = $secret_value_record['value'];
-							$privilege = $secret_value_record['privilege'];
-							$secret_value_temp_id = $secret_value_temp_ids[$j]['secret_value_temp_id'];					
-							
+						$value = $secret_value_record['value'];
+						$privilege = $secret_value_record['privilege'];
+						$secret_value_temp_id = $secret_value_temp_ids[$j]['secret_value_temp_id'];					
 
-							break;
+						break;
 
-						}
+					}
 
 			}
 			
-
-
 
 			// insert newly created persistant key
 			$initialization_vector = generate_initialization_vector();
 			$hash = password_hash($secret_password, $password_hashing_algorithim, $password_hashing_options);
 			$value = str_replace('\'', '\\\'', $value);
-
 
 			$stmt = $conn->prepare("INSERT INTO secret_values (secret_id, encrypted_value, initialization_vector, key_hash, privilege) VALUES (:secret_id, AES_ENCRYPT(:value, :secret_password, :initialization_vector), :initialization_vector2, :hash, :privilege);");
 			$stmt->execute(array('secret_id' => $secret_id, 'value' => $value, 'secret_password' => $secret_password, 'initialization_vector' => $initialization_vector, 'initialization_vector2' => $initialization_vector, 'hash' => $hash, 'privilege' => $privilege));
@@ -103,7 +93,6 @@ $conn->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
 			$stmt = $conn->prepare("DELETE FROM secret_values_temp WHERE secret_value_temp_id = :secret_value_temp_id;");
 			$stmt->execute(array('secret_value_temp_id' => $secret_value_temp_id));
 
-		
 
 		// remove sensitive varibles from user's php session
 		$_SESSION['value'] = '';

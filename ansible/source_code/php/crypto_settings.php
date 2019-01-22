@@ -1,8 +1,9 @@
 <?php
 
-$servername_secret = '127.0.0.1';
+
+$servername_secret = '{{ php_host }}';
 $dbusername_secret = 'php';
-$dbpassword_secret = 'mgitHN0G1pIXvC0NQmemZBIBctPqYTu8WIq7hLqB';
+$dbpassword_secret = '{{ php_password }}';
 $dbname_secret = 'hope_matters';
 $dbconnection_secret = "mysql:host=$servername_secret;dbname=$dbname_secret";
 
@@ -16,7 +17,6 @@ $password_hashing_options = [
 // database query limits
 $search_limit = 200;
 $wild_card_limit = 200;
-
 
 
 
@@ -56,9 +56,9 @@ function create_database_error($query, $error_location, $pdo_error) {
 	require_once('browser_info.php');
 	
 	// database connection information
-	$servername_secret = '127.0.0.1';
+	$servername_secret = '{{ php_host }}';
 	$dbusername_secret = 'php';
-	$dbpassword_secret = 'mgitHN0G1pIXvC0NQmemZBIBctPqYTu8WIq7hLqB';
+	$dbpassword_secret = '{{ php_password }}';
 	$dbname_secret = 'hope_matters';
 	$dbconnection_secret = "mysql:host=$servername_secret;dbname=$dbname_secret";
 

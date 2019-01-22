@@ -94,7 +94,6 @@ Copyright © 2017 Andrew Klassen
 					$label = $secret_row['label'];
 					$description = $secret_row['description'];
 
-
 					$privilege = $_SESSION['privilege'];
 					
 				
