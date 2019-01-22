@@ -8,41 +8,11 @@ Copyright © 2017 Andrew Klassen
 
 <?php
 
-require('../database_credentials.php');
-require('../file_upload.php');
+require('../crypto_settings.php');
 session_start();
 
 // make sure user is logged in
 login_check();
-
-class grab_value extends RecursiveIteratorIterator {
-		function __construct($it) {
-			parent::__construct($it, self::LEAVES_ONLY);
-		}
-		function current() {
-			$_SESSION['temp'] = parent::current();
-		}
-		function beginChildren() {
-			echo "<tr>";
-		}
-		function endChildren() {
-			echo "</tr>" . "\n";
-		}
-}
-
-
-class get_secret_value_temp_ids extends RecursiveIteratorIterator {
-		function __construct($it) {
-			parent::__construct($it, self::LEAVES_ONLY);
-		}
-		function current() {
-				
-				array_push($_SESSION['secret_value_temp_ids'], parent::current());
-
-		}
-		
-}
-
 
 $secret_value_temp_id = $_SESSION['secret_key_temp_id'];
 $secret_password_one_time = $_SESSION['secret_password'];
@@ -64,8 +34,9 @@ $secret_id = $_SESSION['choosen_secret_id'];
 $account_id = $_SESSION['account_id'];
 
 
-$conn = new PDO($dbconnection, $dbusername, $dbpassword);
+$conn = new PDO($dbconnection_secret, $dbusername_secret, $dbpassword_secret);
 $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+$conn->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
 
 	try {
 
@@ -81,61 +52,34 @@ $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
 
 			// get all temp ids
-			$_SESSION['secret_value_temp_ids'] = array();
-
-			$stmt = $conn->prepare("SELECT secret_value_temp_id FROM secret_values_temp WHERE secret_id = '$secret_id';");
-			$stmt->execute();
-			$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
-			
-			foreach(new get_secret_value_temp_ids(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
-
-			}
+			$stmt = $conn->prepare("SELECT secret_value_temp_id, key_hash FROM secret_values_temp WHERE secret_id = :secret_id;");
+			$stmt->execute(array('secret_id' => $secret_id));
+			$secret_value_temp_ids = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 
-			$secret_value_temp_ids_max = count($_SESSION['secret_value_temp_ids']);
+			$secret_value_temp_ids_max = count($secret_value_temp_ids);
+
 	
 
 			for($j = 0; $j < $secret_value_temp_ids_max; ++$j) {
 
-						$secret_value_temp_id = $_SESSION['secret_value_temp_ids'][$j];
-						
-						
-						$_SESSION['temp'] = '';
-						$stmt = $conn->prepare("SELECT key_hash FROM secret_values_temp WHERE secret_value_temp_id='$secret_value_temp_id';");
-						$stmt->execute();
-						$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
-									
-						foreach(new grab_value(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
-
-						}
-						$hash = $_SESSION['temp'];
+						$hash = $secret_value_temp_ids[$j]['key_hash'];
 						
 
 						// if valid key exists
 						if (password_verify($secret_password_one_time, $hash)) {
 
-							$stmt = $conn->prepare("SELECT initialization_vector FROM secret_values_temp WHERE secret_value_temp_id='$secret_value_temp_id'");
-							$stmt->execute();
-							$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
-									
-							foreach(new grab_value(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
-
-							}
-							$initialization_vector = $_SESSION['temp'];
-
 							
-							$_SESSION['temp'] = '';
 
 
-							$stmt = $conn->prepare("SELECT AES_DECRYPT(encrypted_value, '$secret_password_one_time', '$initialization_vector') FROM secret_values_temp WHERE secret_value_temp_id='$secret_value_temp_id';");
-							$stmt->execute();
-							$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
-									
-							foreach(new grab_value(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
-
-							}
-							$value = $_SESSION['temp'];
-
+							$stmt = $conn->prepare("SELECT AES_DECRYPT(encrypted_value, :secret_password_one_time, initialization_vector) as `value`, privilege FROM secret_values_temp WHERE secret_value_temp_id = :secret_value_temp_id;");
+							$stmt->execute(array('secret_password_one_time' => $secret_password_one_time, 'secret_value_temp_id' => $secret_value_temp_ids[$j]['secret_value_temp_id']));
+							$secret_value_record = $stmt->fetch(PDO::FETCH_ASSOC);
+	
+							$value = $secret_value_record['value'];
+							$privilege = $secret_value_record['privilege'];
+							$secret_value_temp_id = $secret_value_temp_ids[$j]['secret_value_temp_id'];					
+							
 
 							break;
 
@@ -144,28 +88,21 @@ $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 			}
 			
 
-			// get secret's privilege
-			$stmt = $conn->prepare("SELECT privilege FROM secret_values_temp WHERE secret_value_temp_id = '$secret_value_temp_id';");
-			$stmt->execute();
-			$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
-			
-			foreach(new grab_value(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
-
-			}
-			$privilege = $_SESSION['temp'];
 
 
 			// insert newly created persistant key
 			$initialization_vector = generate_initialization_vector();
-			$hash = password_hash($secret_password, $password_hashing_algorithim);
+			$hash = password_hash($secret_password, $password_hashing_algorithim, $password_hashing_options);
 			$value = str_replace('\'', '\\\'', $value);
 
-			$query = "INSERT INTO secret_values (secret_id, encrypted_value, initialization_vector, key_hash, privilege) VALUES ('$secret_id', AES_ENCRYPT('$value', '$secret_password', '$initialization_vector'), '$initialization_vector', '$hash', '$privilege');"; 
-			$conn->exec($query);
 
+			$stmt = $conn->prepare("INSERT INTO secret_values (secret_id, encrypted_value, initialization_vector, key_hash, privilege) VALUES (:secret_id, AES_ENCRYPT(:value, :secret_password, :initialization_vector), :initialization_vector2, :hash, :privilege);");
+			$stmt->execute(array('secret_id' => $secret_id, 'value' => $value, 'secret_password' => $secret_password, 'initialization_vector' => $initialization_vector, 'initialization_vector2' => $initialization_vector, 'hash' => $hash, 'privilege' => $privilege));
+			
 			// remove the one time key
-			$query = "DELETE FROM secret_values_temp WHERE secret_value_temp_id ='$secret_value_temp_id';"; 
-			$conn->exec($query);
+			$stmt = $conn->prepare("DELETE FROM secret_values_temp WHERE secret_value_temp_id = :secret_value_temp_id;");
+			$stmt->execute(array('secret_value_temp_id' => $secret_value_temp_id));
+
 		
 
 		// remove sensitive varibles from user's php session

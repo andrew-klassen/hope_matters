@@ -170,20 +170,6 @@ function upload_package($file_name, $picture_name, $redirect_location, $target_d
 	}
 }
 
-function read_key_file($file_name) {
-
-	$temp = file_get_contents($_FILES[$file_name]["tmp_name"]);
-
-	// random bytes are writen over top of the file to prevent it from being recovered at the forensic level	
-	if ($temp != '') {
-		$temp_file = fopen($_FILES[$file_name]["tmp_name"], "w") or die("Unable to open key file.");
-		fwrite($temp_file, random_bytes(strlen($temp)));
-		fclose($temp_file);
-	}
-
-	return $temp;
-
-}
 
 function read_json_file($file_name) {
 	$file_type = pathinfo($_FILES[$file_name]["name"],PATHINFO_EXTENSION);

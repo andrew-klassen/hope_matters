@@ -37,9 +37,9 @@ into the create_database_error function, which is defined
 below.
 *********************************/
 
-$servername = '{{ php_host }}';
+$servername = '127.0.0.1';
 $dbusername = 'php';
-$dbpassword = '{{ php_password }}';
+$dbpassword = 'mgitHN0G1pIXvC0NQmemZBIBctPqYTu8WIq7hLqB';
 $dbname = 'hope_matters';
 $dbconnection = "mysql:host=$servername;dbname=$dbname";
 
@@ -82,9 +82,9 @@ function create_database_error($query, $error_location, $pdo_error) {
 	require_once('browser_info.php');
 	
 	// database connection information
-	$servername = '{{ php_host }}';
+	$servername = '127.0.0.1';
 	$dbusername = 'php';
-	$dbpassword = '{{ php_password }}';
+	$dbpassword = '';
 	$dbname = 'hope_matters';
 	$dbconnection = "mysql:host=$servername;dbname=$dbname";
 	$dbconnection_custom = "mysql:host=$servername;dbname=custom_forms";
@@ -138,17 +138,7 @@ function create_database_error($query, $error_location, $pdo_error) {
     	$conn->exec($query);
 }
 
-function generate_initialization_vector($length = 16) {
-   
-	do {
 
-		$initialization_vector = random_bytes($length);
-
-	} while (strpos($initialization_vector, "'") !== false or strpos($initialization_vector, "\"") !== false or strpos($initialization_vector, "\$") !== false or strpos($initialization_vector, "\\") !== false);	
-
-	return $initialization_vector;
-
-}
 
 
 function database_format($string) {
@@ -172,7 +162,7 @@ function query_format($string) {
 	$string = str_replace($search, $replace, $string);
 
         return $string;
-
+ 
 }
 
 function html_value_format($string) {

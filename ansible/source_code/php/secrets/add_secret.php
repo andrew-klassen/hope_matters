@@ -55,7 +55,7 @@ Copyright © 2017 Andrew Klassen
 	
 			  <div style='width: 400px;  margin-left: 50px; margin-top: 10px; float: left;'>
 				<?php
-					require('../database_credentials.php');
+					require('../crypto_settings.php');
 					session_start();
 
 					// make sure user is logged in

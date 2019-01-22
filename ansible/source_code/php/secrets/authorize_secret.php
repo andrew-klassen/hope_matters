@@ -53,54 +53,27 @@ Copyright © 2017 Andrew Klassen
 				<b>Label:</b>
 				
 				<?php
-					require('../database_credentials.php');
+					require('../crypto_settings.php');
 					session_start();
 
 					// make sure user is logged in
 					login_check();
-					
-					
-					class grab_value extends RecursiveIteratorIterator {
-							function __construct($it) {
-								parent::__construct($it, self::LEAVES_ONLY);
-							}
-							function current() {
-								$_SESSION['temp'] = parent::current();
-							}
-							function beginChildren() {
-								echo "<tr>";
-							}
-							function endChildren() {
-								echo "</tr>" . "\n";
-							}
-					}
 
 					$secret_id = $_SESSION['choosen_secret_id'];
 				
 				
 					// make database connection
-					$conn = new PDO($dbconnection, $dbusername, $dbpassword);
+					$conn = new PDO($dbconnection_secret, $dbusername_secret, $dbpassword_secret);
 					$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+					$conn->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
 
 
-					$stmt = $conn->prepare("SELECT label FROM secrets WHERE secret_id='$secret_id';");
-					$stmt->execute();
-					$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
-								
-					foreach(new grab_value(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
+					$stmt = $conn->prepare("SELECT label, description FROM secrets WHERE secret_id = :secret_id;");
+					$stmt->execute(array('secret_id' => $secret_id));
+					$secret_row = $stmt->fetch(PDO::FETCH_ASSOC);
 
-					}
-					$label = $_SESSION['temp'];
-					
-					
-					$stmt = $conn->prepare("SELECT description FROM secrets WHERE secret_id='$secret_id';");
-					$stmt->execute();
-					$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
-								
-					foreach(new grab_value(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
-
-					}
-					$description = $_SESSION['temp'];
+					$label = $secret_row['label'];
+					$description = $secret_row['description'];
 					
 				
 					echo " $label <br><br>

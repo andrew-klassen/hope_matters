@@ -8,7 +8,7 @@ Copyright © 2017 Andrew Klassen
 
 <?php
 
-require('../database_credentials.php');
+require('../crypto_settings.php');
 
 session_start();
 
@@ -18,20 +18,21 @@ login_check();
 
 $secret_id = $_SESSION['choosen_secret_id'];
 
-$conn = new PDO($dbconnection, $dbusername, $dbpassword);
+$conn = new PDO($dbconnection_secret, $dbusername_secret, $dbpassword_secret);
 $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+$conn->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
 
 	try {
 			
 		// wipes all keys, the secret, and one time logins
-		$query = "DELETE FROM secret_values WHERE secret_id='$secret_id';"; 
-		$conn->exec($query);
+		$stmt = $conn->prepare("DELETE FROM secret_values WHERE secret_id = :secret_id;");
+		$stmt->execute(array('secret_id' => $secret_id));
 
-		$query = "DELETE FROM secrets WHERE secret_id='$secret_id';"; 
-		$conn->exec($query);
+		$stmt = $conn->prepare("DELETE FROM secrets WHERE secret_id = :secret_id;");
+		$stmt->execute(array('secret_id' => $secret_id));
 
-		$query = "DELETE FROM secret_values_temp WHERE secret_id='$secret_id';"; 
-		$conn->exec($query);
+		$stmt = $conn->prepare("DELETE FROM secret_values_temp WHERE secret_id = :secret_id;");
+		$stmt->execute(array('secret_id' => $secret_id));
 		
 				
 		// redirect user back to where they can add more items

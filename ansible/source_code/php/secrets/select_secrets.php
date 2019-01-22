@@ -38,7 +38,7 @@ Copyright © 2017 Andrew Klassen
   
 
 <?php
-require("../database_credentials.php");
+require('../crypto_settings.php');
 session_start();
 
 login_check();
@@ -81,8 +81,9 @@ class view_secrets extends RecursiveIteratorIterator {
 try {
 
 	// establish database connection
-	$conn = new PDO($dbconnection, $dbusername, $dbpassword);
+	$conn = new PDO($dbconnection_secret, $dbusername_secret, $dbpassword_secret);
 	$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+	$conn->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
    
 	echo "<p style='color: black;;text-align: center;'>Click on a secret to view or edit it.</p>";
 	echo "<p style='color: black;;text-align: center;'>Search for a secret by ID or label. Use * to see all secrets.</p>";
@@ -112,8 +113,8 @@ try {
 		echo "<tr><th>Secret ID</th><th>Label</th></tr>";
 		
 		// get the client by id
-		$stmt = $conn->prepare("SELECT secret_id, label FROM secrets WHERE secret_id=$search;");
-		$stmt->execute();
+		$stmt = $conn->prepare("SELECT secret_id, label FROM secrets WHERE secret_id = :search;");
+		$stmt->execute(array('search' => $search));
 		$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
 		
 		$_SESSION['counter'] = 0;
@@ -131,8 +132,8 @@ try {
 		echo "<tr><th>Secret ID</th><th>Label</th></tr>";
 
 		// get all clients, newest ones first
-		$stmt = $conn->prepare("SELECT secret_id, label FROM secrets ORDER BY secret_id DESC LIMIT $wild_card_limit;");
-		$stmt->execute();
+		$stmt = $conn->prepare("SELECT secret_id, label FROM secrets ORDER BY secret_id DESC LIMIT :wild_card_limit;");
+		$stmt->execute(array('wild_card_limit' => $wild_card_limit));
 		$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
 		
 		$_SESSION['counter'] = 0;
@@ -149,8 +150,8 @@ try {
 		echo "<table style='border: none;'>";
 		echo "<tr><th>Secret ID</th><th>Label</th></tr>";
 		
-		$stmt = $conn->prepare("SELECT secret_id, label FROM secrets WHERE label LIKE '%$search%'ORDER BY secret_id DESC LIMIT $search_limit;");
-		$stmt->execute();
+		$stmt = $conn->prepare("SELECT secret_id, label FROM secrets WHERE label LIKE :search ORDER BY secret_id DESC LIMIT :search_limit;");
+		$stmt->execute(array( 'search' => '%' . $search . '%', 'search_limit' => $search_limit ));
 		$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
 		
 		$_SESSION['counter'] = 0;
