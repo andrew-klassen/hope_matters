@@ -57,7 +57,7 @@ Copyright © 2017 Andrew Klassen
 		// make sure user is logged in
 		login_check();
 		
-		$choosen_client_id =  1;$_SESSION['choosen_client_id'];
+		$choosen_client_id = $_SESSION['choosen_client_id'];
 		$username = $_SESSION['username'];
 		$choosen_form = $_SESSION['choosen_form'];
 		
