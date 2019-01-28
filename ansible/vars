@@ -6,3 +6,5 @@ initial_user: admin
 initial_password: P@ssword123
 ansible_base: /root/hope_matters/ansible
 php_host: localhost
+secret_password: P@ssword123
+secret_host: 127.0.0.1

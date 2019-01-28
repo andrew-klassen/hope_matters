@@ -14,6 +14,9 @@
          question: mysql-apt-config/select-product
          value: Ok
          vtype: select
+     
+     - apt_repository:
+       repo: ppa:ondrej/php
 
      - name: (deb) update repositories cache
        apt:
@@ -26,9 +29,12 @@
          packages:
          - apache2
          - mysql-community-server
-         - php
-         - php-mysql
+         - php7.3
+         - php7.3-mysql
+         - php7.3-zip
+         - php7.3-json
          - python-mysqldb
+         - argon2
 
   when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
 
@@ -148,6 +154,13 @@
     name: php
     password: "{{ php_password }}"
     priv: 'hope_matters.*:SELECT,UPDATE,INSERT/hope_matters.diagnoses:DELETE/hope_matters.diagnoses_temp:DELETE/hope_matters.treatment_temp:DELETE/hope_matters.return_treatment_temp:DELETE/hope_matters.secrets:DELETE/hope_matters.secret_values:DELETE/hope_matters.secret_values_temp:DELETE'
+    state: present
+  ignore_errors: yes
+
+- mysql_user:
+    name: secret
+    password: "{{ secret_password }}"
+    priv: 'hope_matters.secret_values_temp:SELECT,UPDATE,INSERT,DELETE/hope_matters.secret_values:SELECT,UPDATE,INSERT,DELETE/hope_matters.secrets:SELECT,UPDATE,INSERT,DELETE'
     state: present
   ignore_errors: yes
 

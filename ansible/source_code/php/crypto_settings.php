@@ -1,9 +1,9 @@
 <?php
 
 
-$servername_secret = '{{ php_host }}';
+$servername_secret = '{{ secret_host }}';
 $dbusername_secret = 'php';
-$dbpassword_secret = '{{ php_password }}';
+$dbpassword_secret = '{{ secret_password }}';
 $dbname_secret = 'hope_matters';
 $dbconnection_secret = "mysql:host=$servername_secret;dbname=$dbname_secret";
 
