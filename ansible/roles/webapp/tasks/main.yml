@@ -16,7 +16,7 @@
          vtype: select
      
      - apt_repository:
-       repo: ppa:ondrej/php
+         repo: ppa:ondrej/php
 
      - name: (deb) update repositories cache
        apt:
@@ -187,6 +187,11 @@
 - template:
     src: "{{ ansible_base }}/source_code/php/database_credentials.php"
     dest: /var/www/html/php/database_credentials.php
+
+- template:
+    src: "{{ ansible_base }}/source_code/php/crypto_settings.php"
+    dest: /var/www/html/php/crypto_settings.php
+
 
 - name: set permissions
   shell: |
