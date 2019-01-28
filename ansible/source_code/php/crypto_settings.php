@@ -2,7 +2,7 @@
 
 
 $servername_secret = '{{ secret_host }}';
-$dbusername_secret = 'php';
+$dbusername_secret = 'secret';
 $dbpassword_secret = '{{ secret_password }}';
 $dbname_secret = 'hope_matters';
 $dbconnection_secret = "mysql:host=$servername_secret;dbname=$dbname_secret";
