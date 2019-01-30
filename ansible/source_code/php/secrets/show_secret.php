@@ -67,7 +67,8 @@ Copyright © 2017 Andrew Klassen
 						}
 						function current() {
 						
-							return "<option value='" . parent::current() . "'>";
+							return "<option value='" . htmlspecialchars(parent::current()) . "'>";
+
 						}
 						function beginChildren() {
 							echo "<tr>";
@@ -78,7 +79,7 @@ Copyright © 2017 Andrew Klassen
 					}
 
 					$secret_id = $_SESSION['choosen_secret_id'];
-					$value = $_SESSION['value'];
+					$value = htmlspecialchars($_SESSION['value']);
 				
 				
 					// make database connection
@@ -91,8 +92,8 @@ Copyright © 2017 Andrew Klassen
 					$stmt->execute(array('secret_id' => $secret_id));
 					$secret_row = $stmt->fetch(PDO::FETCH_ASSOC);
 
-					$label = $secret_row['label'];
-					$description = $secret_row['description'];
+					$label = htmlspecialchars($secret_row['label']);
+					$description = htmlspecialchars($secret_row['description']);
 
 					$privilege = $_SESSION['privilege'];
 					
@@ -125,13 +126,13 @@ Copyright © 2017 Andrew Klassen
 			// only allow admin keys to create other keys or give users permission to create a key
 			if ($privilege == 'admin') {
 
-				echo "<div class='accountCard' style='width: 700px; height: 400px;'>
+				echo "<div class='accountCard' style='width: 700px; height: 425px;'>
 				        <p style='color: black;text-align: center;'>Add Key</p>
 					<form action='/php/secrets/insert_secret_key.php' name='add_secret_key' onsubmit='return validate_form()' method='post' enctype='multipart/form-data'>
 						<b>Password:</b><br>
 						<input style='height: 35px;' type='password' name='secret_password' maxlength='200' autofocus onfocus='this.value = this.value'>
 						<div>Key File<br><input type='file' name='key_file' id='key_file'><br><label style='font-size: 12px;'>(.txt document 3072 characters max)</label></div>
-						<br><br><b>OR</b><br><br>
+						<br><b>OR</b><br><br>
 						<b>Username:</b><input list='clinician_list' name='username' maxlength='20'> <br>
 					 	
 						<datalist id='clinician_list'>";							

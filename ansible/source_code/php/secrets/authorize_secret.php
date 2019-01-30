@@ -72,8 +72,8 @@ Copyright © 2017 Andrew Klassen
 					$stmt->execute(array('secret_id' => $secret_id));
 					$secret_row = $stmt->fetch(PDO::FETCH_ASSOC);
 
-					$label = $secret_row['label'];
-					$description = $secret_row['description'];
+					$label = htmlspecialchars($secret_row['label']);
+					$description = htmlspecialchars($secret_row['description']);
 					
 				
 					echo " $label <br><br>

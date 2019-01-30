@@ -66,7 +66,7 @@ class view_secrets extends RecursiveIteratorIterator {
 		}
 		$temp = $_SESSION['temp'];
 																					
-		return "<td style='border-style: solid; border-color: #black; background-color: white; color: black;font-weight: 500;font-size: 12px;font-size: 30px;  '>" . "<a href='grab_choosen_secret_id.php? choosen_secret_id=$temp' style='color: black;'>"  . parent::current() . "</a>" . "</td>";
+		return "<td style='border-style: solid; border-color: #black; background-color: white; color: black;font-weight: 500;font-size: 12px;font-size: 30px;  '>" . "<a href='grab_choosen_secret_id.php? choosen_secret_id=$temp' style='color: black;'>"  . htmlspecialchars(parent::current()) . "</a>" . "</td>";
   
     }
     function beginChildren() {

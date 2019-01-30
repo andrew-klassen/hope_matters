@@ -208,7 +208,7 @@ Copyright © 2017 Andrew Klassen
 		foreach(new grab_value(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
 		
 		}
-		echo $bs_for_mps_check = $_SESSION['temp'];
+		$bs_for_mps_check = $_SESSION['temp'];
 		
 		if ($bs_for_mps_check == 'yes') {
 			$bs_for_mps_check = 'checked';
@@ -666,7 +666,7 @@ Copyright © 2017 Andrew Klassen
   
   
 	<!-- begining of lab orders card -->
-    <div class="accountCard" style="float: left; width: 885px; height: 600px; position: relative;">
+    <div class="accountCard" style="float: left; width: 885px; height: 620px; position: relative;">
 		
 		<p class='p'style='color: black;font-weight:100; text-align: center;'>Check the tests that a lab technician should preform.</p>
 		

@@ -347,6 +347,32 @@ class child_welfare_care extends RecursiveIteratorIterator {
     }
 }
 
+// class for displaying Child Welfare Forms on the table
+class medication_order extends RecursiveIteratorIterator {
+    function __construct($it) {
+        parent::__construct($it, self::LEAVES_ONLY);
+    }
+    function current() {
+		$_SESSION['medication_order'] = parent::current();
+		
+		if (($_SESSION['counter'] == 0) or ($_SESSION['counter'] % 4 == 0)) {
+		
+			$_SESSION['temp'] = $_SESSION['medication_order'];
+			
+		}
+		$temp = $_SESSION['temp'];
+		
+		return "<td style='border-style: solid; border-color: #black; background-color: white; color: black;font-weight: 500;font-size: 12px;font-size: 30px;  '>" . "<a href='/php/view_change_any_client_forms/medication_order_client/grab_choosen_medication_order_id.php? choosen_medication_order_id=$temp' style='color: black;'>" . parent::current() . "</a>" . "</td>";
+  
+    }
+    function beginChildren() {
+        echo "<tr>";
+    }
+    function endChildren() {
+        echo "</tr>" . "\n";
+    }
+}
+
 
 // class used for grabing a specific value
 class grab_value extends RecursiveIteratorIterator {
@@ -371,6 +397,7 @@ try {
 	// make database connection
     $conn = new PDO($dbconnection, $dbusername, $dbpassword);
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    $conn->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
    
 	
 	echo "<p style='color: black;;text-align: center;'>Click on a form to edit it. The newest forms will be at the top of the list.</p>";
@@ -401,7 +428,26 @@ try {
 	echo '<div style="  padding-left: 340px; width: 900px; height: 30px;">';
 	echo '<b>Client ID:</b> '.$choosen_client_id . '&nbsp;&nbsp;&nbsp;' .'<b>Client Name:</b> ' . $name;
 	echo '</div>';
-	
+
+
+	$custom_form_tables = array();
+
+	$stmt = $conn->prepare("SELECT DISTINCT TABLE_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE COLUMN_NAME IN ('client_id') AND TABLE_SCHEMA='custom_forms';");
+	$stmt->execute();
+	$custom_form_temp_tables = $stmt->fetchAll(PDO::FETCH_NUM);
+
+	$custom_form_temp_tables_count = count($custom_form_temp_tables);
+
+	for ($i = 0; $i < $custom_form_temp_tables_count; ++$i) {
+		if (substr($custom_form_temp_tables[$i][0], -8) != '_history') {
+			$temp = $custom_form_temp_tables[$i][0];
+			array_push($custom_form_tables, "<option value='$temp'>" . html_format($temp) . '</option>');
+		}
+	}
+
+	$custom_form_count = count($custom_form_tables);
+
+
 	// search bar
 	echo "<div id='searchDiv'>
 				<div style='width: 850px;'>
@@ -409,15 +455,22 @@ try {
 						<form action='/php/view_change_any_client_forms/view_all_form.php' method='post' id='searchForm'>
 							<input style='margin-left: 20px; float: right; height: 20px;'type='submit' id='search_submit' value='Submit'>
 						
-							View Forms: <select name='transaction_type' method='post'>
+							View Forms: <select name='transaction_type' method='post' style='width: 130px;'>
 											<option value='all' selected='selected'>All Forms</option>
 											<option value='lab'>Lab</option>
+											<option value='medication_order'>Medication Order</option>
 											<option value='referral'>Referral</option>
 											<option value='return_treatment'>Return Treatment</option>
 											<option value='treatment'>Treatment</option>";
 											if ($sex == 'female') {
 												echo "<option value='ultrasound'>Ultrasound</option>";
-											} echo "
+											}
+
+											for ($i = 0; $i < $custom_form_count; ++$i) {
+												echo $custom_form_tables[$i];
+											}
+
+											echo "
 											<option value='lab_order'>Lab Order</option>
 											<option value='child_welfare'>Child Welfare</option>
 										</select>
@@ -429,14 +482,21 @@ try {
 						<form action='/php/view_change_any_client_forms/grab_new_form.php' method='post' id='searchForm'>
 							<input style='margin-left: 20px; float: right; height: 20px;'type='submit' id='search_submit' value='Add'>
 							
-							New Form: <select name='form_type' method='post'>
+							New Form: <select name='form_type' method='post' style='width: 130px;'>
 										<option value='lab'>Lab</option>
+										<option value='medication_order'>Medication Order</option>
 										<option value='referral'>Referral</option>
 										<option value='return_treatment'>Return Treatment</option>
 										<option value='treatment'>Treatment</option>";
 										if ($sex == 'female') {
 												echo "<option value='ultrasound'>Ultrasound</option>";
-										} echo "
+										}
+							
+										for ($i = 0; $i < $custom_form_count; ++$i) {
+											echo $custom_form_tables[$i];
+										}
+
+										echo "
 										<option value='lab_order'>Lab Order</option>
 										<option value='child_welfare'>Child Welfare</option>
 									  </select>
@@ -454,7 +514,25 @@ try {
 
 	echo "<table style='border: none;'>";
 	echo "<tr><th>Form Id</th><th>Form Type</th><th>Time Edited</th><th>Author</th></tr>";
-	
+
+
+	unset($custom_form_tables);
+	$custom_form_tables = array();
+
+	$stmt = $conn->prepare("SELECT DISTINCT TABLE_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE COLUMN_NAME IN ('client_id') AND TABLE_SCHEMA='custom_forms';");
+	$stmt->execute();
+	$custom_form_temp_tables = $stmt->fetchAll(PDO::FETCH_NUM);
+
+	$custom_form_temp_tables_count = count($custom_form_temp_tables);
+
+	for ($i = 0; $i < $custom_form_temp_tables_count; ++$i) {
+		if (substr($custom_form_temp_tables[$i][0], -8) != '_history') {
+			array_push($custom_form_tables, $custom_form_temp_tables[$i][0]);
+		}
+	}
+
+	$custom_form_count = count($custom_form_tables);
+
 	
 	// filtered by dental forms
 	if ($transaction_type == 'dental'){
@@ -610,8 +688,22 @@ try {
 		}
 	
 	}
+	// filered by Medication Order
+	elseif ($transaction_type == 'medication_order'){
+	
+		$stmt = $conn->prepare("SELECT medication_order_id, 'medication_order', date_format(timestamp, '%b %d %Y %h:%i %p'), created_by FROM medication_order WHERE client_id='$choosen_client_id' ORDER BY medication_order_id DESC LIMIT $client_form_limit;");
+		$stmt->execute();
+		$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
+		
+		$_SESSION['counter'] = 0;
+		foreach(new medication_order(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
+		   echo $v;
+		   ++$_SESSION['counter'];
+		}
+	
+	}
 	// all forms
-	else {
+	elseif ($transaction_type == '' or $transaction_type == 'all') {
 	
 		$stmt = $conn->prepare("SELECT dental_form_id, 'dental', date_format(timestamp, '%b %d %Y %h:%i %p'), created_by FROM dental_form WHERE client_id='$choosen_client_id' ORDER BY dental_form_id DESC LIMIT $client_all_form_limit;");
 		$stmt->execute();
@@ -733,10 +825,60 @@ try {
 		   ++$_SESSION['counter'];
 		}
 	
+
+		$stmt = $conn->prepare("SELECT medication_order_id, 'medication_order', date_format(timestamp, '%b %d %Y %h:%i %p'), created_by FROM medication_order WHERE client_id='$choosen_client_id' ORDER BY medication_order_id DESC LIMIT $client_form_limit;");
+		$stmt->execute();
+		$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
+		
+		$_SESSION['counter'] = 0;
+		foreach(new medication_order(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
+		   echo $v;
+		   ++$_SESSION['counter'];
+		}
    
 	}
+
+	
+	$conn = new PDO($dbconnection_custom, $dbusername, $dbpassword);
+	$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+	$conn->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
+
+	$_SESSION['client_linked'] = 'true';
+
+	for ($i = 0; $i < $custom_form_count; ++$i) {
+
+			$current_table = $custom_form_tables[$i];
+			if ($transaction_type == 'all' or $transaction_type == '' or $transaction_type == $current_table) {
+
+				unset($current_records);
+				
+				$table_id = $current_table . '_id';
+				$stmt = $conn->prepare("SELECT $table_id, '$current_table', date_format(timestamp, '%b %d %Y %h:%i %p'), created_by FROM $current_table WHERE client_id=:choosen_client_id ORDER BY :table_id2 DESC LIMIT :client_form_limit;");
+				$stmt->execute(array('choosen_client_id' => $choosen_client_id, 'table_id2' => $current_table . '_id', 'client_form_limit' => $client_form_limit));
+				$current_records = $stmt->fetchAll(PDO::FETCH_NUM);
+
+				$record_count = count($current_records);
+				for ($j = $record_count - 1; $j > -1; --$j) {
+					
+					for ($k = 0; $k < 4; ++$k) {
+						
+						$choosen_custom_form_id = $current_records[$j][0];
+						$choosen_form = $current_records[$j][1];
+
+						echo "<td style='border-style: solid; border-color: #black; background-color: white; color: black;font-weight: 500;font-size: 12px;font-size: 30px;  '>" . "<a href='/php/view_change_any_client_forms/custom_forms_client/grab_choosen_custom_form_id.php? choosen_custom_form_id=$choosen_custom_form_id&choosen_form=$choosen_form' style='color: black;'>" . $current_records[$j][$k] . "</a>" . "</td>";
+
+					}
+
+					echo '</tr>';
+			
+				}
+
+			}
+			
+	}
+
    
-	echo "</table>";
+    echo "</table>";
     echo "</div>";
 	
 }

@@ -1,4 +1,4 @@
-<!--
+﻿<!--
 This file is part of a web application designed to help Hope Matters interact with their database.
 The web application is licensed under the Affero General Public License v3.
 View the web application's readme.txt for more details.
@@ -33,7 +33,7 @@ Copyright © 2017 Andrew Klassen
         </form>
       </div>
 	  
-	  <div style="float: left;  width: 300px;">
+	<div style="float: left;  width: 300px;">
         <form method="post" action="/php/view_change_any_client_forms/view_all_form.php">
             <input style="width: 300px;" type="submit" value="Client Overview">
         </form>
@@ -194,60 +194,127 @@ Copyright © 2017 Andrew Klassen
   
   
 	<!-- begining of lab orders card -->
-    <div class="accountCard" style="float: left; width: 885px; height: 400px; position: relative;">
+    <div class="accountCard" style="float: left; width: 885px; height: 620px; position: relative;">
 		
 		<p class='p'style='color: black;font-weight:100; text-align: center;'>Check the tests that a lab technician should preform.</p>
 		
 		<form name="lab_form" action="insert_lab_order.php" onsubmit="return validate_form()" method="post">
 			
 			<div style="float: left; margin-left: 250px;">
-				<input type="checkbox" name="bs_for_mps" /><b>B/S for MPS</b>
+			
+				                 <input type="checkbox" name="bs_for_mps" /> <b>B/S for MPS</b>
+								 
 				<br><br>
 				
-				<input type="checkbox" name="pbf" /> <b>PBF</b>
+				                 <input type="checkbox" name="pbf" /> <b>PBF</b>
+								 
 				<br><br>
 				
-				<input type="checkbox" name="widal" /> <b>Widal</b> <br>
+				                 <input type="checkbox" name="widal" /> <b>Widal</b>
+								 
+				<br><br>
+				
+				                 <input type="checkbox" name="brucella" /> <b>Brucella</b>
+								 
+				<br><br>
+				
+				                <input type="checkbox" name="h_pylori_stool" /> <b>H.Pylori(stool)</b>
+			
+				<br><br>
+				
+				                <input type="checkbox" name="h_pylori_blood" /> <b>H.Pylori(Blood)</b>
+			
+				<br><br>
+				                
+								<input type="checkbox" name="rheumatoid_factor" /> <b>Rheumatoid Factor</b>
+								
+				<br><br>
+				
+								<input type="checkbox" name="stool" /> <b>Stool O/C</b>
+								
+				<br><br>
+				
+				                <input type="checkbox" name="p24_hiv" /> <b>P24/HIV</b>
+								
+				<br><br>
+				
+				                 <input type="checkbox" name="vdrl_rpr" /> <b>VDRL/RPR</b>
+								 
+				<br><br>
+				
+				                <input type="checkbox" name="urinalysis" /> <b>Urinalysis</b>
+								
+				<br><br>
+				
+								<input type="checkbox" name="pregnancy_test" /> <b>Pregnancy Test</b>
+									
+				<br><br>
+				
+				                <input type="checkbox" name="hvs" /> <b>HVS</b>
+								 
+				<br><br>
+				
+			    </div>
+			
+			     <div style="float: right; margin-right: 200px;">
+				      			<input type="checkbox" name="gram_stain" /> <b>Gram Stain</b>
+				                 
+				<br><br>
+				
+				                <input type="checkbox" name="culture" /> <b>Culture</b>
+								
+				<br><br>
+				                 
+								<input type="checkbox" name="blood_group" /> <b>Blood Group</b>
+
+				<br><br>
+				
+                                <input type="checkbox" name="blood_count" /> <b>Blood Count</b>
+				
+				<br><br>
+				
+				                <input type="checkbox" name="blood_chemistry" /> <b>Blood Chemistry</b>
+				
+				<br><br>
+								
+				                <input type="checkbox" name="arterial_blood" /> <b>Arterial Blood gas</b>
+								
+				<br><br>
+				
+				                <input type="checkbox" name="liver_function_test" /> <b>Liver Function</b>
+								
+				<br><br>
+                                 
+				                <input type="checkbox" name="prothrombin_time" /> <b>Prothrombin Time</b>
+								
+				<br><br>
+				
+				                <input type="checkbox" name="inr" /> <b>INR</b>
+								
+				<br><br>
+
+                                <input type="checkbox" name="tft" /> <b>Thyroid Function Test</b>
+								
+				<br><br>
+
+                                 <input type="checkbox" name="cholesterol" /> <b>Cholesterol</b>
+								 
+				<br><br>
+
+                                 <input type="checkbox" name="cardiac" /> <b>Cardiac Enzymes</b>
+								
+				<br><br>
+				
+				               
+				
 				<br>
 				
-				<input type="checkbox" name="brucella" /> <b>Brucella</b> 
-				<br><br>
-				
-				<input type="checkbox" name="vdrl_rpr" /> <b>VDRL/RPR</b>
-				<br><br>
-				
-				<input type="checkbox" name="p24_hiv" /> <b>P24/HIV</b>
-				<br><br>
-				
-				<input type="checkbox" name="blood_sugar" /> <b>Blood Sugar (RBS & FBS)</b>
-				<br><br>
 			</div>
 			
-			<div>
-				<input type="checkbox" name="stool" /> <b>Stool O/C</b>
-				<br><br>
-					
-				<input type="checkbox" name="blood_group" /><b>Blood Group</b>
-				<br><br>
-			
-				<input type="checkbox" name="pregnancy" /> <b>Pregnancy Test</b>
-				<br><br>
-				
-				<input type="checkbox" name="hb" /> <b>Hb</b>
-				<br><br>
-				
-				<input type="checkbox" name="urinalysis" /><b>Urinalysis</b>
-				<br><br>
-				
-				<input type="checkbox" name="hvs" /> <b>HVS</b>
-				<br><br>
+			<div style="float: left; margin-top: 10px;margin-left: 300px;">
+				                 <input style="width: 300px; margin-top: 10px;" type="submit" name="submit_button" class="submitbtn" value="Submit Lab Order">
 			</div>
-			
-			<br>
-			
-			<div style="margin-top: 30px;margin-left: 300px;">
-				<input style="width: 250px; margin-top: 10px;" type="submit" name="submit_button" class="submitbtn" value="Submit Lab Order">
-			</div>
+
 			
 		</form>
 		

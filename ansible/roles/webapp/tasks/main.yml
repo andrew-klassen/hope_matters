@@ -160,7 +160,7 @@
 - mysql_user:
     name: secret
     password: "{{ secret_password }}"
-    priv: 'hope_matters.secret_values_temp:SELECT,UPDATE,INSERT,DELETE/hope_matters.secret_values:SELECT,UPDATE,INSERT,DELETE/hope_matters.secrets:SELECT,UPDATE,INSERT,DELETE'
+    priv: 'hope_matters.accounts:SELECT/hope_matters.secret_values_temp:SELECT,UPDATE,INSERT,DELETE/hope_matters.secret_values:SELECT,UPDATE,INSERT,DELETE/hope_matters.secrets:SELECT,UPDATE,INSERT,DELETE'
     state: present
   ignore_errors: yes
 

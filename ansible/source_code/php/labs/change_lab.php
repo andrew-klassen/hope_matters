@@ -209,7 +209,7 @@ Copyright © 2017 Andrew Klassen
   </div>
   
 	<!-- start of lab card -->
-    <div class="accountCard" style="float: left; width: 885px; height: 2950px; position: relative;">
+    <div class="accountCard" style="float: left; width: 885px; height: 3000px; position: relative;">
 		
 		<p class='p'style='color: black;font-weight:100; text-align: center;'>Check the tests that were preformed before providing the results.</p>
 		

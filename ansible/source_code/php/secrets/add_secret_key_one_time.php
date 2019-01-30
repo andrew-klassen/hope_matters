@@ -72,7 +72,7 @@ Copyright © 2017 Andrew Klassen
 
 					<div class='accountCard' style='width: 500px; height: 310px;'>
 						<p style='color: black;text-align: center;'>Add Key</p>
-						<b>label:</b> $label<br><br>
+						<b>label:</b> $label<br>
 					<form action='/php/secrets/insert_secret_key_one_time.php' name='add_secret_key' onsubmit='return validate_form()' method='post' enctype='multipart/form-data'>
 						<b>Password:</b><br>
 						<input style='height: 35px;' type='password' name='secret_password' maxlength='200' autofocus onfocus='this.value = this.value'>

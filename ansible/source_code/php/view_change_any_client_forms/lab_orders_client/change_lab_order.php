@@ -198,6 +198,7 @@ Copyright © 2017 Andrew Klassen
 		echo $location;
 		echo '</div>';
 		echo '</div>';
+
 		
 		
 		$stmt = $conn->prepare("SELECT bs_for_mps FROM lab_order WHERE lab_order_id='$choosen_lab_order'");
@@ -215,7 +216,7 @@ Copyright © 2017 Andrew Klassen
 		else {
 			$bs_for_mps_check = '';
 		}
-		
+
 		
 		$stmt = $conn->prepare("SELECT pbf FROM lab_order WHERE lab_order_id='$choosen_lab_order'");
 		$stmt->execute();
@@ -268,55 +269,59 @@ Copyright © 2017 Andrew Klassen
 		}
 		
 		
-		$stmt = $conn->prepare("SELECT vdrl_rpr FROM lab_order WHERE lab_order_id='$choosen_lab_order'");
+		$stmt = $conn->prepare("SELECT h_pylori_stool FROM lab_order WHERE lab_order_id='$choosen_lab_order'");
 		$stmt->execute();
 		$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
 	
 		foreach(new grab_value(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
 		
 		}
-		$vdrl_rpr_check = $_SESSION['temp'];
+		$h_pylori_stool_check = $_SESSION['temp'];
 		
-		if ($vdrl_rpr_check == 'yes') {
-			$vdrl_rpr_check = 'checked';
+		if ($h_pylori_stool_check == 'yes') {
+			$h_pylori_stool_check = 'checked';
 		}
 		else {
-			$vdrl_rpr_check = '';
+			$h_pylori_stool_check = '';
 		}
 		
 		
-		$stmt = $conn->prepare("SELECT p24_hiv FROM lab_order WHERE lab_order_id='$choosen_lab_order'");
+		
+		$stmt = $conn->prepare("SELECT h_pylori_blood FROM lab_order WHERE lab_order_id='$choosen_lab_order'");
 		$stmt->execute();
 		$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
 	
 		foreach(new grab_value(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
 		
 		}
-		$p24_hiv_check = $_SESSION['temp'];
+		$h_pylori_blood_check = $_SESSION['temp'];
 		
-		if ($p24_hiv_check == 'yes') {
-			$p24_hiv_check = 'checked';
+		if ($h_pylori_blood_check == 'yes') {
+			$h_pylori_blood_check = 'checked';
 		}
 		else {
-			$p24_hiv_check = '';
+			$h_pylori_blood_check = '';
 		}
 		
 		
-		$stmt = $conn->prepare("SELECT blood_sugar FROM lab_order WHERE lab_order_id='$choosen_lab_order'");
+		
+		$stmt = $conn->prepare("SELECT rheumatoid_factor FROM lab_order WHERE lab_order_id='$choosen_lab_order'");
 		$stmt->execute();
 		$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
 	
 		foreach(new grab_value(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
 		
 		}
-		$blood_sugar_check = $_SESSION['temp'];
+		$rheumatoid_factor_check = $_SESSION['temp'];
 		
-		if ($blood_sugar_check == 'yes') {
-			$blood_sugar_check = 'checked';
+		if ($rheumatoid_factor_check == 'yes') {
+			$rheumatoid_factor_check = 'checked';
 		}
 		else {
-			$blood_sugar_check = '';
+			$rheumatoid_factor_check = '';
 		}
+		
+		
 		
 		
 		$stmt = $conn->prepare("SELECT stool FROM lab_order WHERE lab_order_id='$choosen_lab_order'");
@@ -336,55 +341,42 @@ Copyright © 2017 Andrew Klassen
 		}
 		
 		
-		$stmt = $conn->prepare("SELECT blood_group FROM lab_order WHERE lab_order_id='$choosen_lab_order'");
+		
+		$stmt = $conn->prepare("SELECT p24_hiv FROM lab_order WHERE lab_order_id='$choosen_lab_order'");
 		$stmt->execute();
 		$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
 	
 		foreach(new grab_value(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
 		
 		}
-		$blood_group_check = $_SESSION['temp'];
+		$p24_hiv_check = $_SESSION['temp'];
 		
-		if ($blood_group_check == 'yes') {
-			$blood_group_check = 'checked';
+		if ($p24_hiv_check == 'yes') {
+			$p24_hiv_check = 'checked';
 		}
 		else {
-			$blood_group_check = '';
+			$p24_hiv_check = '';
 		}
 		
 		
-		$stmt = $conn->prepare("SELECT pregnancy_test FROM lab_order WHERE lab_order_id='$choosen_lab_order'");
+		
+		$stmt = $conn->prepare("SELECT vdrl_rpr FROM lab_order WHERE lab_order_id='$choosen_lab_order'");
 		$stmt->execute();
 		$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
 	
 		foreach(new grab_value(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
 		
 		}
-		$pregnancy_test_check = $_SESSION['temp'];
+		$vdrl_rpr_check = $_SESSION['temp'];
 		
-		if ($pregnancy_test_check == 'yes') {
-			$pregnancy_test_check = 'checked';
+		if ($vdrl_rpr_check == 'yes') {
+			$vdrl_rpr_check = 'checked';
 		}
 		else {
-			$pregnancy_test_check = '';
+			$vdrl_rpr_check = '';
 		}
 		
 		
-		$stmt = $conn->prepare("SELECT hb FROM lab_order WHERE lab_order_id='$choosen_lab_order'");
-		$stmt->execute();
-		$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
-	
-		foreach(new grab_value(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
-		
-		}
-		$hb_check = $_SESSION['temp'];
-		
-		if ($hb_check == 'yes') {
-			$hb_check = 'checked';
-		}
-		else {
-			$hb_check = '';
-		}
 		
 		
 		$stmt = $conn->prepare("SELECT urinalysis FROM lab_order WHERE lab_order_id='$choosen_lab_order'");
@@ -404,6 +396,26 @@ Copyright © 2017 Andrew Klassen
 		}
 		
 		
+		
+		
+		$stmt = $conn->prepare("SELECT pregnancy_test FROM lab_order WHERE lab_order_id='$choosen_lab_order'");
+		$stmt->execute();
+		$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
+	
+		foreach(new grab_value(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
+		
+		}
+		$pregnancy_test_check = $_SESSION['temp'];
+		
+		if ($pregnancy_test_check == 'yes') {
+			$pregnancy_test_check = 'checked';
+		}
+		else {
+			$pregnancy_test_check = '';
+		}
+		
+		
+		
 		$stmt = $conn->prepare("SELECT hvs FROM lab_order WHERE lab_order_id='$choosen_lab_order'");
 		$stmt->execute();
 		$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
@@ -419,67 +431,362 @@ Copyright © 2017 Andrew Klassen
 		else {
 			$hvs_check = '';
 		}
+		
+		
+		$stmt = $conn->prepare("SELECT gram_stain FROM lab_order WHERE lab_order_id='$choosen_lab_order'");
+		$stmt->execute();
+		$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
+	
+		foreach(new grab_value(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
+		
+		}
+		$gram_stain_check = $_SESSION['temp'];
+		
+		if ($gram_stain_check == 'yes') {
+			$gram_stain_check = 'checked';
+		}
+		else {
+			$gram_stain_check = '';
+		}
+		
+		
+		
+		
+		$stmt = $conn->prepare("SELECT culture FROM lab_order WHERE lab_order_id='$choosen_lab_order'");
+		$stmt->execute();
+		$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
+	
+		foreach(new grab_value(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
+		
+		}
+		$culture_check = $_SESSION['temp'];
+		
+		if ($culture_check == 'yes') {
+			$culture_check = 'checked';
+		}
+		else {
+			$culture_check = '';
+		}
+		
+		
+		
+		
+		$stmt = $conn->prepare("SELECT blood_group FROM lab_order WHERE lab_order_id='$choosen_lab_order'");
+		$stmt->execute();
+		$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
+	
+		foreach(new grab_value(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
+		
+		}
+		$blood_group_check = $_SESSION['temp'];
+		
+		if ($blood_group_check == 'yes') {
+			$blood_group_check = 'checked';
+		}
+		else {
+			$blood_group_check = '';
+		}
+		
+		
+		
+		$stmt = $conn->prepare("SELECT blood_count FROM lab_order WHERE lab_order_id='$choosen_lab_order'");
+		$stmt->execute();
+		$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
+	
+		foreach(new grab_value(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
+		
+		}
+		$blood_count_check = $_SESSION['temp'];
+		
+		if ($blood_count_check == 'yes') {
+			$blood_count_check = 'checked';
+		}
+		else {
+			$blood_count_check = '';
+		}
+		
+		
+		
+		
+		
+		$stmt = $conn->prepare("SELECT blood_chemistry FROM lab_order WHERE lab_order_id='$choosen_lab_order'");
+		$stmt->execute();
+		$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
+	
+		foreach(new grab_value(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
+		
+		}
+		$blood_chemistry_check = $_SESSION['temp'];
+		
+		if ($blood_chemistry_check == 'yes') {
+			$blood_chemistry_check = 'checked';
+		}
+		else {
+			$blood_chemistry_check = '';
+		}
+		
+		
+	    
+
+       $stmt = $conn->prepare("SELECT arterial_blood FROM lab_order WHERE lab_order_id='$choosen_lab_order'");
+		$stmt->execute();
+		$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
+	
+		foreach(new grab_value(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
+		
+		}
+		$arterial_blood_check = $_SESSION['temp'];
+		
+		if ($arterial_blood_check == 'yes') {
+			$arterial_blood_check = 'checked';
+		}
+		else {
+			$arterial_blood_check = '';
+		}
+		
+
+
+        $stmt = $conn->prepare("SELECT liver_function_test FROM lab_order WHERE lab_order_id='$choosen_lab_order'");
+		$stmt->execute();
+		$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
+	
+		foreach(new grab_value(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
+		
+		}
+		$liver_function_test_check = $_SESSION['temp'];
+		
+		if ($liver_function_test_check == 'yes') {
+			$liver_function_test_check = 'checked';
+		}
+		else {
+			$liver_function_test_check = '';
+		}
+
+		
+
+       $stmt = $conn->prepare("SELECT prothrombin_time FROM lab_order WHERE lab_order_id='$choosen_lab_order'");
+		$stmt->execute();
+		$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
+	
+		foreach(new grab_value(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
+		
+		}
+		$prothrombin_time_check = $_SESSION['temp'];
+		
+		if ($prothrombin_time_check == 'yes') {
+			$prothrombin_time_check = 'checked';
+		}
+		else {
+			$prothrombin_time_check = '';
+		}
+
+		
+		$stmt = $conn->prepare("SELECT inr FROM lab_order WHERE lab_order_id='$choosen_lab_order'");
+		$stmt->execute();
+		$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
+	
+		foreach(new grab_value(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
+		
+		}
+		$inr_check = $_SESSION['temp'];
+		
+		if ($inr_check == 'yes') {
+			$inr_check = 'checked';
+		}
+		else {
+			$inr_check = '';
+		}
+		
+		
+		
+		$stmt = $conn->prepare("SELECT thyroid_function_test FROM lab_order WHERE lab_order_id='$choosen_lab_order'");
+		$stmt->execute();
+		$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
+	
+		foreach(new grab_value(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
+		
+		}
+		$thyroid_function_test_check = $_SESSION['temp'];
+		
+		if ($thyroid_function_test_check == 'yes') {
+			$thyroid_function_test_check = 'checked';
+		}
+		else {
+			$thyroid_function_test_check = '';
+		}
+		
+		
+		
+		
+		
+		$stmt = $conn->prepare("SELECT cholesterol FROM lab_order WHERE lab_order_id='$choosen_lab_order'");
+		$stmt->execute();
+		$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
+	
+		foreach(new grab_value(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
+		
+		}
+		$cholesterol_check = $_SESSION['temp'];
+		
+		if ($cholesterol_check == 'yes') {
+			$cholesterol_check = 'checked';
+		}
+		else {
+			$cholesterol_check = '';
+		}
+				
+		
+		
+		
+		
+		
+		$stmt = $conn->prepare("SELECT cardiac FROM lab_order WHERE lab_order_id='$choosen_lab_order'");
+		$stmt->execute();
+		$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
+	
+		foreach(new grab_value(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
+		
+		}
+		$cardiac_check = $_SESSION['temp'];
+		
+		if ($cardiac_check == 'yes') {
+			$cardiac_check = 'checked';
+		}
+		else {
+			$cardiac_check = '';
+		}
+		
+		
+		
+		
+		
 	?>
 		
  </div>
   
   
 	<!-- begining of lab orders card -->
-    <div class="accountCard" style="float: left; width: 885px; height: 400px; position: relative;">
+    <div class="accountCard" style="float: left; width: 885px; height: 620px; position: relative;">
 		
 		<p class='p'style='color: black;font-weight:100; text-align: center;'>Check the tests that a lab technician should preform.</p>
 		
 		<form name="lab_form" action="update_lab_order.php" onsubmit="return validate_form()" method="post">
 			<?php
-				echo"<div style='float: left; margin-left: 250px;'>
-					<input type='checkbox' name='bs_for_mps' $bs_for_mps_check/><b>B/S for MPS</b>
-					<br><br>
-					
-					<input type='checkbox' name='pbf' $pbf_check/> <b>PBF</b>
-					<br><br>
-					
-					<input type='checkbox' name='widal' $widal_check/> <b>Widal</b> <br>
-					<br>
-					
-					<input type='checkbox' name='brucella' $brucella_check/> <b>Brucella</b> 
-					<br><br>
-					
-					<input type='checkbox' name='vdrl_rpr' $vdrl_rpr_check/> <b>VDRL/RPR</b>
-					<br><br>
-					
-					<input type='checkbox' name='p24_hiv' $p24_hiv_check/> <b>P24/HIV</b>
-					<br><br>
-					
-					<input type='checkbox' name='blood_sugar' $blood_sugar_check/> <b>Blood Sugar (RBS & FBS)</b>
-					<br><br>
-				</div>
+				echo"<div style='height: 500px; float: left; margin-left: 250px;'>
+					<input type='checkbox' name='bs_for_mps' $bs_for_mps_check/> <b>B/S for MPS</b>
+								 
+				<br><br>
 				
-				<div>
-					<input type='checkbox' name='stool' $stool_check/> <b>Stool O/C</b>
-					<br><br>
-						
-					<input type='checkbox' name='blood_group' $blood_group_check/><b>Blood Group</b>
-					<br><br>
+				                 <input type='checkbox' name='pbf'  $pbf_check/> <b>PBF</b>
+								 
+				<br><br>
 				
-					<input type='checkbox' name='pregnancy_test' $pregnancy_test_check/> <b>Pregnancy Test</b>
-					<br><br>
-					
-					<input type='checkbox' name='hb' $hb_check/> <b>Hb</b>
-					<br><br>
-					
-					<input type='checkbox' name='urinalysis' $urinalysis_check/><b>Urinalysis</b>
-					<br><br>
-					
-					<input type='checkbox' name='hvs' $hvs_check/> <b>HVS</b>
-					<br><br>
-				</div>";
+				                 <input type='checkbox' name='widal' $widal_check/> <b>Widal</b>
+								 
+				<br><br>
+				
+				                 <input type='checkbox' name='brucella'  $brucella_check/> <b>Brucella</b>
+								 
+				<br><br>
+				
+				                <input type='checkbox' name='h_pylori_stool' $h_pylori_stool_check/> <b>H.Pylori(stool)</b>
+			
+				<br><br>
+				
+				                <input type='checkbox' name='h_pylori_blood'  $h_pylori_blood_check/> <b>H.Pylori(Blood)</b>
+			
+				<br><br>
+				                
+								<input type='checkbox' name='rheumatoid_factor'  $rheumatoid_factor_check/> <b>Rheumatoid Factor</b>
+								
+				<br><br>
+				
+								<input type='checkbox' name='stool' value='' $stool_check/> <b>Stool O/C</b>
+								
+				<br><br>
+				
+				                <input type='checkbox' name='p24_hiv'  $p24_hiv_check/> <b>P24/HIV</b>
+								
+				<br><br>
+				
+				                 <input type='checkbox' name='vdrl_rpr' $vdrl_rpr_check/> <b>VDRL/RPR</b>
+								 
+				<br><br>
+				
+				                <input type='checkbox' name='urinalysis'  $urinalysis_check/> <b>Urinalysis</b>
+								
+				<br><br>
+				
+								<input type='checkbox' name='pregnancy_test' $pregnancy_test_check/> <b>Pregnancy Test</b>
+									
+				<br><br>
+				
+				                <input type='checkbox' name='hvs' $hvs_check/> <b>HVS</b>
+								 
+				<br><br>
+				
+			    </div>
+			
+			     <div style='height: 500px; float: right; margin-right: 200px;'>
+				      			<input type='checkbox' name='gram_stain' $gram_stain_check/> <b>Gram Stain</b>
+				                 
+				<br><br>
+				
+				                <input type='checkbox' name='culture' $culture_check/> <b>Culture</b>
+								
+				<br><br>
+				                 
+								<input type='checkbox' name='blood_group'  $blood_group_check/> <b>Blood Group</b>
+
+				<br><br>
+				
+                                <input type='checkbox' name='blood_count' value='' $blood_count_check/> <b>Blood Count</b>
+				
+				<br><br>
+				
+				                <input type='checkbox' name='blood_chemistry'  $blood_chemistry_check/> <b>Blood Chemistry</b>
+				
+				<br><br>
+								
+				                <input type='checkbox' name='arterial_blood'  $arterial_blood_check/> <b>Arterial Blood gas</b>
+								
+				<br><br>
+				
+				                <input type='checkbox' name='liver_function_test'  $liver_function_test_check/> <b>Liver Function</b>
+								
+				<br><br>
+                                 
+				                <input type='checkbox' name='prothrombin_time' $prothrombin_time_check/> <b>Prothrombin Time</b>
+								
+				<br><br>
+				
+				                <input type='checkbox' name='inr' $inr_check/> <b>INR</b>
+								
+				<br><br>
+
+                                <input type='checkbox' name='thyroid_function_test'  $thyroid_function_test_check/> <b>Thyroid Function Test</b>
+								
+				<br><br>
+
+                                 <input type='checkbox' name='cholesterol'  $cholesterol_check/> <b>Cholsterol</b>
+								 
+				<br><br>
+
+                                 <input type='checkbox' name='cardiac'  $cardiac_check /> <b>Cardiac Enzymes</b>
+								
+				<br><br>
+				
+				               
+				
+				<br>
+					</div>";
 			
 			?>
 			
 			<br>
 			
-			<div style="margin-top: 30px;margin-left: 300px;">
-				<input style="width: 250px; margin-top: 10px;" type="submit" name="submit_button" class="submitbtn" value="Submit Lab Order">
+			<div style="width: 500px; height: 40px; margin-top: 30px;margin-left: 320px;">
+				<input style="width: 250px; margin-top: 20px;" type="submit" name="submit_button" class="submitbtn" value="Submit Lab Order">
 			</div>
 			
 		</form>
