@@ -107,7 +107,12 @@ for($i = 0; $i < $table_columns_max; ++$i) {
 		
 		if ($temp_image_name != '') {
 		
-			$image_path = upload_file($current_column, $temp_image_name, 'change_custom_form.php', "../../uploaded_images/custom_forms/{$table_name}/in_use/");
+			$image_path = upload_file($current_column, $temp_image_name, 'change_custom_form.php', "../../../uploaded_images/custom_forms/{$table_name}/in_use/");
+			
+			if ($image_path != 'no_image') {
+				$image_path = substr($image_path, 3);
+			}
+
 			$previous_file_name = basename($previous_image_path);
 
 			// move old image to archive folder			

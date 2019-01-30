@@ -156,7 +156,11 @@ for($i = 0; $i < $table_columns_max; ++$i) {
 	if ($current_column_type == 'varchar(1000)') {
 		$temp_table_column = $table_columns[$i];
 		$temp_image_name = $_FILES[$temp_table_column]['name'];
-		$image_path = upload_file($temp_table_column, $temp_image_name, 'add_custom_form.php', "../../uploaded_images/custom_forms/{$table_name}/in_use/");
+		$image_path = upload_file($temp_table_column, $temp_image_name, 'add_custom_form.php', "../../../uploaded_images/custom_forms/{$table_name}/in_use/");
+
+		if ($image_path != 'no_image') {
+			$image_path = substr($image_path, 3);
+		}
 
 		$insert_values = $insert_values . "'" . $image_path . "'" . ', ';
 	}

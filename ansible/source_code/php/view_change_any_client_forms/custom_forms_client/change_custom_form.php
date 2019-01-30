@@ -346,6 +346,7 @@ Copyright © 2017 Andrew Klassen
 							// meta columns are stored in the following format column_<number>_<main_attribute>_<sub-attribute>
 							switch ($attribute_name_array[2]) {
 								case 'image':
+									$attribute_value = "../../" . $attribute_value;
 									switch ($attribute_name_array[3]) {
 										case 'small':
 											array_push($form_array, "<div style='height: 100px; '><img style='height: 100px; width: 100px; ' src='$attribute_value' alt='unable to load image'></div>");
@@ -386,6 +387,7 @@ Copyright © 2017 Andrew Klassen
 										$next_value = $attribute_value;
 									}
 
+									$next_value = "../../" . $next_value;
 									switch ($attribute_name_array[3]) {
 										case 'small':
 											array_push($form_array, "<div style='padding-left: 110px;height: 100px;'><img style='height: 100px; width: 100px;' src='$next_value' alt='unable to load image'></div>");
