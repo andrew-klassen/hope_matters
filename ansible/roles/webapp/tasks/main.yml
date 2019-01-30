@@ -16,7 +16,7 @@
          vtype: select
      
      - apt_repository:
-       repo: ppa:ondrej/php
+         repo: ppa:ondrej/php
 
      - name: (deb) update repositories cache
        apt:
@@ -153,7 +153,7 @@
 - mysql_user:
     name: php
     password: "{{ php_password }}"
-    priv: 'hope_matters.*:SELECT,UPDATE,INSERT/hope_matters.diagnoses:DELETE/hope_matters.diagnoses_temp:DELETE/hope_matters.treatment_temp:DELETE/hope_matters.return_treatment_temp:DELETE/hope_matters.secrets:DELETE/hope_matters.secret_values:DELETE/hope_matters.secret_values_temp:DELETE'
+    priv: 'mysql.*:SELECT/custom_forms.*:SELECT,UPDATE,INSERT/hope_matters.*:SELECT,UPDATE,INSERT/hope_matters.diagnoses:DELETE/hope_matters.diagnoses_temp:DELETE/hope_matters.treatment_temp:DELETE/hope_matters.return_treatment_temp:DELETE/hope_matters.secrets:DELETE/hope_matters.secret_values:DELETE/hope_matters.secret_values_temp:DELETE'
     state: present
   ignore_errors: yes
 
@@ -187,6 +187,11 @@
 - template:
     src: "{{ ansible_base }}/source_code/php/database_credentials.php"
     dest: /var/www/html/php/database_credentials.php
+
+- template:
+    src: "{{ ansible_base }}/source_code/php/crypto_settings.php"
+    dest: /var/www/html/php/crypto_settings.php
+
 
 - name: set permissions
   shell: |
