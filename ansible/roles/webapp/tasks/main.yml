@@ -164,6 +164,13 @@
     state: present
   ignore_errors: yes
 
+- mysql_user:
+    name: secret_api
+    password: "{{ secret_password_api }}"
+    priv: 'hope_matters.secret_api_tokens:SELECT/hope_matters.secret_values:SELECT'
+    state: present
+  ignore_errors: yes
+
 - name: add the initial program user, this user will be an admin
   shell: | 
     #!/bin/bash

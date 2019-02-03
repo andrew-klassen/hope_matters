@@ -7,6 +7,9 @@ $dbpassword_secret = '{{ secret_password }}';
 $dbname_secret = 'hope_matters';
 $dbconnection_secret = "mysql:host=$servername_secret;dbname=$dbname_secret";
 
+$dbusername_secret_api = 'secret_api';
+$dbpassword_secret_api = '{{ secret_password_api }}';
+
 $password_hashing_algorithim = PASSWORD_ARGON2ID;
 $password_hashing_options = [
     'memory_cost' => 1024,
@@ -56,9 +59,9 @@ function create_database_error($query, $error_location, $pdo_error) {
 	require_once('browser_info.php');
 	
 	// database connection information
-	$servername_secret = '{{ php_host }}';
+	$servername_secret = '{{ secret_host }}';
 	$dbusername_secret = 'php';
-	$dbpassword_secret = '{{ php_password }}';
+	$dbpassword_secret = '{{ secret_password }}';
 	$dbname_secret = 'hope_matters';
 	$dbconnection_secret = "mysql:host=$servername_secret;dbname=$dbname_secret";
 
