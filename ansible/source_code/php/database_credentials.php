@@ -43,6 +43,11 @@ $dbpassword = '{{ php_password }}';
 $dbname = 'hope_matters';
 $dbconnection = "mysql:host=$servername;dbname=$dbname";
 
+$radius_server = '';
+$dbconnection_radius = "mysql:host=$radius_server;dbname=radius";
+$dbusername_radius = '';
+$dbpassword_radius = '';
+
 $dbconnection_custom = "mysql:host=$servername;dbname=custom_forms";
 $dbusername_custom = $_SESSION['username'];
 $dbpassword_custom = $_SESSION['login_password'];
