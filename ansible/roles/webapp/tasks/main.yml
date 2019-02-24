@@ -4,17 +4,6 @@
 - name: (deb) package setup
   block:
 
-     - name: (deb) install mysql repo deb
-       apt:
-         deb: "{{ mysql_config_link }}"
-
-     - name: (deb) ensure mysql upstream repository package is configured
-       debconf:
-         name: mysql-apt-config
-         question: mysql-apt-config/select-product
-         value: Ok
-         vtype: select
-     
      - apt_repository:
          repo: ppa:ondrej/php
 
@@ -28,7 +17,7 @@
        vars:
          packages:
          - apache2
-         - mysql-community-server
+         - mysql-server-5.7
          - php7.3
          - php7.3-mysql
          - php7.3-zip
