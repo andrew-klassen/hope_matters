@@ -1,6 +1,6 @@
 -- MySQL dump 10.13  Distrib 5.7.22, for Linux (x86_64)
 --
--- Host: 10.0.0.205    Database: custom_forms
+-- Host: 10.3.0.55    Database: hope_matters
 -- ------------------------------------------------------
 -- Server version	5.7.25
 
@@ -14,746 +14,6 @@
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
-
---
--- Current Database: `custom_forms`
---
-
-CREATE DATABASE /*!32312 IF NOT EXISTS*/ `custom_forms` /*!40100 DEFAULT CHARACTER SET latin1 */;
-
-USE `custom_forms`;
-
---
--- Table structure for table `clinic_psychosocial_assessment`
---
-
-DROP TABLE IF EXISTS `clinic_psychosocial_assessment`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `clinic_psychosocial_assessment` (
-  `clinic_psychosocial_assessment_id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `client_id` int(11) DEFAULT NULL,
-  `first_name` varchar(25) DEFAULT NULL,
-  `last_name` varchar(25) DEFAULT NULL,
-  `location` varchar(45) DEFAULT NULL,
-  `date_of_birth` date DEFAULT NULL,
-  `sex` enum('male','female') DEFAULT NULL,
-  `diagnosis` varchar(50) DEFAULT NULL,
-  `understood_diagnosis` enum('yes','no') DEFAULT NULL,
-  `diagnosis_questions` tinytext,
-  `address` varchar(50) DEFAULT NULL,
-  `primary_contact_phone_number` varchar(50) DEFAULT NULL,
-  `if_not_patient's_number_list_their_relationship_to_patient` varchar(50) DEFAULT NULL,
-  `emergency_contact#` varchar(50) DEFAULT NULL,
-  `name_of_contact` varchar(50) DEFAULT NULL,
-  `relationship` varchar(50) DEFAULT NULL,
-  `head_of_household` varchar(50) DEFAULT NULL,
-  `relation_(household_head)` varchar(50) DEFAULT NULL,
-  `resides_with` text,
-  `employment` enum('yes','no') DEFAULT NULL,
-  `religious_preference` varchar(50) DEFAULT NULL,
-  `recreational_drugs` enum('yes','no') DEFAULT NULL,
-  `drug_list` varchar(50) DEFAULT NULL,
-  `smoke` enum('yes','no') DEFAULT NULL,
-  `smoke_frequency` varchar(50) DEFAULT NULL,
-  `alcohol` enum('yes','no') DEFAULT NULL,
-  `alcohol_frequency` varchar(50) DEFAULT NULL,
-  `children_(male)` enum('yes','no') DEFAULT NULL,
-  `number_of_children_(male)` int(11) DEFAULT NULL,
-  `children` enum('yes','no') DEFAULT NULL,
-  `number_of_children_(females)` int(11) DEFAULT NULL,
-  `currently_pregnant` enum('yes','no') DEFAULT NULL,
-  `past_miscarriages(s)` enum('yes','no') DEFAULT NULL,
-  `abortions(s)` enum('yes','no') DEFAULT NULL,
-  `past_pregnancy_complications` enum('yes','no') DEFAULT NULL,
-  `current_prescribed_medications` enum('yes','no') DEFAULT NULL,
-  `name_1._med_array_1` varchar(25) DEFAULT NULL,
-  `reason_1._med_array_1` varchar(25) DEFAULT NULL,
-  `name_2._med_array_2` varchar(25) DEFAULT NULL,
-  `reason_2._med_array_2` varchar(25) DEFAULT NULL,
-  `name_3._med_array_3` varchar(25) DEFAULT NULL,
-  `reason_3._med_array_3` varchar(25) DEFAULT NULL,
-  `patient's_current_concerns` text,
-  `impression_comment` text,
-  `additional_service_needed` text,
-  `progress_note_ids` varchar(50) DEFAULT NULL,
-  `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `created_by` varchar(20) DEFAULT NULL,
-  PRIMARY KEY (`clinic_psychosocial_assessment_id`),
-  UNIQUE KEY `clinic_psychosocial_assessment_id_UNIQUE` (`clinic_psychosocial_assessment_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Table structure for table `clinic_psychosocial_assessment_history`
---
-
-DROP TABLE IF EXISTS `clinic_psychosocial_assessment_history`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `clinic_psychosocial_assessment_history` (
-  `clinic_psychosocial_assessment_history_id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `clinic_psychosocial_assessment_id` int(11) unsigned NOT NULL,
-  `client_id` int(11) DEFAULT NULL,
-  `first_name` varchar(25) DEFAULT NULL,
-  `last_name` varchar(25) DEFAULT NULL,
-  `location` varchar(45) DEFAULT NULL,
-  `date_of_birth` date DEFAULT NULL,
-  `sex` enum('male','female') DEFAULT NULL,
-  `diagnosis` varchar(50) DEFAULT NULL,
-  `understood_diagnosis` enum('yes','no') DEFAULT NULL,
-  `diagnosis_questions` tinytext,
-  `address` varchar(50) DEFAULT NULL,
-  `primary_contact_phone_number` varchar(50) DEFAULT NULL,
-  `if_not_patient's_number_list_their_relationship_to_patient` varchar(50) DEFAULT NULL,
-  `emergency_contact#` varchar(50) DEFAULT NULL,
-  `name_of_contact` varchar(50) DEFAULT NULL,
-  `relationship` varchar(50) DEFAULT NULL,
-  `head_of_household` varchar(50) DEFAULT NULL,
-  `relation_(household_head)` varchar(50) DEFAULT NULL,
-  `resides_with` text,
-  `employment` enum('yes','no') DEFAULT NULL,
-  `religious_preference` varchar(50) DEFAULT NULL,
-  `recreational_drugs` enum('yes','no') DEFAULT NULL,
-  `drug_list` varchar(50) DEFAULT NULL,
-  `smoke` enum('yes','no') DEFAULT NULL,
-  `smoke_frequency` varchar(50) DEFAULT NULL,
-  `alcohol` enum('yes','no') DEFAULT NULL,
-  `alcohol_frequency` varchar(50) DEFAULT NULL,
-  `children_(male)` enum('yes','no') DEFAULT NULL,
-  `number_of_children_(male)` int(11) DEFAULT NULL,
-  `children` enum('yes','no') DEFAULT NULL,
-  `number_of_children_(females)` int(11) DEFAULT NULL,
-  `currently_pregnant` enum('yes','no') DEFAULT NULL,
-  `past_miscarriages(s)` enum('yes','no') DEFAULT NULL,
-  `abortions(s)` enum('yes','no') DEFAULT NULL,
-  `past_pregnancy_complications` enum('yes','no') DEFAULT NULL,
-  `current_prescribed_medications` enum('yes','no') DEFAULT NULL,
-  `name_1._med_array_1` varchar(25) DEFAULT NULL,
-  `reason_1._med_array_1` varchar(25) DEFAULT NULL,
-  `name_2._med_array_2` varchar(25) DEFAULT NULL,
-  `reason_2._med_array_2` varchar(25) DEFAULT NULL,
-  `name_3._med_array_3` varchar(25) DEFAULT NULL,
-  `reason_3._med_array_3` varchar(25) DEFAULT NULL,
-  `patient's_current_concerns` text,
-  `impression_comment` text,
-  `additional_service_needed` text,
-  `progress_note_ids` varchar(50) DEFAULT NULL,
-  `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `created_by` varchar(20) DEFAULT NULL,
-  PRIMARY KEY (`clinic_psychosocial_assessment_history_id`),
-  UNIQUE KEY `clinic_psychosocial_assessment_history_id_UNIQUE` (`clinic_psychosocial_assessment_history_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Table structure for table `clinic_psychosocial_assessment_meta`
---
-
-DROP TABLE IF EXISTS `clinic_psychosocial_assessment_meta`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `clinic_psychosocial_assessment_meta` (
-  `clinic_psychosocial_assessment_meta_id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `attribute` varchar(100) DEFAULT NULL,
-  `value` varchar(1000) DEFAULT NULL,
-  `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`clinic_psychosocial_assessment_meta_id`),
-  UNIQUE KEY `clinic_psychosocial_assessment_meta_id_UNIQUE` (`clinic_psychosocial_assessment_meta_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=latin1;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Table structure for table `cpa_progress_notes`
---
-
-DROP TABLE IF EXISTS `cpa_progress_notes`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `cpa_progress_notes` (
-  `cpa_progress_notes_id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `client_id` int(11) DEFAULT NULL,
-  `first_name` varchar(25) DEFAULT NULL,
-  `last_name` varchar(25) DEFAULT NULL,
-  `location` varchar(45) DEFAULT NULL,
-  `date_of_birth` date DEFAULT NULL,
-  `sex` enum('male','female') DEFAULT NULL,
-  `name` varchar(50) DEFAULT NULL,
-  `diagnosis` varchar(50) DEFAULT NULL,
-  `today's_date` date DEFAULT NULL,
-  `understanding_of_diagnosis` enum('yes','no') DEFAULT NULL,
-  `diagnosis_question` tinytext,
-  `address_change` enum('yes','no') DEFAULT NULL,
-  `continued_medication` enum('yes','no') DEFAULT NULL,
-  `taking_medication` enum('yes','no') DEFAULT NULL,
-  `location_of_visit` enum('inpatient','outpatient','home') DEFAULT NULL,
-  `medication_concerns/problems` tinytext,
-  `clinic_follow_up_request` enum('yes','no') DEFAULT NULL,
-  `reason` tinytext,
-  `impression_comments` text,
-  `additional_services_needed` text,
-  `future_follow_up_plan` text,
-  `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `created_by` varchar(20) DEFAULT NULL,
-  PRIMARY KEY (`cpa_progress_notes_id`),
-  UNIQUE KEY `cpa_progress_notes_id_UNIQUE` (`cpa_progress_notes_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Table structure for table `cpa_progress_notes_history`
---
-
-DROP TABLE IF EXISTS `cpa_progress_notes_history`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `cpa_progress_notes_history` (
-  `cpa_progress_notes_history_id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `cpa_progress_notes_id` int(11) unsigned NOT NULL,
-  `client_id` int(11) DEFAULT NULL,
-  `first_name` varchar(25) DEFAULT NULL,
-  `last_name` varchar(25) DEFAULT NULL,
-  `location` varchar(45) DEFAULT NULL,
-  `date_of_birth` date DEFAULT NULL,
-  `sex` enum('male','female') DEFAULT NULL,
-  `name` varchar(50) DEFAULT NULL,
-  `diagnosis` varchar(50) DEFAULT NULL,
-  `today's_date` date DEFAULT NULL,
-  `understanding_of_diagnosis` enum('yes','no') DEFAULT NULL,
-  `diagnosis_question` tinytext,
-  `address_change` enum('yes','no') DEFAULT NULL,
-  `continued_medication` enum('yes','no') DEFAULT NULL,
-  `taking_medication` enum('yes','no') DEFAULT NULL,
-  `location_of_visit` enum('inpatient','outpatient','home') DEFAULT NULL,
-  `medication_concerns/problems` tinytext,
-  `clinic_follow_up_request` enum('yes','no') DEFAULT NULL,
-  `reason` tinytext,
-  `impression_comments` text,
-  `additional_services_needed` text,
-  `future_follow_up_plan` text,
-  `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `created_by` varchar(20) DEFAULT NULL,
-  PRIMARY KEY (`cpa_progress_notes_history_id`),
-  UNIQUE KEY `cpa_progress_notes_history_id_UNIQUE` (`cpa_progress_notes_history_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Table structure for table `cpa_progress_notes_meta`
---
-
-DROP TABLE IF EXISTS `cpa_progress_notes_meta`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `cpa_progress_notes_meta` (
-  `cpa_progress_notes_meta_id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `attribute` varchar(100) DEFAULT NULL,
-  `value` varchar(1000) DEFAULT NULL,
-  `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`cpa_progress_notes_meta_id`),
-  UNIQUE KEY `cpa_progress_notes_meta_id_UNIQUE` (`cpa_progress_notes_meta_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Table structure for table `inpatient_chart`
---
-
-DROP TABLE IF EXISTS `inpatient_chart`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `inpatient_chart` (
-  `inpatient_chart_id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `client_id` int(11) DEFAULT NULL,
-  `first_name` varchar(25) DEFAULT NULL,
-  `last_name` varchar(25) DEFAULT NULL,
-  `location` varchar(45) DEFAULT NULL,
-  `date_of_birth` date DEFAULT NULL,
-  `sex` enum('male','female') DEFAULT NULL,
-  `t____vital_array_1` varchar(25) DEFAULT NULL,
-  `rr___vital_array_1` varchar(25) DEFAULT NULL,
-  `br___vital_array_2` varchar(25) DEFAULT NULL,
-  `sao2_vital_array_2` varchar(25) DEFAULT NULL,
-  `pain` enum('moderate','mild','severe','none') DEFAULT NULL,
-  `today's_date` date DEFAULT NULL,
-  `cardiovascular` enum('yes','no') DEFAULT NULL,
-  `cardiovascular_details` text,
-  `respiratory` enum('yes','no') DEFAULT NULL,
-  `respiratory_details` text,
-  `musculoskeletal` enum('yes','no') DEFAULT NULL,
-  `musculoskeletal_details` text,
-  `integumentary` enum('yes','no') DEFAULT NULL,
-  `integumentary_details` text,
-  `gi` enum('yes','no') DEFAULT NULL,
-  `gi_details` text,
-  `gu` enum('yes','no') DEFAULT NULL,
-  `gu_details` text,
-  `other` text,
-  `interventions_performed_(dressing_changes,_etc.)` text,
-  `provider_progress_note` text,
-  `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `created_by` varchar(20) DEFAULT NULL,
-  PRIMARY KEY (`inpatient_chart_id`),
-  UNIQUE KEY `inpatient_chart_id_UNIQUE` (`inpatient_chart_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Table structure for table `inpatient_chart_history`
---
-
-DROP TABLE IF EXISTS `inpatient_chart_history`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `inpatient_chart_history` (
-  `inpatient_chart_history_id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `inpatient_chart_id` int(11) unsigned NOT NULL,
-  `client_id` int(11) DEFAULT NULL,
-  `first_name` varchar(25) DEFAULT NULL,
-  `last_name` varchar(25) DEFAULT NULL,
-  `location` varchar(45) DEFAULT NULL,
-  `date_of_birth` date DEFAULT NULL,
-  `sex` enum('male','female') DEFAULT NULL,
-  `t____vital_array_1` varchar(25) DEFAULT NULL,
-  `rr___vital_array_1` varchar(25) DEFAULT NULL,
-  `br___vital_array_2` varchar(25) DEFAULT NULL,
-  `sao2_vital_array_2` varchar(25) DEFAULT NULL,
-  `pain` enum('moderate','mild','severe','none') DEFAULT NULL,
-  `today's_date` date DEFAULT NULL,
-  `cardiovascular` enum('yes','no') DEFAULT NULL,
-  `cardiovascular_details` text,
-  `respiratory` enum('yes','no') DEFAULT NULL,
-  `respiratory_details` text,
-  `musculoskeletal` enum('yes','no') DEFAULT NULL,
-  `musculoskeletal_details` text,
-  `integumentary` enum('yes','no') DEFAULT NULL,
-  `integumentary_details` text,
-  `gi` enum('yes','no') DEFAULT NULL,
-  `gi_details` text,
-  `gu` enum('yes','no') DEFAULT NULL,
-  `gu_details` text,
-  `other` text,
-  `interventions_performed_(dressing_changes,_etc.)` text,
-  `provider_progress_note` text,
-  `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `created_by` varchar(20) DEFAULT NULL,
-  PRIMARY KEY (`inpatient_chart_history_id`),
-  UNIQUE KEY `inpatient_chart_history_id_UNIQUE` (`inpatient_chart_history_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Table structure for table `inpatient_chart_meta`
---
-
-DROP TABLE IF EXISTS `inpatient_chart_meta`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `inpatient_chart_meta` (
-  `inpatient_chart_meta_id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `attribute` varchar(100) DEFAULT NULL,
-  `value` varchar(1000) DEFAULT NULL,
-  `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`inpatient_chart_meta_id`),
-  UNIQUE KEY `inpatient_chart_meta_id_UNIQUE` (`inpatient_chart_meta_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=latin1;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Table structure for table `labor_and_delivery_chart`
---
-
-DROP TABLE IF EXISTS `labor_and_delivery_chart`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `labor_and_delivery_chart` (
-  `labor_and_delivery_chart_id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `client_id` int(11) DEFAULT NULL,
-  `first_name` varchar(25) DEFAULT NULL,
-  `last_name` varchar(25) DEFAULT NULL,
-  `location` varchar(45) DEFAULT NULL,
-  `date_of_birth` date DEFAULT NULL,
-  `sex` enum('male','female') DEFAULT NULL,
-  `t__vital_array_1` varchar(25) DEFAULT NULL,
-  `rr_vital_array_1` varchar(25) DEFAULT NULL,
-  `br_vital_array_2` varchar(25) DEFAULT NULL,
-  `pr_vital_array_2` varchar(25) DEFAULT NULL,
-  `sao2_vital_array_3` varchar(25) DEFAULT NULL,
-  `pain` enum('moderate','mild','severe','none') DEFAULT NULL,
-  `today's_date` date DEFAULT NULL,
-  `time_labor_began_labor_time_array` varchar(25) DEFAULT NULL,
-  `bloody_show` enum('yes','no') DEFAULT NULL,
-  `bloody_show_details` varchar(50) DEFAULT NULL,
-  `rupture_of_membranes` enum('yes','no') DEFAULT NULL,
-  `rupture_of_membranes_details` varchar(50) DEFAULT NULL,
-  `presentation` enum('yes','no') DEFAULT NULL,
-  `presentation_details` varchar(50) DEFAULT NULL,
-  `hiv_status` enum('+','-','unknown') DEFAULT NULL,
-  `dilation_of_cervix` varchar(1000) DEFAULT NULL,
-  `fetal_heart` varchar(1000) DEFAULT NULL,
-  `1_liquor_array_1` varchar(25) DEFAULT NULL,
-  `2_liquor_array_1` varchar(25) DEFAULT NULL,
-  `3_liquor_array_1` varchar(25) DEFAULT NULL,
-  `4_liquor_array_1` varchar(25) DEFAULT NULL,
-  `5_liquor_array_1` varchar(25) DEFAULT NULL,
-  `6_liquor_array_2` varchar(25) DEFAULT NULL,
-  `7_liquor_array_2` varchar(25) DEFAULT NULL,
-  `8_liquor_array_2` varchar(25) DEFAULT NULL,
-  `9_liquor_array_2` varchar(25) DEFAULT NULL,
-  `10_liquor_array_2` varchar(25) DEFAULT NULL,
-  `1_oxytocin_array_1` varchar(25) DEFAULT NULL,
-  `2_oxytocin_array_1` varchar(25) DEFAULT NULL,
-  `3_oxytocin_array_1` varchar(25) DEFAULT NULL,
-  `4_oxytocin_array_1` varchar(25) DEFAULT NULL,
-  `5_oxytocin_array_1` varchar(25) DEFAULT NULL,
-  `6_oxytocin_array_2` varchar(25) DEFAULT NULL,
-  `7_oxytocin_array_2` varchar(25) DEFAULT NULL,
-  `8_oxytocin_array_2` varchar(25) DEFAULT NULL,
-  `9_oxytocin_array_2` varchar(25) DEFAULT NULL,
-  `10_oxytocin_array_2` varchar(25) DEFAULT NULL,
-  `1_analgesia_array_1` varchar(25) DEFAULT NULL,
-  `2_analgesia_array_1` varchar(25) DEFAULT NULL,
-  `3_analgesia_array_1` varchar(25) DEFAULT NULL,
-  `4_analgesia_array_1` varchar(25) DEFAULT NULL,
-  `5_analgesia_array_1` varchar(25) DEFAULT NULL,
-  `6_analgesia_array_2` varchar(25) DEFAULT NULL,
-  `7_analgesia_array_2` varchar(25) DEFAULT NULL,
-  `8_analgesia_array_2` varchar(25) DEFAULT NULL,
-  `9_analgesia_array_2` varchar(25) DEFAULT NULL,
-  `10_analgesia_array_2` varchar(25) DEFAULT NULL,
-  `time_of_delivery_partogram_bottom` varchar(25) DEFAULT NULL,
-  `method_partogram_bottom` varchar(25) DEFAULT NULL,
-  `duration_partogram_bottom` varchar(25) DEFAULT NULL,
-  `locia_normal` enum('yes','no') DEFAULT NULL,
-  `locia_details` varchar(50) DEFAULT NULL,
-  `fundus_normal` enum('yes','no') DEFAULT NULL,
-  `fundus_details` varchar(50) DEFAULT NULL,
-  `breastfeeding` enum('yes','no') DEFAULT NULL,
-  `birth_time` date DEFAULT NULL,
-  `1_minute_apgar_array` varchar(25) DEFAULT NULL,
-  `5_minute_apgar_array` varchar(25) DEFAULT NULL,
-  `10_minute_(optional)_apgar_array` varchar(25) DEFAULT NULL,
-  `progress_note_ids` varchar(50) DEFAULT NULL,
-  `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `created_by` varchar(20) DEFAULT NULL,
-  PRIMARY KEY (`labor_and_delivery_chart_id`),
-  UNIQUE KEY `labor_and_delivery_chart_id_UNIQUE` (`labor_and_delivery_chart_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Table structure for table `labor_and_delivery_chart_history`
---
-
-DROP TABLE IF EXISTS `labor_and_delivery_chart_history`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `labor_and_delivery_chart_history` (
-  `labor_and_delivery_chart_history_id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `labor_and_delivery_chart_id` int(11) unsigned NOT NULL,
-  `client_id` int(11) DEFAULT NULL,
-  `first_name` varchar(25) DEFAULT NULL,
-  `last_name` varchar(25) DEFAULT NULL,
-  `location` varchar(45) DEFAULT NULL,
-  `date_of_birth` date DEFAULT NULL,
-  `sex` enum('male','female') DEFAULT NULL,
-  `t__vital_array_1` varchar(25) DEFAULT NULL,
-  `rr_vital_array_1` varchar(25) DEFAULT NULL,
-  `br_vital_array_2` varchar(25) DEFAULT NULL,
-  `pr_vital_array_2` varchar(25) DEFAULT NULL,
-  `sao2_vital_array_3` varchar(25) DEFAULT NULL,
-  `pain` enum('moderate','mild','severe','none') DEFAULT NULL,
-  `today's_date` date DEFAULT NULL,
-  `time_labor_began_labor_time_array` varchar(25) DEFAULT NULL,
-  `bloody_show` enum('yes','no') DEFAULT NULL,
-  `bloody_show_details` varchar(50) DEFAULT NULL,
-  `rupture_of_membranes` enum('yes','no') DEFAULT NULL,
-  `rupture_of_membranes_details` varchar(50) DEFAULT NULL,
-  `presentation` enum('yes','no') DEFAULT NULL,
-  `presentation_details` varchar(50) DEFAULT NULL,
-  `hiv_status` enum('+','-','unknown') DEFAULT NULL,
-  `dilation_of_cervix` varchar(1000) DEFAULT NULL,
-  `fetal_heart` varchar(1000) DEFAULT NULL,
-  `1_liquor_array_1` varchar(25) DEFAULT NULL,
-  `2_liquor_array_1` varchar(25) DEFAULT NULL,
-  `3_liquor_array_1` varchar(25) DEFAULT NULL,
-  `4_liquor_array_1` varchar(25) DEFAULT NULL,
-  `5_liquor_array_1` varchar(25) DEFAULT NULL,
-  `6_liquor_array_2` varchar(25) DEFAULT NULL,
-  `7_liquor_array_2` varchar(25) DEFAULT NULL,
-  `8_liquor_array_2` varchar(25) DEFAULT NULL,
-  `9_liquor_array_2` varchar(25) DEFAULT NULL,
-  `10_liquor_array_2` varchar(25) DEFAULT NULL,
-  `1_oxytocin_array_1` varchar(25) DEFAULT NULL,
-  `2_oxytocin_array_1` varchar(25) DEFAULT NULL,
-  `3_oxytocin_array_1` varchar(25) DEFAULT NULL,
-  `4_oxytocin_array_1` varchar(25) DEFAULT NULL,
-  `5_oxytocin_array_1` varchar(25) DEFAULT NULL,
-  `6_oxytocin_array_2` varchar(25) DEFAULT NULL,
-  `7_oxytocin_array_2` varchar(25) DEFAULT NULL,
-  `8_oxytocin_array_2` varchar(25) DEFAULT NULL,
-  `9_oxytocin_array_2` varchar(25) DEFAULT NULL,
-  `10_oxytocin_array_2` varchar(25) DEFAULT NULL,
-  `1_analgesia_array_1` varchar(25) DEFAULT NULL,
-  `2_analgesia_array_1` varchar(25) DEFAULT NULL,
-  `3_analgesia_array_1` varchar(25) DEFAULT NULL,
-  `4_analgesia_array_1` varchar(25) DEFAULT NULL,
-  `5_analgesia_array_1` varchar(25) DEFAULT NULL,
-  `6_analgesia_array_2` varchar(25) DEFAULT NULL,
-  `7_analgesia_array_2` varchar(25) DEFAULT NULL,
-  `8_analgesia_array_2` varchar(25) DEFAULT NULL,
-  `9_analgesia_array_2` varchar(25) DEFAULT NULL,
-  `10_analgesia_array_2` varchar(25) DEFAULT NULL,
-  `time_of_delivery_partogram_bottom` varchar(25) DEFAULT NULL,
-  `method_partogram_bottom` varchar(25) DEFAULT NULL,
-  `duration_partogram_bottom` varchar(25) DEFAULT NULL,
-  `locia_normal` enum('yes','no') DEFAULT NULL,
-  `locia_details` varchar(50) DEFAULT NULL,
-  `fundus_normal` enum('yes','no') DEFAULT NULL,
-  `fundus_details` varchar(50) DEFAULT NULL,
-  `breastfeeding` enum('yes','no') DEFAULT NULL,
-  `birth_time` date DEFAULT NULL,
-  `1_minute_apgar_array` varchar(25) DEFAULT NULL,
-  `5_minute_apgar_array` varchar(25) DEFAULT NULL,
-  `10_minute_(optional)_apgar_array` varchar(25) DEFAULT NULL,
-  `progress_note_ids` varchar(50) DEFAULT NULL,
-  `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `created_by` varchar(20) DEFAULT NULL,
-  PRIMARY KEY (`labor_and_delivery_chart_history_id`),
-  UNIQUE KEY `labor_and_delivery_chart_history_id_UNIQUE` (`labor_and_delivery_chart_history_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Table structure for table `labor_and_delivery_chart_meta`
---
-
-DROP TABLE IF EXISTS `labor_and_delivery_chart_meta`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `labor_and_delivery_chart_meta` (
-  `labor_and_delivery_chart_meta_id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `attribute` varchar(100) DEFAULT NULL,
-  `value` varchar(1000) DEFAULT NULL,
-  `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`labor_and_delivery_chart_meta_id`),
-  UNIQUE KEY `labor_and_delivery_chart_meta_id_UNIQUE` (`labor_and_delivery_chart_meta_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=latin1;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Table structure for table `ld_progress_notes`
---
-
-DROP TABLE IF EXISTS `ld_progress_notes`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `ld_progress_notes` (
-  `ld_progress_notes_id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `client_id` int(11) DEFAULT NULL,
-  `first_name` varchar(25) DEFAULT NULL,
-  `last_name` varchar(25) DEFAULT NULL,
-  `location` varchar(45) DEFAULT NULL,
-  `date_of_birth` date DEFAULT NULL,
-  `sex` enum('male','female') DEFAULT NULL,
-  `name` varchar(50) DEFAULT NULL,
-  `diagnosis` varchar(50) DEFAULT NULL,
-  `today's_date` date DEFAULT NULL,
-  `understanding_of_diagnosis` enum('yes','no') DEFAULT NULL,
-  `diagnosis_question` tinytext,
-  `address_change` enum('yes','no') DEFAULT NULL,
-  `continued_medication` enum('yes','no') DEFAULT NULL,
-  `taking_medication` enum('yes','no') DEFAULT NULL,
-  `location_of_visit` enum('inpatient','outpatient','home') DEFAULT NULL,
-  `medication_concerns/problems` tinytext,
-  `clinic_follow_up_request` enum('yes','no') DEFAULT NULL,
-  `reason` tinytext,
-  `impression_comments` text,
-  `additional_services_needed` text,
-  `future_follow_up_plan` text,
-  `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `created_by` varchar(20) DEFAULT NULL,
-  PRIMARY KEY (`ld_progress_notes_id`),
-  UNIQUE KEY `ld_progress_notes_id_UNIQUE` (`ld_progress_notes_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Table structure for table `ld_progress_notes_history`
---
-
-DROP TABLE IF EXISTS `ld_progress_notes_history`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `ld_progress_notes_history` (
-  `ld_progress_notes_history_id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `ld_progress_notes_id` int(11) unsigned NOT NULL,
-  `client_id` int(11) DEFAULT NULL,
-  `first_name` varchar(25) DEFAULT NULL,
-  `last_name` varchar(25) DEFAULT NULL,
-  `location` varchar(45) DEFAULT NULL,
-  `date_of_birth` date DEFAULT NULL,
-  `sex` enum('male','female') DEFAULT NULL,
-  `name` varchar(50) DEFAULT NULL,
-  `diagnosis` varchar(50) DEFAULT NULL,
-  `today's_date` date DEFAULT NULL,
-  `understanding_of_diagnosis` enum('yes','no') DEFAULT NULL,
-  `diagnosis_question` tinytext,
-  `address_change` enum('yes','no') DEFAULT NULL,
-  `continued_medication` enum('yes','no') DEFAULT NULL,
-  `taking_medication` enum('yes','no') DEFAULT NULL,
-  `location_of_visit` enum('inpatient','outpatient','home') DEFAULT NULL,
-  `medication_concerns/problems` tinytext,
-  `clinic_follow_up_request` enum('yes','no') DEFAULT NULL,
-  `reason` tinytext,
-  `impression_comments` text,
-  `additional_services_needed` text,
-  `future_follow_up_plan` text,
-  `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `created_by` varchar(20) DEFAULT NULL,
-  PRIMARY KEY (`ld_progress_notes_history_id`),
-  UNIQUE KEY `ld_progress_notes_history_id_UNIQUE` (`ld_progress_notes_history_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Table structure for table `ld_progress_notes_meta`
---
-
-DROP TABLE IF EXISTS `ld_progress_notes_meta`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `ld_progress_notes_meta` (
-  `ld_progress_notes_meta_id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `attribute` varchar(100) DEFAULT NULL,
-  `value` varchar(1000) DEFAULT NULL,
-  `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`ld_progress_notes_meta_id`),
-  UNIQUE KEY `ld_progress_notes_meta_id_UNIQUE` (`ld_progress_notes_meta_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Table structure for table `newborn_assessment`
---
-
-DROP TABLE IF EXISTS `newborn_assessment`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `newborn_assessment` (
-  `newborn_assessment_id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `client_id` int(11) DEFAULT NULL,
-  `first_name` varchar(25) DEFAULT NULL,
-  `last_name` varchar(25) DEFAULT NULL,
-  `location` varchar(45) DEFAULT NULL,
-  `date_of_birth` date DEFAULT NULL,
-  `sex` enum('male','female') DEFAULT NULL,
-  `t____vital_array_1` varchar(25) DEFAULT NULL,
-  `rr___vital_array_1` varchar(25) DEFAULT NULL,
-  `br___vital_array_2` varchar(25) DEFAULT NULL,
-  `sao2_vital_array_2` varchar(25) DEFAULT NULL,
-  `pain` enum('moderate','mild','severe','none') DEFAULT NULL,
-  `today's_date` date DEFAULT NULL,
-  `weight` varchar(50) DEFAULT NULL,
-  `length` varchar(50) DEFAULT NULL,
-  `patient_information` tinytext,
-  `head` enum('yes','no') DEFAULT NULL,
-  `head_details` text,
-  `neurological` enum('yes','no') DEFAULT NULL,
-  `neurological_details` text,
-  `cardiovascular` enum('yes','no') DEFAULT NULL,
-  `cardiovascular_details` text,
-  `respiratory` enum('yes','no') DEFAULT NULL,
-  `respiratory_details` text,
-  `musculoskeletal` enum('yes','no') DEFAULT NULL,
-  `musculoskeletal_details` text,
-  `integumentary` enum('yes','no') DEFAULT NULL,
-  `integumentary_details` text,
-  `gi` enum('yes','no') DEFAULT NULL,
-  `gi_details` text,
-  `gu` enum('yes','no') DEFAULT NULL,
-  `gu_details` text,
-  `other` text,
-  `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `created_by` varchar(20) DEFAULT NULL,
-  PRIMARY KEY (`newborn_assessment_id`),
-  UNIQUE KEY `newborn_assessment_id_UNIQUE` (`newborn_assessment_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Table structure for table `newborn_assessment_history`
---
-
-DROP TABLE IF EXISTS `newborn_assessment_history`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `newborn_assessment_history` (
-  `newborn_assessment_history_id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `newborn_assessment_id` int(11) unsigned NOT NULL,
-  `client_id` int(11) DEFAULT NULL,
-  `first_name` varchar(25) DEFAULT NULL,
-  `last_name` varchar(25) DEFAULT NULL,
-  `location` varchar(45) DEFAULT NULL,
-  `date_of_birth` date DEFAULT NULL,
-  `sex` enum('male','female') DEFAULT NULL,
-  `t____vital_array_1` varchar(25) DEFAULT NULL,
-  `rr___vital_array_1` varchar(25) DEFAULT NULL,
-  `br___vital_array_2` varchar(25) DEFAULT NULL,
-  `sao2_vital_array_2` varchar(25) DEFAULT NULL,
-  `pain` enum('moderate','mild','severe','none') DEFAULT NULL,
-  `today's_date` date DEFAULT NULL,
-  `weight` varchar(50) DEFAULT NULL,
-  `length` varchar(50) DEFAULT NULL,
-  `patient_information` tinytext,
-  `head` enum('yes','no') DEFAULT NULL,
-  `head_details` text,
-  `neurological` enum('yes','no') DEFAULT NULL,
-  `neurological_details` text,
-  `cardiovascular` enum('yes','no') DEFAULT NULL,
-  `cardiovascular_details` text,
-  `respiratory` enum('yes','no') DEFAULT NULL,
-  `respiratory_details` text,
-  `musculoskeletal` enum('yes','no') DEFAULT NULL,
-  `musculoskeletal_details` text,
-  `integumentary` enum('yes','no') DEFAULT NULL,
-  `integumentary_details` text,
-  `gi` enum('yes','no') DEFAULT NULL,
-  `gi_details` text,
-  `gu` enum('yes','no') DEFAULT NULL,
-  `gu_details` text,
-  `other` text,
-  `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `created_by` varchar(20) DEFAULT NULL,
-  PRIMARY KEY (`newborn_assessment_history_id`),
-  UNIQUE KEY `newborn_assessment_history_id_UNIQUE` (`newborn_assessment_history_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Table structure for table `newborn_assessment_meta`
---
-
-DROP TABLE IF EXISTS `newborn_assessment_meta`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `newborn_assessment_meta` (
-  `newborn_assessment_meta_id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `attribute` varchar(100) DEFAULT NULL,
-  `value` varchar(1000) DEFAULT NULL,
-  `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`newborn_assessment_meta_id`),
-  UNIQUE KEY `newborn_assessment_meta_id_UNIQUE` (`newborn_assessment_meta_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=latin1;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping events for database 'custom_forms'
---
-
---
--- Dumping routines for database 'custom_forms'
---
 
 --
 -- Current Database: `hope_matters`
@@ -790,7 +50,7 @@ CREATE TABLE `accounts` (
   PRIMARY KEY (`account_id`),
   UNIQUE KEY `account_id_UNIQUE` (`account_id`),
   UNIQUE KEY `username_UNIQUE` (`username`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=latin1 ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=latin1 ROW_FORMAT=DYNAMIC;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -820,7 +80,7 @@ CREATE TABLE `accounts_history` (
   `created_by` varchar(20) CHARACTER SET latin1 DEFAULT NULL,
   PRIMARY KEY (`accounts_history_id`),
   UNIQUE KEY `accounts_history_id_UNIQUE` (`accounts_history_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=53 DEFAULT CHARSET=latin1 COLLATE=latin1_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -852,7 +112,7 @@ CREATE TABLE `baby` (
   UNIQUE KEY `baby_id_UNIQUE` (`baby_id`),
   KEY `client_id_baby_idx` (`client_id`),
   CONSTRAINT `client_id_baby` FOREIGN KEY (`client_id`) REFERENCES `general_info` (`client_id`) ON DELETE NO ACTION ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=80 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -885,7 +145,7 @@ CREATE TABLE `baby_history` (
   UNIQUE KEY `baby_history_id_UNIQUE` (`baby_history_id`),
   KEY `client_id_baby_history_idx` (`client_id`),
   CONSTRAINT `client_id_baby_history` FOREIGN KEY (`client_id`) REFERENCES `general_info` (`client_id`) ON DELETE NO ACTION ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=40 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1211,7 +471,7 @@ CREATE TABLE `current_clients` (
   `created_by` varchar(20) DEFAULT NULL,
   PRIMARY KEY (`current_clients_id`),
   UNIQUE KEY `current_clients_id_UNIQUE` (`current_clients_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=8807 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1383,7 +643,7 @@ CREATE TABLE `diagnoses` (
   UNIQUE KEY `diagnoses_id_UNIQUE` (`diagnosis_id`),
   KEY `client_id_diagnoses_idx` (`client_id`),
   CONSTRAINT `client_id_diagnoses` FOREIGN KEY (`client_id`) REFERENCES `general_info` (`client_id`) ON DELETE NO ACTION ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=8351 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1412,7 +672,7 @@ CREATE TABLE `diagnoses_history` (
   UNIQUE KEY `diagnosis_history_id_UNIQUE` (`diagnosis_history_id`),
   KEY `client_id_diagnoses_history_idx` (`client_id`),
   CONSTRAINT `client_id_diagnoses_history` FOREIGN KEY (`client_id`) REFERENCES `general_info` (`client_id`) ON DELETE NO ACTION ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1443,7 +703,7 @@ CREATE TABLE `diagnosis_types` (
   `created_by` varchar(20) DEFAULT NULL,
   PRIMARY KEY (`diagnosis_types_id`),
   UNIQUE KEY `diagnoses_id_UNIQUE` (`diagnosis_types_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=232 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1618,7 +878,7 @@ CREATE TABLE `general_info` (
   `created_by` varchar(20) DEFAULT NULL,
   PRIMARY KEY (`client_id`),
   UNIQUE KEY `client_id_UNIQUE` (`client_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=4806 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1654,7 +914,7 @@ CREATE TABLE `general_info_history` (
   KEY `created_by_general_info_idx` (`created_by`),
   KEY `client_id_general_info_history_idx` (`client_id`),
   CONSTRAINT `client_id_general_info_history` FOREIGN KEY (`client_id`) REFERENCES `general_info` (`client_id`) ON DELETE NO ACTION ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1857,7 +1117,7 @@ CREATE TABLE `lab` (
   UNIQUE KEY `lab_id_UNIQUE` (`lab_id`),
   KEY `lab_client_id_idx` (`client_id`),
   CONSTRAINT `client_id_lab` FOREIGN KEY (`client_id`) REFERENCES `general_info` (`client_id`) ON DELETE NO ACTION ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=4918 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -2037,6 +1297,12 @@ CREATE TABLE `lab_order` (
   `thyroid_function_test` enum('yes','no') DEFAULT NULL,
   `gram_stain` enum('yes','no') DEFAULT NULL,
   `cardiac` enum('yes','no') DEFAULT NULL,
+  `anc_profile` enum('yes','no') DEFAULT NULL,
+  `hba_c` enum('yes','no') DEFAULT NULL,
+  `electrolytes` enum('yes','no') DEFAULT NULL,
+  `creatinine` enum('yes','no') DEFAULT NULL,
+  `hematocrit` enum('yes','no') DEFAULT NULL,
+  `bun` enum('yes','no') DEFAULT NULL,
   `time_created` datetime DEFAULT NULL,
   `time_completed` datetime DEFAULT NULL,
   `created_by` varchar(20) DEFAULT NULL,
@@ -2044,7 +1310,7 @@ CREATE TABLE `lab_order` (
   UNIQUE KEY `lab_order_id_UNIQUE` (`lab_order_id`),
   KEY `client_id_lab_order_idx` (`client_id`),
   CONSTRAINT `client_id_lab_order` FOREIGN KEY (`client_id`) REFERENCES `general_info` (`client_id`) ON DELETE NO ACTION ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=5139 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -2091,6 +1357,12 @@ CREATE TABLE `lab_order_history` (
   `thyroid_function_test` enum('yes','no') DEFAULT NULL,
   `gram_stain` enum('yes','no') DEFAULT NULL,
   `cardiac` enum('yes','no') DEFAULT NULL,
+  `anc_profile` enum('yes','no') DEFAULT NULL,
+  `hba_c` enum('yes','no') DEFAULT NULL,
+  `electrolytes` enum('yes','no') DEFAULT NULL,
+  `creatinine` enum('yes','no') DEFAULT NULL,
+  `hematocrit` enum('yes','no') DEFAULT NULL,
+  `bun` enum('yes','no') DEFAULT NULL,
   `time_created` datetime DEFAULT NULL,
   `time_completed` datetime DEFAULT NULL,
   `created_by` varchar(20) DEFAULT NULL,
@@ -2129,7 +1401,7 @@ CREATE TABLE `master_log` (
   KEY `client_id_master_log_idx` (`client_id`),
   KEY `client_id_master_log` (`client_id`),
   CONSTRAINT `client_id_master_log` FOREIGN KEY (`client_id`) REFERENCES `general_info` (`client_id`) ON DELETE NO ACTION ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=14146 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -2158,7 +1430,7 @@ CREATE TABLE `master_log_change` (
   PRIMARY KEY (`change_id`),
   UNIQUE KEY `payment_history_id_UNIQUE` (`change_id`),
   KEY `client_id_master_log_idx` (`client_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=14534 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -2190,7 +1462,7 @@ CREATE TABLE `master_log_history` (
   UNIQUE KEY `payment_history_id_UNIQUE` (`payment_history_id`),
   KEY `client_id_master_log_idx` (`client_id`),
   CONSTRAINT `client_id_master_log_history` FOREIGN KEY (`client_id`) REFERENCES `general_info` (`client_id`) ON DELETE NO ACTION ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=14228 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -2460,7 +1732,7 @@ CREATE TABLE `referral_form` (
   UNIQUE KEY `referral_form_id_UNIQUE` (`referral_form_id`),
   KEY `client_id_refferal_form_idx` (`client_id`),
   CONSTRAINT `client_id_refferal_form` FOREIGN KEY (`client_id`) REFERENCES `general_info` (`client_id`) ON DELETE NO ACTION ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=168 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -2496,7 +1768,7 @@ CREATE TABLE `referral_form_history` (
   UNIQUE KEY `referral_form_history_id_UNIQUE` (`referral_form_history_id`),
   KEY `client_id_refferal_form_idx` (`client_id`),
   CONSTRAINT `client_id_refferal_form_history` FOREIGN KEY (`client_id`) REFERENCES `general_info` (`client_id`) ON DELETE NO ACTION ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=136 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -2558,7 +1830,7 @@ CREATE TABLE `return_treatment` (
   UNIQUE KEY `return_treatment_id_UNIQUE` (`return_treatment_id`),
   KEY `client_id_return_treatment_idx` (`client_id`),
   CONSTRAINT `client_id_return_treatment` FOREIGN KEY (`client_id`) REFERENCES `general_info` (`client_id`) ON DELETE NO ACTION ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=2138 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -2592,7 +1864,7 @@ CREATE TABLE `return_treatment_history` (
   UNIQUE KEY `return_treatment_history_id_UNIQUE` (`return_treatment_history_id`),
   KEY `client_id_return_treatment_idx` (`client_id`),
   CONSTRAINT `client_id_return_treatment_history` FOREIGN KEY (`client_id`) REFERENCES `general_info` (`client_id`) ON DELETE NO ACTION ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=1993 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -2718,7 +1990,7 @@ CREATE TABLE `treatment` (
   UNIQUE KEY `treatment_id_UNIQUE` (`treatment_id`),
   KEY `client_id_treatment_idx` (`client_id`),
   CONSTRAINT `client_id_treatment` FOREIGN KEY (`client_id`) REFERENCES `general_info` (`client_id`) ON DELETE NO ACTION ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=4983 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -2755,7 +2027,7 @@ CREATE TABLE `treatment_history` (
   UNIQUE KEY `treatment_history_id_UNIQUE` (`treatment_history_id`),
   KEY `client_id_treatment_history_idx` (`client_id`),
   CONSTRAINT `client_id_treatment_history` FOREIGN KEY (`client_id`) REFERENCES `general_info` (`client_id`) ON DELETE NO ACTION ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=6127 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -2824,7 +2096,7 @@ CREATE TABLE `ultrasound` (
   UNIQUE KEY `ultrasound_id_UNIQUE` (`ultrasound_id`),
   KEY `client_id_ultrasound_idx` (`client_id`),
   CONSTRAINT `client_id_ultrasound` FOREIGN KEY (`client_id`) REFERENCES `general_info` (`client_id`) ON DELETE NO ACTION ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=89 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -2870,7 +2142,7 @@ CREATE TABLE `ultrasound_history` (
   UNIQUE KEY `ultrasound_id_UNIQUE` (`ultrasound_history_id`),
   KEY `client_id_ultrasound_history_idx` (`client_id`),
   CONSTRAINT `client_id_ultrasound_history` FOREIGN KEY (`client_id`) REFERENCES `general_info` (`client_id`) ON DELETE NO ACTION ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=154 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -3059,6 +2331,22 @@ CREATE TABLE `women_health_history` (
 --
 -- Dumping routines for database 'hope_matters'
 --
+
+--
+-- Current Database: `custom_forms`
+--
+
+CREATE DATABASE /*!32312 IF NOT EXISTS*/ `custom_forms` /*!40100 DEFAULT CHARACTER SET latin1 */;
+
+USE `custom_forms`;
+
+--
+-- Dumping events for database 'custom_forms'
+--
+
+--
+-- Dumping routines for database 'custom_forms'
+--
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -3069,4 +2357,4 @@ CREATE TABLE `women_health_history` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-02-03  3:14:06
+-- Dump completed on 2019-02-24  0:27:13
