@@ -4,16 +4,8 @@
 - name: (deb) package setup
   block:
 
-     - name: (deb) install mysql repo deb
-       apt:
-         deb: "{{ mysql_config_link }}"
-
-     - name: (deb) ensure mysql upstream repository package is configured
-       debconf:
-         name: mysql-apt-config
-         question: mysql-apt-config/select-product
-         value: Ok
-         vtype: select
+     - apt_repository:
+         repo: ppa:ondrej/php
 
      - name: (deb) update repositories cache
        apt:
@@ -25,10 +17,13 @@
        vars:
          packages:
          - apache2
-         - mysql-community-server
-         - php
-         - php-mysql
+         - mysql-server-5.7
+         - php7.3
+         - php7.3-mysql
+         - php7.3-zip
+         - php7.3-json
          - python-mysqldb
+         - argon2
 
   when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
 
@@ -147,7 +142,21 @@
 - mysql_user:
     name: php
     password: "{{ php_password }}"
-    priv: 'hope_matters.*:SELECT,UPDATE,INSERT/hope_matters.diagnoses:DELETE/hope_matters.diagnoses_temp:DELETE/hope_matters.treatment_temp:DELETE/hope_matters.return_treatment_temp:DELETE/hope_matters.secrets:DELETE/hope_matters.secret_values:DELETE/hope_matters.secret_values_temp:DELETE'
+    priv: 'mysql.*:SELECT/custom_forms.*:SELECT,UPDATE,INSERT/hope_matters.*:SELECT,UPDATE,INSERT/hope_matters.diagnoses:DELETE/hope_matters.diagnoses_temp:DELETE/hope_matters.treatment_temp:DELETE/hope_matters.return_treatment_temp:DELETE/hope_matters.secrets:DELETE/hope_matters.secret_values:DELETE/hope_matters.secret_values_temp:DELETE'
+    state: present
+  ignore_errors: yes
+
+- mysql_user:
+    name: secret
+    password: "{{ secret_password }}"
+    priv: 'hope_matters.accounts:SELECT/hope_matters.secret_values_temp:SELECT,UPDATE,INSERT,DELETE/hope_matters.secret_values:SELECT,UPDATE,INSERT,DELETE/hope_matters.secrets:SELECT,UPDATE,INSERT,DELETE'
+    state: present
+  ignore_errors: yes
+
+- mysql_user:
+    name: secret_api
+    password: "{{ secret_password_api }}"
+    priv: 'hope_matters.secret_api_tokens:SELECT/hope_matters.secret_values:SELECT'
     state: present
   ignore_errors: yes
 
@@ -174,6 +183,11 @@
 - template:
     src: "{{ ansible_base }}/source_code/php/database_credentials.php"
     dest: /var/www/html/php/database_credentials.php
+
+- template:
+    src: "{{ ansible_base }}/source_code/php/crypto_settings.php"
+    dest: /var/www/html/php/crypto_settings.php
+
 
 - name: set permissions
   shell: |

@@ -8,38 +8,11 @@ Copyright © 2017 Andrew Klassen
 
 <?php
 
-require('../database_credentials.php');
+require('../crypto_settings.php');
 session_start();
 
 // make sure user is logged in
 login_check();
-
-class grab_value extends RecursiveIteratorIterator {
-		function __construct($it) {
-			parent::__construct($it, self::LEAVES_ONLY);
-		}
-		function current() {
-			$_SESSION['temp'] = parent::current();
-		}
-		function beginChildren() {
-			echo "<tr>";
-		}
-		function endChildren() {
-			echo "</tr>" . "\n";
-		}
-}
-
-class get_secret_value_temp_ids extends RecursiveIteratorIterator {
-		function __construct($it) {
-			parent::__construct($it, self::LEAVES_ONLY);
-		}
-		function current() {
-				
-				array_push($_SESSION['secret_value_temp_ids'], parent::current());
-
-		}
-		
-}
 
 
 $secret_id = $_SESSION['choosen_secret_id'];
@@ -48,84 +21,46 @@ $account_id = $_SESSION['account_id'];
 
 
 // make database connection
-$conn = new PDO($dbconnection, $dbusername, $dbpassword);
+$conn = new PDO($dbconnection_secret, $dbusername_secret, $dbpassword_secret);
 $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+$conn->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
 
 
-$stmt = $conn->prepare("SELECT password FROM accounts WHERE account_id = '$account_id';");
-$stmt->execute();
-$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
-			
-foreach(new grab_value(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
-
-}
-$password = $_SESSION['temp'];
+// get user's password hash
+$stmt = $conn->prepare("SELECT password FROM accounts WHERE account_id = :account_id;");
+$stmt->execute(array('account_id' => $account_id));
+$password = $stmt->fetch(PDO::FETCH_ASSOC);
 
 // aes key used to decrypt one time password = user's password hash + id
-$secret_password = $password . $account_id;
+$secret_password = $password['password'] . $account_id;
 
 
 // get all temp ids
-$_SESSION['secret_value_temp_ids'] = array();
+$stmt = $conn->prepare("SELECT secret_value_temp_id, key_hash FROM secret_values_temp WHERE secret_id = :secret_id;");
+$stmt->execute(array('secret_id' => $secret_id));
+$secret_value_temp_rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-$stmt = $conn->prepare("SELECT secret_value_temp_id FROM secret_values_temp WHERE secret_id = '$secret_id';");
-$stmt->execute();
-$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
-			
-foreach(new get_secret_value_temp_ids(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
-
-}
-
-$secret_value_temp_ids_max = count($_SESSION['secret_value_temp_ids']);
+$secret_value_temp_rows_max = count($secret_value_temp_rows);
 
 
-for($j = 0; $j < $secret_value_temp_ids_max; ++$j) {
+for($i = 0; $i < $secret_value_temp_rows_max; ++$i) {
 
-	$secret_value_temp_id = $_SESSION['secret_value_temp_ids'][$j];
-						
-
-	$stmt = $conn->prepare("SELECT initialization_vector FROM secret_values_temp WHERE secret_value_temp_id='$secret_value_temp_id'");
-	$stmt->execute();
-	$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
-								
-	foreach(new grab_value(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
-
-	}
-	$initialization_vector = $_SESSION['temp'];
-
-						
-	$_SESSION['temp'] = '';
-	$stmt = $conn->prepare("SELECT AES_DECRYPT(encrypted_value, '$secret_password', '$initialization_vector') FROM secret_values_temp WHERE secret_value_temp_id='$secret_value_temp_id';");
-	$stmt->execute();
-	$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
-								
-	foreach(new grab_value(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
-
-	}
-	$temp_value = $_SESSION['temp'];
-
-	
-	$_SESSION['temp'] = '';
-	$stmt = $conn->prepare("SELECT value_hash FROM secret_values_temp WHERE secret_value_temp_id='$secret_value_temp_id';");
-	$stmt->execute();
-	$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
-				
-	foreach(new grab_value(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
-
-	}
-	$hash = $_SESSION['temp'];
-			
-						
+	$hash = $secret_value_temp_rows[$i]['key_hash'];
+							
 	// if valid key exists
-	if (password_verify($temp_value, $hash)) {
+	if (password_verify($secret_password, $hash)) {
 	
-		$value = $temp_value;
+		$stmt = $conn->prepare("SELECT AES_DECRYPT(encrypted_value, :secret_password, initialization_vector) as `value`, privilege FROM secret_values_temp WHERE secret_value_temp_id = :secret_value_temp_ids;");
+		$stmt->execute(array('secret_password' => $secret_password, 'secret_value_temp_ids' => $secret_value_temp_rows[$i]['secret_value_temp_id']));
+		$secret_value_temp_record = $stmt->fetch(PDO::FETCH_ASSOC);
+	
+		$value = $secret_value_temp_record['value'];
 		break;
 
 	}
 
 }
-				
+			
 
 // exit and notify user that they are unauthorized if no key exists
 if (! isset($value)) {
@@ -138,15 +73,7 @@ if (! isset($value)) {
 }
 
 
-// get one time key privilege
-$stmt = $conn->prepare("SELECT privilege FROM secret_values_temp WHERE secret_value_temp_id='$secret_value_temp_id'");
-$stmt->execute();
-$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
-			
-foreach(new grab_value(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
-
-}
-$privilege = $_SESSION['temp'];
+$privilege = $secret_value_temp_record['privilege'];
 
 
 $_SESSION['value'] = $value;

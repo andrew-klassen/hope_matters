@@ -194,7 +194,7 @@ Copyright Â© 2017 Andrew Klassen
   
   
 	<!-- begining of lab tests card -->
-    <div class="accountCard" style="float: left; width: 885px; height: 2850px; position: relative;">
+    <div class="accountCard" style="float: left; width: 885px; height: 3000px; position: relative;">
 		
 		<p class='p'style='color: black;font-weight:100; text-align: center;'>Check the tests that were preformed before providing the results.</p>
 		
@@ -215,6 +215,7 @@ Copyright Â© 2017 Andrew Klassen
 				<input type="checkbox" name="brucella" onchange="toggle_disabled_brucella(this.checked)"/> <b>Brucella</b> (Increasing Titers Indicative for Tx) <br>
 				BM 1:<input type="number" id="bm1" name="bm1" style="width: 100px; height: 30px;" maxlength="10" disabled /><br>
 				BA 1:<input type="number" id="ba1" name="ba1" style="width: 100px; height: 30px;" maxlength="10" disabled />
+ 
 			</div>
 			<br><br><br><br><br><br>
 			
@@ -343,8 +344,10 @@ Copyright Â© 2017 Andrew Klassen
 			<input type="radio" id="leukocytes_+" name="leukocytes" value="+" disabled />+
 			<input type="radio" id="leukocytes_++" name="leukocytes" value="++" disabled />++
 			<input type="radio" id="leukocytes_+++" name="leukocytes" value="+++" disabled />+++
-			
 			<br>
+			<label style='margin-left: 50px; margin-right: 31px;'>Microscopy: </label><input type='text' id='microscopy' name='microscopy' style='width: 200px; height: 30px;' maxlength='45' disabled /> 
+			
+			<br><br>
 			
 			<input type="checkbox" name="pregnancy" onchange="toggle_disabled_pregnancy(this.checked)"/> <b>Pregnancy Test:</b>
 			<input type="radio" id="hcg_detected" name="hcg_detected" value="hcg_detected" disabled />hcG detected
@@ -645,7 +648,7 @@ Copyright Â© 2017 Andrew Klassen
 				echo "</datalist>";
 			?>
 			
-			<div style="position: absolute; top: 2870px; left: 398px;">		
+			<div style="margin-left: 320px; width: 200px; margin-top: 50px; ">		
 				<input type="submit" name="submit_button" class="submitbtn" value="Submit Lab Form">
 			</div>
 			

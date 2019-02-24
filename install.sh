@@ -63,7 +63,9 @@ else
 fi
 
 php_password=$(openssl rand -base64 30)
+secret_password=$(openssl rand -base64 30)
+secret_password_api=$(openssl rand -base64 30)
 
 cd ansible
 
-ansible-playbook app.yml -e "ansible_user=${ssh_username} ansible_ssh_pass=${ssh_password} ansible_sudo_pass=${ssh_password} php_password=${php_password} initial_user=${username} initial_password=${password} ansible_base=$(pwd) php_host=${php_host}"
+ansible-playbook app.yml -e "secret_password_api=${secret_password_api} secret_password=${secret_password} ansible_user=${ssh_username} ansible_ssh_pass=${ssh_password} ansible_sudo_pass=${ssh_password} php_password=${php_password} initial_user=${username} initial_password=${password} ansible_base=$(pwd) php_host=${php_host}"

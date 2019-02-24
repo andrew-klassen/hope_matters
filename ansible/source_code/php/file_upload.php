@@ -1,8 +1,10 @@
 <?php	
 
+session_start();
+
 // upload_file returns the path that the image was moved to
 function upload_file($file_name, $picture_name, $redirect_location, $target_directory) {
-	
+
 	// if user decides not to upload an image
 	if (basename($_FILES[$file_name]["name"] == '')){
 		return 'no_image';
@@ -168,12 +170,68 @@ function upload_package($file_name, $picture_name, $redirect_location, $target_d
 	}
 }
 
-function read_key_file($file_name) {
-	$temp = file_get_contents($_FILES[$file_name]["tmp_name"]);
-	return $temp;
+
+function read_json_file($file_name) {
+	$file_type = pathinfo($_FILES[$file_name]["name"],PATHINFO_EXTENSION);
+	$username = $_SESSION['username'];
+
+	
+
+	if ($file_type == 'json') {
+		$temp = file_get_contents($_FILES[$file_name]["tmp_name"]);
+		return $temp;
+	}
+
+	
+	$file = $_FILES[$file_name]["tmp_name"];
+	$zip_folder = new ZipArchive(); 
+
+	
+	$zip_array = array();
+	$zip_folder->open($_FILES[$file_name]["tmp_name"]); 
+
+
+
+	for( $i = 1; $i < $zip_folder->numFiles; ++$i ){ 
+		
+		$stat = $zip_folder->statIndex( $i ); 
+		
+		mkdir("/var/www/html/uploaded_images/custom_forms/{$username}", 0777);
+		if (pathinfo($stat['name'],PATHINFO_EXTENSION) == 'json') {
+			$json_string = $json_string . $zip_folder->getFromIndex($i);
+		}	
+		else {
+			file_put_contents("/var/www/html/uploaded_images/custom_forms/{$username}/" . basename($stat['name']), $zip_folder->getFromIndex($i));
+		}
+			
+		
+
+   	}
+
+	
+	return $json_string;
+	
+	
 
 	
 }
+
+
+ function rrmdir($dir) { 
+   if (is_dir($dir)) { 
+     $objects = scandir($dir); 
+     foreach ($objects as $object) { 
+       if ($object != "." && $object != "..") { 
+         if (is_dir($dir."/".$object))
+           rrmdir($dir."/".$object);
+         else
+           unlink($dir."/".$object); 
+       } 
+     }
+     rmdir($dir); 
+   } 
+ }
+
 
 function strposX($string, $char, $number_of_occurrences){
     if($number_of_occurrences == '1'){

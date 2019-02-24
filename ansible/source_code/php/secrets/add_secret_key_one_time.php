@@ -45,55 +45,37 @@ Copyright © 2017 Andrew Klassen
 
 
 				<?php
-					require('../database_credentials.php');
+					require('../crypto_settings.php');
 					session_start();
 
 					// make sure user is logged in
 					login_check();
 					
-					
-					class grab_value extends RecursiveIteratorIterator {
-							function __construct($it) {
-								parent::__construct($it, self::LEAVES_ONLY);
-							}
-							function current() {
-								$_SESSION['temp'] = parent::current();
-							}
-							function beginChildren() {
-								echo "<tr>";
-							}
-							function endChildren() {
-								echo "</tr>" . "\n";
-							}
-					}
-
 
 					$secret_id = $_SESSION['choosen_secret_id'];
 					
 				
 					// make database connection
-					$conn = new PDO($dbconnection, $dbusername, $dbpassword);
+					$conn = new PDO($dbconnection_secret, $dbusername_secret, $dbpassword_secret);
 					$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+					$conn->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
 
 
-					$stmt = $conn->prepare("SELECT label FROM secrets WHERE secret_id='$secret_id';");
-					$stmt->execute();
-					$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
-								
-					foreach(new grab_value(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
+					$stmt = $conn->prepare("SELECT label FROM secrets WHERE secret_id = :secret_id;");
+					$stmt->execute(array('secret_id' => $secret_id));
+					$secret_row = $stmt->fetch(PDO::FETCH_ASSOC);
 
-					}
-					$label = $_SESSION['temp'];
-					
+					$label = $secret_row['label'];
+
 					
 					echo " 
 
 					<div class='accountCard' style='width: 500px; height: 310px;'>
 						<p style='color: black;text-align: center;'>Add Key</p>
-						<b>label:</b> $label<br><br>
+						<b>label:</b> $label<br>
 					<form action='/php/secrets/insert_secret_key_one_time.php' name='add_secret_key' onsubmit='return validate_form()' method='post' enctype='multipart/form-data'>
 						<b>Password:</b><br>
-						<input style='height: 35px;' type='password' name='secret_password' maxlength='50' autofocus onfocus='this.value = this.value'>
+						<input style='height: 35px;' type='password' name='secret_password' maxlength='200' autofocus onfocus='this.value = this.value'>
 						<div>Key File<br><input type='file' name='key_file' id='key_file'><br><label style='font-size: 12px;'>(.txt document 3072 characters max)</label></div>
 						<input  style='margin-top: 50px; margin-left: 150px; width: 200px;' type='submit' name='submit_button' class='submitbtn' value='Add Key'>		
 					</form>";

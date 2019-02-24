@@ -1,12 +1,13 @@
-<!--
+<?php
+
+/*
 This file is part of a web application designed to help Hope Matters interact with their database.
 The web application is licensed under the Affero General Public License v3.
 View the web application's readme.txt for more details.
 
 Copyright © 2017 Andrew Klassen
--->
 
-<?php
+*/
 
 session_start();
 
@@ -41,7 +42,18 @@ $dbusername = 'php';
 $dbpassword = '{{ php_password }}';
 $dbname = 'hope_matters';
 $dbconnection = "mysql:host=$servername;dbname=$dbname";
-$password_hashing_algorithim = PASSWORD_BCRYPT;
+
+$radius_server = '';
+$dbconnection_radius = "mysql:host=$radius_server;dbname=radius";
+$dbusername_radius = '';
+$dbpassword_radius = '';
+
+$dbconnection_custom = "mysql:host=$servername;dbname=custom_forms";
+$dbusername_custom = $_SESSION['username'];
+$dbpassword_custom = $_SESSION['login_password'];
+
+$password_hashing_algorithim = PASSWORD_ARGON2ID;
+$password_hash_migration = true;
 
 // database query limits
 $search_limit = 200;
@@ -75,11 +87,12 @@ function create_database_error($query, $error_location, $pdo_error) {
 	require_once('browser_info.php');
 	
 	// database connection information
-	$servername = '127.0.0.1';
+	$servername = '{{ php_host }}';
 	$dbusername = 'php';
-	$dbpassword = '';
+	$dbpassword = '{{ php_password }}';
 	$dbname = 'hope_matters';
 	$dbconnection = "mysql:host=$servername;dbname=$dbname";
+	$dbconnection_custom = "mysql:host=$servername;dbname=custom_forms";
 
 	$browser_info = get_browser_info();
 	$account_id = $_SESSION['account_id'];
@@ -130,16 +143,64 @@ function create_database_error($query, $error_location, $pdo_error) {
     	$conn->exec($query);
 }
 
-function generate_initialization_vector($length = 16) {
-   
-    $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$%^&*<>_+-=;:{}';
-    $characters_length = strlen($characters);
-    $random_string = '';
-  
-    for ($i = 0; $i < $length; $i++) {
-        $random_string .= $characters[rand(0, $characters_length - 1)];
-    }
 
-    return $random_string;
+
+
+function database_format($string) {
+
+	$search = array("\\",  "\x00", "\n",  "\r", "\x1a");
+        $replace = array("\\\\","\\0","\\n", "\\r", "\\Z");
+
+	$string = strtolower($string);
+	$string = str_replace(' ', '_', $string);
+	$string = str_replace($search, $replace, $string);
+
+        return $string;
+
+}
+
+function query_format($string) {
+
+	$search = array("\\",  "\x00", "\n",  "\r",  "'",  '"', "\x1a");
+        $replace = array("\\\\","\\0","\\n", "\\r", "\'", '\"', "\\Z");
+
+	$string = str_replace($search, $replace, $string);
+
+        return $string;
+ 
+}
+
+function html_value_format($string) {
+
+	$search = array("\\",  "\x00", "\n",  "\r",  "'",  '"', "\x1a");
+        $replace = array("\\\\","\\0","\\n", "\\r", "&#39;", "&#34;", "\\Z");
+
+	$string = str_replace($search, $replace, $string);
+
+        return $string;
+
+}
+
+
+function html_name_format($string) {
+
+	$search = array("\\",  "\x00", "\n",  "\r",  "'",  '"', "\x1a", ".");
+        $replace = array("\\\\","\\0","\\n", "\\r", "", "", "\\Z", "");
+
+	$string = str_replace($search, $replace, $string);
+
+        return $string;
+
+}
+
+
+function html_format($string) {
+
+	$string = ucfirst($string);
+	$string = str_replace('_', ' ', $string);
+	
+	$string = htmlentities($string);
+
+	return $string;
 
 }

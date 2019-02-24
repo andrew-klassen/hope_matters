@@ -1,10 +1,8 @@
-CREATE DATABASE  IF NOT EXISTS `hope_matters` /*!40100 DEFAULT CHARACTER SET latin1 */;
-USE `hope_matters`;
 -- MySQL dump 10.13  Distrib 5.7.22, for Linux (x86_64)
 --
--- Host: 10.0.2.210    Database: hope_matters
+-- Host: 10.3.0.55    Database: hope_matters
 -- ------------------------------------------------------
--- Server version	5.7.24
+-- Server version	5.7.25
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -16,6 +14,14 @@ USE `hope_matters`;
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+--
+-- Current Database: `hope_matters`
+--
+
+CREATE DATABASE /*!32312 IF NOT EXISTS*/ `hope_matters` /*!40100 DEFAULT CHARACTER SET latin1 */;
+
+USE `hope_matters`;
 
 --
 -- Table structure for table `accounts`
@@ -38,13 +44,13 @@ CREATE TABLE `accounts` (
   `image_path` varchar(1000) DEFAULT 'no_image',
   `master_log_access` enum('yes','no') DEFAULT 'no',
   `server_admin` enum('yes','no') DEFAULT 'no',
-  `password` char(60) DEFAULT NULL,
+  `password` varchar(96) DEFAULT NULL,
   `timestamp` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `created_by` varchar(20) DEFAULT NULL,
   PRIMARY KEY (`account_id`),
   UNIQUE KEY `account_id_UNIQUE` (`account_id`),
   UNIQUE KEY `username_UNIQUE` (`username`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=latin1 ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=latin1 ROW_FORMAT=DYNAMIC;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -69,12 +75,12 @@ CREATE TABLE `accounts_history` (
   `image_path` varchar(1000) CHARACTER SET latin1 DEFAULT 'no_image',
   `master_log_access` enum('yes','no') CHARACTER SET latin1 DEFAULT 'no',
   `server_admin` enum('yes','no') COLLATE latin1_bin DEFAULT 'no',
-  `password` char(60) CHARACTER SET latin1 DEFAULT NULL,
+  `password` varchar(96) CHARACTER SET latin1 DEFAULT NULL,
   `timestamp` datetime DEFAULT NULL,
   `created_by` varchar(20) CHARACTER SET latin1 DEFAULT NULL,
   PRIMARY KEY (`accounts_history_id`),
   UNIQUE KEY `accounts_history_id_UNIQUE` (`accounts_history_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=53 DEFAULT CHARSET=latin1 COLLATE=latin1_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -106,7 +112,7 @@ CREATE TABLE `baby` (
   UNIQUE KEY `baby_id_UNIQUE` (`baby_id`),
   KEY `client_id_baby_idx` (`client_id`),
   CONSTRAINT `client_id_baby` FOREIGN KEY (`client_id`) REFERENCES `general_info` (`client_id`) ON DELETE NO ACTION ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=80 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -139,7 +145,7 @@ CREATE TABLE `baby_history` (
   UNIQUE KEY `baby_history_id_UNIQUE` (`baby_history_id`),
   KEY `client_id_baby_history_idx` (`client_id`),
   CONSTRAINT `client_id_baby_history` FOREIGN KEY (`client_id`) REFERENCES `general_info` (`client_id`) ON DELETE NO ACTION ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=40 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -465,7 +471,7 @@ CREATE TABLE `current_clients` (
   `created_by` varchar(20) DEFAULT NULL,
   PRIMARY KEY (`current_clients_id`),
   UNIQUE KEY `current_clients_id_UNIQUE` (`current_clients_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=8807 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -637,7 +643,7 @@ CREATE TABLE `diagnoses` (
   UNIQUE KEY `diagnoses_id_UNIQUE` (`diagnosis_id`),
   KEY `client_id_diagnoses_idx` (`client_id`),
   CONSTRAINT `client_id_diagnoses` FOREIGN KEY (`client_id`) REFERENCES `general_info` (`client_id`) ON DELETE NO ACTION ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=160 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=8351 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -666,7 +672,7 @@ CREATE TABLE `diagnoses_history` (
   UNIQUE KEY `diagnosis_history_id_UNIQUE` (`diagnosis_history_id`),
   KEY `client_id_diagnoses_history_idx` (`client_id`),
   CONSTRAINT `client_id_diagnoses_history` FOREIGN KEY (`client_id`) REFERENCES `general_info` (`client_id`) ON DELETE NO ACTION ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -697,7 +703,7 @@ CREATE TABLE `diagnosis_types` (
   `created_by` varchar(20) DEFAULT NULL,
   PRIMARY KEY (`diagnosis_types_id`),
   UNIQUE KEY `diagnoses_id_UNIQUE` (`diagnosis_types_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=225 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=232 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -800,7 +806,7 @@ CREATE TABLE `error` (
   UNIQUE KEY `error_id_UNIQUE` (`error_id`),
   KEY `account_id_error_idx` (`account_id`),
   CONSTRAINT `account_id_error` FOREIGN KEY (`account_id`) REFERENCES `accounts` (`account_id`) ON DELETE NO ACTION ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=54 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -872,7 +878,7 @@ CREATE TABLE `general_info` (
   `created_by` varchar(20) DEFAULT NULL,
   PRIMARY KEY (`client_id`),
   UNIQUE KEY `client_id_UNIQUE` (`client_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=318 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=4806 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -908,7 +914,7 @@ CREATE TABLE `general_info_history` (
   KEY `created_by_general_info_idx` (`created_by`),
   KEY `client_id_general_info_history_idx` (`client_id`),
   CONSTRAINT `client_id_general_info_history` FOREIGN KEY (`client_id`) REFERENCES `general_info` (`client_id`) ON DELETE NO ACTION ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -931,7 +937,7 @@ CREATE TABLE `inventory` (
   PRIMARY KEY (`inventory_id`),
   UNIQUE KEY `name_UNIQUE` (`name`),
   UNIQUE KEY `barcode_UNIQUE` (`barcode`)
-) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -954,7 +960,7 @@ CREATE TABLE `inventory_change` (
   `created_by` varchar(20) DEFAULT NULL,
   PRIMARY KEY (`inventory_change_id`),
   UNIQUE KEY `inventory_history_id_UNIQUE` (`inventory_change_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -977,7 +983,7 @@ CREATE TABLE `inventory_history` (
   `created_by` varchar(20) DEFAULT NULL,
   PRIMARY KEY (`inventory_history_id`),
   UNIQUE KEY `inventory_history_id_UNIQUE` (`inventory_history_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1082,10 +1088,6 @@ CREATE TABLE `lab` (
   `cardiac` enum('yes','no') DEFAULT 'yes',
   `troponin_text` varchar(45) DEFAULT NULL,
   `ck_text` varchar(45) DEFAULT NULL,
-  `lab_order_id` int(11) unsigned DEFAULT NULL,
-  `clinician` varchar(20) DEFAULT NULL,
-  `timestamp` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `created_by` varchar(20) DEFAULT NULL,
   `hct_text` varchar(45) DEFAULT NULL,
   `mcv_text` varchar(45) DEFAULT NULL,
   `rdw_text` varchar(45) DEFAULT NULL,
@@ -1107,11 +1109,15 @@ CREATE TABLE `lab` (
   `bun_text` varchar(45) DEFAULT NULL,
   `creatinine_text` varchar(45) DEFAULT NULL,
   `hba1c_text` varchar(45) DEFAULT NULL,
+  `lab_order_id` int(11) unsigned DEFAULT NULL,
+  `clinician` varchar(20) DEFAULT NULL,
+  `timestamp` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `created_by` varchar(20) DEFAULT NULL,
   PRIMARY KEY (`lab_id`),
   UNIQUE KEY `lab_id_UNIQUE` (`lab_id`),
   KEY `lab_client_id_idx` (`client_id`),
   CONSTRAINT `client_id_lab` FOREIGN KEY (`client_id`) REFERENCES `general_info` (`client_id`) ON DELETE NO ACTION ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=4918 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1122,11 +1128,11 @@ DROP TABLE IF EXISTS `lab_history`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `lab_history` (
-  `lab_history_id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `lab_id` int(11) unsigned NOT NULL,
-  `client_id` int(11) unsigned NOT NULL,
-  `first_name` varchar(15) DEFAULT NULL,
-  `last_name` varchar(15) DEFAULT NULL,
+  `lab_history_id` int(11) NOT NULL AUTO_INCREMENT,
+  `lab_id` int(11) unsigned DEFAULT NULL,
+  `client_id` int(11) unsigned DEFAULT NULL,
+  `first_name` varchar(25) DEFAULT NULL,
+  `last_name` varchar(25) DEFAULT NULL,
   `sex` enum('male','female') DEFAULT NULL,
   `location` varchar(45) DEFAULT NULL,
   `date_of_birth` date DEFAULT NULL,
@@ -1189,16 +1195,63 @@ CREATE TABLE `lab_history` (
   `hvs_macroscopy` varchar(45) DEFAULT NULL,
   `hvs_microscopy` varchar(45) DEFAULT NULL,
   `hvs_gram_stain` tinytext,
+  `culture` tinytext,
+  `blood_count` enum('yes','no') DEFAULT 'no',
+  `rbc` varchar(45) DEFAULT NULL,
+  `arterial_blood` enum('yes','no') DEFAULT 'no',
+  `pao2_text` varchar(45) DEFAULT NULL,
+  `paco2_text` varchar(45) DEFAULT NULL,
+  `blood_ph_text` varchar(45) DEFAULT NULL,
+  `sao2_text` varchar(45) DEFAULT NULL,
+  `hco3_text` varchar(45) DEFAULT NULL,
+  `liver` enum('yes','no') DEFAULT 'no',
+  `alt_text` varchar(45) DEFAULT NULL,
+  `ast_text` varchar(45) DEFAULT NULL,
+  `albumin_text` varchar(45) DEFAULT NULL,
+  `prothrombin` enum('yes','no') DEFAULT 'no',
+  `prothrombin_text` varchar(45) DEFAULT NULL,
+  `inr` enum('yes','no') DEFAULT 'yes',
+  `inr_text` varchar(45) DEFAULT NULL,
+  `tft` enum('yes','no') DEFAULT 'yes',
+  `tsh_text` varchar(45) DEFAULT NULL,
+  `freet3_text` varchar(45) DEFAULT NULL,
+  `freet4_text` varchar(45) DEFAULT NULL,
+  `cholesterol` enum('yes','no') DEFAULT 'yes',
+  `total_text` varchar(45) DEFAULT NULL,
+  `hdl_text` varchar(45) DEFAULT NULL,
+  `ldl_text` varchar(45) DEFAULT NULL,
+  `cardiac` enum('yes','no') DEFAULT 'yes',
+  `troponin_text` varchar(45) DEFAULT NULL,
+  `ck_text` varchar(45) DEFAULT NULL,
+  `hct_text` varchar(45) DEFAULT NULL,
+  `mcv_text` varchar(45) DEFAULT NULL,
+  `rdw_text` varchar(45) DEFAULT NULL,
+  `wbc_text` varchar(45) DEFAULT NULL,
+  `platelet_text` varchar(45) DEFAULT NULL,
+  `neutrophils_text` varchar(45) DEFAULT NULL,
+  `lymphocytes_text` varchar(45) DEFAULT NULL,
+  `monocytes_text` varchar(45) DEFAULT NULL,
+  `eosinophils_text` varchar(45) DEFAULT NULL,
+  `basophils_text` varchar(45) DEFAULT NULL,
+  `blood_chemistry` enum('yes','no') DEFAULT 'yes',
+  `sodium_text` varchar(45) DEFAULT NULL,
+  `chloride_text` varchar(45) DEFAULT NULL,
+  `potassium_text` varchar(45) DEFAULT NULL,
+  `calcium_text` varchar(45) DEFAULT NULL,
+  `bicarbonate_text` varchar(45) DEFAULT NULL,
+  `glucose_fasting_text` varchar(45) DEFAULT NULL,
+  `random_text` varchar(45) DEFAULT NULL,
+  `bun_text` varchar(45) DEFAULT NULL,
+  `creatinine_text` varchar(45) DEFAULT NULL,
+  `hba1c_text` varchar(45) DEFAULT NULL,
   `lab_order_id` int(11) unsigned DEFAULT NULL,
-  `timestamp` datetime DEFAULT NULL,
   `clinician` varchar(20) DEFAULT NULL,
+  `timestamp` timestamp NULL DEFAULT NULL,
   `created_by` varchar(20) DEFAULT NULL,
   PRIMARY KEY (`lab_history_id`),
-  UNIQUE KEY `lab_history_id_UNIQUE` (`lab_history_id`),
-  KEY `lab_client_id_idx` (`client_id`),
-  KEY `clinician_lab_idx` (`clinician`),
-  CONSTRAINT `client_id_lab_history` FOREIGN KEY (`client_id`) REFERENCES `general_info` (`client_id`) ON DELETE NO ACTION ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  UNIQUE KEY `lab_id_UNIQUE` (`lab_history_id`),
+  KEY `lab_client_id_idx` (`client_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1229,15 +1282,35 @@ CREATE TABLE `lab_order` (
   `hb` enum('yes','no') DEFAULT 'no',
   `urinalysis` enum('yes','no') DEFAULT 'no',
   `hvs` enum('yes','no') DEFAULT 'no',
+  `completed_by` varchar(20) DEFAULT NULL,
+  `h_pylori_stool` enum('yes','no') DEFAULT 'no',
+  `h_pylori_blood` enum('yes','no') DEFAULT NULL,
+  `rheumatoid_factor` enum('yes','no') DEFAULT NULL,
+  `cholesterol` enum('yes','no') DEFAULT NULL,
+  `culture` enum('yes','no') DEFAULT NULL,
+  `blood_count` enum('yes','no') DEFAULT NULL,
+  `blood_chemistry` enum('yes','no') DEFAULT NULL,
+  `arterial_blood` enum('yes','no') DEFAULT NULL,
+  `liver_function_test` enum('yes','no') DEFAULT NULL,
+  `prothrombin_time` enum('yes','no') DEFAULT NULL,
+  `inr` enum('yes','no') DEFAULT NULL,
+  `thyroid_function_test` enum('yes','no') DEFAULT NULL,
+  `gram_stain` enum('yes','no') DEFAULT NULL,
+  `cardiac` enum('yes','no') DEFAULT NULL,
+  `anc_profile` enum('yes','no') DEFAULT NULL,
+  `hba_c` enum('yes','no') DEFAULT NULL,
+  `electrolytes` enum('yes','no') DEFAULT NULL,
+  `creatinine` enum('yes','no') DEFAULT NULL,
+  `hematocrit` enum('yes','no') DEFAULT NULL,
+  `bun` enum('yes','no') DEFAULT NULL,
   `time_created` datetime DEFAULT NULL,
   `time_completed` datetime DEFAULT NULL,
   `created_by` varchar(20) DEFAULT NULL,
-  `completed_by` varchar(20) DEFAULT NULL,
   PRIMARY KEY (`lab_order_id`),
   UNIQUE KEY `lab_order_id_UNIQUE` (`lab_order_id`),
   KEY `client_id_lab_order_idx` (`client_id`),
   CONSTRAINT `client_id_lab_order` FOREIGN KEY (`client_id`) REFERENCES `general_info` (`client_id`) ON DELETE NO ACTION ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=5139 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1269,15 +1342,34 @@ CREATE TABLE `lab_order_history` (
   `hb` enum('yes','no') DEFAULT 'no',
   `urinalysis` enum('yes','no') DEFAULT 'no',
   `hvs` enum('yes','no') DEFAULT 'no',
+  `completed_by` varchar(20) DEFAULT NULL,
+  `h_pylori_stool` enum('yes','no') DEFAULT 'no',
+  `h_pylori_blood` enum('yes','no') DEFAULT NULL,
+  `rheumatoid_factor` enum('yes','no') DEFAULT NULL,
+  `cholesterol` enum('yes','no') DEFAULT NULL,
+  `culture` enum('yes','no') DEFAULT NULL,
+  `blood_count` enum('yes','no') DEFAULT NULL,
+  `blood_chemistry` enum('yes','no') DEFAULT NULL,
+  `arterial_blood` enum('yes','no') DEFAULT NULL,
+  `liver_function_test` enum('yes','no') DEFAULT NULL,
+  `prothrombin_time` enum('yes','no') DEFAULT NULL,
+  `inr` enum('yes','no') DEFAULT NULL,
+  `thyroid_function_test` enum('yes','no') DEFAULT NULL,
+  `gram_stain` enum('yes','no') DEFAULT NULL,
+  `cardiac` enum('yes','no') DEFAULT NULL,
+  `anc_profile` enum('yes','no') DEFAULT NULL,
+  `hba_c` enum('yes','no') DEFAULT NULL,
+  `electrolytes` enum('yes','no') DEFAULT NULL,
+  `creatinine` enum('yes','no') DEFAULT NULL,
+  `hematocrit` enum('yes','no') DEFAULT NULL,
+  `bun` enum('yes','no') DEFAULT NULL,
   `time_created` datetime DEFAULT NULL,
   `time_completed` datetime DEFAULT NULL,
   `created_by` varchar(20) DEFAULT NULL,
-  `completed_by` varchar(20) DEFAULT NULL,
   PRIMARY KEY (`lab_order_history_id`),
-  UNIQUE KEY `lab_order_history_id_UNIQUE` (`lab_order_history_id`),
-  KEY `client_id_order_history_idx` (`client_id`),
-  CONSTRAINT `client_id_order_history` FOREIGN KEY (`client_id`) REFERENCES `general_info` (`client_id`) ON DELETE NO ACTION ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  UNIQUE KEY `lab_order_id_UNIQUE` (`lab_order_history_id`),
+  KEY `client_id_lab_order_idx` (`client_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1309,7 +1401,7 @@ CREATE TABLE `master_log` (
   KEY `client_id_master_log_idx` (`client_id`),
   KEY `client_id_master_log` (`client_id`),
   CONSTRAINT `client_id_master_log` FOREIGN KEY (`client_id`) REFERENCES `general_info` (`client_id`) ON DELETE NO ACTION ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=14146 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1338,7 +1430,7 @@ CREATE TABLE `master_log_change` (
   PRIMARY KEY (`change_id`),
   UNIQUE KEY `payment_history_id_UNIQUE` (`change_id`),
   KEY `client_id_master_log_idx` (`client_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=14534 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1370,7 +1462,7 @@ CREATE TABLE `master_log_history` (
   UNIQUE KEY `payment_history_id_UNIQUE` (`payment_history_id`),
   KEY `client_id_master_log_idx` (`client_id`),
   CONSTRAINT `client_id_master_log_history` FOREIGN KEY (`client_id`) REFERENCES `general_info` (`client_id`) ON DELETE NO ACTION ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=14228 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1400,7 +1492,7 @@ CREATE TABLE `medication_order` (
   PRIMARY KEY (`medication_order_id`),
   UNIQUE KEY `referral_form_id_UNIQUE` (`medication_order_id`),
   KEY `client_id_refferal_form_idx` (`client_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1455,7 +1547,7 @@ CREATE TABLE `medication_order_history` (
   PRIMARY KEY (`medication_order_history_id`),
   UNIQUE KEY `referral_form_id_UNIQUE` (`medication_order_history_id`),
   KEY `client_id_refferal_form_idx` (`client_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1640,7 +1732,7 @@ CREATE TABLE `referral_form` (
   UNIQUE KEY `referral_form_id_UNIQUE` (`referral_form_id`),
   KEY `client_id_refferal_form_idx` (`client_id`),
   CONSTRAINT `client_id_refferal_form` FOREIGN KEY (`client_id`) REFERENCES `general_info` (`client_id`) ON DELETE NO ACTION ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=168 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1676,7 +1768,7 @@ CREATE TABLE `referral_form_history` (
   UNIQUE KEY `referral_form_history_id_UNIQUE` (`referral_form_history_id`),
   KEY `client_id_refferal_form_idx` (`client_id`),
   CONSTRAINT `client_id_refferal_form_history` FOREIGN KEY (`client_id`) REFERENCES `general_info` (`client_id`) ON DELETE NO ACTION ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=136 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1738,7 +1830,7 @@ CREATE TABLE `return_treatment` (
   UNIQUE KEY `return_treatment_id_UNIQUE` (`return_treatment_id`),
   KEY `client_id_return_treatment_idx` (`client_id`),
   CONSTRAINT `client_id_return_treatment` FOREIGN KEY (`client_id`) REFERENCES `general_info` (`client_id`) ON DELETE NO ACTION ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=2138 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1772,7 +1864,7 @@ CREATE TABLE `return_treatment_history` (
   UNIQUE KEY `return_treatment_history_id_UNIQUE` (`return_treatment_history_id`),
   KEY `client_id_return_treatment_idx` (`client_id`),
   CONSTRAINT `client_id_return_treatment_history` FOREIGN KEY (`client_id`) REFERENCES `general_info` (`client_id`) ON DELETE NO ACTION ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=1993 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1797,6 +1889,23 @@ CREATE TABLE `return_treatment_temp` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
+-- Table structure for table `secret_api_tokens`
+--
+
+DROP TABLE IF EXISTS `secret_api_tokens`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `secret_api_tokens` (
+  `secret_api_tokens_id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `token_hash` varchar(96) NOT NULL,
+  `active` enum('yes','no') DEFAULT 'no',
+  `description` tinyint(255) DEFAULT NULL,
+  PRIMARY KEY (`secret_api_tokens_id`),
+  UNIQUE KEY `secret_api_tokens_id_UNIQUE` (`secret_api_tokens_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
 -- Table structure for table `secret_values`
 --
 
@@ -1808,10 +1917,10 @@ CREATE TABLE `secret_values` (
   `secret_id` int(11) NOT NULL,
   `encrypted_value` varbinary(5016) DEFAULT NULL,
   `initialization_vector` binary(16) NOT NULL,
-  `value_hash` char(60) NOT NULL,
+  `key_hash` varchar(96) NOT NULL,
   `privilege` enum('admin','read') DEFAULT 'read',
   PRIMARY KEY (`secret_value_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1365 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1826,10 +1935,10 @@ CREATE TABLE `secret_values_temp` (
   `secret_id` int(11) DEFAULT NULL,
   `encrypted_value` varbinary(5016) DEFAULT NULL,
   `initialization_vector` binary(16) NOT NULL,
-  `value_hash` char(60) NOT NULL,
+  `key_hash` varchar(96) NOT NULL,
   `privilege` enum('admin','read') DEFAULT 'read',
   PRIMARY KEY (`secret_value_temp_id`)
-) ENGINE=MEMORY AUTO_INCREMENT=233 DEFAULT CHARSET=latin1;
+) ENGINE=MEMORY DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1845,7 +1954,7 @@ CREATE TABLE `secrets` (
   `description` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`secret_id`),
   UNIQUE KEY `label_UNIQUE` (`label`)
-) ENGINE=InnoDB AUTO_INCREMENT=76 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1881,7 +1990,7 @@ CREATE TABLE `treatment` (
   UNIQUE KEY `treatment_id_UNIQUE` (`treatment_id`),
   KEY `client_id_treatment_idx` (`client_id`),
   CONSTRAINT `client_id_treatment` FOREIGN KEY (`client_id`) REFERENCES `general_info` (`client_id`) ON DELETE NO ACTION ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=4983 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1918,7 +2027,7 @@ CREATE TABLE `treatment_history` (
   UNIQUE KEY `treatment_history_id_UNIQUE` (`treatment_history_id`),
   KEY `client_id_treatment_history_idx` (`client_id`),
   CONSTRAINT `client_id_treatment_history` FOREIGN KEY (`client_id`) REFERENCES `general_info` (`client_id`) ON DELETE NO ACTION ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=6127 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1987,7 +2096,7 @@ CREATE TABLE `ultrasound` (
   UNIQUE KEY `ultrasound_id_UNIQUE` (`ultrasound_id`),
   KEY `client_id_ultrasound_idx` (`client_id`),
   CONSTRAINT `client_id_ultrasound` FOREIGN KEY (`client_id`) REFERENCES `general_info` (`client_id`) ON DELETE NO ACTION ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=89 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -2033,7 +2142,7 @@ CREATE TABLE `ultrasound_history` (
   UNIQUE KEY `ultrasound_id_UNIQUE` (`ultrasound_history_id`),
   KEY `client_id_ultrasound_history_idx` (`client_id`),
   CONSTRAINT `client_id_ultrasound_history` FOREIGN KEY (`client_id`) REFERENCES `general_info` (`client_id`) ON DELETE NO ACTION ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=154 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -2062,7 +2171,7 @@ CREATE TABLE `vital_signs` (
   PRIMARY KEY (`vital_signs_id`),
   UNIQUE KEY `referral_form_id_UNIQUE` (`vital_signs_id`),
   KEY `client_id_refferal_form_idx` (`client_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -2222,6 +2331,22 @@ CREATE TABLE `women_health_history` (
 --
 -- Dumping routines for database 'hope_matters'
 --
+
+--
+-- Current Database: `custom_forms`
+--
+
+CREATE DATABASE /*!32312 IF NOT EXISTS*/ `custom_forms` /*!40100 DEFAULT CHARACTER SET latin1 */;
+
+USE `custom_forms`;
+
+--
+-- Dumping events for database 'custom_forms'
+--
+
+--
+-- Dumping routines for database 'custom_forms'
+--
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -2232,4 +2357,4 @@ CREATE TABLE `women_health_history` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-12-22 19:35:55
+-- Dump completed on 2019-02-24  0:27:13

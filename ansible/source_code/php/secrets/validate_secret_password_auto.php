@@ -8,105 +8,45 @@ Copyright © 2017 Andrew Klassen
 
 <?php
 
-require('../database_credentials.php');
+require('../crypto_settings.php');
 session_start();
 
 // make sure user is logged in
 login_check();
-
-class grab_value extends RecursiveIteratorIterator {
-		function __construct($it) {
-			parent::__construct($it, self::LEAVES_ONLY);
-		}
-		function current() {
-			$_SESSION['temp'] = parent::current();
-		}
-		function beginChildren() {
-			echo "<tr>";
-		}
-		function endChildren() {
-			echo "</tr>" . "\n";
-		}
-}
-
-class get_secret_keys_ids extends RecursiveIteratorIterator {
-		function __construct($it) {
-			parent::__construct($it, self::LEAVES_ONLY);
-		}
-		function current() {
-				
-				array_push($_SESSION['secret_keys_ids'], parent::current());
-
-		}
-		
-}
-
 
 $secret_id = $_SESSION['choosen_secret_id'];
 $secret_password = $_SESSION['login_password'];
 
 
 // make database connection
-$conn = new PDO($dbconnection, $dbusername, $dbpassword);
+$conn = new PDO($dbconnection_secret, $dbusername_secret, $dbpassword_secret);
 $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+$conn->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
 
 
 // get all admin secrets 
-$_SESSION['secret_keys_ids'] = array();
+$stmt = $conn->prepare("SELECT secret_value_id, key_hash FROM secret_values WHERE secret_id = :secret_id and privilege = 'admin';");
+$stmt->execute(array('secret_id' => $secret_id));
+$secret_keys_ids = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-$stmt = $conn->prepare("SELECT secret_value_id FROM secret_values WHERE secret_id = '$secret_id' and privilege = 'admin';");
-$stmt->execute();
-$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
-			
-foreach(new get_secret_keys_ids(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
-
-}
-
-$secret_keys_id_max = count($_SESSION['secret_keys_ids']);
+$secret_keys_id_max = count($secret_keys_ids);
 
 
 for($i = 0; $i < $secret_keys_id_max; ++$i) {
 
-	$secret_value_id = $_SESSION['secret_keys_ids'][$i];
-
-	$stmt = $conn->prepare("SELECT initialization_vector FROM secret_values WHERE secret_value_id='$secret_value_id'");
-	$stmt->execute();
-	$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
-			
-	foreach(new grab_value(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
-
-	}
-	$initialization_vector = $_SESSION['temp'];
-
-
-	// see if any admin keys exist
-	$_SESSION['temp'] = '';
-	$stmt = $conn->prepare("SELECT AES_DECRYPT(encrypted_value, '$secret_password', '$initialization_vector') FROM secret_values WHERE secret_value_id='$secret_value_id';");
-	$stmt->execute();
-	$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
-			
-	foreach(new grab_value(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
-
-	}
-	$temp_value = $_SESSION['temp'];
-
-
-	$_SESSION['temp'] = '';
-	$stmt = $conn->prepare("SELECT value_hash FROM secret_values WHERE secret_value_id='$secret_value_id';");
-	$stmt->execute();
-	$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
-			
-	foreach(new grab_value(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
-
-	}
-	$hash = $_SESSION['temp'];
-
+	$hash = $secret_keys_ids[$i]['key_hash'];
 
 	// if valid key exists
-	if (password_verify($temp_value, $hash)) {
-		$value = $temp_value;
+	if (password_verify($secret_password, $hash)) {
+
+		$stmt = $conn->prepare("SELECT AES_DECRYPT(encrypted_value, :secret_password, initialization_vector) as `value`, privilege FROM secret_values WHERE secret_value_id = :secret_value_id;");
+		$stmt->execute(array('secret_password' => $secret_password, 'secret_value_id' => $secret_keys_ids[$i]['secret_value_id']));
+		$secret_value_record = $stmt->fetch(PDO::FETCH_ASSOC);
+
+		$value = $secret_value_record['value'];
 		$privilege = "admin";
 		break;
+
 	}
 
 }
@@ -114,61 +54,29 @@ for($i = 0; $i < $secret_keys_id_max; ++$i) {
 
 if ($privilege != "admin") {
 
-	$_SESSION['secret_keys_ids'] = array();
+	// get all read keys
+	$stmt = $conn->prepare("SELECT secret_value_id, key_hash FROM secret_values WHERE secret_id = :secret_id and privilege = 'read';");
+	$stmt->execute(array('secret_id' => $secret_id));
+	$secret_keys_ids = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-	$stmt = $conn->prepare("SELECT secret_value_id FROM secret_values WHERE secret_id = '$secret_id' and privilege = 'read';");
-	$stmt->execute();
-	$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
-				
-	foreach(new get_secret_keys_ids(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
-
-	}
-
-	$secret_keys_id_max = count($_SESSION['secret_keys_ids']);
+	$secret_keys_id_max = count($secret_keys_ids);
 
 
 	for($i = 0; $i < $secret_keys_id_max; ++$i) {
 
-		$secret_value_id = $_SESSION['secret_keys_ids'][$i];
-
-		$stmt = $conn->prepare("SELECT initialization_vector FROM secret_values WHERE secret_value_id='$secret_value_id'");
-		$stmt->execute();
-		$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
-				
-		foreach(new grab_value(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
-
-		}
-		$initialization_vector = $_SESSION['temp'];
-
-
-		// see if any read secrets exist
-		$_SESSION['temp'] = '';
-		$stmt = $conn->prepare("SELECT AES_DECRYPT(encrypted_value, '$secret_password', '$initialization_vector') FROM secret_values WHERE secret_value_id='$secret_value_id';");
-		$stmt->execute();
-		$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
-				
-		foreach(new grab_value(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
-
-		}
-		$temp_value = $_SESSION['temp'];
-
-
-		$_SESSION['temp'] = '';
-		$stmt = $conn->prepare("SELECT value_hash FROM secret_values WHERE secret_value_id='$secret_value_id';");
-		$stmt->execute();
-		$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
-				
-		foreach(new grab_value(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
-
-		}
-		$hash = $_SESSION['temp'];
-
+		$hash = $secret_keys_ids[$i]['key_hash'];
 
 		// if valid key exists
-		if (password_verify($temp_value, $hash)) {
-			$value = $temp_value;
+		if (password_verify($secret_password, $hash)) {
+		
+			$stmt = $conn->prepare("SELECT AES_DECRYPT(encrypted_value, :secret_password, initialization_vector) as `value`, privilege FROM secret_values WHERE secret_value_id = :secret_value_id;");
+			$stmt->execute(array('secret_password' => $secret_password, 'secret_value_id' => $secret_keys_ids[$i]['secret_value_id']));
+			$secret_value_record = $stmt->fetch(PDO::FETCH_ASSOC);
+
+			$value = $secret_value_record['value'];
 			$privilege = "read";
 			break;
+
 		}
 
 	}

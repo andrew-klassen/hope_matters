@@ -147,6 +147,9 @@ Copyright © 2017 Andrew Klassen
 		$sex = $_SESSION['temp'];
 		
 		
+		// get the client's age
+		$age = get_age_from_date_of_birth($date_of_birth);
+		
 		// grab location
 		$stmt = $conn->prepare("SELECT location FROM lab WHERE lab_id='$choosen_lab'");
 		$stmt->execute();
@@ -167,11 +170,7 @@ Copyright © 2017 Andrew Klassen
 		
 		}
 		$date_of_birth = $_SESSION['temp'];
-			
-		
-		// get the client's age
-		$age = get_age_from_date_of_birth($date_of_birth);
-		
+					
 		
 		// display the general info
 		echo "<div style='width: 500px; height: 100px;'>";
@@ -209,7 +208,7 @@ Copyright © 2017 Andrew Klassen
   </div>
   
 	<!-- start of lab card -->
-    <div class="accountCard" style="float: left; width: 885px; height: 2850px; position: relative;">
+    <div class="accountCard" style="float: left; width: 885px; height: 1680px; position: relative;">
 		
 		<p class='p'style='color: black;font-weight:100; text-align: center;'>Check the tests that were preformed before providing the results.</p>
 		
@@ -419,465 +418,9 @@ Copyright © 2017 Andrew Klassen
 			}
 			
 			
-			// get vdrl/rpr
-			$stmt = $conn->prepare("SELECT vdrl_rpr FROM lab WHERE lab_id='$choosen_lab'");
-			$stmt->execute();
-			$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
-		
-			foreach(new grab_value(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
-			
-			}
-			$vdrl_rpr_check = $_SESSION['temp'];
 			
 			
-			// get vdrl/rpr results
-			$stmt = $conn->prepare("SELECT vdrl_rpr_results FROM lab WHERE lab_id='$choosen_lab'");
-			$stmt->execute();
-			$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
-		
-			foreach(new grab_value(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
-			
-			}
-			$vdrl_rpr_results = $_SESSION['temp'];
-			
-			
-			
-			// see if a vdrl/rpr test was done
-			If ($vdrl_rpr_check == 'yes') {
-				$vdrl_rpr_check = 'checked';
-				
-				// find out whether or not vdrl/rpr is reactive
-				switch ($vdrl_rpr_results) {
-						case 'reactive':
-							$reactive_dis = 'checked';
-							break;
-						case 'non_reactive':
-							$non_reactive_dis = 'checked';
-							break;
-					}
-				
-				echo "<input type='checkbox' name='vdrl_rpr' onchange='toggle_disabled_vdrl_rpr(this.checked)' $vdrl_rpr_check/> <b>VDRL/RPR:</b>
-					<input type='radio' id='reactive' name='reactive' value='reactive' $reactive_dis />Reactive
-					<input type='radio' id='non_reactive' name='reactive' value='non_reactive' $non_reactive_dis />Non-Reactive
-			
-					<br><br>";
-			
-			}
-			// if no test was done disable all the radio buttons
-			else {
-			
-				echo "<input type='checkbox' name='vdrl_rpr' onchange='toggle_disabled_vdrl_rpr(this.checked)'/> <b>VDRL/RPR:</b>
-					<input type='radio' id='reactive' name='reactive' value='reactive' disabled />Reactive
-					<input type='radio' id='non_reactive' name='reactive' value='non_reactive' disabled />Non-Reactive
-					<br><br>";
-			}
-			
-			
-			// get p24/hiv
-			$stmt = $conn->prepare("SELECT p24_hiv FROM lab WHERE lab_id='$choosen_lab'");
-			$stmt->execute();
-			$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
-		
-			foreach(new grab_value(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
-			
-			}
-			$p24_hiv_check = $_SESSION['temp'];
-			
-			
-			// get p24/hiv results
-			$stmt = $conn->prepare("SELECT reactive_p24_hiv FROM lab WHERE lab_id='$choosen_lab'");
-			$stmt->execute();
-			$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
-		
-			foreach(new grab_value(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
-			
-			}
-			$reactive_p24_hiv = $_SESSION['temp'];
-			
-			
-			// see if p24/hiv test was done
-			If ($p24_hiv_check == 'yes') {
-				$p24_hiv_check = 'checked';
-				
-				// determine which radio button should be checked
-				switch ($reactive_p24_hiv) {
-						case 'reactive':
-							$reactive_dis = 'checked';
-							break;
-						case 'non_reactive':
-							$non_reactive_dis = 'checked';
-							break;
-					}
-				
-				echo "<input type='checkbox' name='p24_hiv' onchange='toggle_disabled_p24_hiv(this.checked)' $p24_hiv_check /> <b>P24/HIV:</b>
-					<input type='radio' id='reactive_p24_hiv' name='reactive_p24_hiv' value='reactive' $reactive_dis />Reactive
-					<input type='radio' id='non_reactive_p24_hiv' name='reactive_p24_hiv' value='non_reactive' $non_reactive_dis />Non-Reactive
-			
-					<br><br>";
-			}
-			// if no test was done disable all the radio buttons
-			else {
-			
-				echo "<input type='checkbox' name='p24_hiv' onchange='toggle_disabled_p24_hiv(this.checked)'/> <b>P24/HIV:</b>
-					<input type='radio' id='reactive_p24_hiv' name='reactive_p24_hiv' value='reactive' disabled />Reactive
-					<input type='radio' id='non_reactive_p24_hiv' name='reactive_p24_hiv' value='non_reactive' disabled />Non-Reactive
-			
-					<br><br>";
-			}
-			
-			
-			
-			// get blood sugar
-			$stmt = $conn->prepare("SELECT blood_sugar FROM lab WHERE lab_id='$choosen_lab'");
-			$stmt->execute();
-			$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
-		
-			foreach(new grab_value(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
-			
-			}
-			$blood_sugar_check = $_SESSION['temp'];
-		
-		
-			// get blood sugar
-			$stmt = $conn->prepare("SELECT blood_sugar_results FROM lab WHERE lab_id='$choosen_lab'");
-			$stmt->execute();
-			$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
-		
-			foreach(new grab_value(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
-			
-			}
-			$blood_sugar_results = $_SESSION['temp'];
-			
-			
-			// see if blood sugar test was done
-			if ($blood_sugar_check == 'yes') {
-				$blood_sugar_check = 'checked';
-					
-				echo "<input type='checkbox' name='blood_sugar' onchange='toggle_disabled_blood_sugar(this.checked)' $blood_sugar_check/> <b>Blood Sugar (RBS & FBS):</b>
-					<input type='text' id='blood_sugar_text' name='blood_sugar_text' style='width: 200px; height: 30px;' value='$blood_sugar_results' maxlength='30' /> (Norm: 3.9 – 7.2mm/L) 
-			
-					<br><br>";	
-			}
-			// if no test was done disable the textbox
-			else {
-				echo "<input type='checkbox' name='blood_sugar' onchange='toggle_disabled_blood_sugar(this.checked)'/> <b>Blood Sugar (RBS & FBS):</b>
-					<input type='text' id='blood_sugar_text' name='blood_sugar_text' style='width: 200px; height: 30px;' maxlength='30' disabled /> (Norm: 3.9 – 7.2mm/L) 
-			
-					<br><br>";
-			}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-			
-			$stmt = $conn->prepare("SELECT hba1c FROM lab WHERE lab_id='$choosen_lab'");
-			$stmt->execute();
-			$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
-		
-			foreach(new grab_value(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
-			
-			}
-			$hba1c_check = $_SESSION['temp'];
-			
-		
-		
-			
-			$stmt = $conn->prepare("SELECT hba1c_results FROM lab WHERE lab_id='$choosen_lab'");
-			$stmt->execute();
-			$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
-		
-			foreach(new grab_value(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
-			
-			}
-			$hba1c_results = $_SESSION['temp'];
-
-
-			
-
-
-			if ($hba1c_check == 'yes') {
-				$hba1c_check = 'checked';
-					
-				echo "<br>
-
-			<input type='checkbox' name='hba1c' onchange='toggle_disabled_hba1c(this.checked)'$hba1c_check/> <b>HbA1C:</b>
-                        <input type='text' id='hba1c_text' name='hba1c_text' style='width: 200px; height: 30px;' value='$hba1c_results' maxlength='45' /> < 6.0 Normal, 6.0 – 7.0 Pre-diabetes, >7.0 Diabetes
-
-                        <br/>";	
-			}
-			// if no test was done disable the textbox
-			else {
-				echo "<br>
-
-			<input type='checkbox' name='hba1c' onchange='toggle_disabled_hba1c(this.checked)'/> <b>HbA1C:</b>
-                        <input type='text' id='hba1c_text' name='hba1c_text' style='width: 200px; height: 30px;' maxlength='45' disabled /> < 6.0 Normal, 6.0 – 7.0 Pre-diabetes, >7.0 Diabetes
-
-                        <br/>";
-			}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-			$stmt = $conn->prepare("SELECT bun FROM lab WHERE lab_id='$choosen_lab'");
-			$stmt->execute();
-			$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
-		
-			foreach(new grab_value(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
-			
-			}
-			$bun_check = $_SESSION['temp'];
-			
-		
-		
-			
-			$stmt = $conn->prepare("SELECT bun_results FROM lab WHERE lab_id='$choosen_lab'");
-			$stmt->execute();
-			$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
-		
-			foreach(new grab_value(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
-			
-			}
-			$bun_results = $_SESSION['temp'];
-
-
-
-
-			if ($bun_check == 'yes') {
-				$bun_check = 'checked';
-					
-
-
-
-
-				echo "<input type='checkbox' name='bun' onchange='toggle_disabled_bun(this.checked)'$bun_check/> <b>BUN (Blood Urea Nitrogen): </b>
-                        <input type='text' id='bun_text' name='bun_text' style='width: 200px; height: 30px;' maxlength='45' value='$bun_results' /> Male 8-24 mg/dL Female 6-21 mg/dL
-
-                        <br/>";
-					
-			}
-			// if no test was done disable the textbox
-			else {
-				echo "<input type='checkbox' name='bun' onchange='toggle_disabled_bun(this.checked)'/> <b>BUN (Blood Urea Nitrogen): </b>
-                        <input type='text' id='bun_text' name='bun_text' style='width: 200px; height: 30px;' maxlength='45' disabled /> Male 8-24 mg/dL Female 6-21 mg/dL
-
-                        <br/>";
-			}
-
-
-
-
-
-
-
-			$stmt = $conn->prepare("SELECT hematocrit FROM lab WHERE lab_id='$choosen_lab'");
-			$stmt->execute();
-			$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
-		
-			foreach(new grab_value(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
-			
-			}
-			$hematocrit_check = $_SESSION['temp'];
-			
-		
-		
-			
-			$stmt = $conn->prepare("SELECT hematocrit_results FROM lab WHERE lab_id='$choosen_lab'");
-			$stmt->execute();
-			$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
-		
-			foreach(new grab_value(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
-			
-			}
-			$hematocrit_results = $_SESSION['temp'];
-
-
-
-
-			
-
-			if ($hematocrit_check == 'yes') {
-				$hematocrit_check = 'checked';
-					
-				echo "<input type='checkbox' name='hematocrit' onchange='toggle_disabled_hematocrit(this.checked)' $hematocrit_check/> <b>Hematocrit: </b>
-                        <input type='text' id='hematocrit_text' name='hematocrit_text' style='width: 200px; height: 30px;' value='$hematocrit_results' maxlength='45' /> Norms- Male 40.7% -50.3% Female 36.1% - 44.3%
-
-                        <br/>";
-					
-			}
-			// if no test was done disable the textbox
-			else {
-				echo "<input type='checkbox' name='hematocrit' onchange='toggle_disabled_hematocrit(this.checked)'/> <b>Hematocrit: </b>
-                        <input type='text' id='hematocrit_text' name='hematocrit_text' style='width: 200px; height: 30px;' maxlength='45' disabled /> Norms- Male 40.7% -50.3% Female 36.1% - 44.3%
-
-                        <br/>";
-			}
-
-
-
-
-
-			$stmt = $conn->prepare("SELECT creatinine FROM lab WHERE lab_id='$choosen_lab'");
-			$stmt->execute();
-			$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
-		
-			foreach(new grab_value(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
-			
-			}
-			$creatinine_check = $_SESSION['temp'];
-			
-		
-		
-			
-			$stmt = $conn->prepare("SELECT creatinine_results FROM lab WHERE lab_id='$choosen_lab'");
-			$stmt->execute();
-			$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
-		
-			foreach(new grab_value(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
-			
-			}
-			$creatinine_results = $_SESSION['temp'];
-
-
-
-			if ($creatinine_check == 'yes') {
-				$creatinine_check = 'checked';
-					
-				echo "<input type='checkbox' name='creatinine' onchange='toggle_disabled_creatinine(this.checked)' $creatinine_check/> <b>Creatinine: </b>
-                        <input type='text' id='creatinine_text' name='creatinine_text' style='width: 200px; height: 30px;' value='$creatinine_results' maxlength='45' /> Male 0.8-1.3 mg/dL Female 0.6-1.1 mg/dL
-
-                        <br/>";
-					
-			}
-			// if no test was done disable the textbox
-			else {
-echo "<input type='checkbox' name='creatinine' onchange='toggle_disabled_creatinine(this.checked)'/> <b>Creatinine: </b>
-                        <input type='text' id='creatinine_text' name='creatinine_text' style='width: 200px; height: 30px;' maxlength='45' disabled /> Male 0.8-1.3 mg/dL Female 0.6-1.1 mg/dL
-
-                        <br/>";
-				
-			}
-
-
-
-
-
-
-			$stmt = $conn->prepare("SELECT electrolytes FROM lab WHERE lab_id='$choosen_lab'");
-			$stmt->execute();
-			$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
-		
-			foreach(new grab_value(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
-			
-			}
-			$electrolytes_check = $_SESSION['temp'];
-			
-		
-		
-			
-			$stmt = $conn->prepare("SELECT electrolytes_results FROM lab WHERE lab_id='$choosen_lab'");
-			$stmt->execute();
-			$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
-		
-			foreach(new grab_value(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
-			
-			}
-			$electrolytes_results = $_SESSION['temp'];
-
-
-
-
-			if ($electrolytes_check == 'yes') {
-				$electrolytes_check = 'checked';
-					
-				echo "<input type='checkbox' name='electrolytes' onchange='toggle_disabled_electrolytes(this.checked)' $electrolytes_check/> <b>Electrolytes: </b>
-                        <input type='text' id='electrolytes_text' name='electrolytes_text' style='width: 200px; height: 30px;' maxlength='45' value='$electrolytes_results' /> Na (Sodium) 135-145 mEq/LK  (Potassium) 3.5-5 mEq/L  Cl (Chloride) 100-108 mmol/L
-
-                        <br/><b/r>";
-					
-			}
-			// if no test was done disable the textbox
-			else {
-				echo "<input type='checkbox' name='electrolytes' onchange='toggle_disabled_electrolytes(this.checked)'/> <b>Electrolytes: </b>
-                        <input type='text' id='electrolytes_text' name='electrolytes_text' style='width: 200px; height: 30px;' maxlength='45' disabled /> Na (Sodium) 135-145 mEq/LK  (Potassium) 3.5-5 mEq/L  Cl (Chloride) 100-108 mmol/L
-
-                        <br/><b/r>";
-				
-			}
-
-
-
-
-
-
-
-
-			$stmt = $conn->prepare("SELECT pylori_stool FROM lab WHERE lab_id='$choosen_lab'");
+		$stmt = $conn->prepare("SELECT pylori_stool FROM lab WHERE lab_id='$choosen_lab'");
 			$stmt->execute();
 			$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
 		
@@ -936,7 +479,8 @@ echo "<input type='checkbox' name='creatinine' onchange='toggle_disabled_creatin
 
 
 
-			$stmt = $conn->prepare("SELECT pylori_blood FROM lab WHERE lab_id='$choosen_lab'");
+
+            $stmt = $conn->prepare("SELECT pylori_blood FROM lab WHERE lab_id='$choosen_lab'");
 			$stmt->execute();
 			$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
 		
@@ -997,11 +541,7 @@ echo "<input type='checkbox' name='creatinine' onchange='toggle_disabled_creatin
 
 
 
-
-
-
-
-			$stmt = $conn->prepare("SELECT rheumatoid_factor FROM lab WHERE lab_id='$choosen_lab'");
+            $stmt = $conn->prepare("SELECT rheumatoid_factor FROM lab WHERE lab_id='$choosen_lab'");
 			$stmt->execute();
 			$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
 		
@@ -1067,72 +607,7 @@ echo "<input type='checkbox' name='creatinine' onchange='toggle_disabled_creatin
 
 
 
-
-
-
-
-
-
-
-			
-
-			
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-			
-			
-			// get stool
+            // get stool
 			$stmt = $conn->prepare("SELECT stool FROM lab WHERE lab_id='$choosen_lab'");
 			$stmt->execute();
 			$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
@@ -1187,102 +662,119 @@ echo "<input type='checkbox' name='creatinine' onchange='toggle_disabled_creatin
 			
 			
 			
-			
-			// get pregnancy test
-			$stmt = $conn->prepare("SELECT pregnancy_test FROM lab WHERE lab_id='$choosen_lab'");
+			// get p24/hiv
+			$stmt = $conn->prepare("SELECT p24_hiv FROM lab WHERE lab_id='$choosen_lab'");
 			$stmt->execute();
 			$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
 		
 			foreach(new grab_value(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
 			
 			}
-			$pregnancy_test_check = $_SESSION['temp'];
+			$p24_hiv_check = $_SESSION['temp'];
 			
 			
-			// get pregnancy test results
-			$stmt = $conn->prepare("SELECT pregnancy_test_results FROM lab WHERE lab_id='$choosen_lab'");
+			// get p24/hiv results
+			$stmt = $conn->prepare("SELECT reactive_p24_hiv FROM lab WHERE lab_id='$choosen_lab'");
 			$stmt->execute();
 			$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
 		
 			foreach(new grab_value(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
 			
 			}
-			$pregnancy_test_results = $_SESSION['temp'];
+			$reactive_p24_hiv = $_SESSION['temp'];
 			
 			
-			
-			// if there was a pregnancy test
-			If ($pregnancy_test_check == 'yes') {
-				$pregnancy_test_check = 'checked';
+			// see if p24/hiv test was done
+			If ($p24_hiv_check == 'yes') {
+				$p24_hiv_check = 'checked';
 				
-				// see which hcg detected radio button should be checked
-				switch ($pregnancy_test_results) {
-						case 'hcg_detected':
-							$hcg_detected_dis = 'checked';
+				// determine which radio button should be checked
+				switch ($reactive_p24_hiv) {
+						case 'reactive':
+							$reactive_dis = 'checked';
 							break;
-						case 'no_hcg_detected':
-							$no_hcg_detected_dis = 'checked';
+						case 'non_reactive':
+							$non_reactive_dis = 'checked';
 							break;
 					}
 				
-				echo "<input type='checkbox' name='pregnancy' onchange='toggle_disabled_pregnancy(this.checked)' $pregnancy_test_check/> <b>Pregnancy Test:</b>
-					<input type='radio' id='hcg_detected' name='hcg_detected' value='hcg_detected' $hcg_detected_dis/>hcG detected
-					<input type='radio' id='no_hcg_detected' name='hcg_detected' value='no_hcg_detected' $no_hcg_detected_dis />no hcG detected
+				echo "<input type='checkbox' name='p24_hiv' onchange='toggle_disabled_p24_hiv(this.checked)' $p24_hiv_check /> <b>P24/HIV:</b>
+					<input type='radio' id='reactive_p24_hiv' name='reactive_p24_hiv' value='reactive' $reactive_dis />Reactive
+					<input type='radio' id='non_reactive_p24_hiv' name='reactive_p24_hiv' value='non_reactive' $non_reactive_dis />Non-Reactive
 			
 					<br><br>";
-			
 			}
-			// if there was not a pegnancy test
+			// if no test was done disable all the radio buttons
 			else {
 			
-				echo "<input type='checkbox' name='pregnancy' onchange='toggle_disabled_pregnancy(this.checked)'/> <b>Pregnancy Test:</b>
-					<input type='radio' id='hcg_detected' name='hcg_detected' value='hcg_detected' disabled />hcG detected
-					<input type='radio' id='no_hcg_detected' name='hcg_detected' value='no_hcg_detected' disabled />no hcG detected
+				echo "<input type='checkbox' name='p24_hiv' onchange='toggle_disabled_p24_hiv(this.checked)'/> <b>P24/HIV:</b>
+					<input type='radio' id='reactive_p24_hiv' name='reactive_p24_hiv' value='reactive' disabled />Reactive
+					<input type='radio' id='non_reactive_p24_hiv' name='reactive_p24_hiv' value='non_reactive' disabled />Non-Reactive
 			
 					<br><br>";
-					
 			}
 			
 			
 			
-			// get hb
-			$stmt = $conn->prepare("SELECT hb FROM lab WHERE lab_id='$choosen_lab'");
+			
+			
+			
+			// get vdrl/rpr
+			$stmt = $conn->prepare("SELECT vdrl_rpr FROM lab WHERE lab_id='$choosen_lab'");
 			$stmt->execute();
 			$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
 		
 			foreach(new grab_value(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
 			
 			}
-			$hb_check = $_SESSION['temp'];
-		
-		
-			// get hb test results
-			$stmt = $conn->prepare("SELECT hb_results FROM lab WHERE lab_id='$choosen_lab'");
+			$vdrl_rpr_check = $_SESSION['temp'];
+			
+			
+			// get vdrl/rpr results
+			$stmt = $conn->prepare("SELECT vdrl_rpr_results FROM lab WHERE lab_id='$choosen_lab'");
 			$stmt->execute();
 			$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
 		
 			foreach(new grab_value(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
 			
 			}
-			$hb_results = $_SESSION['temp'];
+			$vdrl_rpr_results = $_SESSION['temp'];
 			
 			
-			// see if an hb test was done
-			if ($hb_check == 'yes') {
-				$hb_check = 'checked';
-						
-				echo "<input type='checkbox' name='hb' onchange='toggle_disabled_hb(this.checked)' $hb_check/> <b>Hb:</b>
-				<input type='text' id='hb_text' name='hb_text' style='width: 200px; height: 30px;' value='$hb_results' maxlength='30' /> (Norm Men: 13.5 – 18g/dL, Norm Women: 11.5 – 16g/dL)
 			
-				<br><br>";	
+			// see if a vdrl/rpr test was done
+			If ($vdrl_rpr_check == 'yes') {
+				$vdrl_rpr_check = 'checked';
+				
+				// find out whether or not vdrl/rpr is reactive
+				switch ($vdrl_rpr_results) {
+						case 'reactive':
+							$reactive_dis = 'checked';
+							break;
+						case 'non_reactive':
+							$non_reactive_dis = 'checked';
+							break;
+					}
+				
+				echo "<input type='checkbox' name='vdrl_rpr' onchange='toggle_disabled_vdrl_rpr(this.checked)' $vdrl_rpr_check/> <b>VDRL/RPR:</b>
+					<input type='radio' id='reactive' name='reactive' value='reactive' $reactive_dis />Reactive
+					<input type='radio' id='non_reactive' name='reactive' value='non_reactive' $non_reactive_dis />Non-Reactive
+			
+					<br><br>";
+			
 			}
-			// if not, then disable the textbox
+			// if no test was done disable all the radio buttons
 			else {
-				echo "<input type='checkbox' name='hb' onchange='toggle_disabled_hb(this.checked)'/> <b>Hb:</b>
-				<input type='text' id='hb_text' name='hb_text' style='width: 200px; height: 30px;' maxlength='30' disabled  /> (Norm Men: 13.5 – 18g/dL, Norm Women: 11.5 – 16g/dL)
 			
-				<br><br>";
+				echo "<input type='checkbox' name='vdrl_rpr' onchange='toggle_disabled_vdrl_rpr(this.checked)'/> <b>VDRL/RPR:</b>
+					<input type='radio' id='reactive' name='reactive' value='reactive' disabled />Reactive
+					<input type='radio' id='non_reactive' name='reactive' value='non_reactive' disabled />Non-Reactive
+					<br><br>";
 			}
+			
+			
+			
+			
 			
 			
 			// get urinalysis
@@ -1405,16 +897,6 @@ echo "<input type='checkbox' name='creatinine' onchange='toggle_disabled_creatin
 			}
 			$urinalysis_leukocytes = $_SESSION['temp'];
 			
-			
-			// get microsopy results
-			$stmt = $conn->prepare("SELECT urinalysis_microscopy FROM lab WHERE lab_id='$choosen_lab'");
-			$stmt->execute();
-			$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
-		
-			foreach(new grab_value(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
-			
-			}
-			$urinalysis_microscopy = $_SESSION['temp'];
 			
 			
 			// see if a urinalysis test was done
@@ -1754,9 +1236,6 @@ echo "<input type='checkbox' name='creatinine' onchange='toggle_disabled_creatin
 						<input type='radio' id='leukocytes_++' name='leukocytes' value='++' $plus2_dis />++
 						<input type='radio' id='leukocytes_+++' name='leukocytes' value='+++' $plus3_dis />+++
 							
-						<br>
-							
-						<label style='margin-left: 50px; margin-right: 31px;'>Microscopy: </label><input type='text' id='microscopy' name='microscopy' style='width: 200px; height: 30px;' value='$urinalysis_microscopy' maxlength='45' /> 
 						<br><br>";
 			}
 			// if no urinalysis test was done, disable all urinalysis radio buttions
@@ -1852,13 +1331,70 @@ echo "<input type='checkbox' name='creatinine' onchange='toggle_disabled_creatin
 					<input type='radio' id='leukocytes_++' name='leukocytes' value='++' disabled />++
 					<input type='radio' id='leukocytes_+++' name='leukocytes' value='+++' disabled />+++
 					
-					<br>
-					
-					<label style='margin-left: 50px; margin-right: 31px;'>Microscopy: </label><input type='text' id='microscopy' name='microscopy' style='width: 200px; height: 30px;' maxlength='45' disabled /> 
-					
 					<br><br>";
 			
 			}
+			
+			
+			
+			
+			
+			
+			// get pregnancy test
+			$stmt = $conn->prepare("SELECT pregnancy_test FROM lab WHERE lab_id='$choosen_lab'");
+			$stmt->execute();
+			$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
+		
+			foreach(new grab_value(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
+			
+			}
+			$pregnancy_test_check = $_SESSION['temp'];
+			
+			
+			// get pregnancy test results
+			$stmt = $conn->prepare("SELECT pregnancy_test_results FROM lab WHERE lab_id='$choosen_lab'");
+			$stmt->execute();
+			$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
+		
+			foreach(new grab_value(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
+			
+			}
+			$pregnancy_test_results = $_SESSION['temp'];
+			
+			
+			
+			// if there was a pregnancy test
+			If ($pregnancy_test_check == 'yes') {
+				$pregnancy_test_check = 'checked';
+				
+				// see which hcg detected radio button should be checked
+				switch ($pregnancy_test_results) {
+						case 'hcg_detected':
+							$hcg_detected_dis = 'checked';
+							break;
+						case 'no_hcg_detected':
+							$no_hcg_detected_dis = 'checked';
+							break;
+					}
+				
+				echo "<input type='checkbox' name='pregnancy' onchange='toggle_disabled_pregnancy(this.checked)' $pregnancy_test_check/> <b>Pregnancy Test:</b>
+					<input type='radio' id='hcg_detected' name='hcg_detected' value='hcg_detected' $hcg_detected_dis/>hcG detected
+					<input type='radio' id='no_hcg_detected' name='hcg_detected' value='no_hcg_detected' $no_hcg_detected_dis />no hcG detected
+			
+					<br><br>";
+			
+			}
+			// if there was not a pegnancy test
+			else {
+			
+				echo "<input type='checkbox' name='pregnancy' onchange='toggle_disabled_pregnancy(this.checked)'/> <b>Pregnancy Test:</b>
+					<input type='radio' id='hcg_detected' name='hcg_detected' value='hcg_detected' disabled />hcG detected
+					<input type='radio' id='no_hcg_detected' name='hcg_detected' value='no_hcg_detected' disabled />no hcG detected
+			
+					<br><br>";
+					
+			}
+			
 			
 			
 			// get hvs
@@ -1894,38 +1430,6 @@ echo "<input type='checkbox' name='creatinine' onchange='toggle_disabled_creatin
 			$hvs_microscopy = $_SESSION['temp'];
 			
 			
-			// get gram stain results
-			$stmt = $conn->prepare("SELECT hvs_gram_stain FROM lab WHERE lab_id='$choosen_lab'");
-			$stmt->execute();
-			$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
-		
-			foreach(new grab_value(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
-			
-			}
-			$hvs_gram_stain = $_SESSION['temp'];
-			
-			
-			// get clinician results
-			$stmt = $conn->prepare("SELECT clinician FROM lab WHERE lab_id='$choosen_lab'");
-			$stmt->execute();
-			$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
-		
-			foreach(new grab_value(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
-			
-			}
-			$clinician = $_SESSION['temp'];
-			
-
-
-			$stmt = $conn->prepare("SELECT culture FROM lab WHERE lab_id='$choosen_lab'");
-			$stmt->execute();
-			$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
-		
-			foreach(new grab_value(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
-			
-			}
-			$culture = $_SESSION['temp'];
-		
 		
 			// see if an hvs test was done
 			if ($hvs_checked == 'yes') {
@@ -1935,8 +1439,7 @@ echo "<input type='checkbox' name='creatinine' onchange='toggle_disabled_creatin
 				echo "<input type='checkbox' name='hvs' onchange='toggle_disabled_hvs(this.checked)' $hvs_checked /> <b>HVS</b><br>
 					Macroscopy:<input type='text' id='macroscopy' name='macroscopy' style='width: 500px; height: 30px;' value='$hvs_macroscopy' maxlength='45' /><br>
 					Microscopy:<input type='text' id='microscopy_hvs' name='microscopy_hvs' style='width: 500px; height: 30px;' value='$hvs_microscopy' maxlength='45' /> <br>
-					Gram Stain: <br> <textarea rows='6' cols='55' id='gram_stain' name='gram_stain' class='comment_area' maxlength='255'  >$hvs_gram_stain</textarea> <br> <br>
-Cultures: <br> <textarea rows='6' cols='55' id='culture' name='culture' class='comment_area' maxlength='255'>$culture</textarea> <br> <br>";
+					Gram Stain: <br> <textarea rows='6' cols='55' id='gram_stain' name='gram_stain' class='comment_area' maxlength='255'  >$hvs_gram_stain</textarea> <br> <br>";
 
 			}
 			else {
@@ -1944,24 +1447,96 @@ Cultures: <br> <textarea rows='6' cols='55' id='culture' name='culture' class='c
 				echo "<input type='checkbox' name='hvs' onchange='toggle_disabled_hvs(this.checked)'/> <b>HVS</b><br>
 					Macroscopy:<input type='text' id='macroscopy' name='macroscopy' style='width: 500px; height: 30px;' maxlength='45' disabled /><br>
 					Microscopy:<input type='text' id='microscopy_hvs' name='microscopy_hvs' style='width: 500px; height: 30px;' maxlength='45' disabled /> <br>
-					Gram Stain: <br> <textarea rows='6' cols='55' id='gram_stain' name='gram_stain' class='comment_area' maxlength='255' disabled ></textarea> <br> <br>
-Cultures: <br> <textarea rows='6' cols='55' id='culture' name='culture' class='comment_area' maxlength='255' disabled></textarea> <br> <br>";
+					Gram Stain: <br> <textarea rows='6' cols='55' id='gram_stain' name='gram_stain' class='comment_area' maxlength='255' disabled ></textarea> <br> <br>";
 				
 			}
-
-
-
-
-
-
-
-
-
 			
+			
+			
+			
+			
+			// get gram_stain
+			$stmt = $conn->prepare("SELECT gram_stain FROM lab WHERE lab_id='$choosen_lab'");
+			$stmt->execute();
+			$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
+		
+			foreach(new grab_value(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
+			
+			}
+			$gram_stain_checked = $_SESSION['temp'];
+			
+			
+			// get gram_stain results
+			$stmt = $conn->prepare("SELECT gram_stain_result FROM lab WHERE lab_id='$choosen_lab'");
+			$stmt->execute();
+			$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
+		
+			foreach(new grab_value(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
+			
+			}
+			$gram_stain_result = $_SESSION['temp'];
+			
+			
+			// see if a gram_stain test was done
+			if ($gram_stain_checked == 'yes') {
+			
+				$gram_stain_checked = 'checked';	
+				
+				echo "<input type='checkbox' name='gram_stain' onchange='toggle_disabled_gram_stain(this.checked)' $gram_stain_checked /> <b>Gram Stain</b><br>
+					Gram Stain: <br> <textarea rows='3' cols='55' id='gram_stain' name='gram_stain' class='comment_area' maxlength='255'  >$gram_stain_result</textarea> <br> <br>";
 
+			}
+			else {
+			
+				echo "<input type='checkbox' name='gram_stain' onchange='toggle_disabled_gram_stain(this.checked)'/> <b>Gram Stain</b><br>
+					Gram Stain: <br> <textarea rows='3' cols='55' id='gram_stain' name='gram_stain' class='comment_area' maxlength='255' disabled ></textarea> <br> <br>";
+				
+			}
+			
+			
+			
+			// get culture
+			$stmt = $conn->prepare("SELECT culture FROM lab WHERE lab_id='$choosen_lab'");
+			$stmt->execute();
+			$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
+		
+			foreach(new grab_value(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
+			
+			}
+			$culture_checked = $_SESSION['temp'];
+			
+			
+			// get culture results
+			$stmt = $conn->prepare("SELECT culture_result FROM lab WHERE lab_id='$choosen_lab'");
+			$stmt->execute();
+			$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
+		
+			foreach(new grab_value(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
+			
+			}
+			$culture_result = $_SESSION['temp'];
+			
+			
+			// see if a culture test was done
+			if ($culture_checked == 'yes') {
+			
+				$culture_checked = 'checked';	
+				
+				echo "<input type='checkbox' name='culture' onchange='toggle_disabled_culture(this.checked)' $culture_checked /> <b>Culture</b><br>
+					Culture: <br> <textarea rows='3' cols='55' id='culture' name='culture' class='comment_area' maxlength='255'  >$culture_result</textarea> <br> <br>";
 
-
-
+			}
+			else {
+			
+				echo "<input type='checkbox' name='culture' onchange='toggle_disabled_culture(this.checked)'/> <b>Culture</b><br>
+					Culture: <br> <textarea rows='3' cols='55' id='culture' name='culture' class='comment_area' maxlength='255' disabled ></textarea> <br> <br>";
+				
+			}
+			
+			
+			
+			
+			
 			// get blood group 
 			$stmt = $conn->prepare("SELECT blood_group FROM lab WHERE lab_id='$choosen_lab'");
 			$stmt->execute();
@@ -2052,7 +1627,6 @@ Cultures: <br> <textarea rows='6' cols='55' id='culture' name='culture' class='c
 			// if no blood group test was done, then disable all radio buttons
 			else {
 				echo "<input type='checkbox' name='blood_group' onchange='toggle_disabled_blood_group(this.checked)'/><b>Blood Group</b><br>
-
 				
 				<input style='margin-left: 50px;' type='radio' id='rhve_neg' name='rhve' value='rh-ve' disabled />Rh-ve
 				<input type='radio' id='rhve_plus' name='rhve' value='rh+ve' disabled />Rh+ve
@@ -2064,11 +1638,15 @@ Cultures: <br> <textarea rows='6' cols='55' id='culture' name='culture' class='c
 				
 				<label style='margin-left: 50px;'>DU Test:</label><input  type='text' id='du_test' name='du_test' style='width: 200px; height: 30px;' maxlength='45' disabled /><br><br>";
 			}
-
-
-
-
-
+			
+			
+			
+			
+			
+			
+			
+			
+			// get blood count
 			$stmt = $conn->prepare("SELECT blood_count FROM lab WHERE lab_id='$choosen_lab'");
 			$stmt->execute();
 			$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
@@ -2076,10 +1654,10 @@ Cultures: <br> <textarea rows='6' cols='55' id='culture' name='culture' class='c
 			foreach(new grab_value(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
 			
 			}
-			$blood_count = $_SESSION['temp'];
-			
-			
-			// get blood group du test
+			$blood_count_check = $_SESSION['temp'];
+		
+		
+			// get rbc
 			$stmt = $conn->prepare("SELECT rbc FROM lab WHERE lab_id='$choosen_lab'");
 			$stmt->execute();
 			$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
@@ -2088,222 +1666,177 @@ Cultures: <br> <textarea rows='6' cols='55' id='culture' name='culture' class='c
 			
 			}
 			$rbc = $_SESSION['temp'];
-
-
-			if ($blood_count == 'yes') {
-
-				echo "<input type='checkbox' name='blood_count' onchange='toggle_disabled_blood_count(this.checked)'/ checked><b>Blood Count</b><br>
 			
-				<label style='margin-left: 50px; margin-right: 22px;'>RBC:</label>
-				<input type='text' id='rbc' name='rbc' style='width: 200px; height: 30px;' maxlength='30' value='$rbc'/> (Norm Men:4.3-5.7 trillion Cells, Norm Women:3.9-5.0 trillion Cells)
 			
-			<br>";
+			// get hb
+			$stmt = $conn->prepare("SELECT hb FROM lab WHERE lab_id='$choosen_lab'");
+			$stmt->execute();
+			$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
+		
+			foreach(new grab_value(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
+			
 			}
-			else {
+			$hb = $_SESSION['temp'];
+			
+			
+			// get hct
+			$stmt = $conn->prepare("SELECT hct FROM lab WHERE lab_id='$choosen_lab'");
+			$stmt->execute();
+			$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
+		
+			foreach(new grab_value(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
+			
+			}
+			$hct = $_SESSION['temp'];
+			
+			
+			// get mcv
+			$stmt = $conn->prepare("SELECT mcv FROM lab WHERE lab_id='$choosen_lab'");
+			$stmt->execute();
+			$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
+		
+			foreach(new grab_value(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
+			
+			}
+			$mcv = $_SESSION['temp'];
+			
+			
+			
+			
+			// get rdw
+			$stmt = $conn->prepare("SELECT rdw FROM lab WHERE lab_id='$choosen_lab'");
+			$stmt->execute();
+			$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
+		
+			foreach(new grab_value(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
+			
+			}
+			$rdw = $_SESSION['temp'];
+			
+			
+			// get wbc
+			$stmt = $conn->prepare("SELECT wbc FROM lab WHERE lab_id='$choosen_lab'");
+			$stmt->execute();
+			$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
+		
+			foreach(new grab_value(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
+			
+			}
+			$wbc = $_SESSION['temp'];
+			
+			
+			// get platelet
+			$stmt = $conn->prepare("SELECT platelet FROM lab WHERE lab_id='$choosen_lab'");
+			$stmt->execute();
+			$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
+		
+			foreach(new grab_value(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
+			
+			}
+			$platelet = $_SESSION['temp'];
+			
+			
+			// get neutrophils
+			$stmt = $conn->prepare("SELECT neutrophils FROM lab WHERE lab_id='$choosen_lab'");
+			$stmt->execute();
+			$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
+		
+			foreach(new grab_value(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
+			
+			}
+			$neutrophils = $_SESSION['temp'];
+			
+			
+			// get lymphocytes
+			$stmt = $conn->prepare("SELECT lymphocytes FROM lab WHERE lab_id='$choosen_lab'");
+			$stmt->execute();
+			$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
+		
+			foreach(new grab_value(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
+			
+			}
+			$lymphocytes = $_SESSION['temp'];
+			
+			
+			// get monocytes
+			$stmt = $conn->prepare("SELECT monocytes FROM lab WHERE lab_id='$choosen_lab'");
+			$stmt->execute();
+			$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
+		
+			foreach(new grab_value(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
+			
+			}
+			$monocytes = $_SESSION['temp'];
+			
+			
+			
+			// get eosinophils
+			$stmt = $conn->prepare("SELECT eosinophils FROM lab WHERE lab_id='$choosen_lab'");
+			$stmt->execute();
+			$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
+		
+			foreach(new grab_value(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
+			
+			}
+			$eosinophils = $_SESSION['temp'];
+			
+			
+			// get basophils
+			$stmt = $conn->prepare("SELECT basophils FROM lab WHERE lab_id='$choosen_lab'");
+			$stmt->execute();
+			$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
+		
+			foreach(new grab_value(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
+			
+			}
+			$basophils = $_SESSION['temp'];
+			
+			
+			// see if blood count test was done
+			if ($blood_count_check == 'yes') {
 				
-				echo "<input type='checkbox' name='blood_count' onchange='toggle_disabled_blood_count(this.checked)'/><b>Blood Count</b><br>
-			
-				<label style='margin-left: 50px; margin-right: 22px;'>RBC:</label>
-				<input type='text' id='rbc' name='rbc' style='width: 200px; height: 30px;' maxlength='30' disabled /> (Norm Men:4.3-5.7 trillion Cells, Norm Women:3.9-5.0 trillion Cells)
-			
-			<br>";
-
-
+				$blood_count_check = 'checked';
+				echo "<input type='checkbox' name='blood_count' onchange='toggle_disabled_blood_count(this.checked)' $blood_count_check/> <b>Blood Counts</b><br>
+					RBC:<input type='text' id='rbc' name='rbc' style='width: 200px; height: 30px;' value='$rbc' maxlength='30' />(Norm Men:4.3-5.7 trillion Cells, Norm Women:3.9-5.0 trillion Cells)<br>
+					Hb:<input type='text' id='hb_text' name='hb_text' style='width: 200px; height: 30px;' value='$hb_text' maxlength='30' />(Norm Men: 13.5 – 18g/dL, Norm Women: 11.5 – 16g/dL)<br>
+					Hct:<input type='text' id='hct_text' name='hct_text' style='width: 200px; height: 30px;' value='$hct_text' maxlength='30' /><br>
+					MCV:<input type='text' id='mcv_text' name='mcv_text' style='width: 200px; height: 30px;' value='$mcv_text' maxlength='30' />(Norm: 81.2-98.3 fL)<br>
+					RDW:<input type='text' id='rdw_text' name='rdw_text' style='width: 200px; height: 30px;' value='$rdw_text' maxlength='30' />(Norm: 11.8%-15.5%)<br>
+					WBC:<input type='text' id='wbc_text' name='wbc_text' style='width: 200px; height: 30px;' value='$wbc_text' maxlength='30' />(Norm: 3.5-10.5 billion cells/L)<br>
+					Platelet:<input type='text' id='platelet_text' name='platelet_text' style='width: 200px; height: 30px;' value='$platelet_text' maxlength='30' />(Norm: 150-450 billion/L)<br>
+					Neutrophils:<input type='text' id='neutrophils_text' name='neutrophils_text' style='width: 200px; height: 30px;' value='$neutrophils_text' maxlength='30' />( Norm: 1.7-7.0x10(9)/L )<br>
+					Lymphocytes:<input type='text' id='lymphocytes_text' name='lymphocytes_text' style='width: 200px; height: 30px;' value='$lymphocytes_text' maxlength='30' />( Norm: 0.9-2.9x10(9)/L )<br>
+					Monocytes:<input type='text' id='monocytes_text' name='monocytes_text' style='width: 200px; height: 30px;' value='$monocytes_text' maxlength='30' />( Norm: 0.3-0.9x10(9)/L )<br>
+					Eosinophils:<input type='text' id='eosinophils_text' name='eosinophils_text' style='width: 200px; height: 30px;' value='$eosinophils_text' maxlength='30' />( Norm: 0.05-0.50x10(9)/L )<br>
+					Basophils:<input type='text' id='basophils_text' name='basophils_text' style='width: 200px; height: 30px;' value='$basophils_text' maxlength='30' />( Norm: 0-0.30x10(9)/L )
+				
+					<br><br>"; 
 			}
-
-
-			$stmt = $conn->prepare("SELECT hb_results FROM lab WHERE lab_id='$choosen_lab'");
-			$stmt->execute();
-			$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
-		
-			foreach(new grab_value(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
-			
+			// if not then disable app and mic textboxes
+			else {
+				echo "<input type='checkbox' name='blood_count' onchange='toggle_disabled_blood_count(this.checked)' $blood_count_check/> <b>Blood Counts</b><br>
+					RBC:<input type='text' id='rbc' name='rbc' style='width: 200px; height: 30px;' value='$rbc' maxlength='30' disabled />(Norm Men:4.3-5.7 trillion Cells, Norm Women:3.9-5.0 trillion Cells)<br>
+					Hb:<input type='text' id='hb_text' name='hb_text' style='width: 200px; height: 30px;' value='$hb_text' maxlength='30' disabled />(Norm Men: 13.5 – 18g/dL, Norm Women: 11.5 – 16g/dL)<br>
+					Hct:<input type='text' id='hct_text' name='hct_text' style='width: 200px; height: 30px;' value='$hct_text' maxlength='30'disabled /><br>
+					MCV:<input type='text' id='mcv_text' name='mcv_text' style='width: 200px; height: 30px;' value='$mcv_text' maxlength='30' disabled />(Norm: 81.2-98.3 fL)<br>
+					RDW:<input type='text' id='rdw_text' name='rdw_text' style='width: 200px; height: 30px;' value='$rdw_text' maxlength='30' disabled />(Norm: 11.8%-15.5%)<br>
+					WBC:<input type='text' id='wbc_text' name='wbc_text' style='width: 200px; height: 30px;' value='$wbc_text' maxlength='30' disabled />(Norm: 3.5-10.5 billion cells/L)<br>
+					Platelet:<input type='text' id='platelet_text' name='platelet_text' style='width: 200px; height: 30px;' value='$platelet_text' maxlength='30' disabled />(Norm: 150-450 billion/L)<br>
+					Neutrophils:<input type='text' id='neutrophils_text' name='neutrophils_text' style='width: 200px; height: 30px;' value='$neutrophils_text' maxlength='30' disabled />( Norm: 1.7-7.0x10(9)/L )<br>
+					Lymphocytes:<input type='text' id='lymphocytes_text' name='lymphocytes_text' style='width: 200px; height: 30px;' value='$lymphocytes_text' maxlength='30' disabled />( Norm: 0.9-2.9x10(9)/L )<br>
+					Monocytes:<input type='text' id='monocytes_text' name='monocytes_text' style='width: 200px; height: 30px;' value='$monocytes_text' maxlength='30' disabled />( Norm: 0.3-0.9x10(9)/L )<br>
+					Eosinophils:<input type='text' id='eosinophils_text' name='eosinophils_text' style='width: 200px; height: 30px;' value='$eosinophils_text' maxlength='30' disabled />( Norm: 0.05-0.50x10(9)/L )<br>
+					Basophils:<input type='text' id='basophils_text' name='basophils_text' style='width: 200px; height: 30px;' value='$basophils_text' maxlength='30' disabled />( Norm: 0-0.30x10(9)/L )
+				
+					<br><br>";
 			}
-			$hb_results = $_SESSION['temp'];
-
-
-
-
-			echo "<b>Hb:</b>
-			<input type='text' id='hb_text' name='hb_text' style='width: 200px; height: 30px;' maxlength='30'  value='$hb_results'/> (Norm Men: 13.5 â€“ 18g/dL, Norm Women: 11.5 â€“ 16g/dL)
-			
-			<br>";
-
-
-
-
-			$stmt = $conn->prepare("SELECT hct_text FROM lab WHERE lab_id='$choosen_lab'");
-			$stmt->execute();
-			$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
-		
-			foreach(new grab_value(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
-			
-			}
-			$hct_text = $_SESSION['temp'];
-
-			echo "<b>Hct:</b>
-			<input type='text' id='hct_text' name='hct_text' style='width: 200px; height: 30px;' value='$hct_text' maxlength='30'  />
-			
-			<br>";
-
-
-			$stmt = $conn->prepare("SELECT mcv_text FROM lab WHERE lab_id='$choosen_lab'");
-			$stmt->execute();
-			$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
-		
-			foreach(new grab_value(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
-			
-			}
-			$mcv_text = $_SESSION['temp'];
-
-
-			
-			echo "<b>MCV:</b>
-			<input type='text' id='mcv_text' name='mcv_text' style='width: 200px; height: 30px;' maxlength='30' value='$mcv_text' /> (Norm: 81.2-98.3 fL)
-			
-			<br>";
-
-
-
-
-
-			$stmt = $conn->prepare("SELECT rdw_text FROM lab WHERE lab_id='$choosen_lab'");
-			$stmt->execute();
-			$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
-		
-			foreach(new grab_value(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
-			
-			}
-			$rdw_text = $_SESSION['temp'];
-
-
-			
-
-			echo "<b>RDW:</b>
-			<input type='text' id='rdw_text' name='rdw_text' style='width: 200px; height: 30px;' maxlength='30' value='$rdw_text' /> (Norm: 11.8%-15.5%)
-			
-			<br>";
-
-
-
-
-			$stmt = $conn->prepare("SELECT wbc_text FROM lab WHERE lab_id='$choosen_lab'");
-			$stmt->execute();
-			$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
-		
-			foreach(new grab_value(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
-			
-			}
-			$wbc_text = $_SESSION['temp'];
-
-
-			echo "<b>WBC:</b>
-			<input type='text' id='wbc_text' name='wbc_text' style='width: 200px; height: 30px;' maxlength='30' value='$wbc_text' /> (Norm: 3.5-10.5 billion cells/L)
-			
-			<br>";
-
-			
-
-			$stmt = $conn->prepare("SELECT platelet_text FROM lab WHERE lab_id='$choosen_lab'");
-			$stmt->execute();
-			$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
-		
-			foreach(new grab_value(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
-			
-			}
-			$platelet_text = $_SESSION['temp'];
-
-			echo "<b>Platelet:</b>
-			<input type='text' id='platelet_text' name='platelet_text' style='width: 200px; height: 30px;' maxlength='30' value='$platelet_text' /> (Norm: 150-450 billion/L)
 			
 			
-			<br>";
-
-
-
-
-			$stmt = $conn->prepare("SELECT neutrophils_text FROM lab WHERE lab_id='$choosen_lab'");
-			$stmt->execute();
-			$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
-		
-			foreach(new grab_value(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
 			
-			}
-			$neutrophils_text = $_SESSION['temp'];
-
-
-			echo "<b>Neutrophils:</b>
-			<input type='text' id='neutrophils_text' name='neutrophils_text' style='width: 200px; height: 30px;' maxlength='30' value='$neutrophils_text' /> ( Norm: 1.7-7.0x10(9)/L )
-			<br>";
-
-
-
-			$stmt = $conn->prepare("SELECT lymphocytes_text FROM lab WHERE lab_id='$choosen_lab'");
-			$stmt->execute();
-			$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
-		
-			foreach(new grab_value(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
 			
-			}
-			$lymphocytes_text = $_SESSION['temp'];
-
-
-			echo "<b>Lymphocytes:</b>
-			<input type='text' id='lymphocytes_text' name='lymphocytes_text' style='width: 200px; height: 30px;' maxlength='30' value='$lymphocytes_text' /> ( Norm: 0.9-2.9x10(9)/L )
 			
-			<br>";
-
-
-			$stmt = $conn->prepare("SELECT monocytes_text FROM lab WHERE lab_id='$choosen_lab'");
-			$stmt->execute();
-			$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
-		
-			foreach(new grab_value(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
 			
-			}
-			$monocytes_text = $_SESSION['temp'];
-
-
-			echo "<b>Monocytes:</b>
-			<input type='text' id='monocytes_text' name='monocytes_text' style='width: 200px; height: 30px;' value='$monocytes_text' maxlength='30' /> ( Norm: 0.3-0.9x10(9)/L )
-			
-			<br>";
-
-
-
-			$stmt = $conn->prepare("SELECT eosinophils_text FROM lab WHERE lab_id='$choosen_lab'");
-			$stmt->execute();
-			$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
-		
-			foreach(new grab_value(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
-			
-			}
-			$eosinophils_text = $_SESSION['temp'];
-
-			echo "<b>Eosinophils:</b>
-			<input type='text' id='eosinophils_text' name='eosinophils_text' style='width: 200px; height: 30px;' maxlength='30' value='$eosinophils_text' /> ( Norm: 0.05-0.50x10(9)/L )
-			
-			<br>";
-
-
-
-
-			$stmt = $conn->prepare("SELECT basophils_text FROM lab WHERE lab_id='$choosen_lab'");
-			$stmt->execute();
-			$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
-		
-			foreach(new grab_value(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
-			
-			}
-			$basophils_text = $_SESSION['temp'];
-
-
-			echo "<b>Basophils:</b>
-			<input type='text' id='basophils_text' name='basophils_text' style='width: 200px; height: 30px;' value='$basophils_text' maxlength='30' /> ( Norm: 0-0.30x10(9)/L )
-			
-			<br>";
-
-
+			// get blood Chemistry
 			$stmt = $conn->prepare("SELECT blood_chemistry FROM lab WHERE lab_id='$choosen_lab'");
 			$stmt->execute();
 			$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
@@ -2311,216 +1844,205 @@ Cultures: <br> <textarea rows='6' cols='55' id='culture' name='culture' class='c
 			foreach(new grab_value(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
 			
 			}
-			$blood_chemistry = $_SESSION['temp'];
-
-
-			$stmt = $conn->prepare("SELECT sodium_text FROM lab WHERE lab_id='$choosen_lab'");
+			$blood_chemistry_check = $_SESSION['temp'];
+		
+		
+			// get sodium
+			$stmt = $conn->prepare("SELECT sodium FROM lab WHERE lab_id='$choosen_lab'");
 			$stmt->execute();
 			$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
 		
 			foreach(new grab_value(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
 			
 			}
-			$sodium_text = $_SESSION['temp'];
-
-
-
-			if ($blood_chemistry == 'yes') {
-				echo "<input type='checkbox' name='blood_chemistry' onchange='toggle_disabled_blood_chemistry(this.checked)' checked/><b>Blood Chemistry</b><br>
+			$sodium = $_SESSION['temp'];
 			
-					<label style='margin-left: 50px; margin-right: 22px;'>Sodium:</label>
-					<input type='text' id='sodium_text' name='sodium_text' style='width: 200px; height: 30px;' maxlength='30' value='$sodium_text'/> (Norm: 135-145 mmol/L)
 			
-					<br>";
-
+			// get chloride
+			$stmt = $conn->prepare("SELECT chloride FROM lab WHERE lab_id='$choosen_lab'");
+			$stmt->execute();
+			$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
+		
+			foreach(new grab_value(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
+			
 			}
+			$chloride = $_SESSION['temp'];
+			
+			
+			// get potassium
+			$stmt = $conn->prepare("SELECT potassium FROM lab WHERE lab_id='$choosen_lab'");
+			$stmt->execute();
+			$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
+		
+			foreach(new grab_value(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
+			
+			}
+			$potassium = $_SESSION['temp'];
+			
+			
+			// get calcium
+			$stmt = $conn->prepare("SELECT calcium FROM lab WHERE lab_id='$choosen_lab'");
+			$stmt->execute();
+			$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
+		
+			foreach(new grab_value(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
+			
+			}
+			$calcium = $_SESSION['temp'];
+			
+			
+			
+			
+			// get bicarbonate
+			$stmt = $conn->prepare("SELECT bicarbonate FROM lab WHERE lab_id='$choosen_lab'");
+			$stmt->execute();
+			$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
+		
+			foreach(new grab_value(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
+			
+			}
+			$bicarbonate = $_SESSION['temp'];
+			
+			
+			// get glucose_fasting
+			$stmt = $conn->prepare("SELECT glucose_fasting FROM lab WHERE lab_id='$choosen_lab'");
+			$stmt->execute();
+			$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
+		
+			foreach(new grab_value(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
+			
+			}
+			$glucose_fasting = $_SESSION['temp'];
+			
+			
+			// get glucose_random
+			$stmt = $conn->prepare("SELECT glucose_random FROM lab WHERE lab_id='$choosen_lab'");
+			$stmt->execute();
+			$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
+		
+			foreach(new grab_value(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
+			
+			}
+			$glucose_random = $_SESSION['temp'];
+			
+			
+			// get bun
+			$stmt = $conn->prepare("SELECT bun FROM lab WHERE lab_id='$choosen_lab'");
+			$stmt->execute();
+			$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
+		
+			foreach(new grab_value(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
+			
+			}
+			$bun = $_SESSION['temp'];
+			
+			
+			// get creatinine
+			$stmt = $conn->prepare("SELECT creatinine FROM lab WHERE lab_id='$choosen_lab'");
+			$stmt->execute();
+			$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
+		
+			foreach(new grab_value(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
+			
+			}
+			$creatinine = $_SESSION['temp'];
+			
+			
+			// get hba1c
+			$stmt = $conn->prepare("SELECT hba1c FROM lab WHERE lab_id='$choosen_lab'");
+			$stmt->execute();
+			$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
+		
+			foreach(new grab_value(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
+			
+			}
+			$hba1c= $_SESSION['temp'];
+			
+			
+			// see if blood chemistry test was done
+			if ($blood_chemistry_check == 'yes') {
+				
+				$blood_chemistry_check = 'checked';
+				echo "<input type='checkbox' name='blood_chemistry' onchange='toggle_disabled_blood_chemistry(this.checked)' $blood_chemistry_check/> <b>Blood Chemistry</b><br>
+					Sodium:<input type='text' id='sodium' name='sodium' style='width: 200px; height: 30px;' value='$sodium' maxlength='30' />(Norm: 135-145 mmol/L)<br>
+					Chloride:<input type='text' id='chloride_text' name='chloride_text' style='width: 200px; height: 30px;' value='$chloride_text' maxlength='30' />(Norm: 98-107 mmol/L)<br>
+					Potassium:<input type='text' id='potassium_text' name='potassium_text' style='width: 200px; height: 30px;' value='$potassium_text' maxlength='30' />(Norm: 3.6-5.2 mmol/L)<br>
+					Calcium:<input type='text' id='calcium_text' name='calcium_text' style='width: 200px; height: 30px;' value='$calcium_text' maxlength='30' />(Norm: 8.9-10.1 mg/dL)<br>
+					Bicarbonate:<input type='text' id='bicarbonate_text' name='bicarbonate_text' style='width: 200px; height: 30px;' value='$bicarbonate_text' maxlength='30' />(Norm: 22-29 mmol/L)<br>
+					Glucose Fating:<input type='text' id='glucose_fasting_text' name='glucose_fasting_text' style='width: 200px; height: 30px;' value='$glucose_fasting_text' maxlength='30' /><br>
+					Glucose Random:<input type='text' id='glucose_random_text' name='glucose_random_text' style='width: 200px; height: 30px;' value='$glucose_random_text' maxlength='30' /><br>
+					BUN (Blood Urea Nitrogen):<input type='text' id='bun_text' name='bun_text' style='width: 200px; height: 30px;' value='$bun_text' maxlength='30' />Male 8-24 mg/dL Female 6-21 mg/dL<br>
+					Creatinine:<input type='text' id='creatinine_text' name='creatinine_text' style='width: 200px; height: 30px;' value='$creatinine_text' maxlength='30' />Male 0.8-1.3 mg/dL Female 0.6-1.1 mg/dL<br>
+					HbA1C:<input type='text' id='hba1c_text' name='hba1c_text' style='width: 200px; height: 30px;' value='$hba1c_text' maxlength='30' />< 6.0 Normal, 6.0 – 7.0 Pre-diabetes, >7.0 Diabetes
+				
+					<br><br>"; 
+			}
+			// if not then disable app and mic textboxes
 			else {
-				echo "<input type='checkbox' name='blood_chemistry' onchange='toggle_disabled_blood_chemistry(this.checked)'/><b>Blood Chemistry</b><br>
-			
-					<label style='margin-left: 50px; margin-right: 22px;'>Sodium:</label>
-					<input type='text' id='sodium_text' name='sodium_text' style='width: 200px; height: 30px;' maxlength='30' disabled/> (Norm: 135-145 mmol/L)
-			
-					<br>";
-
+				echo "<input type='checkbox' name='blood_chemistry' onchange='toggle_disabled_blood_chemistry(this.checked)' $blood_chemistry_check/> <b>Blood Chemistry</b><br>
+					Sodium:<input type='text' id='sodium' name='sodium' style='width: 200px; height: 30px;' value='$sodium' maxlength='30' disable />(Norm: 135-145 mmol/L)<br>
+					Chloride:<input type='text' id='chloride_text' name='chloride_text' style='width: 200px; height: 30px;' value='$chloride_text' maxlength='30' disable />(Norm: 98-107 mmol/L)<br>
+					Potassium:<input type='text' id='potassium_text' name='potassium_text' style='width: 200px; height: 30px;' value='$potassium_text' maxlength='30' disable />(Norm: 3.6-5.2 mmol/L)<br>
+					Calcium:<input type='text' id='calcium_text' name='calcium_text' style='width: 200px; height: 30px;' value='$calcium_text' maxlength='30' disable />(Norm: 8.9-10.1 mg/dL)<br>
+					Bicarbonate:<input type='text' id='bicarbonate_text' name='bicarbonate_text' style='width: 200px; height: 30px;' value='$bicarbonate_text' maxlength='30' disable />(Norm: 22-29 mmol/L)<br>
+					Glucose Fating:<input type='text' id='glucose_fasting_text' name='glucose_fasting_text' style='width: 200px; height: 30px;' value='$glucose_fasting_text' maxlength='30' disable /><br>
+					Glucose Random:<input type='text' id='glucose_random_text' name='glucose_random_text' style='width: 200px; height: 30px;' value='$glucose_random_text' maxlength='30' disable /><br>
+					BUN (Blood Urea Nitrogen):<input type='text' id='bun_text' name='bun_text' style='width: 200px; height: 30px;' value='$bun_text' maxlength='30' disable />Male 8-24 mg/dL Female 6-21 mg/dL<br>
+					Creatinine:<input type='text' id='creatinine_text' name='creatinine_text' style='width: 200px; height: 30px;' value='$creatinine_text' maxlength='30' disable />Male 0.8-1.3 mg/dL Female 0.6-1.1 mg/dL<br>
+					HbA1C:<input type='text' id='hba1c_text' name='hba1c_text' style='width: 200px; height: 30px;' value='$hba1c_text' maxlength='30' disable />< 6.0 Normal, 6.0 – 7.0 Pre-diabetes, >7.0 Diabetes
+				
+					<br><br>"; 
 			}
+			
 
 
-			$stmt = $conn->prepare("SELECT chloride_text FROM lab WHERE lab_id='$choosen_lab'");
+            
+			
+			// get Arterial Blood Gas
+			$stmt = $conn->prepare("SELECT arterial_blood_gas FROM lab WHERE lab_id='$choosen_lab'");
 			$stmt->execute();
 			$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
 		
 			foreach(new grab_value(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
 			
 			}
-			$chloride_text = $_SESSION['temp'];
-
-			echo "<b>Chloride:</b>
-			<input type='text' id='chloride' name='chloride_text' style='width: 200px; height: 30px;' value='$chloride_text' maxlength='30' /> (Norm: 98-107 mmol/L)
-			
-			<br>";
-
-
-			$stmt = $conn->prepare("SELECT potassium_text FROM lab WHERE lab_id='$choosen_lab'");
+			$arterial_blood_gas_check = $_SESSION['temp'];
+		
+		
+			// get pao2
+			$stmt = $conn->prepare("SELECT pao2 FROM lab WHERE lab_id='$choosen_lab'");
 			$stmt->execute();
 			$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
 		
 			foreach(new grab_value(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
 			
 			}
-			$potassium_text = $_SESSION['temp'];
+			$pao2 = $_SESSION['temp'];
 			
-
-			echo "<b>Potassium:</b>
-			<input type='text' id='potassium_text' name='potassium_text' style='width: 200px; height: 30px;' value='$potassium_text' maxlength='30' /> (Norm: 3.6-5.2 mmol/L)
 			
-			<br>";
-
-			
-			$stmt = $conn->prepare("SELECT calcium_text FROM lab WHERE lab_id='$choosen_lab'");
+			// get paco2
+			$stmt = $conn->prepare("SELECT paco2 FROM lab WHERE lab_id='$choosen_lab'");
 			$stmt->execute();
 			$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
 		
 			foreach(new grab_value(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
 			
 			}
-			$calcium_text = $_SESSION['temp'];
-
-
-			echo "<b>Calcium:</b>
-			<input type='text' id='calcium_text' name='calcium_text' style='width: 200px; height: 30px;' value='$calcium_text' maxlength='30' /> (Norm: 8.9-10.1 mg/dL)
+			$paco2 = $_SESSION['temp'];
 			
-			<br>";
-
-			$stmt = $conn->prepare("SELECT bicarbonate_text FROM lab WHERE lab_id='$choosen_lab'");
+			
+			// get arterial_blood_ph
+			$stmt = $conn->prepare("SELECT arterial_text FROM lab WHERE lab_id='$choosen_lab'");
 			$stmt->execute();
 			$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
 		
 			foreach(new grab_value(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
 			
 			}
-			$bicarbonate_text = $_SESSION['temp'];
-
-
-			echo "<b>Bicarbonate:</b>
-			<input type='text' id='bicarbonate_text' name='bicarbonate_text' value='$bicarbonate_text' style='width: 200px; height: 30px;' maxlength='30' /> (Norm: 22-29 mmol/L)
-			
-			<br>";
-
-
-			$stmt = $conn->prepare("SELECT glucose_fasting_text FROM lab WHERE lab_id='$choosen_lab'");
-			$stmt->execute();
-			$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
-		
-			foreach(new grab_value(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
-			
-			}
-			$glucose_fasting_text = $_SESSION['temp'];
-
-
-			echo "< <b>Glucose Fasting:</b>
-			<input type='text' id='glucose_fasting_text' name='glucose_fasting_text' value='$glucose_fasting_text' style='width: 200px; height: 30px;' maxlength='30' /> 
-			
-			<br>";
-
-
-			$stmt = $conn->prepare("SELECT random_text FROM lab WHERE lab_id='$choosen_lab'");
-			$stmt->execute();
-			$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
-		
-			foreach(new grab_value(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
-			
-			}
-			$random_text = $_SESSION['temp'];
-
-
-			echo "<b>Glucose Random:</b>
-			<input type='text' id='random_text' name='random_text' style='width: 200px; height: 30px;' value='$random_text' maxlength='30' />
+			$arterial_text = $_SESSION['temp'];
 			
 			
-			<br>";
-
-			$stmt = $conn->prepare("SELECT bun_text FROM lab WHERE lab_id='$choosen_lab'");
-			$stmt->execute();
-			$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
-		
-			foreach(new grab_value(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
-			
-			}
-			$bun_text = $_SESSION['temp'];			
-			
-
-			echo "<b>BUN (Blood Urea Nitrogen): </b>
-                        <input type='text' id='bun_text' name='bun_text' style='width: 200px; height: 30px;' value='$bun_text' maxlength='45' /> Male 8-24 mg/dL Female 6-21 mg/dL
-			
-			<br>";
-
-			$stmt = $conn->prepare("SELECT creatinine_text FROM lab WHERE lab_id='$choosen_lab'");
-			$stmt->execute();
-			$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
-		
-			foreach(new grab_value(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
-			
-			}
-			$creatinine_text = $_SESSION['temp'];
-
-			echo "<b>Creatinine: </b>
-                        <input type='text' id='creatinine_text' name='creatinine_text' value='$creatinine_text' style='width: 200px; height: 30px;' maxlength='45' /> Male 0.8-1.3 mg/dL Female 0.6-1.1 mg/dL
-			
-			<br>";
-
-			$stmt = $conn->prepare("SELECT hba1c_text FROM lab WHERE lab_id='$choosen_lab'");
-			$stmt->execute();
-			$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
-		
-			foreach(new grab_value(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
-			
-			}
-			$hba1c_text = $_SESSION['temp'];
-
-			echo "<b>HbA1C:</b>
-                        <input type='text' id='hba1c_text' name='hba1c_text' value='$hba1c_text' style='width: 200px; height: 30px;' maxlength='45' /> < 6.0 Normal, 6.0 â€“ 7.0 Pre-diabetes, >7.0 Diabetes
-
-                        <br>";
-
-			$stmt = $conn->prepare("SELECT arterial_blood FROM lab WHERE lab_id='$choosen_lab'");
-			$stmt->execute();
-			$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
-		
-			foreach(new grab_value(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
-			
-			}
-			$arterial_blood = $_SESSION['temp'];
-
-			$stmt = $conn->prepare("SELECT pao2_text FROM lab WHERE lab_id='$choosen_lab'");
-			$stmt->execute();
-			$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
-		
-			foreach(new grab_value(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
-			
-			}
-			$pao2_text = $_SESSION['temp'];
-
-
-			$stmt = $conn->prepare("SELECT paco2_text FROM lab WHERE lab_id='$choosen_lab'");
-			$stmt->execute();
-			$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
-		
-			foreach(new grab_value(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
-			
-			}
-			$paco2_text = $_SESSION['temp'];
-
-
-			$stmt = $conn->prepare("SELECT blood_ph_text FROM lab WHERE lab_id='$choosen_lab'");
-			$stmt->execute();
-			$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
-		
-			foreach(new grab_value(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
-			
-			}
-			$blood_ph_text = $_SESSION['temp'];
-
-
+			// get sao2
 			$stmt = $conn->prepare("SELECT sao2_text FROM lab WHERE lab_id='$choosen_lab'");
 			$stmt->execute();
 			$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
@@ -2529,8 +2051,12 @@ Cultures: <br> <textarea rows='6' cols='55' id='culture' name='culture' class='c
 			
 			}
 			$sao2_text = $_SESSION['temp'];
-
-			$stmt = $conn->prepare("SELECT hco3_text FROM lab WHERE lab_id='$choosen_lab'");
+			
+			
+			
+			
+			// get hco3
+			$stmt = $conn->prepare("SELECT hco3 FROM lab WHERE lab_id='$choosen_lab'");
 			$stmt->execute();
 			$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
 		
@@ -2538,58 +2064,367 @@ Cultures: <br> <textarea rows='6' cols='55' id='culture' name='culture' class='c
 			
 			}
 			$hco3_text = $_SESSION['temp'];
-
-
-
-			echo "<input type='checkbox' name='arterial_blood' onchange='toggle_disabled_arterial_blood(this.checked)'/><b>Arterial Blood Gas</b><br>
 			
-			<label style='margin-left: 50px; margin-right: 22px;'>PaO2:</label>
-			<input type='text' id='pao2_text' name='pao2_text' style='width: 200px; height: 30px;' maxlength='30' disabled /> (Norm: 75-100 mm Hg)
 			
-			<br>
-			
-			 <label style='margin-left: 50px; margin-right: 22px;'>PaCO2:</label>
-			<input type='text' id='paco2_text' name='paco2_text' style='width: 200px; height: 30px;' maxlength='30' disabled /> (Norm: 98-107 mmol/L)
-			
-			<br>
-			
-			<label style='margin-left: 50px; margin-right: 22px;'>Arterial Blood pH:</label>
-			<input type='text' id='blood_ph_text' name='blood_ph_text' style='width: 200px; height: 30px;' maxlength='30' disabled /> (Norm: 7.38-7.42)
-			
-			<br>
-			
-			<label style='margin-left: 50px; margin-right: 22px;'>SaO2:</label>
-			<input type='text' id='sao2_text' name='sao2_text' style='width: 200px; height: 30px;' maxlength='30' disabled /> (Norm: 94-100%)
-			
-			<br>
-			
-			 <label style='margin-left: 50px; margin-right: 22px;'>HCO3:</label>
-			<input type='text' id='hco3_text' name='hco3_text' style='width: 200px; height: 30px;' maxlength='30' disabled /> (Norm: 22-28 mEq/L)
-			
-			<br>";
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+						
+			// see if arterial blood gas test was done
+			if ($arterial_blood_check == 'yes') {
+				
+				$arterial_blood_check = 'checked';
+				echo "<input type='checkbox' name='arterial_text' onchange='toggle_disabled_blood_gas(this.checked)' $arterial_blood_check/> <b>Arterial Blood Gas</b><br>
+					PaO2:<input type='text' id='pao2' name='pao2' style='width: 200px; height: 30px;' value='$pao2' maxlength='30' />(Norm: 75-100 mm Hg)<br>
+					PaCO2:<input type='text' id='paco2' name='paco2' style='width: 200px; height: 30px;' value='$paco2' maxlength='30' />(Norm: 98-107 mmol/L)<br>
+					Arterial Blood pH:<input type='text' id='arterial_text' name='arterial_text' style='width: 200px; height: 30px;' value='$arterial_text' maxlength='30' />(Norm: 7.38-7.42)<br>
+					SaO2:<input type='text' id='sao2_text' name='sao2_text' style='width: 200px; height: 30px;' value='$sao2_text' maxlength='30' />(Norm: 94-100%)<br>
+					HCO3:<input type='text' id='hco3_text' name='hco3_text' style='width: 200px; height: 30px;' value='$hco3_text' maxlength='30' />(Norm: 22-28 mEq/L)<br>
+	
+				
+					<br><br>"; 
+			}
+			// if not then disable arterial blood gas test
+				echo "<input type='checkbox' name='arterial_text' onchange='toggle_disabled_blood_gas(this.checked)' $arterial_blood_check/> <b>Arterial Blood Gas</b><br>
+					PaO2:<input type='text' id='pao2' name='pao2' style='width: 200px; height: 30px;' value='$pao2' maxlength='30'  disable/>(Norm: 75-100 mm Hg)<br>
+					PaCO2:<input type='text' id='paco2' name='paco2' style='width: 200px; height: 30px;' value='$paco2' maxlength='30' disable/>(Norm: 98-107 mmol/L)<br>
+					Arterial Blood pH:<input type='text' id='arterial_text' name='arterial_text' style='width: 200px; height: 30px;' value='$arterial_text' maxlength='30' disable/>(Norm: 7.38-7.42)<br>
+					SaO2:<input type='text' id='sao2_text' name='sao2_text' style='width: 200px; height: 30px;' value='$sao2_text' maxlength='30' disable/>(Norm: 94-100%)<br>
+					HCO3:<input type='text' id='hco3_text' name='hco3_text' style='width: 200px; height: 30px;' value='$hco3_text' maxlength='30' disable/>(Norm: 22-28 mEq/L)<br>
+	
+				
+					<br><br>";  
+			}
 
 
 			
 
+            // get Liver function test
+			$stmt = $conn->prepare("SELECT liver_function_test FROM lab WHERE lab_id='$choosen_lab'");
+			$stmt->execute();
+			$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
+		
+			foreach(new grab_value(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
+			
+			}
+			$liver_function_test_check = $_SESSION['temp'];
+		
+		
+			// get ALT
+			$stmt = $conn->prepare("SELECT alt FROM lab WHERE lab_id='$choosen_lab'");
+			$stmt->execute();
+			$alt = $stmt->setFetchMode(PDO::FETCH_ASSOC);
+		
+			foreach(new grab_value(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
+			
+			}
+			$alt = $_SESSION['temp'];
+			
+			
+			// get AST
+			$stmt = $conn->prepare("SELECT ast FROM lab WHERE lab_id='$choosen_lab'");
+			$stmt->execute();
+			$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
+		
+			foreach(new grab_value(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
+			
+			}
+			$ast_text = $_SESSION['temp'];
+			
+			
+			// get Albumin
+			$stmt = $conn->prepare("SELECT albumin FROM lab WHERE lab_id='$choosen_lab'");
+			$stmt->execute();
+			$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
+		
+			foreach(new grab_value(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
+			
+			}
+			$albumin_text = $_SESSION['temp'];
+			
+			
+						
+			// see if liver function test gas test was done
+			if ($liver_function_test_check == 'yes') {
+				
+				$liver_function_test_check = 'checked';
+				echo "<input type='checkbox' name='liver_function_test' onchange='toggle_disabled_liver_function_test(this.checked)' $liver_function_test_check/> <b>Liver Function Test</b><br>
+					ALT:<input type='text' id='alt' name='alt' style='width: 200px; height: 30px;' value='$alt' maxlength='30' />(Norm: 7-55 U/L)<br>
+					AST:<input type='text' id='ast_text' name='ast_text' style='width: 200px; height: 30px;' value='$ast_text' maxlength='30' />(Norm: 8-48 U/L)<br>
+					Albumin:<input type='text' id='albumin_text' name='albumin_text' style='width: 200px; height: 30px;' value='$albumin_text' maxlength='30' />(Norm: 3.5-5.0 g/dL)<br>
+								
+					<br><br>"; 
+			}
+			// if not then disable arterial blood gas test
+				echo "<input type='checkbox' name='liver_function_test' onchange='toggle_disabled_liver_function_test(this.checked)' $liver_function_test_check/> <b>Liver Function Test</b><br>
+					ALT:<input type='text' id='alt' name='alt' style='width: 200px; height: 30px;' value='$alt' maxlength='30' disable/>(Norm: 7-55 U/L)<br>
+					AST:<input type='text' id='ast_text' name='ast_text' style='width: 200px; height: 30px;' value='$ast_text' maxlength='30' disable/>(Norm: 8-48 U/L)<br>
+					Albumin:<input type='text' id='albumin_text' name='albumin_text' style='width: 200px; height: 30px;' value='$albumin_text' maxlength='30' disable/>(Norm: 3.5-5.0 g/dL)<br>
+								
+					<br><br>";   
+			}
+
+
+            
+			
+			
+            // get Prothrombin time
+			$stmt = $conn->prepare("SELECT prothrombine_time FROM lab WHERE lab_id='$choosen_lab'");
+			$stmt->execute();
+			$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
+		
+			foreach(new grab_value(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
+			
+			}
+			$prothrombine_time_check = $_SESSION['temp'];
+		
+		
+			
+						
+			// see if prothrombine time test was done
+			if ($prothrombine_time_check == 'yes') {
+				
+				$prothrombine_time_check = 'checked';
+				echo "<input type='checkbox' name='prothrombin_time' onchange='toggle_disabled_prothrombin(this.checked)' $prothrombin_time_results/> <b>Prothrombin Time</b><br>
+					Prothrombin Time:<input type='text' id='prothrombin_text' name='prothrombin_text' style='width: 200px; height: 30px;' value='$prothrombin_text' maxlength='30' />(Norm: 9.4-12.5 sec)
+								
+					<br><br>"; 
+			}
+			// if not then disable prothrombin time test
+				echo "<input type='checkbox' name='prothrombin_time' onchange='toggle_disabled_prothrombin(this.checked)' $prothrombin_time_results/> <b>Prothrombin Time</b><br>
+					Prothrombin Time:<input type='text' id='prothrombin_text' name='prothrombin_text' style='width: 200px; height: 30px;' value='$prothrombin_text' maxlength='30' disable />(Norm: 9.4-12.5 sec)
+								
+					<br><br>";   
+			}
+            
+            
+			
+			
+
+            // get INR
+			$stmt = $conn->prepare("SELECT inr FROM lab WHERE lab_id='$choosen_lab'");
+			$stmt->execute();
+			$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
+		
+			foreach(new grab_value(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
+			
+			}
+			$inr_check = $_SESSION['temp'];
+		
+		
+			
+						
+			// see if INR prothrombine time test was done
+			if ($inr_check == 'yes') {
+				
+				$inr_check = 'checked';
+				echo "<input type='checkbox' name='inr' onchange='toggle_disabled_inr(this.checked)' $inr_results/> <b>INR</b><br>
+					INR	:<input type='text' id='inr_text' name='inr_text' style='width: 200px; height: 30px;' value='$inr_text' maxlength='30' />(Norm: 0.9-1.1, Warfarin 2.0-3.0, High Intensity Warfarin 2.5-3.5)
+								
+					<br><br>"; 
+			}
+			// if not then disable prothrombin time test
+				echo "<input type='checkbox' name='inr' onchange='toggle_disabled_inr(this.checked)' $inr_results/> <b>INR</b><br>
+					INR	:<input type='text' id='inr_text' name='inr_text' style='width: 200px; height: 30px;' value='$inr_text' maxlength='30' disable/>(Norm: 0.9-1.1, Warfarin 2.0-3.0, High Intensity Warfarin 2.5-3.5)
+								
+					<br><br>";    
+			}
 
 
 
 
+
+
+              // get Thyroid Function Test
+			$stmt = $conn->prepare("SELECT tft FROM lab WHERE lab_id='$choosen_lab'");
+			$stmt->execute();
+			$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
+		
+			foreach(new grab_value(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
+			
+			}
+			$tft_check = $_SESSION['temp'];
+		
+		
+			// get TSH
+			$stmt = $conn->prepare("SELECT tsh FROM lab WHERE lab_id='$choosen_lab'");
+			$stmt->execute();
+			$alt = $stmt->setFetchMode(PDO::FETCH_ASSOC);
+		
+			foreach(new grab_value(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
+			
+			}
+			$tsh = $_SESSION['temp'];
+			
+			
+			// get Free T3
+			$stmt = $conn->prepare("SELECT freet3 FROM lab WHERE lab_id='$choosen_lab'");
+			$stmt->execute();
+			$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
+		
+			foreach(new grab_value(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
+			
+			}
+			$freet3_text = $_SESSION['temp'];
+			
+			
+			// get Free T4
+			$stmt = $conn->prepare("SELECT freet4 FROM lab WHERE lab_id='$choosen_lab'");
+			$stmt->execute();
+			$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
+		
+			foreach(new grab_value(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
+			
+			}
+			$freet4_text = $_SESSION['temp'];
+			
+			
+						
+			// see if thyroid function test was done
+			if ($tft_check == 'yes') {
+				
+				$tft_check = 'checked';
+				echo "<input type='checkbox' name='tft_test' onchange='toggle_disabled_tft(this.checked)' $tft_check/> <b>Thyroid Function Test</b><br>
+					TSH:<input type='text' id='alt' name='tsh' style='width: 200px; height: 30px;' value='$tsh' maxlength='30' />(Norm: 0.3-4.2)<br>
+					Free T3:<input type='text' id='freet3' name='freet3_text' style='width: 200px; height: 30px;' value='$freet3_text' maxlength='30' />(Norm: 2.8-4.4 pg/mL)<br>
+					Free T4:<input type='text' id='freet4' name='freet4_text' style='width: 200px; height: 30px;' value='$freet4_text' maxlength='30' />(Norm: 0.9-1.7 ng/dL)<br>
+								
+					<br><br>"; 
+			}
+			// if not then disable Thyroid Function test
+				echo"<input type='checkbox' name='tft_test' onchange='toggle_disabled_tft(this.checked)' $tft_check/> <b>Thyroid Function Test</b><br>
+					TSH:<input type='text' id='alt' name='tsh' style='width: 200px; height: 30px;' value='$tsh' maxlength='30' disable/>(Norm: 0.3-4.2)<br>
+					Free T3:<input type='text' id='freet3' name='freet3_text' style='width: 200px; height: 30px;' value='$freet3_text' maxlength='30' disable/>(Norm: 2.8-4.4 pg/mL)<br>
+					Free T4:<input type='text' id='freet4' name='freet4_text' style='width: 200px; height: 30px;' value='$freet4_text' maxlength='30' disable/>(Norm: 0.9-1.7 ng/dL)<br>
+								
+					<br><br>";  
+			}
+
+
+
+			
+			// get Cholesterol
+			$stmt = $conn->prepare("SELECT cholesterol FROM lab WHERE lab_id='$choosen_lab'");
+			$stmt->execute();
+			$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
+		
+			foreach(new grab_value(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
+			
+			}
+			$cholesterol_check = $_SESSION['temp'];
+		
+		
+			// get Total
+			$stmt = $conn->prepare("SELECT total FROM lab WHERE lab_id='$choosen_lab'");
+			$stmt->execute();
+			$alt = $stmt->setFetchMode(PDO::FETCH_ASSOC);
+		
+			foreach(new grab_value(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
+			
+			}
+			$total = $_SESSION['temp'];
+			
+			
+			// get HDL
+			$stmt = $conn->prepare("SELECT hdl FROM lab WHERE lab_id='$choosen_lab'");
+			$stmt->execute();
+			$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
+		
+			foreach(new grab_value(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
+			
+			}
+			$hdl_text = $_SESSION['temp'];
+			
+			
+			// get LDL
+			$stmt = $conn->prepare("SELECT ldl FROM lab WHERE lab_id='$choosen_lab'");
+			$stmt->execute();
+			$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
+		
+			foreach(new grab_value(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
+			
+			}
+			$ldl_text = $_SESSION['temp'];
+			
+			
+						
+			// see if Cholesterol test was done
+			if ($cholesterol_check == 'yes') {
+				
+				$cholesterol_check = 'checked';
+				echo "<input type='checkbox' name='cholesterol' onchange='toggle_disabled_cholesterol(this.checked)' $cholesterol_check/> <b>Cholesterol</b><br>
+					Total:<input type='text' id='total' name='total' style='width: 200px; height: 30px;' value='$total' maxlength='30' />(Norm<200mg/dL, Brorderline 200-239 mg/dL, High>240 mg/dL )<br>
+					HDL:<input type='text' id='hdl' name='hdl_text' style='width: 200px; height: 30px;' value='$hdl_text' maxlength='30' />(Norm Male>40mg/dL, Female>50mg/dL)<br>
+					LDL:<input type='text' id='ldl' name='ldl_text' style='width: 200px; height: 30px;' value='$ldl_text' maxlength='30' />(Norm <100mg/dL, Borderline 130-159 mg/dL, High 160-189 mg/dL, V.High>190)<br>
+								
+					<br><br>"; 
+			}
+			// if not then disable Thyroid Function test
+				echo "<input type='checkbox' name='cholesterol' onchange='toggle_disabled_cholesterol(this.checked)' $cholesterol_check/> <b>Cholesterol</b><br>
+					Total:<input type='text' id='total' name='total' style='width: 200px; height: 30px;' value='$total' maxlength='30' disable/>(Norm<200mg/dL, Brorderline 200-239 mg/dL, High>240 mg/dL )<br>
+					HDL:<input type='text' id='hdl' name='hdl_text' style='width: 200px; height: 30px;' value='$hdl_text' maxlength='30' disable/>(Norm Male>40mg/dL, Female>50mg/dL)<br>
+					LDL:<input type='text' id='ldl' name='ldl_text' style='width: 200px; height: 30px;' value='$ldl_text' maxlength='30' disable/>(Norm <100mg/dL, Borderline 130-159 mg/dL, High 160-189 mg/dL, V.High>190)<br>
+								
+					<br><br>";  
+			}
+
+
+
+			
+			// get Cardiac Enzymes
+			$stmt = $conn->prepare("SELECT cardiac_enzymes FROM lab WHERE lab_id='$choosen_lab'");
+			$stmt->execute();
+			$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
+		
+			foreach(new grab_value(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
+			
+			}
+			$cardiac_enzymes_check = $_SESSION['temp'];
+		
+		
+			// get Troponin
+			$stmt = $conn->prepare("SELECT troponin FROM lab WHERE lab_id='$choosen_lab'");
+			$stmt->execute();
+			$alt = $stmt->setFetchMode(PDO::FETCH_ASSOC);
+		
+			foreach(new grab_value(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
+			
+			}
+			$troponin = $_SESSION['temp'];
+			
+			
+			// get CK
+			$stmt = $conn->prepare("SELECT ck FROM lab WHERE lab_id='$choosen_lab'");
+			$stmt->execute();
+			$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
+		
+			foreach(new grab_value(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
+			
+			}
+			$ck_text = $_SESSION['temp'];
+			
+			
+			
+						
+			// see if Cardiac Enzymes test was done
+			if ($cardiac_enzymes_check == 'yes') {
+				
+				$cardiac_enzymes_check = 'checked';
+				echo "<input type='checkbox' name='cardiac' onchange='toggle_disabled_cardiac(this.checked)' $cardiac_enzymes_check/> <b>Cardiac Enzymes</b><br>
+					Troponin:<input type='text' id='troponin' name='troponin' style='width: 200px; height: 30px;' value='$troponin' maxlength='30' />(Norm <0.04 ng/mL )<br>
+					CK:<input type='text' id='ck' name='ck_text' style='width: 200px; height: 30px;' value='$ck_text' maxlength='30' />(Norm Male 39-308 U/L, Female 26-192 U/L)
+					
+								
+					<br><br>"; 
+			}
+			// if not then Cardiac Enzymes test
+				echo "<input type='checkbox' name='cardiac' onchange='toggle_disabled_cardiac(this.checked)' $cardiac_enzymes_check/> <b>Cardiac Enzymes</b><br>
+					Troponin:<input type='text' id='troponin' name='troponin' style='width: 200px; height: 30px;' value='$troponin' maxlength='30' disable/>(Norm <0.04 ng/mL )<br>
+					CK:<input type='text' id='ck' name='ck_text' style='width: 200px; height: 30px;' value='$ck_text' maxlength='30' disable/>(Norm Male 39-308 U/L, Female 26-192 U/L)
+					
+								
+					<br><br>";   
+			}
+
+
+			
 			
 			echo "Clinician:<input list='clinician_list' name='clinician' value='$clinician' style='padding-left: 10px; margin-left: 10px;width: 140px; height: 20px;' maxlength='20'> <br>
 			 

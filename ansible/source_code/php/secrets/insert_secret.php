@@ -8,27 +8,12 @@ Copyright © 2017 Andrew Klassen
 
 <?php
 
-require('../database_credentials.php');
-require('../file_upload.php');
+require('../crypto_settings.php');
 session_start();
 
 // make sure user is logged in
 login_check();
 
-class grab_value extends RecursiveIteratorIterator {
-		function __construct($it) {
-			parent::__construct($it, self::LEAVES_ONLY);
-		}
-		function current() {
-			$_SESSION['temp'] = parent::current();
-		}
-		function beginChildren() {
-			echo "<tr>";
-		}
-		function endChildren() {
-			echo "</tr>" . "\n";
-		}
-}
 
 $label = $_POST['label'];
 $label = str_replace('\'', '\\\'', $label);
@@ -49,20 +34,18 @@ $key_file = trim($keys[0]);
 
 $secret_password = $secret_password . $key_file;
 
-$conn = new PDO($dbconnection, $dbusername, $dbpassword);
+$conn = new PDO($dbconnection_secret, $dbusername_secret, $dbpassword_secret);
 $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+$conn->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
 
 	try {		
 		
 		// see if a key with the same label exists
-		$_SESSION['temp'] = '';
-		$stmt = $conn->prepare("SELECT secret_id FROM secrets WHERE label = '$label';");
-		$stmt->execute();
-		$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
-		
-		foreach(new grab_value(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
-		}
-		$duplicate_label_id = $_SESSION['temp'];
+		$stmt = $conn->prepare("SELECT secret_id FROM secrets WHERE label = :label;");
+		$stmt->execute(array('label' => $label));
+		$secret_row = $stmt->fetch(PDO::FETCH_ASSOC);
+		$duplicate_label_id = $secret_row['secret_id'];
+
 
 		if ($duplicate_label_id != NULL) {
 
@@ -84,25 +67,23 @@ $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 		}
 
 		// insert secret
-		$query = "INSERT INTO secrets (label, description) VALUES ('$label', '$description');"; 
-		$conn->exec($query);
+		$stmt = $conn->prepare("INSERT INTO secrets (label, description) VALUES (:label, :description);");
+		$stmt->execute(array('label' => $label, 'description' => $description));
 
-		// get secret's id
+
 		$stmt = $conn->prepare("SELECT LAST_INSERT_ID();");
 		$stmt->execute();
-		$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
-		
-		foreach(new grab_value(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
-		}
-		$secret_id = $_SESSION['temp'];
+		$secret_id_row = $stmt->fetch(PDO::FETCH_NUM);
+		$secret_id = $secret_id_row[0];
+
 
 		$initialization_vector = generate_initialization_vector();
-		$hash = password_hash($value, $password_hashing_algorithim);
+		$hash = password_hash($secret_password, $password_hashing_algorithim, $password_hashing_options);
 		$value = str_replace('\'', '\\\'', $value);
 
-		// insert the first key
-		$query = "INSERT INTO secret_values (secret_id, encrypted_value, initialization_vector, value_hash, privilege) VALUES ('$secret_id', AES_ENCRYPT('$value', '$secret_password', '$initialization_vector'), '$initialization_vector', '$hash', 'admin');"; 
-		$conn->exec($query);
+
+		$stmt = $conn->prepare("INSERT INTO secret_values (secret_id, encrypted_value, initialization_vector, key_hash, privilege) VALUES (:secret_id, AES_ENCRYPT(:value, :secret_password, :initialization_vector), :initialization_vector2, :hash, 'admin');");
+					$stmt->execute(array('secret_id' => $secret_id, 'value' => $value, 'secret_password' => $secret_password, 'initialization_vector' => $initialization_vector, 'initialization_vector2' => $initialization_vector, 'hash' => $hash));
 
 			
 		// remove sensitive varibles from user's php session

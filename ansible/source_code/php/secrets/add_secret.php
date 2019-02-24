@@ -55,7 +55,7 @@ Copyright © 2017 Andrew Klassen
 	
 			  <div style='width: 400px;  margin-left: 50px; margin-top: 10px; float: left;'>
 				<?php
-					require('../database_credentials.php');
+					require('../crypto_settings.php');
 					session_start();
 
 					// make sure user is logged in
@@ -71,7 +71,7 @@ Copyright © 2017 Andrew Klassen
 					<b>Value:</b><br>
 					<textarea name='value' style='width: 600px; height: 200px; margin-top: 5px;'  maxlength='5000' ></textarea>
 					<b>Password:</b><br>
-					<input style='height: 35px; width: 600px;' type='password' name='secret_password' maxlength='50'>
+					<input style='height: 35px; width: 600px;' type='password' name='secret_password' maxlength='200'>
 					
 					<div>Key File<br><input type='file' name='key_file' id='key_file'><br><label style='font-size: 12px;'>(.txt document 3072 characters max)</label></div>
 

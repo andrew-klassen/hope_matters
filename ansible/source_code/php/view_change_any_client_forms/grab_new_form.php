@@ -8,6 +8,8 @@ Copyright © 2017 Andrew Klassen
 
 <?php
 
+require('../database_credentials.php');
+session_start(); 
 
 switch ($_POST['form_type']) {
 	case 'dental':
@@ -52,6 +54,16 @@ switch ($_POST['form_type']) {
 		break;
 	case 'child_welfare':
 		header('Location: /php/view_change_any_client_forms/child_welfare_care_client/add_child_welfare_care.php');
+		exit();
+		break;
+	case 'medication_order':
+		header('Location: /php/view_change_any_client_forms/medication_order_client/add_medication_order.php');
+		exit();
+		break;
+	default:
+		$_SESSION['choosen_form'] = html_format($_POST['form_type']);
+		$_SESSION['database_table_name'] = $_POST['form_type'];
+		header('Location: /php/view_change_any_client_forms/custom_forms_client/add_custom_form.php');
 		exit();
 		break;
 }
